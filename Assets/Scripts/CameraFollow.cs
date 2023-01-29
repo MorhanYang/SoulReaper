@@ -7,7 +7,7 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] GameObject target;
     [SerializeField] float camSpeed;
 
-    Vector3 camOffset = new Vector3(0, 3f, -2.8f);
+    [SerializeField] Vector3 camOffset = new Vector3(0, 3f, -2.8f);
     private void FixedUpdate()
     {
         Vector3 nextPos = target.transform.position + camOffset;

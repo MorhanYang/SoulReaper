@@ -81,7 +81,8 @@ public class PlayerControl : MonoBehaviour
                 if (aim.gameObject.activeSelf){
                     aim.gameObject.SetActive(false);
                 }
-                soulList.SelectSoul();
+                soulList.HoverSoulItem();
+                soulList.ClickSoulTiem();
                 break;
             case PlayerState.combat:
                 // aim
@@ -90,18 +91,21 @@ public class PlayerControl : MonoBehaviour
                 if (Input.GetMouseButtonDown(0)){
                     ShootSoul();
                 }
-                //recall control
-                if (Input.GetKey(KeyCode.E) && combateState == CombateState.normal){
-                    combateState = CombateState.recalling;
-                }
-                if (Input.GetKeyUp(KeyCode.E)){
-                    EndRecallFunction();
-                }
                 // rolling
                 if (Input.GetKeyDown(KeyCode.Space)){
                     combateState = CombateState.rolling;
                 }
                 break;
+        }
+
+        //recall control
+        if (Input.GetKey(KeyCode.E) && combateState == CombateState.normal)
+        {
+            combateState = CombateState.recalling;
+        }
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            EndRecallFunction();
         }
     }
 
@@ -116,7 +120,6 @@ public class PlayerControl : MonoBehaviour
                 RollFunction();
                 break;
             case CombateState.recalling:
-                rb.velocity = Vector3.zero;
                 RecallFunction();
                 break;
         }
@@ -222,6 +225,8 @@ public class PlayerControl : MonoBehaviour
     //***************************Recalling Function
     private void RecallFunction()
     {
+        rb.velocity = Vector3.zero;
+
         // start animation
         characterAnimator.SetBool("IsRecalling", true);
         
@@ -274,6 +279,8 @@ public class PlayerControl : MonoBehaviour
         }
         else if (playerState == PlayerState.normal){
             playerState = PlayerState.combat;
+            // clean the hovering items of SoulList
+            soulList.CleanHoverItem();
         }
     }
 

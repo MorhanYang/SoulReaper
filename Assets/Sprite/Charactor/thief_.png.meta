@@ -70,7 +70,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -2680,8 +2680,8 @@ TextureImporter:
       thief__11: -267300421
       thief__26: -1108442915
       thief__34: -172423968
-      thief__58: 908426647
       thief__100: -627360609
+      thief__58: 908426647
       thief__21: -710218146
       thief__51: -2044658418
       thief__119: 1854891627
@@ -2727,11 +2727,11 @@ TextureImporter:
       thief__63: -2026402632
       thief__88: -1513407284
       thief__5: -576014394
-      thief__7: 1675469343
       thief__79: 993609542
       thief__38: 142651958
       thief__55: -398097627
       thief__71: -1975533195
+      thief__7: 1675469343
       thief__32: 1605790242
       thief__39: 376798466
       thief__105: -1130292511

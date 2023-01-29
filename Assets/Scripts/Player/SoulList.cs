@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fungus;
 
 public class SoulList : MonoBehaviour
 {
@@ -97,7 +98,7 @@ public class SoulList : MonoBehaviour
     }
 
     //***************************Select Soul Method
-    public void SelectSoul()
+    public void HoverSoulItem()
     {
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -105,8 +106,6 @@ public class SoulList : MonoBehaviour
             hitedSoulItem = hitInfo.collider.gameObject;
         }
         else hitedSoulItem = null; // hit nothing
-
-
 
         // hited scale up, the last hited scale down
         if (hitedSoulItem != previousHited){
@@ -119,7 +118,22 @@ public class SoulList : MonoBehaviour
 
             previousHited = hitedSoulItem;
         }
+    }
+    // clean the hoveringItem when player covert the game to combat style
+    public void CleanHoverItem() {
+        if (hitedSoulItem != null){
+            hitedSoulItem.transform.localScale = Vector3.one;
+            hitedSoulItem = null;
+        }
+        previousHited = null;
+    }
 
+    public void ClickSoulTiem() {
+        if (Input.GetMouseButtonDown(0)&& hitedSoulItem != null)
+        {
+            int soulType = hitedSoulItem.GetComponent<SoulListItem>().soulType;
+            Fungus.Flowchart.BroadcastFungusMessage(soulType.ToString());
+        }
     }
 
 
