@@ -6,6 +6,9 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
 
+    Health hp;
+    [SerializeField] GameManager gameManager;
+
     Vector3 move;
     Rigidbody rb;
 
@@ -23,6 +26,8 @@ public class PlayerControl : MonoBehaviour
 
     //Movement
     [SerializeField] float moveSpeed;
+    [SerializeField] float actionColdDown = 0.5f;
+    float actionTimer = 0;
 
     //recall
     float recallTimer = 0;
@@ -39,6 +44,8 @@ public class PlayerControl : MonoBehaviour
     float presentRollingSpeed;
     [SerializeField] float rollingSpeed = 200f;
     [SerializeField] float rollingResistance = 600f;
+    [SerializeField] float delayBeforeInvincible = 0.1f;
+    [SerializeField] float invincibleDuration = 0.4f;
 
     //soul list
     bool IsfacingRight = true;
@@ -60,6 +67,7 @@ public class PlayerControl : MonoBehaviour
         soulGenerator = aimPivot.transform.Find("SoulGenerator");
         soulList = GetComponent<SoulList>();
         characterAnimator = transform.Find("Character").GetComponent<Animator>();
+        hp = GetComponent<Health>();
 
         presentRollingSpeed = rollingSpeed;
 
@@ -68,13 +76,8 @@ public class PlayerControl : MonoBehaviour
     void Update()
     {
         //*****************ControlPanel
-        //switch combat state
-        if (Input.GetMouseButtonDown(1))
-        {
-            SwitchPlayerState();
-        }
 
-        // shooting and clicking
+        // shooting and rolling
         switch (playerState)
         {
             case PlayerState.normal:
@@ -83,6 +86,12 @@ public class PlayerControl : MonoBehaviour
                 }
                 soulList.HoverSoulItem();
                 soulList.ClickSoulTiem();
+
+                // recover Action CD;
+                if (actionTimer <= actionColdDown)
+                {
+                    actionTimer += Time.fixedDeltaTime;
+                }
                 break;
             case PlayerState.combat:
                 // aim
@@ -93,20 +102,38 @@ public class PlayerControl : MonoBehaviour
                 }
                 // rolling
                 if (Input.GetKeyDown(KeyCode.Space)){
-                    combateState = CombateState.rolling;
+                    if (actionTimer >= actionColdDown){
+                        combateState = CombateState.rolling;
+                        actionTimer = 0;
+                    }
                 }
                 break;
         }
+        // if player talk to anyone, force player to become normal state
+        if (gameManager.fungusFlowchart.HasExecutingBlocks()){
+            playerState = PlayerState.normal;
+            // hide hp bar
+            hp.HideHPUI();
+        }
+        else{
+            //switch combat state
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                SwitchPlayerState();
+            }
+        }
+
 
         //recall control
-        if (Input.GetKey(KeyCode.E) && combateState == CombateState.normal)
+        if (Input.GetMouseButtonDown(1) && combateState == CombateState.normal)
         {
             combateState = CombateState.recalling;
         }
-        if (Input.GetKeyUp(KeyCode.E))
+        if (Input.GetMouseButtonUp(0))
         {
             EndRecallFunction();
         }
+
     }
 
     private void FixedUpdate()
@@ -114,12 +141,17 @@ public class PlayerControl : MonoBehaviour
         switch (combateState)
         {
             case CombateState.normal:
-                MoveFunction();
+                MoveFunction(1f);
+                // recover CD;
+                if (actionTimer <= actionColdDown){
+                    actionTimer += Time.fixedDeltaTime;
+                }
                 break;
             case CombateState.rolling:
                 RollFunction();
                 break;
             case CombateState.recalling:
+                MoveFunction(0.3f);
                 RecallFunction();
                 break;
         }
@@ -128,12 +160,13 @@ public class PlayerControl : MonoBehaviour
 
     //****************************Method****************************
     //*********************Moving Function
-    void MoveFunction()
+    // Use speedMultiplyer to change speed.
+    void MoveFunction(float speedMultiplyer)
     {
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
         move = new Vector3(x,0,z);
-        rb.velocity = move * moveSpeed * Time.fixedDeltaTime;
+        rb.velocity = move * moveSpeed * speedMultiplyer * Time.fixedDeltaTime;
 
         FlipPlayer();
         // last direction for rolling
@@ -225,7 +258,6 @@ public class PlayerControl : MonoBehaviour
     //***************************Recalling Function
     private void RecallFunction()
     {
-        rb.velocity = Vector3.zero;
 
         // start animation
         characterAnimator.SetBool("IsRecalling", true);
@@ -276,9 +308,13 @@ public class PlayerControl : MonoBehaviour
     void SwitchPlayerState() {
         if (playerState == PlayerState.combat){
             playerState = PlayerState.normal;
+            // hide hp bar
+            hp.HideHPUI();
         }
         else if (playerState == PlayerState.normal){
             playerState = PlayerState.combat;
+            // show hp bar
+            hp.ShowHPUI();
             // clean the hovering items of SoulList
             soulList.CleanHoverItem();
         }

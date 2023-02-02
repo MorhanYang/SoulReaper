@@ -27,6 +27,7 @@ public class EnemyBasicAi : MonoBehaviour
         following,
         dashing,
         shooting,
+        dead,
     }
     EnemyAction action;
 
@@ -62,6 +63,8 @@ public class EnemyBasicAi : MonoBehaviour
                 Dashing();
                 break;
             case EnemyAction.shooting:
+                break;
+            case EnemyAction.dead:
                 break;
         }
 
@@ -101,7 +104,7 @@ public class EnemyBasicAi : MonoBehaviour
         //start to dash
         if (dashTimer >= dashPrepareTime)
         {
-            float dashResistance = 1.2f * dashSpeed;
+            float dashResistance = 1.5f * dashSpeed;
             // dash movement
             agent.Move(dashDir * presentDashSpeed * Time.deltaTime);
             presentDashSpeed -= dashResistance * Time.deltaTime;
