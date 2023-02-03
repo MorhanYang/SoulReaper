@@ -72,7 +72,7 @@ public class Soul : MonoBehaviour
 
         // collide with enemy
         if (collision.transform.GetComponent<Enemy>() != null
-            && !collision.transform.GetComponent<EnemySoulLogic>().isDead)
+            && !collision.transform.GetComponent<Enemy>().isDead)
         {
             float effectLast = 2f;
             // shoot -> bounce back and destory itself

@@ -96,7 +96,6 @@ public class EnemyBasicAi : MonoBehaviour
         //set direction
         if (dashTimer <= dashPrepareTime/2)
         {
-            Debug.Log("SetDirection");
             dashDir = target.position - transform.position;
             dashDir.Normalize();
         }

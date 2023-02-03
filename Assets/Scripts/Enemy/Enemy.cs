@@ -4,28 +4,51 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] bool haveSoul = true;
+    public bool isDead = false;
+
     [SerializeField] GameObject enemySprite;
+    [SerializeField] GameObject haveSoulIcon;
+    [SerializeField] GameObject EnemySoul;
     Health health;
 
     float showHealthBarTimer = 0f;
+
 
     private void OnEnable()
     {
         health= GetComponent<Health>();
         health.HideHPUI();
+
+        // for static blocks
+        if (isDead){
+            ShowHaveSoulIcon();
+        }
     }
 
     private void Update()
     {
+        // health bar
         if (showHealthBarTimer >= 0){
             showHealthBarTimer -= Time.deltaTime;
             if (showHealthBarTimer < 0f) { 
             health.HideHPUI();
             }
         }
+        // havesoul icon hiding
+        DisableHaveSoulIcon();
     }
 
+    private void OnMouseEnter()
+    {
+        if (isDead)
+        {
+            Debug.Log("Hit dead body");
+            ConvertSoulVisuability(true);
+        }
+    }
+
+
+    //**************************Method***************************
     public void TakeDamage(float damage) {
         float hideHealthBarDelay = 5f;
 
@@ -41,13 +64,14 @@ public class Enemy : MonoBehaviour
 
     void CheckIfHaveSoul()
     {
-        if (!haveSoul){
+        if (EnemySoul == null){
             Destroy(gameObject);
         }
         else
         {
-            Debug.Log("You get dead body");
-            GetComponent<EnemySoulLogic>().DeathRitual();
+            isDead = true;
+            ShowHaveSoulIcon();
+
             GetComponent<EnemyBasicAi>().enabled = false;
             health.HideHPUI();
 
@@ -55,5 +79,28 @@ public class Enemy : MonoBehaviour
             enemySprite.GetComponent<Animator>().SetBool("isDead", true);
         }
             
+    }
+
+    public void ShowHaveSoulIcon()
+    {
+        if (haveSoulIcon != null){
+            haveSoulIcon.SetActive(true);
+        }
+    }
+
+    void DisableHaveSoulIcon()
+    {
+        if (haveSoulIcon != null && EnemySoul == null)
+        {
+            haveSoulIcon.SetActive(false);
+        }
+    }
+
+    public void ConvertSoulVisuability(bool soulVisiablilitySate)
+    {
+        if (EnemySoul != null)
+        {
+            EnemySoul.SetActive(soulVisiablilitySate);
+        }
     }
 }
