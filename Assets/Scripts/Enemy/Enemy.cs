@@ -38,13 +38,27 @@ public class Enemy : MonoBehaviour
         DisableHaveSoulIcon();
     }
 
+    // visible or invisible souls
     private void OnMouseEnter()
     {
-        if (isDead)
-        {
+        if (isDead && EnemySoul != null){
             Debug.Log("Hit dead body");
             ConvertSoulVisuability(true);
+            // change cursor
+            CursorManager.instance.ActivateRecallCursor();
         }
+    }
+    private void OnMouseExit()
+    {
+        ConvertSoulVisuability(false);
+
+        // change cursor
+        PlayerControl playerControl = PlayerManager.instance.player.GetComponent<PlayerControl>();
+        if (playerControl.playerState == PlayerControl.PlayerState.combat)
+        {
+            CursorManager.instance.ActivateCombatCursor();
+        }
+        else CursorManager.instance.ActivateDefaultCursor();
     }
 
 

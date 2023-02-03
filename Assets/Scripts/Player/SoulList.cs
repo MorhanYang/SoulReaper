@@ -104,6 +104,7 @@ public class SoulList : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hitInfo, 100, followingSoulMask)){
             hitedSoulItem = hitInfo.collider.gameObject;
+            CursorManager.instance.ActivateTalkCursor();
         }
         else hitedSoulItem = null; // hit nothing
 
@@ -126,6 +127,9 @@ public class SoulList : MonoBehaviour
             hitedSoulItem = null;
         }
         previousHited = null;
+
+        // reset cursor
+        CursorManager.instance.ActivateDefaultCursor();
     }
 
     public void ClickSoulTiem() {

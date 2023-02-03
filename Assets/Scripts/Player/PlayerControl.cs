@@ -39,7 +39,7 @@ public class PlayerControl : MonoBehaviour
         rolling,
         recalling,
     }
-    CombateState combateState = CombateState.normal;
+    CombateState combateState;
     Vector3 lastMoveDir;
     float presentRollingSpeed;
     [SerializeField] float rollingSpeed = 200f;
@@ -54,11 +54,11 @@ public class PlayerControl : MonoBehaviour
     //Animation
     Animator characterAnimator;
 
-    enum PlayerState{
+    public enum PlayerState{
         normal,
         combat,
     }
-    PlayerState playerState;
+    [HideInInspector] public PlayerState playerState;
 
     void Start()
     {
@@ -68,6 +68,9 @@ public class PlayerControl : MonoBehaviour
         soulList = GetComponent<SoulList>();
         characterAnimator = transform.Find("Character").GetComponent<Animator>();
         hp = GetComponent<Health>();
+
+        playerState = PlayerState.normal;
+        combateState = CombateState.normal;
 
         presentRollingSpeed = rollingSpeed;
 
@@ -310,6 +313,8 @@ public class PlayerControl : MonoBehaviour
             playerState = PlayerState.normal;
             // hide hp bar
             hp.HideHPUI();
+            //change cursor
+            CursorManager.instance.ActivateDefaultCursor();
         }
         else if (playerState == PlayerState.normal){
             playerState = PlayerState.combat;
@@ -317,6 +322,8 @@ public class PlayerControl : MonoBehaviour
             hp.ShowHPUI();
             // clean the hovering items of SoulList
             soulList.CleanHoverItem();
+            //change cursor
+            CursorManager.instance.ActivateCombatCursor();
         }
     }
 

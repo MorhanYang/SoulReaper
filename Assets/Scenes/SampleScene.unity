@@ -8619,7 +8619,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1643417305}
-  - component: {fileID: 1643417304}
   - component: {fileID: 1643417306}
   m_Layer: 0
   m_Name: CursorManager
@@ -8628,21 +8627,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1643417304
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1643417303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d579ae5cf6eafc54c81cdb88d2ffb0f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  layermasks:
-    serializedVersion: 2
-    m_Bits: 768
 --- !u!4 &1643417305
 Transform:
   m_ObjectHideFlags: 0
@@ -8667,10 +8651,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1643417303}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 389549b4f020bc64ca7a7cc8cbede5da, type: 3}
+  m_Script: {fileID: 11500000, guid: d579ae5cf6eafc54c81cdb88d2ffb0f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultCursor: {fileID: 2800000, guid: 6300582400a2d7046812304565689364, type: 3}
+  combatCursor: {fileID: 2800000, guid: 6300582400a2d7046812304565689364, type: 3}
+  talkCursor: {fileID: 2800000, guid: 7cda778d72d2922409539efdf99d679a, type: 3}
+  recallCursor: {fileID: 2800000, guid: 8eeaf91b9a5ff7544838da6231f15ec7, type: 3}
 --- !u!1 &1672109342
 GameObject:
   m_ObjectHideFlags: 0
@@ -10694,6 +10680,10 @@ PrefabInstance:
     - target: {fileID: 4812291961959088170, guid: 5330a04cbef42b448a2d309c2c61e0ca, type: 3}
       propertyPath: m_Name
       value: EnemyTest
+      objectReference: {fileID: 0}
+    - target: {fileID: 4812291961959088170, guid: 5330a04cbef42b448a2d309c2c61e0ca, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4812291961959088171, guid: 5330a04cbef42b448a2d309c2c61e0ca, type: 3}
       propertyPath: m_RootOrder

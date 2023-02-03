@@ -4,25 +4,33 @@ using UnityEngine;
 
 public class CursorManager : MonoBehaviour
 {
-    [SerializeField] LayerMask layermasks;
-    void Update()
+    public static CursorManager instance;
+
+    public Texture2D combatCursor;  
+    public Texture2D talkCursor;
+    public Texture2D recallCursor;
+
+    private void Awake()
     {
-        ShootDetectiveRay();
+        instance = this;
     }
 
-    void ShootDetectiveRay()
+    public void ActivateDefaultCursor()
     {
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+    }
 
-        GameObject hit;
-        if (Physics.Raycast(ray, out RaycastHit hitInfo, 100, layermasks))
-        {
-            if(hitInfo.transform.gameObject.layer == LayerMask.NameToLayer("FollowingSoul"))
-            {
+    public void ActivateCombatCursor()
+    {
+        Cursor.SetCursor(combatCursor, new Vector2(combatCursor.width / 2, combatCursor.height / 2), CursorMode.Auto);
+    }
 
-            }
-            hit = hitInfo.collider.gameObject;
-        }
-        else hit = null; // hit nothing
+    public void ActivateTalkCursor()
+    {
+        Cursor.SetCursor(talkCursor, new Vector2(talkCursor.width / 2, talkCursor.height / 2), CursorMode.Auto);
+    }
+    public void ActivateRecallCursor()
+    {
+        Cursor.SetCursor(recallCursor, new Vector2(recallCursor.width / 2, recallCursor.height / 2), CursorMode.Auto);
     }
 }
