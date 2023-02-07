@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -9,7 +10,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] GameObject enemySprite;
     [SerializeField] GameObject haveSoulIcon;
     [SerializeField] GameObject EnemySoul;
+    [SerializeField] float damage = 10;
     Health health;
+    EnemyBasicAi ai;
 
     float showHealthBarTimer = 0f;
 
@@ -18,6 +21,8 @@ public class Enemy : MonoBehaviour
     {
         health= GetComponent<Health>();
         health.HideHPUI();
+        
+        ai = GetComponent<EnemyBasicAi>();
 
         // for static blocks
         if (isDead){
@@ -61,6 +66,17 @@ public class Enemy : MonoBehaviour
         else CursorManager.instance.ActivateDefaultCursor();
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        // colide with Player
+        if (collision.transform.GetComponent<PlayerControl>()!= null){
+            if (!isDead){
+                PlayerControl player = collision.transform.GetComponent<PlayerControl>();
+                player.PlayerTakeDamage(damage);
+            }
+        }
+    }
+
 
     //**************************Method***************************
     public void TakeDamage(float damage) {
@@ -70,6 +86,11 @@ public class Enemy : MonoBehaviour
 
         health.ShowHPUI();
         showHealthBarTimer = hideHealthBarDelay;
+
+        // slow down enemy
+        if (ai != null){
+            ai.SlowDownEnemy(0.3f);
+        }
 
         if (health.presentHealth <= 0){
             CheckIfHaveSoul();
@@ -85,8 +106,10 @@ public class Enemy : MonoBehaviour
         {
             isDead = true;
             ShowHaveSoulIcon();
+            if (ai != null){
+                ai.enabled = false;
+            }
 
-            GetComponent<EnemyBasicAi>().enabled = false;
             health.HideHPUI();
 
             // play dead animation

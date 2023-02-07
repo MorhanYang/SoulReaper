@@ -46,6 +46,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] float rollingResistance = 600f;
     [SerializeField] float delayBeforeInvincible = 0.1f;
     [SerializeField] float invincibleDuration = 0.4f;
+    int idForSouls = 0;
 
     //soul list
     bool IsfacingRight = true;
@@ -130,9 +131,10 @@ public class PlayerControl : MonoBehaviour
         //recall control
         if (Input.GetMouseButtonDown(1) && combateState == CombateState.normal)
         {
+            CheckAllActivedSouls();
             combateState = CombateState.recalling;
         }
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(1))
         {
             EndRecallFunction();
         }
@@ -185,7 +187,9 @@ public class PlayerControl : MonoBehaviour
         characterAnimator.SetBool("IsRolling", true);
 
         rb.velocity = lastMoveDir * presentRollingSpeed * Time.fixedDeltaTime;
-        
+        // invincible time
+        hp.Invincible(delayBeforeInvincible, invincibleDuration);
+
         // slow down
         presentRollingSpeed -= rollingResistance * Time.fixedDeltaTime;
         if (presentRollingSpeed <= 90f){
@@ -259,9 +263,12 @@ public class PlayerControl : MonoBehaviour
     }
 
     //***************************Recalling Function
-    private void RecallFunction()
-    {
 
+    void CheckAllActivedSouls()
+    {
+        souls = GameObject.FindGameObjectsWithTag("SoulNormal");
+    }
+    private void RecallFunction(){
         // start animation
         characterAnimator.SetBool("IsRecalling", true);
         
@@ -271,21 +278,18 @@ public class PlayerControl : MonoBehaviour
         //enough time
         if (recallTimer >= holdtime)
         {
-            // End animation
-            characterAnimator.SetBool("IsRecalling", false);
+            if (souls.Length != 0){
 
-            recallTimer = 0;
+                //Debug.Log("leghth:" + souls.Length + "ID" + idForSouls);
+                if (souls[idForSouls]!= null) souls[idForSouls].GetComponent<Soul>().RecallFunction();
 
-            //execute recall function
-            souls = GameObject.FindGameObjectsWithTag("SoulNormal");
-            for (int i = 0; i < souls.Length; i++)
-            {
-                souls[i].GetComponent<Soul>().RecallFunction();
+                //every 0.1s recall one more soul
+                if (recallTimer - holdtime > 0.15f)
+                {
+                    if (idForSouls < souls.Length - 1) idForSouls++;
+                    recallTimer = holdtime;
+                }
             }
-
-            combateState = CombateState.normal;
-
-            
         }
 
     }
@@ -295,14 +299,15 @@ public class PlayerControl : MonoBehaviour
         characterAnimator.SetBool("IsRecalling", false);
 
         recallTimer = 0;
-        if (souls != null){
+        idForSouls = 0;
+        combateState = CombateState.normal;
+
+        if (souls.Length != 0){
             for (int i = 0; i < souls.Length; i++){
                 if (souls[i] != null){
                     souls[i].GetComponent<Soul>().ResetRecall();
                 }
-            }
-
-            combateState = CombateState.normal;
+            } 
         }
 
     }
@@ -352,5 +357,15 @@ public class PlayerControl : MonoBehaviour
         soulList.AddSoul(SoulType);
     }
 
+    // ************************Combat 
+    public void PlayerTakeDamage(float damage)
+    {
+        hp.TakeDamage(damage);
+        hp.Invincible(0f, invincibleDuration);
+
+        if (hp.presentHealth <= 0){
+            Debug.Log("You died");
+        }
+    }
 
 }

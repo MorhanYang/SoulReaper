@@ -6,11 +6,13 @@ using UnityEngine.AI;
 public class EnemyBasicAi : MonoBehaviour
 {
     [SerializeField] Transform enemySprite;
+    [SerializeField] float followDistance = 4.5f;
     [SerializeField] float followSpeed = 1f;
     [SerializeField] float distanceForDash;
     [SerializeField] float dashPrepareTime;
     [SerializeField] float dashCD;
     [SerializeField] float dashSpeed = 2f;
+    [SerializeField] bool canDash = false;
     
 
     Transform target;
@@ -23,11 +25,14 @@ public class EnemyBasicAi : MonoBehaviour
     Vector3 dashDir;
     float presentDashSpeed;
 
+    // recieve damage slow down
+    float slowDownSpeedOffset;
+
     enum EnemyAction {
+        idle,
         following,
         dashing,
         shooting,
-        dead,
     }
     EnemyAction action;
 
@@ -36,7 +41,9 @@ public class EnemyBasicAi : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         target = PlayerManager.instance.player.transform;
 
-        dashTimer= 0;
+        action = EnemyAction.idle;
+
+        dashTimer = 0;
         presentDashSpeed = dashSpeed;
         dashCDTimer = dashCD;
     }
@@ -46,14 +53,23 @@ public class EnemyBasicAi : MonoBehaviour
 
         switch (action)
         {
-            case EnemyAction.following:
-                FollowPlayer();
-                if (dashCDTimer >= dashCD && distance <= distanceForDash)
-                {
-                    action = EnemyAction.dashing;
-                    enemySprite.GetComponent<SpriteRenderer>().color = Color.red;
-                    Debug.Log("Dash");
+            case EnemyAction.idle:
+                if (distance < followDistance){
+                    action = EnemyAction.following;
                 }
+                break;
+            case EnemyAction.following:
+                if (distance > followDistance){
+                    action = EnemyAction.idle;
+                }
+                FollowPlayer();
+                if (canDash){
+                    if (dashCDTimer >= dashCD && distance <= distanceForDash)
+                    {
+                        action = EnemyAction.dashing;
+                    }
+                }
+
                 // Dash CD timer counting
                 if (dashCDTimer <= dashCD){
                     dashCDTimer += Time.deltaTime;
@@ -64,10 +80,12 @@ public class EnemyBasicAi : MonoBehaviour
                 break;
             case EnemyAction.shooting:
                 break;
-            case EnemyAction.dead:
-                break;
         }
 
+        // recover move speed
+        if(slowDownSpeedOffset < 1f){
+            slowDownSpeedOffset += 0.8f * Time.deltaTime;
+        }
     }
 
     //***********************Method
@@ -75,23 +93,13 @@ public class EnemyBasicAi : MonoBehaviour
     {
         Vector3 moveDir = target.position - transform.position;
         moveDir.Normalize();
-        agent.Move(moveDir * followSpeed * Time.deltaTime);
-    }
-
-    void DashPreparation()
-    {
-        enemySprite.GetComponent<SpriteRenderer>().color = Color.red;
-        dashDir = target.position - transform.position;
-        dashDir.Normalize();
-
-        //set presentDashSpeed for Dashing;
-        presentDashSpeed = dashSpeed;
-
-        action = EnemyAction.dashing;
+        agent.Move(moveDir * followSpeed * slowDownSpeedOffset * Time.deltaTime);
     }
 
     void Dashing()
     {
+        enemySprite.GetComponent<SpriteRenderer>().color = Color.red;
+
         dashTimer += Time.deltaTime;
         //set direction
         if (dashTimer <= dashPrepareTime/2)
@@ -118,7 +126,9 @@ public class EnemyBasicAi : MonoBehaviour
 
             dashCDTimer = 0;
             dashTimer = 0;
-
         }
+    }
+    public void SlowDownEnemy(float offset){
+        slowDownSpeedOffset = offset;
     }
 }

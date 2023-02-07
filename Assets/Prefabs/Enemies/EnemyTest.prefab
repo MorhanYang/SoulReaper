@@ -552,11 +552,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySprite: {fileID: 4812291960207243585}
+  followDistance: 4.5
   followSpeed: 1.5
-  distanceForDash: 2.5
+  distanceForDash: 2
   dashPrepareTime: 0.6
-  dashCD: 1.4
+  dashCD: 2
   dashSpeed: 10
+  canDash: 1
 --- !u!114 &4812291961959088178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -587,8 +589,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpUI: {fileID: 4812291960159507325}
   hpBar: {fileID: 4812291960192472711}
-  Maxhealth: 20
-  presentHealth: 20
+  Maxhealth: 60
+  presentHealth: 60
 --- !u!1001 &4812291960082630827
 PrefabInstance:
   m_ObjectHideFlags: 0
