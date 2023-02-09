@@ -48,7 +48,7 @@ public class SoulListItem : MonoBehaviour
             }
         }
 
-        float soulSpeed = 15f;
+        float soulSpeed = 8f;
         offset = new Vector3(presentIntervalX, 0, 0);
         
         nextPos = presentTarget.position - offset;// is at target's right

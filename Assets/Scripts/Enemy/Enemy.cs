@@ -6,15 +6,18 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public bool isDead = false;
+    bool haveSoul;
+    bool prepareToGenerateSoul;
 
     [SerializeField] GameObject enemySprite;
     [SerializeField] GameObject haveSoulIcon;
-    [SerializeField] GameObject EnemySoul;
+    [SerializeField] GameObject enemySoul;
     [SerializeField] float damage = 10;
     Health health;
     EnemyBasicAi ai;
 
     float showHealthBarTimer = 0f;
+
 
 
     private void OnEnable()
@@ -28,6 +31,11 @@ public class Enemy : MonoBehaviour
         if (isDead){
             ShowHaveSoulIcon();
         }
+
+        // Initiate the havesoul 
+        if (enemySoul != null){
+            haveSoul = true;
+        } else haveSoul= false;
     }
 
     private void Update()
@@ -41,21 +49,26 @@ public class Enemy : MonoBehaviour
         }
         // havesoul icon hiding
         DisableHaveSoulIcon();
+
+        // for player grabing soul
+        if (prepareToGenerateSoul){
+            GenerateSoul();
+        }
     }
 
     // visible or invisible souls
     private void OnMouseEnter()
     {
-        if (isDead && EnemySoul != null){
+        if (isDead && haveSoul){
             Debug.Log("Hit dead body");
-            ConvertSoulVisuability(true);
+            prepareToGenerateSoul = true;
             // change cursor
             CursorManager.instance.ActivateRecallCursor();
         }
     }
     private void OnMouseExit()
     {
-        ConvertSoulVisuability(false);
+        prepareToGenerateSoul = false;
 
         // change cursor
         PlayerControl playerControl = PlayerManager.instance.player.GetComponent<PlayerControl>();
@@ -99,7 +112,7 @@ public class Enemy : MonoBehaviour
 
     void CheckIfHaveSoul()
     {
-        if (EnemySoul == null){
+        if (!haveSoul){
             Destroy(gameObject);
         }
         else
@@ -109,6 +122,7 @@ public class Enemy : MonoBehaviour
             if (ai != null){
                 ai.enabled = false;
             }
+            GetComponent<Collider>().isTrigger = true;
 
             health.HideHPUI();
 
@@ -127,17 +141,21 @@ public class Enemy : MonoBehaviour
 
     void DisableHaveSoulIcon()
     {
-        if (haveSoulIcon != null && EnemySoul == null)
+        if (haveSoulIcon != null && !haveSoul)
         {
             haveSoulIcon.SetActive(false);
         }
     }
 
-    public void ConvertSoulVisuability(bool soulVisiablilitySate)
-    {
-        if (EnemySoul != null)
-        {
-            EnemySoul.SetActive(soulVisiablilitySate);
+    public void GenerateSoul(){
+        if (haveSoul){
+            Debug.Log("GrabSouls");
+            if (Input.GetMouseButtonDown(1)){
+                Instantiate(enemySoul, transform.position, transform.rotation);
+                haveSoul = false;
+                enemySoul.GetComponent<Soul>().RecallFunction();
+            }
+
         }
     }
 }

@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class Teleport : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+    [SerializeField] GameObject teleportObject;
     void Update()
     {
-        
+        if (Input.GetMouseButtonDown(0))
+        {
+            teleportObject.transform.position = new Vector3(2f,0,0);
+        } 
     }
 }

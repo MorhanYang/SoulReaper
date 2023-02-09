@@ -291,7 +291,7 @@ MonoBehaviour:
   isDead: 0
   enemySprite: {fileID: 781885203998012032}
   haveSoulIcon: {fileID: 781885203346279476}
-  EnemySoul: {fileID: 7784562027663177256}
+  enemySoul: {fileID: 7408845352743974211, guid: f942cfbf3f9f6544b86e2df38834f257, type: 3}
   damage: 10
 --- !u!114 &781885203487099891
 MonoBehaviour:
@@ -307,8 +307,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpUI: {fileID: 781885203943987389}
   hpBar: {fileID: 781885203978919239}
-  Maxhealth: 40
-  presentHealth: 40
+  Maxhealth: 20
+  presentHealth: 20
 --- !u!1 &781885203943987385
 GameObject:
   m_ObjectHideFlags: 0
@@ -582,7 +582,7 @@ Animator:
   m_GameObject: {fileID: 781885203998012032}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: efa180d029e7a214fa0e6bd541c1c167, type: 2}
+  m_Controller: {fileID: 9100000, guid: 14e217f17be685b4e972b6dd360f115c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -605,7 +605,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 649871352760289940, guid: f942cfbf3f9f6544b86e2df38834f257, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.085
       objectReference: {fileID: 0}
     - target: {fileID: 649871352760289940, guid: f942cfbf3f9f6544b86e2df38834f257, type: 3}
       propertyPath: m_LocalPosition.y
@@ -613,7 +613,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 649871352760289940, guid: f942cfbf3f9f6544b86e2df38834f257, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.005
       objectReference: {fileID: 0}
     - target: {fileID: 649871352760289940, guid: f942cfbf3f9f6544b86e2df38834f257, type: 3}
       propertyPath: m_LocalRotation.w
@@ -664,10 +664,5 @@ PrefabInstance:
 --- !u!4 &278412828677425663 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 649871352760289940, guid: f942cfbf3f9f6544b86e2df38834f257, type: 3}
-  m_PrefabInstance: {fileID: 781885203751633771}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7784562027663177256 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7408845352743974211, guid: f942cfbf3f9f6544b86e2df38834f257, type: 3}
   m_PrefabInstance: {fileID: 781885203751633771}
   m_PrefabAsset: {fileID: 0}

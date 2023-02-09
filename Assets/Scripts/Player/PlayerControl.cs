@@ -69,8 +69,9 @@ public class PlayerControl : MonoBehaviour
         soulList = GetComponent<SoulList>();
         characterAnimator = transform.Find("Character").GetComponent<Animator>();
         hp = GetComponent<Health>();
+        hp.ShowHPUI();// For testing!!!!!!!!!!!!!!!!!!!!!!!!!
 
-        playerState = PlayerState.normal;
+        playerState = PlayerState.combat;
         combateState = CombateState.normal;
 
         presentRollingSpeed = rollingSpeed;
@@ -106,7 +107,12 @@ public class PlayerControl : MonoBehaviour
                 }
                 // rolling
                 if (Input.GetKeyDown(KeyCode.Space)){
+
                     if (actionTimer >= actionColdDown){
+                        // stop recalling if player is reclling
+                        if (combateState == CombateState.recalling){
+                            EndRecallFunction();
+                        }
                         combateState = CombateState.rolling;
                         actionTimer = 0;
                     }
@@ -170,8 +176,10 @@ public class PlayerControl : MonoBehaviour
     {
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
-        move = new Vector3(x,0,z);
-        rb.velocity = move * moveSpeed * speedMultiplyer * Time.fixedDeltaTime;
+        move = new Vector3(x, rb.velocity.y, z);
+        rb.velocity = new Vector3(x * moveSpeed * speedMultiplyer * Time.fixedDeltaTime, 
+                                    rb.velocity.y, 
+                                    z * moveSpeed * speedMultiplyer * Time.fixedDeltaTime);
 
         FlipPlayer();
         // last direction for rolling
@@ -190,6 +198,13 @@ public class PlayerControl : MonoBehaviour
         // invincible time
         hp.Invincible(delayBeforeInvincible, invincibleDuration);
 
+        Ray ray = new Ray(transform.position, move);
+        float dodgeRayDistance = 1.5f;
+        if (!Physics.Raycast(ray, out var hitInfo, dodgeRayDistance, groundMask)){
+            GetComponent<Collider>().enabled = false;
+            Invoke("RegainColider", invincibleDuration);
+        }
+
         // slow down
         presentRollingSpeed -= rollingResistance * Time.fixedDeltaTime;
         if (presentRollingSpeed <= 90f){
@@ -201,8 +216,9 @@ public class PlayerControl : MonoBehaviour
 
             combateState = CombateState.normal;
         }
-
-
+    }
+    void RegainColider(){
+        GetComponent<Collider>().enabled= true;
     }
 
     //************************Aiming Function
@@ -274,7 +290,7 @@ public class PlayerControl : MonoBehaviour
         
         recallTimer += Time.fixedDeltaTime;
 
-        float holdtime = 0.5f;
+        float holdtime = 0.2f;
         //enough time
         if (recallTimer >= holdtime)
         {
@@ -284,14 +300,13 @@ public class PlayerControl : MonoBehaviour
                 if (souls[idForSouls]!= null) souls[idForSouls].GetComponent<Soul>().RecallFunction();
 
                 //every 0.1s recall one more soul
-                if (recallTimer - holdtime > 0.15f)
+                if (recallTimer - holdtime > 0.1f)
                 {
                     if (idForSouls < souls.Length - 1) idForSouls++;
                     recallTimer = holdtime;
                 }
             }
         }
-
     }
     //reset recall 
     private void EndRecallFunction(){

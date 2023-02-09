@@ -1,9 +1,7 @@
-using OpenCover.Framework.Model;
-using System.Collections;
-using System.Collections.Generic;
+using Fungus;
 using UnityEngine;
 
-public class BoomerangSoul : MonoBehaviour
+public class Soul : MonoBehaviour
 {
     Rigidbody rb;
     Vector3 moveDir;
@@ -57,7 +55,7 @@ public class BoomerangSoul : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if (collision.transform.tag == "Player")
         {
@@ -67,7 +65,8 @@ public class BoomerangSoul : MonoBehaviour
         }
 
         // collide with walls
-        if (collision.transform.tag == "Obstruction"){
+        if (collision.transform.tag == "Obstruction")
+        {
             StopRecall();
         }
 
@@ -85,14 +84,15 @@ public class BoomerangSoul : MonoBehaviour
                 moveSpeed = 100f;
 
                 // if it is not special soul
-                if (soulType != 1){
+                if (soulType != 1)
+                {
                     Debug.Log(recoverLastTime);
                     gameObject.SetActive(false);
                     GameObject effct = Instantiate(impactEffect, transform.position, transform.rotation);
                     Destroy(effct, recoverLastTime);
                     Invoke("RecoverSoul", recoverLastTime);
                 }
-                
+
             }
 
             // recall-> stop recall produce low damage. Then destory itself
@@ -101,15 +101,16 @@ public class BoomerangSoul : MonoBehaviour
                 StopRecall();
 
                 Enemy enemy = collision.transform.GetComponent<Enemy>();
-                enemy.TakeDamage(soulDamage/2);
+                enemy.TakeDamage(soulDamage / 2);
 
                 // if it is not special soul
-                if (soulType != 1){
+                if (soulType != 1)
+                {
                     gameObject.SetActive(false);
                     GameObject effct = Instantiate(impactEffect, transform.position, transform.rotation);
                     Destroy(effct, recoverLastTime);
                     Invoke("RecoverSoul", recoverLastTime);
-                }  
+                }
             }
 
         }

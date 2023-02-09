@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 649871352760289940}
   - component: {fileID: 3516569217473664997}
   - component: {fileID: 6027453342860998299}
-  - component: {fileID: 423112396}
+  - component: {fileID: 183022497}
   m_Layer: 9
   m_Name: Soul_Special
   m_TagString: SoulNormal
@@ -140,7 +140,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7408845352743974211}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.01
   m_Drag: 1
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -148,7 +148,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &423112396
+--- !u!114 &183022497
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -157,11 +157,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7408845352743974211}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c279a4a0f296f04498e7e9e82292697f, type: 3}
+  m_Script: {fileID: 11500000, guid: 365fcfea6ddaa8148bff65a1d0a7410a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   resistance: 800
   recallSpeed: 10
+  recoverLastTime: 0
   soulType: 1
-  soulDamage: 10
-  impactEffect: {fileID: 7762682885165980902, guid: 9794fe452c05eb34da3ffeb2f635ac16, type: 3}
+  soulDamage: 8
+  impactEffect: {fileID: 0}
