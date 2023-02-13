@@ -1,9 +1,7 @@
-using OpenCover.Framework.Model;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class BoomerangSoul : MonoBehaviour
+public class Soul : MonoBehaviour
 {
     Rigidbody rb;
     Vector3 moveDir;
@@ -75,24 +73,13 @@ public class BoomerangSoul : MonoBehaviour
         if (collision.transform.GetComponent<Enemy>() != null
             && !collision.transform.GetComponent<Enemy>().isDead)
         {
-            // shoot -> bounce back and destory itself
-            if (moveSpeed > 100f)
+            if (soulType == 0){
+                // shoot -> bounce back and destory itself
+                RegularSoulHitEnemy(collision);
+            }
+            if (soulType == 1)
             {
-                Enemy enemy = collision.transform.GetComponent<Enemy>();
-                enemy.TakeDamage(soulDamage);
-                // Bounce Back
-                moveDir *= -1;
-                moveSpeed = 100f;
-
-                // if it is not special soul
-                if (soulType != 1){
-                    Debug.Log(recoverLastTime);
-                    gameObject.SetActive(false);
-                    GameObject effct = Instantiate(impactEffect, transform.position, transform.rotation);
-                    Destroy(effct, recoverLastTime);
-                    Invoke("RecoverSoul", recoverLastTime);
-                }
-                
+                BoomerangSoulHitEnemy(collision);
             }
 
             // recall-> stop recall produce low damage. Then destory itself
@@ -160,6 +147,29 @@ public class BoomerangSoul : MonoBehaviour
             canRecall = false;
         }
     }
+    //***************************Collide with enemy
+    void RegularSoulHitEnemy(Collision collision)
+    {
+        if (moveSpeed > 100f)
+        {
+            Enemy enemy = collision.transform.GetComponent<Enemy>();
+            enemy.TakeDamage(soulDamage);
+            // Bounce Back
+            moveDir *= -1;
+            moveSpeed = 100f;
 
+            gameObject.SetActive(false);
+            GameObject effct = Instantiate(impactEffect, transform.position, transform.rotation);
+            Destroy(effct, recoverLastTime);
+            Invoke("RecoverSoul", recoverLastTime);
+        }
+    }
 
+    void BoomerangSoulHitEnemy(Collision collision)
+    {
+        Enemy enemy = collision.transform.GetComponent<Enemy>();
+        enemy.TakeDamage(soulDamage);
+        
+
+    }
 }

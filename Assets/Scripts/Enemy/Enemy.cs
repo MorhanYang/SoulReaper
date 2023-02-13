@@ -149,7 +149,6 @@ public class Enemy : MonoBehaviour
 
     public void GenerateSoul(){
         if (haveSoul){
-            Debug.Log("GrabSouls");
             if (Input.GetMouseButtonDown(1)){
                 Instantiate(enemySoul, transform.position, transform.rotation);
                 haveSoul = false;
