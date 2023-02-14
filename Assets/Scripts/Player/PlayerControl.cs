@@ -22,7 +22,6 @@ public class PlayerControl : MonoBehaviour
 
     //generate soul
     [SerializeField] GameObject[] soulTemp;
-    [SerializeField] float soulSpeed;
 
     //Movement
     [SerializeField] float moveSpeed;
@@ -253,27 +252,13 @@ public class PlayerControl : MonoBehaviour
             // remove the soulItem and know what kind of soul it is
             int soulType = soulList.UseSoul();
             // choose soulTemp;
-            switch (soulType){
-                case -1:
-                    Debug.Log("Don't have soul but you shoot one");
-                    break;
-
-                // normal soul
-                case 0:
-                    GameObject soul0 = Instantiate(soulTemp[0], soulGenerator.position, Quaternion.Euler(Vector3.zero));
-                    soul0.GetComponent<Soul>().ShootSoul(aimDir, soulSpeed);
-                    break;
-
-                // special soul
-                case 1:
-                    GameObject soul1 = Instantiate(soulTemp[1], soulGenerator.position, Quaternion.Euler(Vector3.zero));
-                    soul1.GetComponent<Soul>().ShootSoul(aimDir, soulSpeed);
-                    break;
-                // don't know what happended
-                default:
-                    break;
+            if (soulType <0){
+                Debug.Log("Don't have soul but you shoot one");
+            }else
+            {
+                GameObject soul = Instantiate(soulTemp[soulType], soulGenerator.position, Quaternion.Euler(Vector3.zero));
+                soul.GetComponent<SoulManager>().ShootSoul(aimDir);
             }
-  
         }
 
     }
@@ -297,7 +282,7 @@ public class PlayerControl : MonoBehaviour
             if (souls.Length != 0){
 
                 //Debug.Log("leghth:" + souls.Length + "ID" + idForSouls);
-                if (souls[idForSouls]!= null) souls[idForSouls].GetComponent<Soul>().RecallFunction();
+                if (souls[idForSouls]!= null) souls[idForSouls].GetComponent<SoulManager>().RecallFunction();
 
                 //every 0.1s recall one more soul
                 if (recallTimer - holdtime > 0.1f)
@@ -320,7 +305,7 @@ public class PlayerControl : MonoBehaviour
         if (souls.Length != 0){
             for (int i = 0; i < souls.Length; i++){
                 if (souls[i] != null){
-                    souls[i].GetComponent<Soul>().ResetRecall();
+                    souls[i].GetComponent<SoulManager>().ResetRecall();
                 }
             } 
         }

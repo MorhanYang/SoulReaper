@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class SoulListItem : MonoBehaviour
 {
+    public int soulType; // reference GhostList & PlayerControl
+
     public Transform presentTarget;
     public float presentIntervalX;// it must be + number because SoulList script will take absolute value.
 
-    public int soulType; // 0-Normal,1-special,
+
     
     Vector3 nextPos;
     Vector3 offset;

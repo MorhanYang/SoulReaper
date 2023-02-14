@@ -102,7 +102,7 @@ public class Enemy : MonoBehaviour
 
         // slow down enemy
         if (ai != null){
-            ai.SlowDownEnemy(0.3f);
+            ai.SlowDownEnemy(0.2f);
         }
 
         if (health.presentHealth <= 0){
@@ -152,7 +152,7 @@ public class Enemy : MonoBehaviour
             if (Input.GetMouseButtonDown(1)){
                 Instantiate(enemySoul, transform.position, transform.rotation);
                 haveSoul = false;
-                enemySoul.GetComponent<Soul>().RecallFunction();
+                enemySoul.GetComponent<SoulManager>().RecallFunction();
             }
 
         }

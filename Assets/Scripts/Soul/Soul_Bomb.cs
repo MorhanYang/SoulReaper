@@ -1,23 +1,34 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Soul : MonoBehaviour
+public class Soul_Bomb : MonoBehaviour
 {
     Rigidbody rb;
     Vector3 moveDir;
     float moveSpeed;
     GameObject player;
+
+    public int soulType;// reference GhostList & PlayerControl
+
+    // Shoot
+    [SerializeField] float shootSpeed;
+
+    [SerializeField] GameObject impactEffect;
+
     //recall
     float presentRecallSpeed;
     bool canRecall = true;
-
+    
     [SerializeField] float resistance;
     [SerializeField] float recallSpeed = 10f;
     [SerializeField] float recoverLastTime = 2f;
 
-    public int soulType;// 0-Normal,1-special,
-    public int soulDamage;
-    [SerializeField] GameObject impactEffect;
+
+    public float soulDamage;
+    [SerializeField] float explosionRadus = 2f;
+    bool exploded;
+    [SerializeField] LayerMask layerMask;
 
     enum SoulState
     {
@@ -25,12 +36,12 @@ public class Soul : MonoBehaviour
         normal,
         recalling,
     }
-    SoulState soulState= SoulState.normal;
+    SoulState soulState = SoulState.normal;
 
 
     private void Start()
     {
-        rb= GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         player = PlayerManager.instance.player;
     }
 
@@ -41,7 +52,7 @@ public class Soul : MonoBehaviour
             case SoulState.normal:
                 //reset recall speed
                 presentRecallSpeed = 2;
-                break; 
+                break;
             case SoulState.shootingout:
                 SlowDown();
                 break;
@@ -65,7 +76,8 @@ public class Soul : MonoBehaviour
         }
 
         // collide with walls
-        if (collision.transform.tag == "Obstruction"){
+        if (collision.transform.tag == "Obstruction")
+        {
             StopRecall();
         }
 
@@ -73,32 +85,18 @@ public class Soul : MonoBehaviour
         if (collision.transform.GetComponent<Enemy>() != null
             && !collision.transform.GetComponent<Enemy>().isDead)
         {
-            if (soulType == 0){
-                // shoot -> bounce back and destory itself
-                RegularSoulHitEnemy(collision);
-            }
-            if (soulType == 1)
+            if (!exploded)
             {
-                BoomerangSoulHitEnemy(collision);
+                // recall-> stop recall produce low damage. Then destory itself
+                if (soulState == SoulState.recalling)
+                {
+                    StopRecall();
+                    Explode(soulDamage / 2);
+                }
+                else Explode(soulDamage);
+
+                exploded = true;
             }
-
-            // recall-> stop recall produce low damage. Then destory itself
-            if (soulState == SoulState.recalling)
-            {
-                StopRecall();
-
-                Enemy enemy = collision.transform.GetComponent<Enemy>();
-                enemy.TakeDamage(soulDamage/2);
-
-                // if it is not special soul
-                if (soulType != 1){
-                    gameObject.SetActive(false);
-                    GameObject effct = Instantiate(impactEffect, transform.position, transform.rotation);
-                    Destroy(effct, recoverLastTime);
-                    Invoke("RecoverSoul", recoverLastTime);
-                }  
-            }
-
         }
     }
 
@@ -106,34 +104,43 @@ public class Soul : MonoBehaviour
     // reoverSoul After 3s delay
     void RecoverSoul()
     {
+        exploded = false;
         gameObject.SetActive(true);
     }
 
-    public void ShootSoul(Vector3 shootDir ,float shootSpeed){
-        soulState= SoulState.shootingout;
-        moveSpeed= shootSpeed;
-        moveDir= shootDir;
+    public void ShootSoul(Vector3 shootDir)
+    {
+        soulState = SoulState.shootingout;
+        moveSpeed = shootSpeed;
+        moveDir = shootDir;
     }
-    void SlowDown() {
+    void SlowDown()
+    {
         rb.velocity = moveDir * moveSpeed * Time.fixedDeltaTime;
         // slow down
         moveSpeed -= resistance * Time.fixedDeltaTime;
-        if (moveSpeed <= 20){
-            rb.velocity = Vector3.zero; 
+        if (moveSpeed <= 20)
+        {
+            rb.velocity = Vector3.zero;
             moveSpeed = 0;
             //become normal
             soulState = SoulState.normal;
+            if (!exploded){
+                Explode(soulDamage);
+            }
         }
     }
 
 
-    public void RecallFunction(){
+    public void RecallFunction()
+    {
         if (canRecall){
             soulState = SoulState.recalling;
         }
     }
     // avoid keeping recalling when this hit obstruction
-    public void ResetRecall(){
+    public void ResetRecall()
+    {
         canRecall = true;
     }
 
@@ -148,28 +155,34 @@ public class Soul : MonoBehaviour
         }
     }
     //***************************Collide with enemy
-    void RegularSoulHitEnemy(Collision collision)
+    void Explode(float damage)
     {
-        if (moveSpeed > 100f)
-        {
-            Enemy enemy = collision.transform.GetComponent<Enemy>();
-            enemy.TakeDamage(soulDamage);
-            // Bounce Back
-            moveDir *= -1;
-            moveSpeed = 100f;
+        moveSpeed = 0;
+        soulState = SoulState.normal;
 
-            gameObject.SetActive(false);
-            GameObject effct = Instantiate(impactEffect, transform.position, transform.rotation);
-            Destroy(effct, recoverLastTime);
-            Invoke("RecoverSoul", recoverLastTime);
+        // get all objects inside the radus
+        Collider[] Enemies = Physics.OverlapSphere(transform.position, explosionRadus, layerMask);
+        Debug.Log(Enemies.Length);
+
+        // play animation
+        GameObject effct = Instantiate(impactEffect, transform.position, transform.rotation);
+        Destroy(effct, recoverLastTime);
+
+        // deal damage
+        foreach (Collider nearbyEnemy in Enemies)
+        {
+            TakeExplosionDamage(nearbyEnemy.gameObject, damage);
         }
+
+        gameObject.SetActive(false);
+        Invoke("RecoverSoul", recoverLastTime);
     }
 
-    void BoomerangSoulHitEnemy(Collision collision)
+    void TakeExplosionDamage(GameObject collision , float damage)
     {
         Enemy enemy = collision.transform.GetComponent<Enemy>();
-        enemy.TakeDamage(soulDamage);
-        
-
+        if (enemy != null){
+            enemy.TakeDamage(soulDamage);
+        }
     }
 }

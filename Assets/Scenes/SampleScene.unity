@@ -215,7 +215,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: -93.473}
 --- !u!1 &8453100
 GameObject:
@@ -305,7 +305,7 @@ GameObject:
   - component: {fileID: 10031838}
   - component: {fileID: 10031837}
   - component: {fileID: 10031836}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -407,7 +407,7 @@ GameObject:
   - component: {fileID: 13952164}
   - component: {fileID: 13952163}
   - component: {fileID: 13952162}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -509,7 +509,7 @@ GameObject:
   - component: {fileID: 33327851}
   - component: {fileID: 33327850}
   - component: {fileID: 33327849}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -733,7 +733,7 @@ GameObject:
   - component: {fileID: 44457619}
   - component: {fileID: 44457618}
   - component: {fileID: 44457617}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Breakable_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -815,7 +815,7 @@ GameObject:
   - component: {fileID: 80122131}
   - component: {fileID: 80122130}
   - component: {fileID: 80122129}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -997,7 +997,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 57.113, y: -79.13, z: -93.473}
 --- !u!1 &83987455
 GameObject:
@@ -1010,7 +1010,7 @@ GameObject:
   - component: {fileID: 83987456}
   - component: {fileID: 83987458}
   - component: {fileID: 83987457}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBar_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1086,7 +1086,7 @@ GameObject:
   - component: {fileID: 87979111}
   - component: {fileID: 87979113}
   - component: {fileID: 87979112}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1241,7 +1241,7 @@ GameObject:
   m_Component:
   - component: {fileID: 95164696}
   - component: {fileID: 95164695}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: forestDecoration_0_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1495,7 +1495,7 @@ GameObject:
   - component: {fileID: 112011865}
   - component: {fileID: 112011864}
   - component: {fileID: 112011863}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1680,7 +1680,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &135325891
 GameObject:
@@ -1777,7 +1777,7 @@ GameObject:
   - component: {fileID: 151194306}
   - component: {fileID: 151194308}
   - component: {fileID: 151194307}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBar_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1854,7 +1854,7 @@ GameObject:
   - component: {fileID: 166604098}
   - component: {fileID: 166604097}
   - component: {fileID: 166604096}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1955,7 +1955,7 @@ GameObject:
   - component: {fileID: 179860863}
   - component: {fileID: 179860865}
   - component: {fileID: 179860864}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBar_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2020,63 +2020,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 179860862}
   m_CullTransparentMesh: 1
---- !u!1001 &183022495
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 649871352760289940, guid: 01cd576f0df22f94cb933509a067cff7, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 649871352760289940, guid: 01cd576f0df22f94cb933509a067cff7, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.052
-      objectReference: {fileID: 0}
-    - target: {fileID: 649871352760289940, guid: 01cd576f0df22f94cb933509a067cff7, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 649871352760289940, guid: 01cd576f0df22f94cb933509a067cff7, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -11.44
-      objectReference: {fileID: 0}
-    - target: {fileID: 649871352760289940, guid: 01cd576f0df22f94cb933509a067cff7, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 649871352760289940, guid: 01cd576f0df22f94cb933509a067cff7, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 649871352760289940, guid: 01cd576f0df22f94cb933509a067cff7, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 649871352760289940, guid: 01cd576f0df22f94cb933509a067cff7, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 649871352760289940, guid: 01cd576f0df22f94cb933509a067cff7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 649871352760289940, guid: 01cd576f0df22f94cb933509a067cff7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 649871352760289940, guid: 01cd576f0df22f94cb933509a067cff7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408845352743974211, guid: 01cd576f0df22f94cb933509a067cff7, type: 3}
-      propertyPath: m_Name
-      value: Soul_Special
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 01cd576f0df22f94cb933509a067cff7, type: 3}
 --- !u!1 &193500955
 GameObject:
   m_ObjectHideFlags: 0
@@ -2120,7 +2063,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &199000151
 GameObject:
@@ -2151,7 +2094,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &207732756
 GameObject:
@@ -2165,7 +2108,7 @@ GameObject:
   - component: {fileID: 207732760}
   - component: {fileID: 207732759}
   - component: {fileID: 207732758}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Breakable_20
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2246,7 +2189,7 @@ GameObject:
   - component: {fileID: 211306018}
   - component: {fileID: 211306020}
   - component: {fileID: 211306019}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2323,7 +2266,7 @@ GameObject:
   - component: {fileID: 220708211}
   - component: {fileID: 220708210}
   - component: {fileID: 220708209}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2590,7 +2533,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 103
     y: 77
-    width: 107.6
+    width: 114
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -2966,7 +2909,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 387.67694
     y: 374.69562
-    width: 104.4
+    width: 114
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -2996,7 +2939,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 375.83884
     y: 522.88635
-    width: 126.8
+    width: 142
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -3025,7 +2968,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 569.0698
     y: 438.9396
-    width: 152.4
+    width: 170
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -3054,7 +2997,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 206.5994
     y: 440.59177
-    width: 98
+    width: 110
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -3167,7 +3110,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 377.7805
     y: 322.7805
-    width: 120.4
+    width: 138
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -3307,7 +3250,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 392
     y: 266
-    width: 101.2
+    width: 110
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -3419,7 +3362,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 385
     y: 204
-    width: 110.8
+    width: 122
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -3573,7 +3516,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 384
     y: 140
-    width: 110.8
+    width: 126
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -3672,7 +3615,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 358.86066
     y: 77.63934
-    width: 165.2
+    width: 182
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -4097,7 +4040,7 @@ Transform:
   - {fileID: 523603609}
   - {fileID: 478702756}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &284220904
 GameObject:
@@ -4110,7 +4053,7 @@ GameObject:
   - component: {fileID: 284220905}
   - component: {fileID: 284220907}
   - component: {fileID: 284220906}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBar_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4307,7 +4250,7 @@ GameObject:
   - component: {fileID: 320096140}
   - component: {fileID: 320096142}
   - component: {fileID: 320096141}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBar_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4467,7 +4410,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &331549263
 GameObject:
@@ -4479,7 +4422,7 @@ GameObject:
   m_Component:
   - component: {fileID: 331549264}
   - component: {fileID: 331549265}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: forestDecoration_0_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4564,7 +4507,7 @@ GameObject:
   - component: {fileID: 336939279}
   - component: {fileID: 336939281}
   - component: {fileID: 336939280}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4913,7 +4856,7 @@ GameObject:
   - component: {fileID: 406494891}
   - component: {fileID: 406494893}
   - component: {fileID: 406494892}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBar_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4990,7 +4933,7 @@ GameObject:
   - component: {fileID: 415680690}
   - component: {fileID: 415680689}
   - component: {fileID: 415680688}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5115,7 +5058,7 @@ Transform:
   - {fileID: 242222672}
   - {fileID: 1864613787}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &431831994
 GameObject:
@@ -5129,7 +5072,7 @@ GameObject:
   - component: {fileID: 431831998}
   - component: {fileID: 431831997}
   - component: {fileID: 431831996}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Breakable_17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5294,7 +5237,7 @@ GameObject:
   - component: {fileID: 446870827}
   - component: {fileID: 446870829}
   - component: {fileID: 446870828}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBar_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5369,7 +5312,7 @@ GameObject:
   m_Component:
   - component: {fileID: 468356959}
   - component: {fileID: 468356958}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: forestDecoration_0_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5686,7 +5629,7 @@ GameObject:
   - component: {fileID: 497446715}
   - component: {fileID: 497446717}
   - component: {fileID: 497446716}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBar_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5864,7 +5807,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &523603608
 PrefabInstance:
@@ -5920,6 +5863,14 @@ PrefabInstance:
     - target: {fileID: 3444220120501066863, guid: d00dcf648155e8646b6cbd6fe26f5c95, type: 3}
       propertyPath: m_Name
       value: Enemy_Dash_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3444220120501066863, guid: d00dcf648155e8646b6cbd6fe26f5c95, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3444220120501066869, guid: d00dcf648155e8646b6cbd6fe26f5c95, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3444220120501066871, guid: d00dcf648155e8646b6cbd6fe26f5c95, type: 3}
       propertyPath: damage
@@ -6048,7 +5999,7 @@ GameObject:
   - component: {fileID: 563348696}
   - component: {fileID: 563348698}
   - component: {fileID: 563348697}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6123,7 +6074,7 @@ GameObject:
   m_Component:
   - component: {fileID: 579904708}
   - component: {fileID: 579904709}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: forestDecoration_0_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6197,170 +6148,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!43 &587909048
-Mesh:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh74658
-  serializedVersion: 10
-  m_SubMeshes:
-  - serializedVersion: 2
-    firstByte: 0
-    indexCount: 276
-    topology: 0
-    baseVertex: 0
-    firstVertex: 0
-    vertexCount: 102
-    localAABB:
-      m_Center: {x: 0, y: 0.375, z: 0}
-      m_Extent: {x: 5.125, y: 0.5, z: 9.5}
-  m_Shapes:
-    vertices: []
-    shapes: []
-    channels: []
-    fullWeights: []
-  m_BindPose: []
-  m_BoneNameHashes: 
-  m_RootBoneNameHash: 0
-  m_BonesAABB: []
-  m_VariableBoneCountWeights:
-    m_Data: 
-  m_MeshCompression: 0
-  m_IsReadable: 1
-  m_KeepVertices: 1
-  m_KeepIndices: 1
-  m_IndexFormat: 0
-  m_IndexBuffer: 00000100020003000000020004000500060004000700050001000800090002000100090008000a000b00090008000b000c00070004000c000d0007000e000d000c000e000f000d00100011001200130010001200140015001600140017001500180019001a001b0018001a001c001d001e001c001f001d00200021002200210023002200240025002600270024002600280029002a0028002a002b001e002a0029001e001d002a002c002d002e002f002c002e002d00100013002e002d0013003000310032003000330031001600330030001600150033001b001a00340035001b00340035003400360037003500360038001e00390038001c001e003a0039003b003a0038003900220023003c0023003d003c003c003d003e003d003f003e002700260040004100270040003d00350037003f003d00370042004300440042004400450045004400290045002900280039002900440039001e0029003b00440043003b0039004400160030004600300047004600040006004800060049004800140016004a00160046004a004b004c004d004c004e004d0030003200470032004f00470009000b0050000b00510050000300020052000200530052005400550056005500570056000200090053000900500053000e000c0058000c00590058002f002e005a002e005b005a002e0013005b0013005c005b005d005e005f005e0060005f00130012005c00120061005c0062004e0063004e004c0063005f0064005d00640065005d00
-  m_VertexData:
-    serializedVersion: 3
-    m_VertexCount: 102
-    m_Channels:
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 3
-    - stream: 0
-      offset: 12
-      format: 0
-      dimension: 3
-    - stream: 0
-      offset: 24
-      format: 0
-      dimension: 4
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 40
-      format: 0
-      dimension: 2
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    m_DataSize: 4896
-    _typelessdata: 0000a4c0000000be0000184100000000000000000000803f000080bf0000000000000000000080bf0000a440000000be000090c0000000be0000184100000000000000000000803f000080bf0000000000000000000080bf00009040000000be000090c00000003e0000184100000000000000000000803f000080bf0000000000000000000080bf000090400000003e0000a4c00000003e0000184100000000000000000000803f000080bf0000000000000000000080bf0000a4400000003e000090c00000003e000018c10000000000000000000080bf0000803f0000000000000000000080bf000090c00000003e0000a4c0000000be000018c10000000000000000000080bf0000803f0000000000000000000080bf0000a4c0000000be0000a4c00000003e000018c10000000000000000000080bf0000803f0000000000000000000080bf0000a4c00000003e000090c0000000be000018c10000000000000000000080bf0000803f0000000000000000000080bf000090c0000000be26018a40000000be0000184100000000000000000000803f000080bf0000000000000000000080bf26018ac0000000be26018a400000003e0000184100000000000000000000803f000080bf0000000000000000000080bf26018ac00000003e0000a440000000be0000184100000000000000000000803f000080bf0000000000000000000080bf0000a4c0000000be0000a4400000003e0000184100000000000000000000803f000080bf0000000000000000000080bf0000a4c00000003e26018a400000003e000018c10000000000000000000080bf0000803f0000000000000000000080bf26018a400000003e26018a40000000be000018c10000000000000000000080bf0000803f0000000000000000000080bf26018a40000000be0000a4400000003e000018c10000000000000000000080bf0000803f0000000000000000000080bf0000a4400000003e0000a440000000be000018c10000000000000000000080bf0000803f0000000000000000000080bf0000a440000000be0000a440000000be00000cc10000803f000000000000000000000000000000000000803f000080bf00000cc1000000be0000a440000000be000018c10000803f000000000000000000000000000000000000803f000080bf000018c1000000be0000a4400000003e000018c10000803f000000000000000000000000000000000000803f000080bf000018c10000003e0000a4400000003e00000cc10000803f000000000000000000000000000000000000803f000080bf00000cc10000003e0000a4c00000003e000018c1000080bf00000000000000000000000000000000000080bf000080bf000018410000003e0000a4c0000000be00000cc1000080bf00000000000000000000000000000000000080bf000080bf00000c41000000be0000a4c00000003e00000cc1000080bf00000000000000000000000000000000000080bf000080bf00000c410000003e0000a4c0000000be000018c1000080bf00000000000000000000000000000000000080bf000080bf00001841000000be000090c00000603f000018c1000000000000803f000000000000803f0000000000000000000080bf000090c0000018c10000a4c00000603f000018c1000000000000803f000000000000803f0000000000000000000080bf0000a4c0000018c10000a4c00000603f00000cc1000000000000803f000000000000803f0000000000000000000080bf0000a4c000000cc1000090c00000603f00000cc1000000000000803f000000000000803f0000000000000000000080bf000090c000000cc10000a4c0000000be00000cc100000000000080bf00000000000080bf0000000000000000000080bf0000a44000000cc1000090c0000000be000018c100000000000080bf00000000000080bf0000000000000000000080bf00009040000018c1000090c0000000be00000cc100000000000080bf00000000000080bf0000000000000000000080bf0000904000000cc10000a4c0000000be000018c100000000000080bf00000000000080bf0000000000000000000080bf0000a440000018c10000a4400000603f000018c1000000000000803f000000000000803f0000000000000000000080bf0000a440000018c126018a400000603f000018c1000000000000803f000000000000803f0000000000000000000080bf26018a40000018c10000a4400000603f00000cc1000000000000803f000000000000803f0000000000000000000080bf0000a44000000cc126018a400000603f00000cc1000000000000803f000000000000803f0000000000000000000080bf26018a4000000cc126018a400000003e000018c1000000000000803f000000000000803f0000000000000000000080bf26018a40000018c1000090c00000003e000018c1000000000000803f000000000000803f0000000000000000000080bf000090c0000018c1000090c00000003e00000cc1000000000000803f000000000000803f0000000000000000000080bf000090c000000cc126018a400000003e00000cc1000000000000803f000000000000803f0000000000000000000080bf26018a4000000cc10000a440000000be00000cc100000000000080bf00000000000080bf0000000000000000000080bf0000a4c000000cc126018a40000000be00000cc100000000000080bf00000000000080bf0000000000000000000080bf26018ac000000cc126018a40000000be000018c100000000000080bf00000000000080bf0000000000000000000080bf26018ac0000018c10000a440000000be000018c100000000000080bf00000000000080bf0000000000000000000080bf0000a4c0000018c10000a440000000be000018410000803f000000000000000000000000000000000000803f000080bf00001841000000be0000a440000000be00000a410000803f000000000000000000000000000000000000803f000080bf00000a41000000be0000a4400000003e00000a410000803f000000000000000000000000000000000000803f000080bf00000a410000003e0000a4400000003e000018410000803f000000000000000000000000000000000000803f000080bf000018410000003e0000a4c00000003e00000a41000080bf00000000000000000000000000000000000080bf000080bf00000ac10000003e0000a4c0000000be00001841000080bf00000000000000000000000000000000000080bf000080bf000018c1000000be0000a4c00000003e00001841000080bf00000000000000000000000000000000000080bf000080bf000018c10000003e0000a4c0000000be00000a41000080bf00000000000000000000000000000000000080bf000080bf00000ac1000000be0000a4c00000603f00000a41000000000000803f000000000000803f0000000000000000000080bf0000a4c000000a41000090c00000603f00000a41000000000000803f000000000000803f0000000000000000000080bf000090c000000a410000a4c00000603f00001841000000000000803f000000000000803f0000000000000000000080bf0000a4c000001841000090c00000603f00001841000000000000803f000000000000803f0000000000000000000080bf000090c0000018410000a4c0000000be00000a4100000000000080bf00000000000080bf0000000000000000000080bf0000a44000000a41000090c0000000be00000a4100000000000080bf00000000000080bf0000000000000000000080bf0000904000000a410000a4c0000000be0000184100000000000080bf00000000000080bf0000000000000000000080bf0000a44000001841000090c0000000be0000184100000000000080bf00000000000080bf0000000000000000000080bf00009040000018410000a4400000603f00000a41000000000000803f000000000000803f0000000000000000000080bf0000a44000000a4126018a400000603f00000a41000000000000803f000000000000803f0000000000000000000080bf26018a4000000a410000a4400000603f00001841000000000000803f000000000000803f0000000000000000000080bf0000a4400000184126018a400000603f00001841000000000000803f000000000000803f0000000000000000000080bf26018a4000001841000090c00000003e00000a41000000000000803f000000000000803f0000000000000000000080bf000090c000000a4126018a400000003e00000a41000000000000803f000000000000803f0000000000000000000080bf26018a4000000a410000a440000000be0000184100000000000080bf00000000000080bf0000000000000000000080bf0000a4c00000184126018a40000000be0000184100000000000080bf00000000000080bf0000000000000000000080bf26018ac00000184126018a40000000be00000a4100000000000080bf00000000000080bf0000000000000000000080bf26018ac000000a410000a440000000be00000a4100000000000080bf00000000000080bf0000000000000000000080bf0000a4c000000a410000a4c00000603f00000cc1000080bf00000000000000000000000000000000000080bf000080bf00000c410000603f0000a4c00000603f00000a41000080bf00000000000000000000000000000000000080bf000080bf00000ac10000603f000090c00000603f000018c10000000000000000000080bf0000803f0000000000000000000080bf000090c00000603f0000a4c00000603f000018c10000000000000000000080bf0000803f0000000000000000000080bf0000a4c00000603f0000a4c00000603f000018c1000080bf00000000000000000000000000000000000080bf000080bf000018410000603f000090c00000003e00000a410000803f000000000000000000000000000000000000803f000080bf00000a410000003e000090c00000003e00000cc10000803f000000000000000000000000000000000000803f000080bf00000cc10000003e000090c00000603f00000a410000803f000000000000000000000000000000000000803f000080bf00000a410000603f000090c00000603f00000cc10000803f000000000000000000000000000000000000803f000080bf00000cc10000603f0000a4c00000603f00001841000080bf00000000000000000000000000000000000080bf000080bf000018c10000603f26018a400000603f0000184100000000000000000000803f000080bf0000000000000000000080bf26018ac00000603f0000a4400000603f0000184100000000000000000000803f000080bf0000000000000000000080bf0000a4c00000603f0000a4c00000603f0000184100000000000000000000803f000080bf0000000000000000000080bf0000a4400000603f000090c00000603f0000184100000000000000000000803f000080bf0000000000000000000080bf000090400000603f26018a400000003e00000a410000000000000000000080bf0000803f0000000000000000000080bf26018a400000003e000090c00000003e00000a410000000000000000000080bf0000803f0000000000000000000080bf000090c00000003e26018a400000603f00000a410000000000000000000080bf0000803f0000000000000000000080bf26018a400000603f000090c00000603f00000a410000000000000000000080bf0000803f0000000000000000000080bf000090c00000603f0000a4400000603f000018c10000000000000000000080bf0000803f0000000000000000000080bf0000a4400000603f26018a400000603f000018c10000000000000000000080bf0000803f0000000000000000000080bf26018a400000603f0000a4400000603f000018410000803f000000000000000000000000000000000000803f000080bf000018410000603f0000a4400000603f00000a410000803f000000000000000000000000000000000000803f000080bf00000a410000603f0000a4400000603f00000cc10000803f000000000000000000000000000000000000803f000080bf00000cc10000603f26018a400000003e00000cc1000080bf00000000000000000000000000000000000080bf000080bf00000c410000003e26018a400000003e00000a41000080bf00000000000000000000000000000000000080bf000080bf00000ac10000003e26018a400000603f00000cc1000080bf00000000000000000000000000000000000080bf000080bf00000c410000603f26018a400000603f00000a41000080bf00000000000000000000000000000000000080bf000080bf00000ac10000603f0000a4400000603f000018c10000803f000000000000000000000000000000000000803f000080bf000018c10000603f000090c00000603f000018c10000803f000000000000000000000000000000000000803f000080bf000018c10000603f000090c00000003e000018c10000803f000000000000000000000000000000000000803f000080bf000018c10000003e26018a400000603f000018c1000080bf00000000000000000000000000000000000080bf000080bf000018410000603f26018a400000003e000018c1000080bf00000000000000000000000000000000000080bf000080bf000018410000003e
-  m_CompressedMesh:
-    m_Vertices:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UV:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Normals:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Tangents:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Weights:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_NormalSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_TangentSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_FloatColors:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_BoneIndices:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Triangles:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UVInfo: 0
-  m_LocalAABB:
-    m_Center: {x: 0, y: 0.375, z: 0}
-    m_Extent: {x: 5.125, y: 0.5, z: 9.5}
-  m_MeshUsageFlags: 0
-  m_BakedConvexCollisionMesh: 
-  m_BakedTriangleCollisionMesh: 
-  m_MeshMetrics[0]: 1
-  m_MeshMetrics[1]: 1
-  m_MeshOptimizationFlags: 1
-  m_StreamData:
-    serializedVersion: 2
-    offset: 0
-    size: 0
-    path: 
 --- !u!1 &590345146
 GameObject:
   m_ObjectHideFlags: 1
@@ -6404,7 +6191,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &620659274
 GameObject:
@@ -6416,7 +6203,7 @@ GameObject:
   m_Component:
   - component: {fileID: 620659276}
   - component: {fileID: 620659275}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: forestDecoration_0_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6502,7 +6289,7 @@ GameObject:
   - component: {fileID: 699317703}
   - component: {fileID: 699317702}
   - component: {fileID: 699317701}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Breakable_14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6664,7 +6451,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &721140460
 GameObject:
@@ -6820,7 +6607,7 @@ GameObject:
   - component: {fileID: 762092650}
   - component: {fileID: 762092652}
   - component: {fileID: 762092651}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBar_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6895,7 +6682,7 @@ GameObject:
   m_Component:
   - component: {fileID: 772233799}
   - component: {fileID: 772233800}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: forestDecoration_0_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6981,7 +6768,7 @@ GameObject:
   - component: {fileID: 778291702}
   - component: {fileID: 778291701}
   - component: {fileID: 778291700}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7082,7 +6869,7 @@ GameObject:
   - component: {fileID: 779557299}
   - component: {fileID: 779557301}
   - component: {fileID: 779557300}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBar_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7339,7 +7126,7 @@ GameObject:
   - component: {fileID: 874778074}
   - component: {fileID: 874778076}
   - component: {fileID: 874778075}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBar_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7416,7 +7203,7 @@ GameObject:
   - component: {fileID: 879846277}
   - component: {fileID: 879846276}
   - component: {fileID: 879846275}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Breakable_16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7520,7 +7307,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 587909048}
+  m_Mesh: {fileID: 1434379336}
 --- !u!33 &884097176
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -7528,7 +7315,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 884097174}
-  m_Mesh: {fileID: 587909048}
+  m_Mesh: {fileID: 1434379336}
 --- !u!23 &884097177
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9013,8 +8800,8 @@ MonoBehaviour:
     m_AreaError: 15
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
-  m_Mesh: {fileID: 587909048}
-  m_VersionIndex: 10392
+  m_Mesh: {fileID: 1434379336}
+  m_VersionIndex: 10395
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -9032,7 +8819,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &891239638
 GameObject:
@@ -9122,7 +8909,7 @@ GameObject:
   - component: {fileID: 893545317}
   - component: {fileID: 893545319}
   - component: {fileID: 893545318}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBar_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9199,7 +8986,7 @@ GameObject:
   - component: {fileID: 924090899}
   - component: {fileID: 924090898}
   - component: {fileID: 924090897}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Breakable_13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9414,7 +9201,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &939671593
 GameObject:
@@ -9507,7 +9294,7 @@ GameObject:
   - component: {fileID: 954879131}
   - component: {fileID: 954879133}
   - component: {fileID: 954879132}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9954,7 +9741,7 @@ GameObject:
   - component: {fileID: 992638882}
   - component: {fileID: 992638884}
   - component: {fileID: 992638883}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBar_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10030,7 +9817,7 @@ GameObject:
   - component: {fileID: 997143489}
   - component: {fileID: 997143491}
   - component: {fileID: 997143490}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBar_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10150,6 +9937,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 781885203487099888, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
+      propertyPath: canDash
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 781885203487099888, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 781885203487099890, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
+      propertyPath: isDead
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 781885203487099891, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
       propertyPath: Maxhealth
       value: 20
@@ -10256,7 +10055,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1013380683
 GameObject:
@@ -10268,7 +10067,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1013380685}
   - component: {fileID: 1013380684}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: forestDecoration_0_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10353,7 +10152,7 @@ GameObject:
   - component: {fileID: 1018472415}
   - component: {fileID: 1018472417}
   - component: {fileID: 1018472416}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBar_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10727,7 +10526,7 @@ GameObject:
   - component: {fileID: 1052003621}
   - component: {fileID: 1052003620}
   - component: {fileID: 1052003619}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10827,7 +10626,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1057130777}
   - component: {fileID: 1057130778}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: forestDecoration_0_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11061,7 +10860,7 @@ GameObject:
   - component: {fileID: 1078780273}
   - component: {fileID: 1078780272}
   - component: {fileID: 1078780271}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Breakable_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11143,7 +10942,7 @@ GameObject:
   - component: {fileID: 1097959600}
   - component: {fileID: 1097959599}
   - component: {fileID: 1097959598}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11244,7 +11043,7 @@ GameObject:
   - component: {fileID: 1103744175}
   - component: {fileID: 1103744177}
   - component: {fileID: 1103744176}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBar_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11406,7 +11205,7 @@ GameObject:
   - component: {fileID: 1137545636}
   - component: {fileID: 1137545635}
   - component: {fileID: 1137545634}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11535,9 +11334,10 @@ MonoBehaviour:
     m_Bits: 128
   aimPivot: {fileID: 1802148632}
   soulTemp:
+  - {fileID: 7408845352743974211, guid: 5ae2856d89c46b247b05d95eb46f2591, type: 3}
   - {fileID: 7408845352743974211, guid: f942cfbf3f9f6544b86e2df38834f257, type: 3}
   - {fileID: 7408845352743974211, guid: 01cd576f0df22f94cb933509a067cff7, type: 3}
-  soulSpeed: 500
+  - {fileID: 7408845352743974211, guid: d0d2cf07d0bc9d7479d8a50c45e563b6, type: 3}
   moveSpeed: 100
   actionColdDown: 0.3
   rollingSpeed: 350
@@ -11591,7 +11391,7 @@ Transform:
   - {fileID: 891239639}
   - {fileID: 1058100653}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1140426394
 MonoBehaviour:
@@ -11606,12 +11406,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soulItemTemp:
+  - {fileID: 4909810280646997089, guid: aee0ddd28af301342bfd6237a0837f62, type: 3}
   - {fileID: 4909810280646997089, guid: ff4a9cf979d2ec143ad5e05052eece51, type: 3}
   - {fileID: 4909810280646997089, guid: 522207b1355700947836fcdc606cbbe3, type: 3}
+  - {fileID: 4909810280646997089, guid: eb410ee569d4fb24bb0813bebf09b2c5, type: 3}
   firstLineTarget: {fileID: 891239639}
   secondLineTarget: {fileID: 0}
   generatingFolder: {fileID: 199000152}
-  soulNum: 0
+  soulNum: 2
   followingSoulMask:
     serializedVersion: 2
     m_Bits: 256
@@ -11643,7 +11445,7 @@ GameObject:
   - component: {fileID: 1157043003}
   - component: {fileID: 1157043002}
   - component: {fileID: 1157043001}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Breakable_19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11723,7 +11525,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1163332427}
   - component: {fileID: 1163332426}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: forestDecoration_0_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11808,7 +11610,7 @@ GameObject:
   - component: {fileID: 1163889594}
   - component: {fileID: 1163889596}
   - component: {fileID: 1163889595}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBar_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11970,7 +11772,7 @@ GameObject:
   - component: {fileID: 1201182436}
   - component: {fileID: 1201182435}
   - component: {fileID: 1201182434}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Breakable_8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12132,7 +11934,7 @@ GameObject:
   - component: {fileID: 1228341793}
   - component: {fileID: 1228341792}
   - component: {fileID: 1228341791}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12531,7 +12333,7 @@ GameObject:
   - component: {fileID: 1249721293}
   - component: {fileID: 1249721292}
   - component: {fileID: 1249721291}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12632,7 +12434,7 @@ GameObject:
   - component: {fileID: 1260661253}
   - component: {fileID: 1260661255}
   - component: {fileID: 1260661254}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12707,7 +12509,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1263798864}
   - component: {fileID: 1263798865}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: forestDecoration_0_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12901,7 +12703,7 @@ GameObject:
   - component: {fileID: 1276065801}
   - component: {fileID: 1276065800}
   - component: {fileID: 1276065799}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Breakable_7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13112,7 +12914,7 @@ GameObject:
   - component: {fileID: 1308329953}
   - component: {fileID: 1308329952}
   - component: {fileID: 1308329951}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Breakable_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13471,7 +13273,7 @@ GameObject:
   - component: {fileID: 1362864622}
   - component: {fileID: 1362864621}
   - component: {fileID: 1362864620}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13745,7 +13547,7 @@ GameObject:
   - component: {fileID: 1392296691}
   - component: {fileID: 1392296693}
   - component: {fileID: 1392296692}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBar_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13821,7 +13623,7 @@ GameObject:
   - component: {fileID: 1428363487}
   - component: {fileID: 1428363489}
   - component: {fileID: 1428363488}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13886,6 +13688,170 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1428363486}
   m_CullTransparentMesh: 1
+--- !u!43 &1434379336
+Mesh:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: pb_Mesh27194
+  serializedVersion: 10
+  m_SubMeshes:
+  - serializedVersion: 2
+    firstByte: 0
+    indexCount: 276
+    topology: 0
+    baseVertex: 0
+    firstVertex: 0
+    vertexCount: 102
+    localAABB:
+      m_Center: {x: 0, y: 0.375, z: 0}
+      m_Extent: {x: 5.125, y: 0.5, z: 9.5}
+  m_Shapes:
+    vertices: []
+    shapes: []
+    channels: []
+    fullWeights: []
+  m_BindPose: []
+  m_BoneNameHashes: 
+  m_RootBoneNameHash: 0
+  m_BonesAABB: []
+  m_VariableBoneCountWeights:
+    m_Data: 
+  m_MeshCompression: 0
+  m_IsReadable: 1
+  m_KeepVertices: 1
+  m_KeepIndices: 1
+  m_IndexFormat: 0
+  m_IndexBuffer: 00000100020003000000020004000500060004000700050001000800090002000100090008000a000b00090008000b000c00070004000c000d0007000e000d000c000e000f000d00100011001200130010001200140015001600140017001500180019001a001b0018001a001c001d001e001c001f001d00200021002200210023002200240025002600270024002600280029002a0028002a002b001e002a0029001e001d002a002c002d002e002f002c002e002d00100013002e002d0013003000310032003000330031001600330030001600150033001b001a00340035001b00340035003400360037003500360038001e00390038001c001e003a0039003b003a0038003900220023003c0023003d003c003c003d003e003d003f003e002700260040004100270040003d00350037003f003d00370042004300440042004400450045004400290045002900280039002900440039001e0029003b00440043003b0039004400160030004600300047004600040006004800060049004800140016004a00160046004a004b004c004d004c004e004d0030003200470032004f00470009000b0050000b00510050000300020052000200530052005400550056005500570056000200090053000900500053000e000c0058000c00590058002f002e005a002e005b005a002e0013005b0013005c005b005d005e005f005e0060005f00130012005c00120061005c0062004e0063004e004c0063005f0064005d00640065005d00
+  m_VertexData:
+    serializedVersion: 3
+    m_VertexCount: 102
+    m_Channels:
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 12
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 24
+      format: 0
+      dimension: 4
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 40
+      format: 0
+      dimension: 2
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    m_DataSize: 4896
+    _typelessdata: 0000a4c0000000be0000184100000000000000000000803f000080bf0000000000000000000080bf0000a440000000be000090c0000000be0000184100000000000000000000803f000080bf0000000000000000000080bf00009040000000be000090c00000003e0000184100000000000000000000803f000080bf0000000000000000000080bf000090400000003e0000a4c00000003e0000184100000000000000000000803f000080bf0000000000000000000080bf0000a4400000003e000090c00000003e000018c10000000000000000000080bf0000803f0000000000000000000080bf000090c00000003e0000a4c0000000be000018c10000000000000000000080bf0000803f0000000000000000000080bf0000a4c0000000be0000a4c00000003e000018c10000000000000000000080bf0000803f0000000000000000000080bf0000a4c00000003e000090c0000000be000018c10000000000000000000080bf0000803f0000000000000000000080bf000090c0000000be26018a40000000be0000184100000000000000000000803f000080bf0000000000000000000080bf26018ac0000000be26018a400000003e0000184100000000000000000000803f000080bf0000000000000000000080bf26018ac00000003e0000a440000000be0000184100000000000000000000803f000080bf0000000000000000000080bf0000a4c0000000be0000a4400000003e0000184100000000000000000000803f000080bf0000000000000000000080bf0000a4c00000003e26018a400000003e000018c10000000000000000000080bf0000803f0000000000000000000080bf26018a400000003e26018a40000000be000018c10000000000000000000080bf0000803f0000000000000000000080bf26018a40000000be0000a4400000003e000018c10000000000000000000080bf0000803f0000000000000000000080bf0000a4400000003e0000a440000000be000018c10000000000000000000080bf0000803f0000000000000000000080bf0000a440000000be0000a440000000be00000cc10000803f000000000000000000000000000000000000803f000080bf00000cc1000000be0000a440000000be000018c10000803f000000000000000000000000000000000000803f000080bf000018c1000000be0000a4400000003e000018c10000803f000000000000000000000000000000000000803f000080bf000018c10000003e0000a4400000003e00000cc10000803f000000000000000000000000000000000000803f000080bf00000cc10000003e0000a4c00000003e000018c1000080bf00000000000000000000000000000000000080bf000080bf000018410000003e0000a4c0000000be00000cc1000080bf00000000000000000000000000000000000080bf000080bf00000c41000000be0000a4c00000003e00000cc1000080bf00000000000000000000000000000000000080bf000080bf00000c410000003e0000a4c0000000be000018c1000080bf00000000000000000000000000000000000080bf000080bf00001841000000be000090c00000603f000018c1000000000000803f000000000000803f0000000000000000000080bf000090c0000018c10000a4c00000603f000018c1000000000000803f000000000000803f0000000000000000000080bf0000a4c0000018c10000a4c00000603f00000cc1000000000000803f000000000000803f0000000000000000000080bf0000a4c000000cc1000090c00000603f00000cc1000000000000803f000000000000803f0000000000000000000080bf000090c000000cc10000a4c0000000be00000cc100000000000080bf00000000000080bf0000000000000000000080bf0000a44000000cc1000090c0000000be000018c100000000000080bf00000000000080bf0000000000000000000080bf00009040000018c1000090c0000000be00000cc100000000000080bf00000000000080bf0000000000000000000080bf0000904000000cc10000a4c0000000be000018c100000000000080bf00000000000080bf0000000000000000000080bf0000a440000018c10000a4400000603f000018c1000000000000803f000000000000803f0000000000000000000080bf0000a440000018c126018a400000603f000018c1000000000000803f000000000000803f0000000000000000000080bf26018a40000018c10000a4400000603f00000cc1000000000000803f000000000000803f0000000000000000000080bf0000a44000000cc126018a400000603f00000cc1000000000000803f000000000000803f0000000000000000000080bf26018a4000000cc126018a400000003e000018c1000000000000803f000000000000803f0000000000000000000080bf26018a40000018c1000090c00000003e000018c1000000000000803f000000000000803f0000000000000000000080bf000090c0000018c1000090c00000003e00000cc1000000000000803f000000000000803f0000000000000000000080bf000090c000000cc126018a400000003e00000cc1000000000000803f000000000000803f0000000000000000000080bf26018a4000000cc10000a440000000be00000cc100000000000080bf00000000000080bf0000000000000000000080bf0000a4c000000cc126018a40000000be00000cc100000000000080bf00000000000080bf0000000000000000000080bf26018ac000000cc126018a40000000be000018c100000000000080bf00000000000080bf0000000000000000000080bf26018ac0000018c10000a440000000be000018c100000000000080bf00000000000080bf0000000000000000000080bf0000a4c0000018c10000a440000000be000018410000803f000000000000000000000000000000000000803f000080bf00001841000000be0000a440000000be00000a410000803f000000000000000000000000000000000000803f000080bf00000a41000000be0000a4400000003e00000a410000803f000000000000000000000000000000000000803f000080bf00000a410000003e0000a4400000003e000018410000803f000000000000000000000000000000000000803f000080bf000018410000003e0000a4c00000003e00000a41000080bf00000000000000000000000000000000000080bf000080bf00000ac10000003e0000a4c0000000be00001841000080bf00000000000000000000000000000000000080bf000080bf000018c1000000be0000a4c00000003e00001841000080bf00000000000000000000000000000000000080bf000080bf000018c10000003e0000a4c0000000be00000a41000080bf00000000000000000000000000000000000080bf000080bf00000ac1000000be0000a4c00000603f00000a41000000000000803f000000000000803f0000000000000000000080bf0000a4c000000a41000090c00000603f00000a41000000000000803f000000000000803f0000000000000000000080bf000090c000000a410000a4c00000603f00001841000000000000803f000000000000803f0000000000000000000080bf0000a4c000001841000090c00000603f00001841000000000000803f000000000000803f0000000000000000000080bf000090c0000018410000a4c0000000be00000a4100000000000080bf00000000000080bf0000000000000000000080bf0000a44000000a41000090c0000000be00000a4100000000000080bf00000000000080bf0000000000000000000080bf0000904000000a410000a4c0000000be0000184100000000000080bf00000000000080bf0000000000000000000080bf0000a44000001841000090c0000000be0000184100000000000080bf00000000000080bf0000000000000000000080bf00009040000018410000a4400000603f00000a41000000000000803f000000000000803f0000000000000000000080bf0000a44000000a4126018a400000603f00000a41000000000000803f000000000000803f0000000000000000000080bf26018a4000000a410000a4400000603f00001841000000000000803f000000000000803f0000000000000000000080bf0000a4400000184126018a400000603f00001841000000000000803f000000000000803f0000000000000000000080bf26018a4000001841000090c00000003e00000a41000000000000803f000000000000803f0000000000000000000080bf000090c000000a4126018a400000003e00000a41000000000000803f000000000000803f0000000000000000000080bf26018a4000000a410000a440000000be0000184100000000000080bf00000000000080bf0000000000000000000080bf0000a4c00000184126018a40000000be0000184100000000000080bf00000000000080bf0000000000000000000080bf26018ac00000184126018a40000000be00000a4100000000000080bf00000000000080bf0000000000000000000080bf26018ac000000a410000a440000000be00000a4100000000000080bf00000000000080bf0000000000000000000080bf0000a4c000000a410000a4c00000603f00000cc1000080bf00000000000000000000000000000000000080bf000080bf00000c410000603f0000a4c00000603f00000a41000080bf00000000000000000000000000000000000080bf000080bf00000ac10000603f000090c00000603f000018c10000000000000000000080bf0000803f0000000000000000000080bf000090c00000603f0000a4c00000603f000018c10000000000000000000080bf0000803f0000000000000000000080bf0000a4c00000603f0000a4c00000603f000018c1000080bf00000000000000000000000000000000000080bf000080bf000018410000603f000090c00000003e00000a410000803f000000000000000000000000000000000000803f000080bf00000a410000003e000090c00000003e00000cc10000803f000000000000000000000000000000000000803f000080bf00000cc10000003e000090c00000603f00000a410000803f000000000000000000000000000000000000803f000080bf00000a410000603f000090c00000603f00000cc10000803f000000000000000000000000000000000000803f000080bf00000cc10000603f0000a4c00000603f00001841000080bf00000000000000000000000000000000000080bf000080bf000018c10000603f26018a400000603f0000184100000000000000000000803f000080bf0000000000000000000080bf26018ac00000603f0000a4400000603f0000184100000000000000000000803f000080bf0000000000000000000080bf0000a4c00000603f0000a4c00000603f0000184100000000000000000000803f000080bf0000000000000000000080bf0000a4400000603f000090c00000603f0000184100000000000000000000803f000080bf0000000000000000000080bf000090400000603f26018a400000003e00000a410000000000000000000080bf0000803f0000000000000000000080bf26018a400000003e000090c00000003e00000a410000000000000000000080bf0000803f0000000000000000000080bf000090c00000003e26018a400000603f00000a410000000000000000000080bf0000803f0000000000000000000080bf26018a400000603f000090c00000603f00000a410000000000000000000080bf0000803f0000000000000000000080bf000090c00000603f0000a4400000603f000018c10000000000000000000080bf0000803f0000000000000000000080bf0000a4400000603f26018a400000603f000018c10000000000000000000080bf0000803f0000000000000000000080bf26018a400000603f0000a4400000603f000018410000803f000000000000000000000000000000000000803f000080bf000018410000603f0000a4400000603f00000a410000803f000000000000000000000000000000000000803f000080bf00000a410000603f0000a4400000603f00000cc10000803f000000000000000000000000000000000000803f000080bf00000cc10000603f26018a400000003e00000cc1000080bf00000000000000000000000000000000000080bf000080bf00000c410000003e26018a400000003e00000a41000080bf00000000000000000000000000000000000080bf000080bf00000ac10000003e26018a400000603f00000cc1000080bf00000000000000000000000000000000000080bf000080bf00000c410000603f26018a400000603f00000a41000080bf00000000000000000000000000000000000080bf000080bf00000ac10000603f0000a4400000603f000018c10000803f000000000000000000000000000000000000803f000080bf000018c10000603f000090c00000603f000018c10000803f000000000000000000000000000000000000803f000080bf000018c10000603f000090c00000003e000018c10000803f000000000000000000000000000000000000803f000080bf000018c10000003e26018a400000603f000018c1000080bf00000000000000000000000000000000000080bf000080bf000018410000603f26018a400000003e000018c1000080bf00000000000000000000000000000000000080bf000080bf000018410000003e
+  m_CompressedMesh:
+    m_Vertices:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UV:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Normals:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Tangents:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Weights:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_NormalSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_TangentSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_FloatColors:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_BoneIndices:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Triangles:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UVInfo: 0
+  m_LocalAABB:
+    m_Center: {x: 0, y: 0.375, z: 0}
+    m_Extent: {x: 5.125, y: 0.5, z: 9.5}
+  m_MeshUsageFlags: 0
+  m_BakedConvexCollisionMesh: 
+  m_BakedTriangleCollisionMesh: 
+  m_MeshMetrics[0]: 1
+  m_MeshMetrics[1]: 1
+  m_MeshOptimizationFlags: 1
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
 --- !u!1 &1459126938
 GameObject:
   m_ObjectHideFlags: 0
@@ -13898,7 +13864,7 @@ GameObject:
   - component: {fileID: 1459126941}
   - component: {fileID: 1459126940}
   - component: {fileID: 1459126939}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Breakable_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13980,7 +13946,7 @@ GameObject:
   - component: {fileID: 1478282135}
   - component: {fileID: 1478282134}
   - component: {fileID: 1478282133}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Breakable_15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14141,7 +14107,7 @@ GameObject:
   - component: {fileID: 1494649736}
   - component: {fileID: 1494649738}
   - component: {fileID: 1494649737}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14217,7 +14183,7 @@ GameObject:
   - component: {fileID: 1501215006}
   - component: {fileID: 1501215008}
   - component: {fileID: 1501215007}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14368,7 +14334,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1527702057}
   - component: {fileID: 1527702058}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: forestDecoration_0_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14907,7 +14873,7 @@ GameObject:
   - component: {fileID: 1602623267}
   - component: {fileID: 1602623266}
   - component: {fileID: 1602623265}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Breakable_12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15083,7 +15049,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1643417306
 MonoBehaviour:
@@ -15111,7 +15077,7 @@ GameObject:
   - component: {fileID: 1653179991}
   - component: {fileID: 1653179993}
   - component: {fileID: 1653179992}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15188,7 +15154,7 @@ GameObject:
   - component: {fileID: 1661068460}
   - component: {fileID: 1661068459}
   - component: {fileID: 1661068458}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Breakable_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15269,7 +15235,7 @@ GameObject:
   - component: {fileID: 1670303801}
   - component: {fileID: 1670303803}
   - component: {fileID: 1670303802}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15345,7 +15311,7 @@ GameObject:
   - component: {fileID: 1670788580}
   - component: {fileID: 1670788582}
   - component: {fileID: 1670788581}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15465,6 +15431,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 781885203487099888, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
 --- !u!1 &1698625130
@@ -15479,7 +15449,7 @@ GameObject:
   - component: {fileID: 1698625133}
   - component: {fileID: 1698625132}
   - component: {fileID: 1698625131}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Breakable_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15559,7 +15529,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1699827399}
   - component: {fileID: 1699827398}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: forestDecoration_0_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15724,7 +15694,7 @@ GameObject:
   - component: {fileID: 1711851565}
   - component: {fileID: 1711851567}
   - component: {fileID: 1711851566}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15970,7 +15940,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1717768731
 GameObject:
@@ -16036,7 +16006,7 @@ GameObject:
   - component: {fileID: 1771272510}
   - component: {fileID: 1771272509}
   - component: {fileID: 1771272508}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16267,7 +16237,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1802148632
 GameObject:
@@ -16313,7 +16283,7 @@ GameObject:
   - component: {fileID: 1802791818}
   - component: {fileID: 1802791820}
   - component: {fileID: 1802791819}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16768,7 +16738,7 @@ GameObject:
   - component: {fileID: 1833515273}
   - component: {fileID: 1833515272}
   - component: {fileID: 1833515271}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16949,7 +16919,7 @@ GameObject:
   - component: {fileID: 1847989671}
   - component: {fileID: 1847989673}
   - component: {fileID: 1847989672}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17024,7 +16994,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1862383602}
   - component: {fileID: 1862383601}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: forestDecoration_0_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17361,7 +17331,7 @@ GameObject:
   - component: {fileID: 1914417511}
   - component: {fileID: 1914417510}
   - component: {fileID: 1914417509}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17605,7 +17575,7 @@ GameObject:
   - component: {fileID: 1932065206}
   - component: {fileID: 1932065208}
   - component: {fileID: 1932065207}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17682,7 +17652,7 @@ GameObject:
   - component: {fileID: 1938761247}
   - component: {fileID: 1938761246}
   - component: {fileID: 1938761245}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Breakable_18
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17763,7 +17733,7 @@ GameObject:
   - component: {fileID: 1959599056}
   - component: {fileID: 1959599058}
   - component: {fileID: 1959599057}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17860,7 +17830,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!64 &1964302065
 MeshCollider:
@@ -17936,7 +17906,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1966372698}
   - component: {fileID: 1966372699}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: forestDecoration_0_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18022,7 +17992,7 @@ GameObject:
   - component: {fileID: 1989511257}
   - component: {fileID: 1989511256}
   - component: {fileID: 1989511255}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Breakable_11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18369,7 +18339,7 @@ Transform:
   - {fileID: 1157043000}
   - {fileID: 207732757}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2067591401
 GameObject:
@@ -18383,7 +18353,7 @@ GameObject:
   - component: {fileID: 2067591405}
   - component: {fileID: 2067591404}
   - component: {fileID: 2067591403}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Breakable_08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18464,7 +18434,7 @@ GameObject:
   - component: {fileID: 2078544674}
   - component: {fileID: 2078544676}
   - component: {fileID: 2078544675}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18539,7 +18509,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2081146710}
   - component: {fileID: 2081146711}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: forestDecoration_0_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18625,7 +18595,7 @@ GameObject:
   - component: {fileID: 2084855864}
   - component: {fileID: 2084855863}
   - component: {fileID: 2084855862}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18827,7 +18797,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2100766619}
   - component: {fileID: 2100766620}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: forestDecoration_0_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18912,7 +18882,7 @@ GameObject:
   - component: {fileID: 2102645629}
   - component: {fileID: 2102645631}
   - component: {fileID: 2102645630}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19109,7 +19079,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2116627342}
   - component: {fileID: 2116627341}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: forestDecoration_0_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19193,7 +19163,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2124645993}
   - component: {fileID: 2124645994}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: forestDecoration_0_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19277,7 +19247,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2134203888}
   - component: {fileID: 2134203887}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: forestDecoration_0_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19362,7 +19332,7 @@ GameObject:
   - component: {fileID: 2144735073}
   - component: {fileID: 2144735075}
   - component: {fileID: 2144735074}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBar_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19487,6 +19457,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_Dash
       objectReference: {fileID: 0}
+    - target: {fileID: 3444220120501066863, guid: d00dcf648155e8646b6cbd6fe26f5c95, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3444220120501066869, guid: d00dcf648155e8646b6cbd6fe26f5c95, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3444220120501066869, guid: d00dcf648155e8646b6cbd6fe26f5c95, type: 3}
       propertyPath: distanceForDash
       value: 2.5
@@ -19557,6 +19535,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 781885203487099888, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 781885203487099890, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
+      propertyPath: enemySoul
+      value: 
+      objectReference: {fileID: 7408845352743974211, guid: 01cd576f0df22f94cb933509a067cff7, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
 --- !u!1001 &6043347385914731657
@@ -19568,7 +19554,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6043347385907990848, guid: 3fe91855a85fe934f89388d7dbfe5660, type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 6043347385907990848, guid: 3fe91855a85fe934f89388d7dbfe5660, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19613,14 +19599,6 @@ PrefabInstance:
     - target: {fileID: 6043347385907990849, guid: 3fe91855a85fe934f89388d7dbfe5660, type: 3}
       propertyPath: m_Name
       value: Breakable
-      objectReference: {fileID: 0}
-    - target: {fileID: 6043347385907990850, guid: 3fe91855a85fe934f89388d7dbfe5660, type: 3}
-      propertyPath: Maxhealth
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 6043347385907990850, guid: 3fe91855a85fe934f89388d7dbfe5660, type: 3}
-      propertyPath: presentHealth
-      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3fe91855a85fe934f89388d7dbfe5660, type: 3}

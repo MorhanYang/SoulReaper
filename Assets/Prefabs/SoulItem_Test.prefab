@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4909810280646997084}
   - component: {fileID: 4909810280646997087}
   m_Layer: 8
-  m_Name: SoulItem_Normal
+  m_Name: SoulItem_Test
   m_TagString: FollowingSoul
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,8 +60,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   presentTarget: {fileID: 0}
-  presentIntervalX: -0.2
-  soulType: 1
+  presentIntervalX: 0.2
+  soulType: 0
 --- !u!1 &7701967388020665136
 GameObject:
   m_ObjectHideFlags: 0

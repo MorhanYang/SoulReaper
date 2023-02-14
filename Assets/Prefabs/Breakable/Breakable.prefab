@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6043347385575162005}
   - component: {fileID: 6043347385575162004}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: forestDecoration_0_22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 6043347385825318634}
   - component: {fileID: 6043347385825318636}
   - component: {fileID: 6043347385825318637}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: 6043347385907990851}
   - component: {fileID: 6043347385907990850}
   - component: {fileID: 6043347385907990853}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Breakable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,7 +186,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6043347385907990849}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.389, y: 0, z: -1.768}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -223,8 +223,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpUI: {fileID: 6043347387092923297}
   hpBar: {fileID: 6043347386830156990}
-  Maxhealth: 20
-  presentHealth: 20
+  Maxhealth: 15
+  presentHealth: 15
 --- !u!114 &6043347385907990853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,7 +240,7 @@ MonoBehaviour:
   isDead: 0
   enemySprite: {fileID: 6043347385575162002}
   haveSoulIcon: {fileID: 0}
-  EnemySoul: {fileID: 0}
+  enemySoul: {fileID: 0}
   damage: 0
 --- !u!1 &6043347386830156991
 GameObject:
@@ -253,7 +253,7 @@ GameObject:
   - component: {fileID: 6043347386830156990}
   - component: {fileID: 6043347386830156976}
   - component: {fileID: 6043347386830156977}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Image_HealthBar_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -330,7 +330,7 @@ GameObject:
   - component: {fileID: 6043347387092923297}
   - component: {fileID: 6043347387092923310}
   - component: {fileID: 6043347387092923311}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}

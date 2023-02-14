@@ -96,9 +96,9 @@ GameObject:
   - component: {fileID: 3516569217473664997}
   - component: {fileID: 6027453342860998299}
   - component: {fileID: 278134596877205538}
-  - component: {fileID: 6420794549894870183}
+  - component: {fileID: -5672739135074566692}
   m_Layer: 11
-  m_Name: Soul_Normal
+  m_Name: Soul_Test
   m_TagString: SoulNormal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -161,8 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d10a4265c465644f8414a0a065b41cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soulScript: 0
---- !u!114 &6420794549894870183
+  soulScript: 1
+--- !u!114 &-5672739135074566692
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -171,12 +171,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 7408845352743974211}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdfe22621ed07f44985d70b25f0b64ea, type: 3}
+  m_Script: {fileID: 11500000, guid: becb02e3e3c857e439e0ea30d7217650, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soulType: 1
+  soulType: 0
   shootSpeed: 450
   impactEffect: {fileID: 7762682885165980902, guid: 9794fe452c05eb34da3ffeb2f635ac16, type: 3}
   resistance: 800
   recallSpeed: 10
-  soulDamage: 4
+  recoverLastTime: 3
+  soulDamage: 10
+  explosionRadus: 0.8
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1536
