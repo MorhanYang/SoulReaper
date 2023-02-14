@@ -59,9 +59,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12324a96ac4e9f547ab7bec32e44213d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soulType: 2
+  soulType: 3
   presentTarget: {fileID: 0}
-  presentIntervalX: -0.2
+  presentIntervalX: 0.2
 --- !u!1 &7902955087720301349
 GameObject:
   m_ObjectHideFlags: 0

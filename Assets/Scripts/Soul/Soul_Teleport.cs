@@ -1,7 +1,8 @@
 using Fungus;
+using System.Collections;
 using UnityEngine;
 
-public class Soul_Regular : MonoBehaviour
+public class Soul_Teleport : MonoBehaviour
 {
     Rigidbody rb;
     Vector3 moveDir;
@@ -17,6 +18,7 @@ public class Soul_Regular : MonoBehaviour
 
     //recall
     float presentRecallSpeed;
+    bool isSecondRecall = false;
     bool canRecall = true;
     
     [SerializeField] float resistance;
@@ -66,11 +68,10 @@ public class Soul_Regular : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.transform.tag == "Player")
-        {
-            Destroy(gameObject);
-            // send soultype to playercontrol
-            collision.transform.GetComponent<PlayerControl>().AddSoulList(soulType);
+        if (collision.transform.tag == "Player"){
+            soulState = SoulState.recalling;
+            // reset attack
+            Attacked = false;
         }
 
         // collide with walls
@@ -87,7 +88,7 @@ public class Soul_Regular : MonoBehaviour
             if (soulState == SoulState.recalling){
 
                 if (!Attacked){
-                    RegularSoulHitEnemy(collision.gameObject, soulDamage/2);
+                    RegularSoulHitEnemy(collision.gameObject, soulDamage * 5f);
                     Attacked = true;
                 }
             }
@@ -131,10 +132,27 @@ public class Soul_Regular : MonoBehaviour
 
     public void RecallFunction()
     {
+        Debug.Log("Recall counting");
         if (canRecall){
-            soulState = SoulState.recalling;
-            // reset attack
-            Attacked = false;
+
+            if (isSecondRecall){
+                soulState = SoulState.recalling;
+                // reset attack
+                Attacked = false;
+            }
+            else if (!isSecondRecall){
+                rb.velocity = Vector3.zero;
+                GetComponent<Collider>().enabled = false;
+                Vector3 playerPos = player.transform.position;
+                player.GetComponent<PlayerControl>().Teleport(this.transform.position);
+                
+                this.transform.position = playerPos;
+                GetComponent<Collider>().enabled = true;
+
+                isSecondRecall = true;
+                StopRecall();
+            }
+
         }
     }
     // avoid keeping recalling when this hit obstruction

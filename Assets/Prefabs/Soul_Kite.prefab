@@ -177,6 +177,8 @@ MonoBehaviour:
   soulType: 2
   shootSpeed: 200
   impactEffect: {fileID: 0}
+  initalrecallSpeed: 0.3
+  recallResistance: 2
   resistance: 600
   recallSpeed: 15
   soulDamage: 1.5

@@ -9,7 +9,7 @@ public class Soul_Kite : MonoBehaviour
     float moveSpeed;
     GameObject player;
 
-    public int soulType;// reference GhostList & PlayerControl
+    [HideInInspector]public int soulType;// reference GhostList & PlayerControl
 
     // Shoot
     [SerializeField] float shootSpeed;

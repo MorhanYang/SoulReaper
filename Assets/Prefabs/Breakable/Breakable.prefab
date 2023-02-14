@@ -223,8 +223,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpUI: {fileID: 6043347387092923297}
   hpBar: {fileID: 6043347386830156990}
-  Maxhealth: 15
-  presentHealth: 15
+  Maxhealth: 8
+  presentHealth: 8
 --- !u!114 &6043347385907990853
 MonoBehaviour:
   m_ObjectHideFlags: 0

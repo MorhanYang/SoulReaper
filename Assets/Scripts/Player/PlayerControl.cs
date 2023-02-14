@@ -41,11 +41,12 @@ public class PlayerControl : MonoBehaviour
     CombateState combateState;
     Vector3 lastMoveDir;
     float presentRollingSpeed;
+    int idForSouls = 0;
     [SerializeField] float rollingSpeed = 200f;
     [SerializeField] float rollingResistance = 600f;
     [SerializeField] float delayBeforeInvincible = 0.1f;
     [SerializeField] float invincibleDuration = 0.4f;
-    int idForSouls = 0;
+    bool handlerOfRecalling = true; // avoid keep recalling in 0.1s;
 
     //soul list
     bool IsfacingRight = true;
@@ -237,7 +238,7 @@ public class PlayerControl : MonoBehaviour
 
         //Get the aim direction and convert it to degree angle
         aimDir = aimPos - aimPivot.transform.position;
-        aimDir = aimDir.normalized;
+        aimDir= aimDir.normalized;
         float angle = Mathf.Atan2(aimDir.z, aimDir.x) * Mathf.Rad2Deg;
         aimPivot.transform.eulerAngles = new Vector3(0, -angle, 0);
         // aim won't rotate
@@ -257,7 +258,8 @@ public class PlayerControl : MonoBehaviour
             }else
             {
                 GameObject soul = Instantiate(soulTemp[soulType], soulGenerator.position, Quaternion.Euler(Vector3.zero));
-                soul.GetComponent<SoulManager>().ShootSoul(aimDir);
+                Vector3 shootDir = new Vector3(aimDir.x, transform.position.y, aimDir.z).normalized;
+                soul.GetComponent<SoulManager>().ShootSoul(shootDir);
             }
         }
 
@@ -281,14 +283,20 @@ public class PlayerControl : MonoBehaviour
         {
             if (souls.Length != 0){
 
-                //Debug.Log("leghth:" + souls.Length + "ID" + idForSouls);
-                if (souls[idForSouls]!= null) souls[idForSouls].GetComponent<SoulManager>().RecallFunction();
+                if (handlerOfRecalling){
+                    //Debug.Log("leghth:" + souls.Length + "ID" + idForSouls);
+                    if (souls[idForSouls] != null) souls[idForSouls].GetComponent<SoulManager>().RecallFunction();
+                    handlerOfRecalling= false;
+                }
 
                 //every 0.1s recall one more soul
                 if (recallTimer - holdtime > 0.1f)
                 {
-                    if (idForSouls < souls.Length - 1) idForSouls++;
+                    if (idForSouls < souls.Length - 1){
+                        idForSouls++;
+                    }
                     recallTimer = holdtime;
+                    handlerOfRecalling = true;
                 }
             }
         }
@@ -368,4 +376,7 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    public void Teleport(Vector3 nextPos){
+        transform.position = nextPos;
+    }
 }

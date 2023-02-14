@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Soul_Bomb : MonoBehaviour
@@ -9,7 +7,7 @@ public class Soul_Bomb : MonoBehaviour
     float moveSpeed;
     GameObject player;
 
-    public int soulType;// reference GhostList & PlayerControl
+    [HideInInspector]public int soulType;// reference GhostList & PlayerControl
 
     // Shoot
     [SerializeField] float shootSpeed;
@@ -58,8 +56,7 @@ public class Soul_Bomb : MonoBehaviour
                 break;
             case SoulState.recalling:
                 transform.position = Vector3.MoveTowards(transform.position, player.transform.position, presentRecallSpeed * Time.fixedDeltaTime);
-                if (presentRecallSpeed < recallSpeed)
-                {
+                if (presentRecallSpeed < recallSpeed){
                     presentRecallSpeed += 20 * Time.fixedDeltaTime;
                 }
                 break;
@@ -85,20 +82,30 @@ public class Soul_Bomb : MonoBehaviour
         if (collision.transform.GetComponent<Enemy>() != null
             && !collision.transform.GetComponent<Enemy>().isDead)
         {
-            if (!exploded)
-            {
-                // recall-> stop recall produce low damage. Then destory itself
-                if (soulState == SoulState.recalling)
-                {
-                    StopRecall();
-                    Explode(soulDamage / 2);
-                }
-                else Explode(soulDamage);
-
+            if (!exploded){
+                Explode(soulDamage);
                 exploded = true;
             }
         }
     }
+
+    // recall process
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            Destroy(gameObject);
+            // send soultype to playercontrol
+            other.GetComponent<PlayerControl>().AddSoulList(soulType);
+        }
+
+        if (other.GetComponent<Enemy>() != null
+            && !other.GetComponent<Enemy>().isDead) {
+            RegularSoulHitEnemy(other.gameObject, soulDamage / 2);
+        }
+
+    }
+
 
     //*******************************Method**********************************
     // reoverSoul After 3s delay
@@ -106,6 +113,10 @@ public class Soul_Bomb : MonoBehaviour
     {
         exploded = false;
         gameObject.SetActive(true);
+        // prevent execute recall when soul is disabled.
+        StopRecall();
+        GetComponent<Collider>().isTrigger = true;
+        rb.useGravity = false;
     }
 
     public void ShootSoul(Vector3 shootDir)
@@ -149,7 +160,7 @@ public class Soul_Bomb : MonoBehaviour
         soulState = SoulState.normal;
         rb.velocity = Vector3.zero;
         // stop recalling if player is pressing E
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetMouseButtonDown(1))
         {
             canRecall = false;
         }
@@ -184,5 +195,11 @@ public class Soul_Bomb : MonoBehaviour
         if (enemy != null){
             enemy.TakeDamage(soulDamage);
         }
+    }
+
+    void RegularSoulHitEnemy(GameObject collision, float damage)
+    {
+        Enemy enemy = collision.transform.GetComponent<Enemy>();
+        enemy.TakeDamage(damage);
     }
 }
