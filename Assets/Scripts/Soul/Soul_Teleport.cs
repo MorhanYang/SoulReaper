@@ -69,9 +69,9 @@ public class Soul_Teleport : MonoBehaviour
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.transform.tag == "Player"){
-            soulState = SoulState.recalling;
-            // reset attack
-            Attacked = false;
+            Destroy(gameObject);
+            // send soultype to playercontrol
+            collision.transform.GetComponent<PlayerControl>().AddSoulList(soulType);
         }
 
         // collide with walls
@@ -86,17 +86,14 @@ public class Soul_Teleport : MonoBehaviour
         {
             // recall-> stop recall produce low damage. Then destory itself
             if (soulState == SoulState.recalling){
-
                 if (!Attacked){
                     RegularSoulHitEnemy(collision.gameObject, soulDamage * 5f);
                     Attacked = true;
                 }
             }
-            else { 
-                if (!Attacked){
-                    RegularSoulHitEnemy(collision.gameObject, soulDamage);
-                    Attacked = true;
-                }
+            else if (!Attacked){
+                RegularSoulHitEnemy(collision.gameObject, soulDamage);
+                Attacked = true;
             }
 
         }

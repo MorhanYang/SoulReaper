@@ -50,8 +50,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.4, y: 0.4, z: 0.4}
-  m_Center: {x: 0, y: 0.2, z: 0}
+  m_Size: {x: 0.4, y: 0.8, z: 0.4}
+  m_Center: {x: 0, y: 0.4, z: 0}
 --- !u!195 &3444220120501066856
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -89,7 +89,7 @@ MonoBehaviour:
   enemySprite: {fileID: 3444220122287105284}
   followDistance: 4.5
   followSpeed: 1.5
-  distanceForDash: 2
+  distanceForDash: 2.5
   dashPrepareTime: 0.6
   dashCD: 2
   dashSpeed: 10
@@ -109,8 +109,8 @@ MonoBehaviour:
   isDead: 0
   enemySprite: {fileID: 3444220122287105285}
   haveSoulIcon: {fileID: 3444220120637201329}
-  enemySoul: {fileID: 7408845352743974211, guid: f942cfbf3f9f6544b86e2df38834f257, type: 3}
-  damage: 10
+  enemySoul: {fileID: 7408845352743974211, guid: 01cd576f0df22f94cb933509a067cff7, type: 3}
+  myDamage: 10
 --- !u!114 &3444220120501066870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,8 +125,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpUI: {fileID: 3444220122308579128}
   hpBar: {fileID: 3444220122268404418}
-  Maxhealth: 60
-  presentHealth: 60
+  Maxhealth: 80
+  presentHealth: 30
 --- !u!1 &3444220120637201329
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,7 +154,7 @@ Transform:
   m_GameObject: {fileID: 3444220120637201329}
   m_LocalRotation: {x: 0.38268343, y: -0, z: -0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0.465, z: 0.278}
-  m_LocalScale: {x: 0.1, y: 0.10000001, z: 0.10000001}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3444220120501066862}

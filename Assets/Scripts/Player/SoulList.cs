@@ -37,14 +37,10 @@ public class SoulList : MonoBehaviour
         for (int i = 0; i < soulItemTemp.Length; i++){
             soulItemTemp[i].GetComponent<SoulListItem>().presentIntervalX *= -1;
         }
-
-
         //change list direction
-        for (int i = 0; i < soulList.Count; i++)
-        {
+        for (int i = 0; i < soulList.Count; i++){
             soulList[i].GetComponent<SoulListItem>().presentIntervalX *= -1;
         }
-
     }
 
     void SetupSoulList() {
@@ -58,6 +54,7 @@ public class SoulList : MonoBehaviour
             }
             else{
                 soul.GetComponent<SoulListItem>().presentTarget = soulList[i-1].transform;
+                soulList[0].transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
             }
         }
     }
@@ -69,6 +66,7 @@ public class SoulList : MonoBehaviour
 
         if (soulNum == 0){
             soul.GetComponent<SoulListItem>().presentTarget = firstLineTarget;
+            soulList[0].transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
         }
         else{
             soul.GetComponent<SoulListItem>().presentTarget = soulList[soulNum - 1].transform;
@@ -90,6 +88,7 @@ public class SoulList : MonoBehaviour
             if (soulNum > 0)
             {
                 soulList[0].GetComponent<SoulListItem>().presentTarget = firstLineTarget;
+                soulList[0].transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
             }
 
             return soulType;
@@ -140,5 +139,11 @@ public class SoulList : MonoBehaviour
         }
     }
 
+    //********************ShuffleSouls
+    public void ShuffleSouls()
+    {
+        int ShuffledSoulType = UseSoul();
+        AddSoul(ShuffledSoulType);
+    }
 
 }

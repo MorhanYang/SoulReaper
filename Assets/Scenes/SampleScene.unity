@@ -475,7 +475,7 @@ MonoBehaviour:
   enemySprite: {fileID: 1862383600}
   haveSoulIcon: {fileID: 0}
   enemySoul: {fileID: 0}
-  damage: 0
+  myDamage: 10
 --- !u!114 &44457618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1859,7 +1859,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 103
     y: 77
-    width: 114
+    width: 108.77551
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -1887,11 +1887,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  scrollPos: {x: 867.2883, y: 175.87598}
+  scrollPos: {x: 460.03223, y: 26.273829}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
   blockViewHeight: 411
-  zoom: 0.25
+  zoom: 0.49
   scrollViewRect:
     serializedVersion: 2
     x: -343
@@ -2235,7 +2235,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 387.67694
     y: 374.69562
-    width: 114
+    width: 105.51021
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -2265,7 +2265,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 375.83884
     y: 522.88635
-    width: 142
+    width: 128.36734
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -2294,7 +2294,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 569.0698
     y: 438.9396
-    width: 170
+    width: 154.48979
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -2323,7 +2323,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 206.5994
     y: 440.59177
-    width: 110
+    width: 100.61224
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -2436,7 +2436,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 377.7805
     y: 322.7805
-    width: 138
+    width: 123.46938
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -2576,7 +2576,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 392
     y: 266
-    width: 110
+    width: 100.61224
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -2688,7 +2688,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 385
     y: 204
-    width: 122
+    width: 112.04082
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -2842,7 +2842,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 384
     y: 140
-    width: 126
+    width: 112.04082
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -2941,7 +2941,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 358.86066
     y: 77.63934
-    width: 182
+    width: 164.2857
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -3356,7 +3356,6 @@ Transform:
   - {fileID: 377892120}
   - {fileID: 1557625642}
   - {fileID: 369021305}
-  - {fileID: 1064254259}
   - {fileID: 1776013930}
   - {fileID: 1814821221}
   - {fileID: 986270978}
@@ -3993,7 +3992,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 352549708}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SoulGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4028,7 +4027,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 781885203487099883, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 781885203487099883, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4129,7 +4128,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 1, z: 1.4}
+  m_Size: {x: 2, y: 1, z: 0.5}
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &377892119
 GameObject:
@@ -4175,7 +4174,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 1, z: 1.4}
+  m_Size: {x: 2, y: 1, z: 0.5}
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!4 &378438584 stripped
 Transform:
@@ -5521,7 +5520,7 @@ GameObject:
   - component: {fileID: 548629331}
   - component: {fileID: 548629332}
   - component: {fileID: 548629333}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Staff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6331,7 +6330,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 781885203487099883, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 781885203487099883, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8295,7 +8294,7 @@ MonoBehaviour:
   enemySprite: {fileID: 1578774488}
   haveSoulIcon: {fileID: 0}
   enemySoul: {fileID: 0}
-  damage: 0
+  myDamage: 10
 --- !u!114 &796102670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8498,7 +8497,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 781885203487099883, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 781885203487099883, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9018,7 +9017,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 891239639}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SoulListTarget_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9050,7 +9049,7 @@ GameObject:
   m_Component:
   - component: {fileID: 892779101}
   - component: {fileID: 892779100}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Aim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9669,7 +9668,7 @@ Transform:
   m_Children:
   - {fileID: 1372300457}
   m_Father: {fileID: 248451367}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &986270979
 BoxCollider:
@@ -9682,7 +9681,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 1, z: 1.4}
+  m_Size: {x: 2, y: 1, z: 0.5}
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &1008927256
 GameObject:
@@ -10277,7 +10276,7 @@ GameObject:
   - component: {fileID: 1058100656}
   - component: {fileID: 1058100655}
   - component: {fileID: 1058100654}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Canvas_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10380,7 +10379,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 781885203487099883, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 781885203487099883, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10461,14 +10460,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1064254258}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 0, z: 2}
-  m_LocalScale: {x: 0.4, y: 0.40000004, z: 0.40000004}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -15, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 135325892}
-  m_Father: {fileID: 248451367}
-  m_RootOrder: 4
+  m_Father: {fileID: 1272693635}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1064254260
 BoxCollider:
@@ -10481,7 +10480,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 1, z: 1.4}
+  m_Size: {x: 2, y: 1, z: 0.5}
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!43 &1083768990
 Mesh:
@@ -10489,7 +10488,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-95730
+  m_Name: pb_Mesh27100
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -10825,12 +10824,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1140426393}
-  - component: {fileID: 1140426392}
   - component: {fileID: 1140426391}
+  - component: {fileID: 1140426396}
   - component: {fileID: 1140426390}
   - component: {fileID: 1140426394}
   - component: {fileID: 1140426395}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -10864,7 +10863,7 @@ MonoBehaviour:
   rollingSpeed: 350
   rollingResistance: 600
   delayBeforeInvincible: 0.1
-  invincibleDuration: 0.4
+  invincibleDuration: 0.8
   playerState: 0
 --- !u!54 &1140426391
 Rigidbody:
@@ -10877,24 +10876,11 @@ Rigidbody:
   m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0
---- !u!65 &1140426392
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1140426389}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.2, y: 0.4, z: 0.2}
-  m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!4 &1140426393
 Transform:
   m_ObjectHideFlags: 0
@@ -10954,6 +10940,20 @@ MonoBehaviour:
   hpBar: {fileID: 1528301702}
   Maxhealth: 100
   presentHealth: 100
+--- !u!136 &1140426396
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140426389}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.2
+  m_Height: 0.6
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.3, z: 0}
 --- !u!1 &1150937677
 GameObject:
   m_ObjectHideFlags: 0
@@ -11331,7 +11331,7 @@ MonoBehaviour:
   enemySprite: {fileID: 2134203886}
   haveSoulIcon: {fileID: 0}
   enemySoul: {fileID: 0}
-  damage: 0
+  myDamage: 10
 --- !u!114 &1201182435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11823,7 +11823,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-106568
+  m_Name: pb_Mesh27770
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -12171,8 +12171,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1369297973}
+  - {fileID: 1064254259}
   m_Father: {fileID: 248451367}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1272693636
 BoxCollider:
@@ -12185,7 +12186,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 1, z: 1.4}
+  m_Size: {x: 2, y: 1, z: 0.5}
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!850595691 &1274369126
 LightingSettings:
@@ -12497,7 +12498,7 @@ MonoBehaviour:
   enemySprite: {fileID: 1699827397}
   haveSoulIcon: {fileID: 0}
   enemySoul: {fileID: 0}
-  damage: 0
+  myDamage: 10
 --- !u!114 &1308329952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13105,7 +13106,7 @@ MonoBehaviour:
   enemySprite: {fileID: 1013380683}
   haveSoulIcon: {fileID: 0}
   enemySoul: {fileID: 0}
-  damage: 0
+  myDamage: 10
 --- !u!114 &1459126940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13165,7 +13166,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 781885203487099883, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 781885203487099883, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13477,7 +13478,7 @@ GameObject:
   - component: {fileID: 1508215689}
   - component: {fileID: 1508215691}
   - component: {fileID: 1508215690}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Image_HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13553,7 +13554,7 @@ GameObject:
   - component: {fileID: 1528301702}
   - component: {fileID: 1528301704}
   - component: {fileID: 1528301703}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Image_HealthBar_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13826,7 +13827,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 1, z: 1.4}
+  m_Size: {x: 2, y: 1, z: 0.5}
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &1578774488
 GameObject:
@@ -14211,7 +14212,7 @@ MonoBehaviour:
   enemySprite: {fileID: 95164694}
   haveSoulIcon: {fileID: 0}
   enemySoul: {fileID: 0}
-  damage: 0
+  myDamage: 10
 --- !u!114 &1602623266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14417,7 +14418,7 @@ MonoBehaviour:
   enemySprite: {fileID: 2116627340}
   haveSoulIcon: {fileID: 0}
   enemySoul: {fileID: 0}
-  damage: 0
+  myDamage: 10
 --- !u!114 &1661068459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14554,7 +14555,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 781885203487099883, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 781885203487099883, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -14596,14 +14597,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 781885203487099888, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 781885203487099890, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
-      propertyPath: damage
-      value: 7
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea9993a73d9d4434399cfecbec6dd5d0, type: 3}
 --- !u!1 &1698625130
@@ -14641,7 +14634,7 @@ MonoBehaviour:
   enemySprite: {fileID: 1163332425}
   haveSoulIcon: {fileID: 0}
   enemySoul: {fileID: 0}
-  damage: 0
+  myDamage: 10
 --- !u!114 &1698625132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15194,7 +15187,7 @@ Transform:
   m_Children:
   - {fileID: 967109692}
   m_Father: {fileID: 248451367}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1776013931
 BoxCollider:
@@ -15207,7 +15200,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 1, z: 1.4}
+  m_Size: {x: 2, y: 1, z: 0.5}
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &1802148632
 GameObject:
@@ -15218,7 +15211,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1802148633}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: AimPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15659,7 +15652,7 @@ Transform:
   m_Children:
   - {fileID: 486153920}
   m_Father: {fileID: 248451367}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1814821222
 BoxCollider:
@@ -15672,7 +15665,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 1, z: 1.4}
+  m_Size: {x: 2, y: 1, z: 0.5}
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &1823801319
 GameObject:
@@ -16869,7 +16862,7 @@ GameObject:
   - component: {fileID: 1825836972}
   - component: {fileID: 1825836973}
   - component: {fileID: 1825836974}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18090,7 +18083,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3444220120501066862, guid: d00dcf648155e8646b6cbd6fe26f5c95, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3444220120501066862, guid: d00dcf648155e8646b6cbd6fe26f5c95, type: 3}
       propertyPath: m_LocalPosition.x
@@ -18136,34 +18129,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_Dash_2
       objectReference: {fileID: 0}
-    - target: {fileID: 3444220120501066863, guid: d00dcf648155e8646b6cbd6fe26f5c95, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3444220120501066869, guid: d00dcf648155e8646b6cbd6fe26f5c95, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3444220120501066869, guid: d00dcf648155e8646b6cbd6fe26f5c95, type: 3}
-      propertyPath: distanceForDash
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3444220120501066870, guid: d00dcf648155e8646b6cbd6fe26f5c95, type: 3}
-      propertyPath: Maxhealth
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 3444220120501066870, guid: d00dcf648155e8646b6cbd6fe26f5c95, type: 3}
-      propertyPath: presentHealth
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 3444220120501066871, guid: d00dcf648155e8646b6cbd6fe26f5c95, type: 3}
-      propertyPath: damage
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 3444220120501066871, guid: d00dcf648155e8646b6cbd6fe26f5c95, type: 3}
-      propertyPath: enemySoul
-      value: 
-      objectReference: {fileID: 7408845352743974211, guid: 01cd576f0df22f94cb933509a067cff7, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d00dcf648155e8646b6cbd6fe26f5c95, type: 3}
 --- !u!4 &1977930764 stripped
@@ -18650,7 +18615,7 @@ MonoBehaviour:
   enemySprite: {fileID: 1891192750}
   haveSoulIcon: {fileID: 0}
   enemySoul: {fileID: 0}
-  damage: 0
+  myDamage: 10
 --- !u!114 &2079922297
 MonoBehaviour:
   m_ObjectHideFlags: 0

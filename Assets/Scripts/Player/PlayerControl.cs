@@ -31,6 +31,7 @@ public class PlayerControl : MonoBehaviour
     //recall
     float recallTimer = 0;
     GameObject[] souls;
+    bool recallHandler = true;
 
     //rolling
     enum CombateState{
@@ -46,7 +47,6 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] float rollingResistance = 600f;
     [SerializeField] float delayBeforeInvincible = 0.1f;
     [SerializeField] float invincibleDuration = 0.4f;
-    bool handlerOfRecalling = true; // avoid keep recalling in 0.1s;
 
     //soul list
     bool IsfacingRight = true;
@@ -127,7 +127,7 @@ public class PlayerControl : MonoBehaviour
         }
         else{
             //switch combat state
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.F))
             {
                 SwitchPlayerState();
             }
@@ -143,6 +143,12 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetMouseButtonUp(1))
         {
             EndRecallFunction();
+        }
+
+        //Shuffle Souls
+        if (Input.GetAxis("Mouse ScrollWheel") <= -0.1f || Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            soulList.ShuffleSouls();
         }
 
     }
@@ -172,8 +178,7 @@ public class PlayerControl : MonoBehaviour
     //****************************Method****************************
     //*********************Moving Function
     // Use speedMultiplyer to change speed.
-    void MoveFunction(float speedMultiplyer)
-    {
+    void MoveFunction(float speedMultiplyer){
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
         move = new Vector3(x, rb.velocity.y, z);
@@ -198,12 +203,9 @@ public class PlayerControl : MonoBehaviour
         // invincible time
         hp.Invincible(delayBeforeInvincible, invincibleDuration);
 
-        Ray ray = new Ray(transform.position, move);
-        float dodgeRayDistance = 1.5f;
-        if (!Physics.Raycast(ray, out var hitInfo, dodgeRayDistance, groundMask)){
-            GetComponent<Collider>().enabled = false;
-            Invoke("RegainColider", invincibleDuration);
-        }
+
+        Physics.IgnoreLayerCollision(2, 9);
+        Invoke("RegainColider", invincibleDuration);
 
         // slow down
         presentRollingSpeed -= rollingResistance * Time.fixedDeltaTime;
@@ -218,7 +220,7 @@ public class PlayerControl : MonoBehaviour
         }
     }
     void RegainColider(){
-        GetComponent<Collider>().enabled= true;
+        Physics.IgnoreLayerCollision(2, 9, false);
     }
 
     //************************Aiming Function
@@ -281,22 +283,19 @@ public class PlayerControl : MonoBehaviour
         //enough time
         if (recallTimer >= holdtime)
         {
-            if (souls.Length != 0){
-
-                if (handlerOfRecalling){
+            if (souls.Length != 0 && idForSouls <= souls.Length - 1)
+            {
+                if (recallHandler){
                     //Debug.Log("leghth:" + souls.Length + "ID" + idForSouls);
                     if (souls[idForSouls] != null) souls[idForSouls].GetComponent<SoulManager>().RecallFunction();
-                    handlerOfRecalling= false;
+                    recallHandler= false;
                 }
-
+                
                 //every 0.1s recall one more soul
                 if (recallTimer - holdtime > 0.1f)
                 {
-                    if (idForSouls < souls.Length - 1){
-                        idForSouls++;
-                    }
-                    recallTimer = holdtime;
-                    handlerOfRecalling = true;
+                    idForSouls++;
+                    recallHandler = true;
                 }
             }
         }
@@ -306,6 +305,7 @@ public class PlayerControl : MonoBehaviour
         // End animation
         characterAnimator.SetBool("IsRecalling", false);
 
+        recallHandler = true;
         recallTimer = 0;
         idForSouls = 0;
         combateState = CombateState.normal;
@@ -326,6 +326,8 @@ public class PlayerControl : MonoBehaviour
             playerState = PlayerState.normal;
             // hide hp bar
             hp.HideHPUI();
+            // clean the hovering items of SoulList
+            soulList.CleanHoverItem();
             //change cursor
             CursorManager.instance.ActivateDefaultCursor();
         }
@@ -370,6 +372,9 @@ public class PlayerControl : MonoBehaviour
     {
         hp.TakeDamage(damage);
         hp.Invincible(0f, invincibleDuration);
+        //aviod enemy's collision
+        Physics.IgnoreLayerCollision(2, 9);
+        Invoke("RegainColider", invincibleDuration);
 
         if (hp.presentHealth <= 0){
             Debug.Log("You died");
@@ -377,6 +382,14 @@ public class PlayerControl : MonoBehaviour
     }
 
     public void Teleport(Vector3 nextPos){
+
+        Ray ray = new Ray(transform.position, nextPos - transform.position);
+        float Distance = Vector3.Distance(transform.position,nextPos);
+        if (Physics.Raycast(ray, out var hitInfo, Distance, groundMask)){
+            nextPos = hitInfo.point; 
+        }
+
         transform.position = nextPos;
+
     }
 }

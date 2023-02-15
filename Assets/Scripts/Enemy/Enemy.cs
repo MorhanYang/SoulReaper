@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] GameObject enemySprite;
     [SerializeField] GameObject haveSoulIcon;
     [SerializeField] GameObject enemySoul;
-    [SerializeField] float damage = 10;
+    [SerializeField] float myDamage = 10;
     Health health;
     EnemyBasicAi ai;
 
@@ -85,7 +85,7 @@ public class Enemy : MonoBehaviour
         if (collision.transform.GetComponent<PlayerControl>()!= null){
             if (!isDead){
                 PlayerControl player = collision.transform.GetComponent<PlayerControl>();
-                player.PlayerTakeDamage(damage);
+                player.PlayerTakeDamage(myDamage);
             }
         }
     }

@@ -101,7 +101,10 @@ public class Soul_Bomb : MonoBehaviour
 
         if (other.GetComponent<Enemy>() != null
             && !other.GetComponent<Enemy>().isDead) {
-            RegularSoulHitEnemy(other.gameObject, soulDamage / 2);
+            if (soulState == SoulState.recalling) {
+                RegularSoulHitEnemy(other.gameObject, soulDamage / 2);
+            }
+            
         }
 
     }
