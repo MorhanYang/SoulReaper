@@ -241,7 +241,7 @@ MonoBehaviour:
   enemySprite: {fileID: 6043347385575162002}
   haveSoulIcon: {fileID: 0}
   enemySoul: {fileID: 0}
-  damage: 0
+  myDamage: 0
 --- !u!1 &6043347386830156991
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using Fungus;
 using System;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -38,6 +39,7 @@ public class PlayerControl : MonoBehaviour
         normal,
         rolling,
         recalling,
+        superdashing,
     }
     CombateState combateState;
     Vector3 lastMoveDir;
@@ -60,6 +62,11 @@ public class PlayerControl : MonoBehaviour
         combat,
     }
     [HideInInspector] public PlayerState playerState;
+
+    //Dash
+    bool isSuperDashing = false;
+    Vector3 dashTarget = Vector3.zero;
+
 
     void Start()
     {
@@ -168,8 +175,9 @@ public class PlayerControl : MonoBehaviour
                 RollFunction();
                 break;
             case CombateState.recalling:
-                MoveFunction(0.3f);
+                MoveFunction(0.5f);
                 RecallFunction();
+                SuperDashMove();
                 break;
         }
     }
@@ -317,7 +325,6 @@ public class PlayerControl : MonoBehaviour
                 }
             } 
         }
-
     }
 
     //*******************************CombateState
@@ -391,5 +398,45 @@ public class PlayerControl : MonoBehaviour
 
         transform.position = nextPos;
 
+    }
+    // *******************************SuperDash
+    public void SuperDash(Vector3 nextPos, float damage)
+    {
+        Ray dashRay = new Ray(transform.position, (nextPos - transform.position).normalized);
+
+        //detect the target
+        float dashDistance = Vector3.Distance(transform.position, nextPos);
+        if (Physics.Raycast(dashRay, out var hitInfo, dashDistance, groundMask)){
+            nextPos = hitInfo.point;
+        }
+
+        // generate a collider box and detect object that touches it
+        Vector3 Dir = (nextPos - transform.position).normalized;
+        float distance = Vector3.Distance(nextPos, transform.position);
+        Vector3 boxCenter = Dir * (distance / 2) + transform.position;
+        Collider[] EnemiesInLine = Physics.OverlapBox(boxCenter, new Vector3(0.25f, 0.4f, 1.1f), Quaternion.Euler(Dir), LayerMask.GetMask("Enemy"));
+
+        for (int i = 0; i < EnemiesInLine.Length; i++){
+            if (EnemiesInLine[i].transform.GetComponent<Enemy>() != null){
+                Debug.Log("Hit enemies when dashing");
+                EnemiesInLine[i].transform.GetComponent<Enemy>().TakeDamage(damage);
+            }
+        }
+
+        Physics.IgnoreLayerCollision(2, 9);
+        dashTarget = nextPos;
+        isSuperDashing= true;
+    }
+
+    public void SuperDashMove()
+    {
+        if (isSuperDashing){
+            transform.position = Vector3.MoveTowards(transform.position, dashTarget, 10f * Time.fixedDeltaTime);
+            if (transform.position == dashTarget)
+            {
+                Invoke("RegainColider", 0.4f);
+                isSuperDashing = false;
+            }
+        }
     }
 }

@@ -8,7 +8,9 @@ public class SoulManager : MonoBehaviour
         Bomb,
         Kite,
         Teleport,
-        Boomerang,
+        dash,
+        parasite,
+        Test,
     }
     [SerializeField] SoulScript soulScript;
 
@@ -26,9 +28,16 @@ public class SoulManager : MonoBehaviour
                 GetComponent<Soul_Kite>().soulType = 3;
                 break;
             case SoulScript.Teleport:
-                GetComponent<Soul_Teleport>().soulType = 0;//testing
+                GetComponent<Soul_Teleport>().soulType = 4;
                 break;
-            case SoulScript.Boomerang:
+            case SoulScript.dash:
+                GetComponent<Soul_Dash>().soulType = 5;//testing
+                break;
+            case SoulScript.parasite:
+                GetComponent<Soul_Parasite>().soulType = 6;//testing
+                break;
+            case SoulScript.Test:
+                GetComponent<Soul_Parasite>().soulType = 0;//testing
                 break;
         }
     }
@@ -48,7 +57,14 @@ public class SoulManager : MonoBehaviour
             case SoulScript.Teleport:
                 GetComponent<Soul_Teleport>().ShootSoul(dir);
                 break;
-            case SoulScript.Boomerang:
+            case SoulScript.dash:
+                GetComponent<Soul_Dash>().ShootSoul(dir);
+                break;
+            case SoulScript.parasite:
+                GetComponent<Soul_Parasite>().ShootSoul(dir);
+                break;
+            case SoulScript.Test:
+                GetComponent<Soul_Parasite>().ShootSoul(dir);
                 break;
         }
         
@@ -70,7 +86,14 @@ public class SoulManager : MonoBehaviour
             case SoulScript.Teleport:
                 GetComponent<Soul_Teleport>().RecallFunction();
                 break;
-            case SoulScript.Boomerang:
+            case SoulScript.dash:
+                GetComponent<Soul_Dash>().RecallFunction();
+                break;
+            case SoulScript.parasite:
+                GetComponent<Soul_Parasite>().RecallFunction();
+                break;
+            case SoulScript.Test:
+                GetComponent<Soul_Parasite>().RecallFunction();
                 break;
         }
     }
@@ -91,7 +114,14 @@ public class SoulManager : MonoBehaviour
             case SoulScript.Teleport:
                 GetComponent<Soul_Teleport>().ResetRecall();
                 break;
-            case SoulScript.Boomerang:
+            case SoulScript.dash:
+                GetComponent<Soul_Dash>().ResetRecall();
+                break;
+            case SoulScript.parasite:
+                GetComponent<Soul_Parasite>().ResetRecall();
+                break;
+            case SoulScript.Test:
+                GetComponent<Soul_Parasite>().ResetRecall();
                 break;
         }
         

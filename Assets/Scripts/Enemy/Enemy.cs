@@ -60,7 +60,6 @@ public class Enemy : MonoBehaviour
     private void OnMouseEnter()
     {
         if (isDead && haveSoul){
-            Debug.Log("Hit dead body");
             prepareToGenerateSoul = true;
             // change cursor
             CursorManager.instance.ActivateRecallCursor();

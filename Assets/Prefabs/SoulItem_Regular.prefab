@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4909810280646997084}
   - component: {fileID: 4909810280646997087}
   m_Layer: 8
-  m_Name: SoulItem_Normal
+  m_Name: SoulItem_Regular
   m_TagString: FollowingSoul
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 3516569217473664997}
   - component: {fileID: 6027453342860998299}
   - component: {fileID: 278134596877205538}
-  - component: {fileID: -5631910413509191338}
+  - component: {fileID: 5556947056091993462}
   m_Layer: 11
   m_Name: Soul_Test
   m_TagString: SoulNormal
@@ -161,8 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d10a4265c465644f8414a0a065b41cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soulScript: 3
---- !u!114 &-5631910413509191338
+  soulScript: 5
+--- !u!114 &5556947056091993462
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -171,12 +171,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7408845352743974211}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42ce3b7a8176fc746bf65fc525390803, type: 3}
+  m_Script: {fileID: 11500000, guid: 040e6a8c3df539548a8f8ec589954843, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   soulType: 0
-  shootSpeed: 300
+  shootSpeed: 450
   impactEffect: {fileID: 0}
-  resistance: 600
+  resistance: 800
   recallSpeed: 10
-  soulDamage: 2
+  soulDamage: 1
+  damageInterval: 1

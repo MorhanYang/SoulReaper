@@ -1,6 +1,7 @@
+using Fungus;
 using UnityEngine;
 
-public class Soul_Bomb : MonoBehaviour
+public class Soul_Parasite : MonoBehaviour
 {
     Rigidbody rb;
     Vector3 moveDir;
@@ -8,25 +9,26 @@ public class Soul_Bomb : MonoBehaviour
     GameObject player;
 
     [HideInInspector]public int soulType;// reference GhostList & PlayerControl
-
     // Shoot
     [SerializeField] float shootSpeed;
+    bool Attacked = false;
 
     [SerializeField] GameObject impactEffect;
 
     //recall
     float presentRecallSpeed;
     bool canRecall = true;
+    bool isInBody = false;
     
     [SerializeField] float resistance;
     [SerializeField] float recallSpeed = 10f;
-    [SerializeField] float recoverLastTime = 2f;
 
-
+    // deal damage
     public float soulDamage;
-    [SerializeField] float explosionRadus = 2f;
-    bool exploded;
-    [SerializeField] LayerMask layerMask;
+    [SerializeField] float damageInterval = 0.2f;
+    float parasiteTimer;
+    GameObject Hoster;
+    bool parasited = false;// prevent parasite unpredictable items
 
     enum SoulState
     {
@@ -41,6 +43,12 @@ public class Soul_Bomb : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         player = PlayerManager.instance.player;
+
+        parasiteTimer = damageInterval;
+
+        // regular soul set up
+        rb.useGravity = false;
+        GetComponent<Collider>().isTrigger = true;
     }
 
     private void FixedUpdate()
@@ -61,9 +69,13 @@ public class Soul_Bomb : MonoBehaviour
                 }
                 break;
         }
+
+        if (isInBody){
+            ParasitingEnemy(Hoster);
+        }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if (collision.transform.tag == "Player")
         {
@@ -82,45 +94,27 @@ public class Soul_Bomb : MonoBehaviour
         if (collision.transform.GetComponent<Enemy>() != null
             && !collision.transform.GetComponent<Enemy>().isDead)
         {
-            if (!exploded){
-                Explode(soulDamage);
-                exploded = true;
+            // recall-> stop recall produce low damage. Then destory itself
+            if (soulState == SoulState.recalling){
+
+                if (!parasited){
+                    RegularSoulHitEnemy(collision.gameObject, soulDamage);
+                }
+            }
+            else { 
+                if (!Attacked){
+                    StickToEnemy(collision.gameObject);
+                    Attacked = true;
+                }
             }
         }
     }
 
-    // recall process
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            Destroy(gameObject);
-            // send soultype to playercontrol
-            other.GetComponent<PlayerControl>().AddSoulList(soulType);
-        }
-
-        if (other.GetComponent<Enemy>() != null
-            && !other.GetComponent<Enemy>().isDead) {
-            if (soulState == SoulState.recalling) {
-                RegularSoulHitEnemy(other.gameObject, soulDamage / 2);
-            }
-            
-        }
-
+    private void OnTriggerExit(Collider collision){
+        Attacked = false;
     }
-
 
     //*******************************Method**********************************
-    // reoverSoul After 3s delay
-    void RecoverSoul()
-    {
-        exploded = false;
-        gameObject.SetActive(true);
-        // prevent execute recall when soul is disabled.
-        StopRecall();
-        GetComponent<Collider>().isTrigger = true;
-        rb.useGravity = false;
-    }
 
     public void ShootSoul(Vector3 shootDir)
     {
@@ -139,9 +133,6 @@ public class Soul_Bomb : MonoBehaviour
             moveSpeed = 0;
             //become normal
             soulState = SoulState.normal;
-            if (!exploded){
-                Explode(soulDamage);
-            }
         }
     }
 
@@ -155,53 +146,70 @@ public class Soul_Bomb : MonoBehaviour
     // avoid keeping recalling when this hit obstruction
     public void ResetRecall()
     {
-        canRecall = true;
+        if (!isInBody) canRecall = true;
     }
 
     void StopRecall()
     {
         soulState = SoulState.normal;
         rb.velocity = Vector3.zero;
-        // stop recalling if player is pressing E
+        // stop recalling if player is pressing recall button
         if (Input.GetMouseButtonDown(1))
         {
             canRecall = false;
         }
     }
     //***************************Collide with enemy
-    void Explode(float damage)
-    {
-        moveSpeed = 0;
-        soulState = SoulState.normal;
-
-        // get all objects inside the radus
-        Collider[] Enemies = Physics.OverlapSphere(transform.position, explosionRadus, layerMask);
-
-        // play animation
-        GameObject effct = Instantiate(impactEffect, transform.position, transform.rotation);
-        Destroy(effct, recoverLastTime);
-
-        // deal damage
-        foreach (Collider nearbyEnemy in Enemies)
-        {
-            TakeExplosionDamage(nearbyEnemy.gameObject, damage);
-        }
-
-        gameObject.SetActive(false);
-        Invoke("RecoverSoul", recoverLastTime);
-    }
-
-    void TakeExplosionDamage(GameObject collision , float damage)
-    {
-        Enemy enemy = collision.transform.GetComponent<Enemy>();
-        if (enemy != null){
-            enemy.TakeDamage(soulDamage);
-        }
-    }
-
     void RegularSoulHitEnemy(GameObject collision, float damage)
     {
         Enemy enemy = collision.transform.GetComponent<Enemy>();
         enemy.TakeDamage(damage);
+
+    }
+
+    void StickToEnemy(GameObject enemy)
+    {
+        rb.velocity = Vector3.zero;
+        GetComponent<Collider>().enabled= false;
+        rb.isKinematic= true;
+        transform.position = new Vector3(transform.position.x, transform.position.y, enemy.transform.position.z - 0.2f);
+        transform.parent = enemy.transform;
+        isInBody= true;
+
+        canRecall= false;
+
+        Hoster = enemy;
+    }
+
+    void ParasitingEnemy(GameObject enemy) {
+        if (enemy.GetComponent<Enemy>() != null){
+            if (!enemy.GetComponent<Enemy>().isDead){
+                if (parasiteTimer >= damageInterval)
+                {
+                    enemy.GetComponent<Enemy>().TakeDamage(soulDamage);
+                    parasiteTimer = 0;
+
+                    if (enemy.GetComponent<Enemy>().isDead){
+                        StopParasiting();
+                    }
+                }
+                else parasiteTimer += Time.deltaTime;
+            }
+            if (enemy.GetComponent<Enemy>().isDead) StopParasiting();
+
+        }
+    }
+
+    public void StopParasiting()
+    {
+        rb.velocity = Vector3.zero;
+        GetComponent<Collider>().enabled = true;
+        rb.isKinematic = false;
+        transform.parent = null;
+        isInBody = false;
+        Attacked = false;
+
+        ResetRecall();
+        parasited = true;
     }
 }
