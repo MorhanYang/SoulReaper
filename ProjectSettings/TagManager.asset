@@ -8,6 +8,8 @@ TagManager:
   - Obstruction
   - FollowingSoul
   - Ground
+  - Enemy
+  - Minion
   layers:
   - Default
   - TransparentFX

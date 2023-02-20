@@ -6,7 +6,7 @@ public class Health : MonoBehaviour
 {
     [SerializeField] Canvas hpUI;
     [SerializeField] RectTransform hpBar;
-    [SerializeField] float Maxhealth;
+    public float Maxhealth;
     public float presentHealth;
 
     // invincible

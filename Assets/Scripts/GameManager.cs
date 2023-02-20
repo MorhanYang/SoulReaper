@@ -6,6 +6,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameObject[] EnemyList;
+
     public Flowchart fungusFlowchart;
+
+    private void Start()
+    {
+        EnemyList = GameObject.FindGameObjectsWithTag("Enemy");
+    }
 
 }
