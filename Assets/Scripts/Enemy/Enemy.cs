@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -7,25 +6,31 @@ public class Enemy : MonoBehaviour
 {
     public bool isDead = false;
     bool haveSoul;
-    bool prepareToGenerateSoul;
 
     [SerializeField] GameObject enemySprite;
     [SerializeField] GameObject haveSoulIcon;
     [SerializeField] GameObject enemySoul;
     [SerializeField] float myDamage = 10;
+    [SerializeField] float attackInterval = 3f;
     Health health;
     EnemyBasicAi ai;
+    GameObject player;
 
     float showHealthBarTimer = 0f;
+    // combat
+    float damageTimer;
+    GameObject target;
 
 
 
-    private void OnEnable()
+    private void Start()
     {
+
         health= GetComponent<Health>();
         health.HideHPUI();
         
         ai = GetComponent<EnemyBasicAi>();
+        player = PlayerManager.instance.player;
 
         // for static blocks
         if (isDead){
@@ -40,6 +45,13 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
+        // target is missing set new target
+        if (target == null)
+        {
+            target = player;
+            ai.SetTarget(target);
+        }
+
         // health bar
         if (showHealthBarTimer >= 0){
             showHealthBarTimer -= Time.deltaTime;
@@ -50,25 +62,18 @@ public class Enemy : MonoBehaviour
         // havesoul icon hiding
         DisableHaveSoulIcon();
 
-        // for player grabing soul
-        if (prepareToGenerateSoul){
-            GenerateSoul();
-        }
     }
 
-    // visible or invisible souls
+    // Cursor Controll
     private void OnMouseEnter()
     {
         if (isDead && haveSoul){
-            prepareToGenerateSoul = true;
             // change cursor
             CursorManager.instance.ActivateRecallCursor();
         }
     }
     private void OnMouseExit()
     {
-        prepareToGenerateSoul = false;
-
         // change cursor
         PlayerControl playerControl = PlayerManager.instance.player.GetComponent<PlayerControl>();
         if (playerControl.playerState == PlayerControl.PlayerState.combat)
@@ -78,20 +83,25 @@ public class Enemy : MonoBehaviour
         else CursorManager.instance.ActivateDefaultCursor();
     }
 
-    private void OnCollisionEnter(Collision collision)
+
+    private void OnTriggerStay(Collider other)
     {
-        // colide with Player
-        if (collision.transform.GetComponent<PlayerControl>()!= null){
-            if (!isDead){
-                PlayerControl player = collision.transform.GetComponent<PlayerControl>();
-                player.PlayerTakeDamage(myDamage);
+        // colide with target
+        if (other.gameObject == target)
+        {
+            if (!isDead && damageTimer >= attackInterval)
+            {
+                if (other.transform.GetComponent<Minion>() != null && !other.IsDestroyed()) other.transform.GetComponent<Minion>().TakeDamage(myDamage);
+                if (other.transform.GetComponent<PlayerControl>() != null) other.transform.GetComponent<PlayerControl>().PlayerTakeDamage(myDamage);
+                damageTimer = 0f;
             }
+            else damageTimer += Time.deltaTime;
         }
     }
 
 
-    //**************************Method***************************
-    public void TakeDamage(float damage) {
+    //**************************************************************************Method**************************************************************
+    public void TakeDamage(float damage , GameObject subject) {
         float hideHealthBarDelay = 5f;
 
         health.TakeDamage(damage);
@@ -106,6 +116,12 @@ public class Enemy : MonoBehaviour
 
         if (health.presentHealth <= 0){
             CheckIfHaveSoul();
+        }
+
+        // change target
+        if (target == player){
+            target = subject;
+            ai.SetTarget(target);
         }
     }
 
@@ -146,14 +162,12 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void GenerateSoul(){
+    public void Rebirth(){
         if (haveSoul){
-            if (Input.GetMouseButtonDown(1)){
-                Instantiate(enemySoul, transform.position, transform.rotation);
-                haveSoul = false;
-                enemySoul.GetComponent<SoulManager>().RecallFunction();
-            }
-
+            GameObject minion = Instantiate(enemySoul, transform.position, transform.rotation);
+            minion.GetComponent<Minion>().SetRebirthDelay(1f);
+            haveSoul = false;
+            GetComponent<Collider>().enabled = false;
         }
     }
 }

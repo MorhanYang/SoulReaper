@@ -4,37 +4,54 @@ using UnityEngine;
 
 public class Minion : MonoBehaviour
 {
+    MinionTroop myTroop;
+    MinionAI myAI;
+
     [SerializeField] GameObject recallingMinion;
 
     public int MinionType = 0; // refer to MinionTroop;
-    int listBelonging;
+    public float maxHealth = 30;
+    public float presentHealth;
 
 
-
-    private void Update()
+    private void Awake()
     {
-        // health bar
-
+        presentHealth = maxHealth;
+        myAI = GetComponent<MinionAI>();
     }
 
     //*********************************************************Method*******************************************************
-    public void SetListId( int listId )
+    public void SetListId(MinionTroop Troop )
     {
-        listBelonging = listId;
+        myTroop = Troop;
     }
 
     public void RecallMinion()
     {
-        Debug.Log("Recall");
         Instantiate(recallingMinion,transform.position,transform.rotation);
         Destroy(gameObject);
     }
 
     public void TakeDamage(float damage)
     {
+        if (myTroop != null && myTroop.GetPresentHP() > 0) {
+            myTroop.TakeDamage(damage);
+        } 
+        else presentHealth -= damage;
 
+        if (presentHealth <= 0) Destroy(gameObject);
 
+        Debug.Log("deal Damage to Troop");
+    }
 
+    public void SetRebirthDelay(float delay)
+    {
+        myAI.enabled= false;
+        Invoke("RecoverMinionAI", delay);
+    }
+    void RecoverMinionAI()
+    {
+        myAI.enabled = true;
     }
 
 }

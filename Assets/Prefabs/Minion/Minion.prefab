@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 2329640087748747313}
   - component: {fileID: 956341428}
   m_Layer: 0
-  m_Name: Mimion
+  m_Name: Minion
   m_TagString: Minion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -192,7 +192,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.14
-  m_Speed: 1.6
+  m_Speed: 1.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 0
@@ -216,13 +216,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1c500967a870f540a090f5bb9c11852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRang: 0.4
-  SprintSpeed: 8
-  searchingRange: 1.5
-  attackDamage: 2
-  attackCD: 1
+  attackRang: 0.5
+  SprintSpeed: 2.5
+  searchingRange: 2
+  attackDamage: 4
+  attackCD: 2
   attackPoint: {fileID: 2099285196}
-  attackCircle: 0.5
+  attackCircle: 0.4
 --- !u!114 &2329640087748747313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,8 +237,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpUI: {fileID: 2329640088877314943}
   hpBar: {fileID: 2329640088917620357}
-  Maxhealth: 20
-  presentHealth: 20
+  Maxhealth: 30
+  presentHealth: 30
 --- !u!114 &956341428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,6 +253,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
   MinionType: 0
+  maxHealth: 20
+  presentHealth: 20
 --- !u!1 &2329640088302978043
 GameObject:
   m_ObjectHideFlags: 0

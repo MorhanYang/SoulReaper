@@ -164,7 +164,7 @@ public class Soul_Kite : MonoBehaviour
 
         float interval = 0.2f;
         if (damageTimer >= interval) {
-            enemy.TakeDamage(damage);
+            enemy.TakeDamage(damage, gameObject);
             damageTimer = 0;
         }
         

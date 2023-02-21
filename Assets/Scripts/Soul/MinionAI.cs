@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.Progress;
 
 public class MinionAI : MonoBehaviour
 {
@@ -39,6 +40,8 @@ public class MinionAI : MonoBehaviour
         minionState = MinionSate.Idle;
 
         GetComponent<SphereCollider>().radius = searchingRange;
+
+        attackTimer = 0;
 
     }
 
@@ -83,7 +86,6 @@ public class MinionAI : MonoBehaviour
                 {
                     target = other.transform;
                 }
-
                 minionState = MinionSate.Follow;
             }
         }
@@ -168,18 +170,22 @@ public class MinionAI : MonoBehaviour
     void MeleeAttack()
     {
         Collider[] hitEnemy = Physics.OverlapSphere(attackPoint.position, attackCircle, LayerMask.GetMask("Enemy"));
-        foreach (Collider item in hitEnemy)
+        for (int i = 0; i < hitEnemy.Length; i++)
         {
-            item.GetComponent<Enemy>().TakeDamage(attackDamage);
+            hitEnemy[i].GetComponent<Enemy>().TakeDamage(attackDamage, gameObject);
         }
+        
+        
+        minionState = MinionSate.Follow;
 
+        // if kill the enemy
         if (target.GetComponent<Enemy>().isDead)
         {
             minionState = MinionSate.Idle;
             // trigger ontrigger stay to see if there is enemy inside the cllider
             target = null;
         }
-        else minionState= MinionSate.Follow;
+        
     }
 
 }

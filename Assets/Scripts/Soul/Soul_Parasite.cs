@@ -163,7 +163,7 @@ public class Soul_Parasite : MonoBehaviour
     void RegularSoulHitEnemy(GameObject collision, float damage)
     {
         Enemy enemy = collision.transform.GetComponent<Enemy>();
-        enemy.TakeDamage(damage);
+        enemy.TakeDamage(damage,gameObject);
 
     }
 
@@ -186,7 +186,7 @@ public class Soul_Parasite : MonoBehaviour
             if (!enemy.GetComponent<Enemy>().isDead){
                 if (parasiteTimer >= damageInterval)
                 {
-                    enemy.GetComponent<Enemy>().TakeDamage(soulDamage);
+                    enemy.GetComponent<Enemy>().TakeDamage(soulDamage,gameObject);
                     parasiteTimer = 0;
 
                     if (enemy.GetComponent<Enemy>().isDead){

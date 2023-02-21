@@ -26,6 +26,9 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] MinionTroop[] troopList;
     float shootCount = 0;
 
+    //switch Troop list
+    int troopId = 0;
+
     //Movement
     [SerializeField] float moveSpeed;
     [SerializeField] float actionColdDown = 0.5f;
@@ -33,6 +36,7 @@ public class PlayerControl : MonoBehaviour
 
     //recall
     float recallTimer = 0;
+    [SerializeField]float recallDistance = 4f;
 
     //rolling
     enum CombateState{
@@ -53,10 +57,7 @@ public class PlayerControl : MonoBehaviour
     //soul list ( new )
     bool isFacingRight = true;
     SoulList soulList;
-    List<Minion> minionInGame;
-
-    // Rebirth Enemy
-
+    List<Minion> minionsInGame;
 
     //Animation
     Animator characterAnimator;
@@ -87,13 +88,13 @@ public class PlayerControl : MonoBehaviour
 
         presentRollingSpeed = rollingSpeed;
 
-        minionInGame = new List<Minion>();
+        minionsInGame = new List<Minion>();
 
     }
 
     void Update()
     {
-        //*****************ControlPanel
+        //*****************************************ControlPanel******************************************
 
         // shooting and rolling
         switch (playerState)
@@ -135,13 +136,7 @@ public class PlayerControl : MonoBehaviour
                 }
                 // Rebirth Enemy
                 if (Input.GetKeyDown(KeyCode.Alpha1)){
-                    minionInGame.Clear();
-
-                    GameObject[] allMinion = GameObject.FindGameObjectsWithTag("Minion");
-                    foreach (var item in allMinion)
-                    {
-                        minionInGame.Add(item.GetComponent<Minion>());
-                    }
+                    RebirthEnemy();
                 }
 
                 break;
@@ -171,10 +166,25 @@ public class PlayerControl : MonoBehaviour
             EndRecallFunction();
         }
 
-        //Shuffle Souls
-        if (Input.GetAxis("Mouse ScrollWheel") <= -0.1f || Input.GetKeyDown(KeyCode.LeftShift))
+        // switch Troop
+        if (Input.GetAxis("Mouse ScrollWheel") != 0)
         {
-            soulList.ShuffleSouls();
+            SwitchTroop(Input.GetAxis("Mouse ScrollWheel"));
+        }
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            SwitchTroop(1);// any number greater than 0
+        }
+
+        // heal TroopHP;
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Debug.Log("Heal Troop");
+            foreach (MinionTroop item in troopList)
+            {
+                item.HealTroops();
+            }
+            hp.TakeDamage(10);
         }
 
     }
@@ -185,6 +195,8 @@ public class PlayerControl : MonoBehaviour
         {
             case CombateState.normal:
                 MoveFunction(1f);
+
+                characterAnimator.SetBool("IsRolling", false);// prevent rolling all the time.
                 // recover CD;
                 if (actionTimer <= actionColdDown){
                     actionTimer += Time.fixedDeltaTime;
@@ -199,14 +211,12 @@ public class PlayerControl : MonoBehaviour
             case CombateState.recalling:
                 MoveFunction(0.5f);
                 RecallFunction();
-                SuperDashMove();
                 break;
         }
     }
 
 
-    //**********************************************************Method***************************************************************************
-    //*********************Moving Function
+    //**********************************************************Moving Function***************************************************************************
     // Use speedMultiplyer to change speed.
     void MoveFunction(float speedMultiplyer){
         float x = Input.GetAxisRaw("Horizontal");
@@ -234,8 +244,8 @@ public class PlayerControl : MonoBehaviour
         hp.Invincible(delayBeforeInvincible, invincibleDuration);
 
 
-        Physics.IgnoreLayerCollision(2, 9);
-        Invoke("RegainColider", invincibleDuration);
+        //Physics.IgnoreLayerCollision(2, 9);
+        //Invoke("RegainColider", invincibleDuration);
 
         // slow down
         presentRollingSpeed -= rollingResistance * Time.fixedDeltaTime;
@@ -249,9 +259,9 @@ public class PlayerControl : MonoBehaviour
             combateState = CombateState.normal;
         }
     }
-    void RegainColider(){
-        Physics.IgnoreLayerCollision(2, 9, false);
-    }
+    //void RegainColider(){
+    //    Physics.IgnoreLayerCollision(2, 9, false);
+    //}
 
     //**********************************************************************Aiming Function****************************************************
     void MouseAimFunction()
@@ -280,7 +290,7 @@ public class PlayerControl : MonoBehaviour
     // generate soul and shoot it towards mouse
     void AssignSouls()
     {
-        if (troopList[0].GetMinionNumber() > 0)
+        if (troopList[troopId].GetMinionNumber() > 0)
         {
             rb.velocity = Vector3.zero;
 
@@ -297,7 +307,13 @@ public class PlayerControl : MonoBehaviour
             else
             {
                 sprintPos = aimPos;
-                target = GetClosestEnemyTransform(hitedEnemy, aimPos);
+                // other will kill target
+                if (hitedEnemy != null)
+                {
+                    target = GetClosestEnemyTransform(hitedEnemy, aimPos);
+                }
+                else target = null;
+                
             }
 
 
@@ -306,17 +322,15 @@ public class PlayerControl : MonoBehaviour
             if (shootCount >= 0.2f)
             {
                 // detract minion from troop
-                GameObject GeneratedMinion = troopList[0].DetractTroopMember();
+                GameObject GeneratedMinion = troopList[troopId].GenerateMinion(soulGenerator.position);
                 Debug.Log(GeneratedMinion);
 
-                GameObject soul = Instantiate(GeneratedMinion, soulGenerator.position, Quaternion.Euler(Vector3.zero));
-
-                soul.GetComponent<MinionAI>().SpriteToEnemy(sprintPos, target);
-                if (minionInGame == null) minionInGame = new List<Minion>();
-                minionInGame.Add(soul.GetComponent<Minion>());
+                GeneratedMinion.GetComponent<MinionAI>().SpriteToEnemy(sprintPos, target);
+                if (minionsInGame == null) minionsInGame = new List<Minion>();
+                minionsInGame.Add(GeneratedMinion.GetComponent<Minion>());
 
                 //set listid in Minion
-                soul.GetComponent<Minion>().SetListId(0);
+                GeneratedMinion.GetComponent<Minion>().SetListId(troopList[troopId]);
 
                 shootCount = 0;
             }
@@ -327,29 +341,33 @@ public class PlayerControl : MonoBehaviour
 
      private Transform GetClosestEnemyTransform(Collider[] enemyList, Vector3 referencePoint)
     {
-        Collider closedEnemy = null;
+        Transform closedEnemy = null;
 
         for (int i = 0; i < enemyList.Length; i++)
         {
-            Collider testEnemy = enemyList[i];
-            if (closedEnemy == null)
+            if (!enemyList[i].GetComponent<Enemy>().isDead)
             {
-                closedEnemy = testEnemy;
-            }
-            // test which is closer
-            else
-            {
-                if (Vector3.Distance (testEnemy.transform.position,referencePoint) > Vector3.Distance(closedEnemy.transform.position, referencePoint))
+                Collider testEnemy = enemyList[i];
+                if (closedEnemy == null)
                 {
-                    closedEnemy = testEnemy;
+                    closedEnemy = testEnemy.transform;
                 }
+                // test which is closer
+                else
+                {
+                    if (Vector3.Distance(testEnemy.transform.position, referencePoint) > Vector3.Distance(closedEnemy.transform.position, referencePoint))
+                    {
+                        closedEnemy = testEnemy.transform;
+                    }
 
+                }
             }
+            
         }
-        return closedEnemy.transform;
+        return closedEnemy;
     }
 
-    //********************************************************************Recalling Function*********************************************************
+    //********************************************************************Recalling Function****************************************************************
 
     private void RecallFunction(){
 
@@ -363,14 +381,16 @@ public class PlayerControl : MonoBehaviour
         //enough time
         if (recallTimer >= holdtime)
         {
-            if (minionInGame.Count > 0)
+            if (minionsInGame.Count > 0)
             {
-                if (minionInGame[0] != null)
+                if (minionsInGame[0] != null && Vector3.Distance(minionsInGame[0].transform.position,transform.position) <= recallDistance)
                 {
-                    troopList[0].AddTroopMember(minionInGame[0]);
-                    minionInGame[0].RecallMinion();
+                    // if minions excess maxtroop capacity, it will not be recalled.
+                    if (troopList[troopId].AddTroopMember(minionsInGame[0])){
+                        minionsInGame[0].RecallMinion();
+                    }
                 }
-                minionInGame.RemoveAt(0);
+                minionsInGame.RemoveAt(0);
                 recallTimer = 0;
             }
         }
@@ -382,6 +402,28 @@ public class PlayerControl : MonoBehaviour
 
         recallTimer = 0;
         combateState = CombateState.normal;
+    }
+
+    //********************************************************************** Shift Troop ******************************************************
+    void SwitchTroop(float switchDir) //switchDir > 0: move forward; switchDir < 0 : move backward;
+    {
+        int lastId = troopList.Length - 1; // id start from 0;
+
+        if (switchDir > 0)
+        {
+            troopId++;
+            if (troopId > lastId) troopId = 0;
+        }
+        if (switchDir < 0)
+        {
+            troopId--;
+            if (troopId < 0) troopId = lastId;
+        }
+
+        FreshMinionInGameList();
+        // adopt minions to list
+        Debug.Log("TroopId:" + troopId);
+
     }
 
     //*******************************CombateState
@@ -431,7 +473,7 @@ public class PlayerControl : MonoBehaviour
         soulList.AddSoul(SoulType);
     }
 
-    // ************************Combat 
+    // *********************************************************************Combat *********************************************
     public void PlayerTakeDamage(float damage)
     {
         hp.TakeDamage(damage);
@@ -445,55 +487,94 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    public void Teleport(Vector3 nextPos){
+    // dead minion
+    public void RemoveMinionFromList(Minion minion)
+    {
+        minionsInGame.Remove(minion);
+    }
 
-        Ray ray = new Ray(transform.position, nextPos - transform.position);
-        float Distance = Vector3.Distance(transform.position,nextPos);
-        if (Physics.Raycast(ray, out var hitInfo, Distance, groundMask)){
-            nextPos = hitInfo.point; 
+
+    //public void Teleport(Vector3 nextPos){
+
+    //    Ray ray = new Ray(transform.position, nextPos - transform.position);
+    //    float Distance = Vector3.Distance(transform.position,nextPos);
+    //    if (Physics.Raycast(ray, out var hitInfo, Distance, groundMask)){
+    //        nextPos = hitInfo.point; 
+    //    }
+
+    //    transform.position = nextPos;
+
+    //}
+
+    //****************************************************************Rebirth**********************************************************
+
+    void RebirthEnemy()
+    {
+        // call minion out
+        Collider[] DeadEnemyInCircle = Physics.OverlapSphere(transform.position, 4f, LayerMask.GetMask("Enemy"));
+        for (int i = 0; i < DeadEnemyInCircle.Length; i++)
+        {
+            Enemy DeadEnemy = DeadEnemyInCircle[i].GetComponent<Enemy>();
+            if (DeadEnemy.isDead == true){
+                DeadEnemy.Rebirth();
+            }
         }
 
-        transform.position = nextPos;
+        // adopt minions to list
+        FreshMinionInGameList();
+    }
+
+    void FreshMinionInGameList() {
+
+        
+        minionsInGame.Clear();
+
+        GameObject[] allMinion = GameObject.FindGameObjectsWithTag("Minion");
+        foreach (var item in allMinion)
+        {
+            minionsInGame.Add(item.GetComponent<Minion>());
+        }
 
     }
+
     // *******************************SuperDash
-    public void SuperDash(Vector3 nextPos, float damage)
-    {
-        Ray dashRay = new Ray(transform.position, (nextPos - transform.position).normalized);
+    //public void SuperDash(Vector3 nextPos, float damage)
+    //{
+    //    Ray dashRay = new Ray(transform.position, (nextPos - transform.position).normalized);
 
-        //detect the target
-        float dashDistance = Vector3.Distance(transform.position, nextPos);
-        if (Physics.Raycast(dashRay, out var hitInfo, dashDistance, groundMask)){
-            nextPos = hitInfo.point;
-        }
+    //    //detect the target
+    //    float dashDistance = Vector3.Distance(transform.position, nextPos);
+    //    if (Physics.Raycast(dashRay, out var hitInfo, dashDistance, groundMask)){
+    //        nextPos = hitInfo.point;
+    //    }
 
-        // generate a collider box and detect object that touches it
-        Vector3 Dir = (nextPos - transform.position).normalized;
-        float distance = Vector3.Distance(nextPos, transform.position);
-        Vector3 boxCenter = Dir * (distance / 2) + transform.position;
-        Collider[] EnemiesInLine = Physics.OverlapBox(boxCenter, new Vector3(0.25f, 0.4f, 1.1f), Quaternion.Euler(Dir), LayerMask.GetMask("Enemy"));
+    //    // generate a collider box and detect object that touches it
+    //    Vector3 Dir = (nextPos - transform.position).normalized;
+    //    float distance = Vector3.Distance(nextPos, transform.position);
+    //    Vector3 boxCenter = Dir * (distance / 2) + transform.position;
+    //    Collider[] EnemiesInLine = Physics.OverlapBox(boxCenter, new Vector3(0.25f, 0.4f, 1.1f), Quaternion.Euler(Dir), LayerMask.GetMask("Enemy"));
 
-        for (int i = 0; i < EnemiesInLine.Length; i++){
-            if (EnemiesInLine[i].transform.GetComponent<Enemy>() != null){
-                Debug.Log("Hit enemies when dashing");
-                EnemiesInLine[i].transform.GetComponent<Enemy>().TakeDamage(damage);
-            }
-        }
+    //    for (int i = 0; i < EnemiesInLine.Length; i++){
+    //        if (EnemiesInLine[i].transform.GetComponent<Enemy>() != null){
+    //            Debug.Log("Hit enemies when dashing");
+    //            EnemiesInLine[i].transform.GetComponent<Enemy>().TakeDamage(damage,gameObject);
+    //        }
+    //    }
 
-        Physics.IgnoreLayerCollision(2, 9);
-        dashTarget = nextPos;
-        isSuperDashing= true;
-    }
+    //    Physics.IgnoreLayerCollision(2, 9);
+    //    dashTarget = nextPos;
+    //    isSuperDashing= true;
+    //}
 
-    public void SuperDashMove()
-    {
-        if (isSuperDashing){
-            transform.position = Vector3.MoveTowards(transform.position, dashTarget, 10f * Time.fixedDeltaTime);
-            if (transform.position == dashTarget)
-            {
-                Invoke("RegainColider", 0.4f);
-                isSuperDashing = false;
-            }
-        }
-    }
+    //public void SuperDashMove()
+    //{
+    //    if (isSuperDashing){
+    //        transform.position = Vector3.MoveTowards(transform.position, dashTarget, 10f * Time.fixedDeltaTime);
+    //        if (transform.position == dashTarget)
+    //        {
+    //            Invoke("RegainColider", 0.4f);
+    //            isSuperDashing = false;
+    //        }
+    //    }
+    //}
 }

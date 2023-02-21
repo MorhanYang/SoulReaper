@@ -157,7 +157,7 @@ public class Soul_Regular : MonoBehaviour
     void RegularSoulHitEnemy(GameObject collision, float damage)
     {
         Enemy enemy = collision.transform.GetComponent<Enemy>();
-        enemy.TakeDamage(damage);
+        enemy.TakeDamage(damage, gameObject);
 
         //GameObject effct = Instantiate(impactEffect, transform.position, transform.rotation);
         //Destroy(effct, recoverLastTime);

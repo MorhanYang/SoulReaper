@@ -50,7 +50,7 @@ public class Health : MonoBehaviour
         }
     }
 
-    void HealthUpdate()
+    public void HealthUpdate()
     {
         Vector2 presentHpBarSize = new Vector2((presentHealth / Maxhealth) * initialHPBarWidth, hpBar.sizeDelta.y);
         hpBar.sizeDelta = presentHpBarSize;

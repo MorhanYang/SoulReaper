@@ -7,7 +7,6 @@ public class EnemyBasicAi : MonoBehaviour
 {
     [SerializeField] Transform enemySprite;
     [SerializeField] float followDistance = 4.5f;
-    [SerializeField] float followSpeed = 1f;
     [SerializeField] float distanceForDash;
     [SerializeField] float dashPrepareTime;
     [SerializeField] float dashCD;
@@ -17,6 +16,7 @@ public class EnemyBasicAi : MonoBehaviour
 
     Transform target;
     NavMeshAgent agent;
+    GameObject player;
 
     // dash
     float distance;
@@ -39,7 +39,8 @@ public class EnemyBasicAi : MonoBehaviour
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        target = PlayerManager.instance.player.transform;
+        player = PlayerManager.instance.player;
+        target = player.transform;
 
         action = EnemyAction.idle;
 
@@ -62,7 +63,7 @@ public class EnemyBasicAi : MonoBehaviour
                 if (distance > followDistance){
                     action = EnemyAction.idle;
                 }
-                FollowPlayer();
+                FollowTarget();
                 if (canDash){
                     if (dashCDTimer >= dashCD && distance <= distanceForDash)
                     {
@@ -88,12 +89,15 @@ public class EnemyBasicAi : MonoBehaviour
         }
     }
 
-    //***********************Method
-    void FollowPlayer()
+    //**************************************************************************Method******************************************************
+    public void SetTarget(GameObject opponent)
     {
-        Vector3 moveDir = target.position - transform.position;
-        moveDir.Normalize();
-        agent.Move(moveDir * followSpeed * slowDownSpeedOffset * Time.deltaTime);
+        target = opponent.transform;
+    }
+
+    void FollowTarget()
+    {
+        agent.SetDestination(target.position);
     }
 
     void Dashing()
