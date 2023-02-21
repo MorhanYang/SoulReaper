@@ -1,6 +1,6 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEditor.Progress;
 
 public class MinionAI : MonoBehaviour
 {
@@ -23,6 +23,8 @@ public class MinionAI : MonoBehaviour
     [SerializeField] float attackCircle;
     float attackTimer = 0;
 
+    // roaming
+    Vector3 roamingPos;
 
     enum MinionSate
     {
@@ -30,6 +32,7 @@ public class MinionAI : MonoBehaviour
         Follow,
         Sprint,
         Attack,
+        roam,
     }
     MinionSate minionState;
 
@@ -37,11 +40,13 @@ public class MinionAI : MonoBehaviour
     {
         agent= GetComponent<NavMeshAgent>();
         minionSprite = transform.Find("Mimion").GetComponent<SpriteRenderer>();
-        minionState = MinionSate.Idle;
+        minionState = MinionSate.roam;
 
         GetComponent<SphereCollider>().radius = searchingRange;
 
         attackTimer = 0;
+
+        GetRoamingPostion();
 
     }
 
@@ -67,6 +72,9 @@ public class MinionAI : MonoBehaviour
             case MinionSate.Attack:
                 MeleeAttack();
                 break;
+            case MinionSate.roam:
+                RoamMove();
+                break;
             default:
                 break;
         }
@@ -74,7 +82,7 @@ public class MinionAI : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (minionState == MinionSate.Idle)
+        if (minionState == MinionSate.Idle || minionState == MinionSate.roam)
         {
             if (other.GetComponent<Enemy>() != null && !other.GetComponent<Enemy>().isDead)
             {
@@ -99,11 +107,20 @@ public class MinionAI : MonoBehaviour
     //*****************************************************************Sprint***********************************************************************
 
     public void SpriteToEnemy(Vector3 aimPos, Transform enemy){
-        target = null;
+        // don't change target because of collision
+        agent.isStopped = true;
+
         target = enemy;
         sprintPos = aimPos;
-        minionState = MinionSate.Sprint;
+
+        Invoke("ChangeToSprint", 0.7f);
     }
+    void ChangeToSprint()
+    {
+        minionState = MinionSate.Sprint;
+        agent.isStopped = false;
+    }
+
     void SprintFunction()
     {
         // play Sprint ainamtion
@@ -117,7 +134,7 @@ public class MinionAI : MonoBehaviour
             // reach Target:
             if (Vector3.Distance(transform.position, sprintPos) <= 0.1f)
             {
-                minionState = MinionSate.Idle;
+                minionState = MinionSate.roam;
             }
         }
         // Hit enemy
@@ -174,18 +191,35 @@ public class MinionAI : MonoBehaviour
         {
             hitEnemy[i].GetComponent<Enemy>().TakeDamage(attackDamage, gameObject);
         }
-        
-        
         minionState = MinionSate.Follow;
 
         // if kill the enemy
         if (target.GetComponent<Enemy>().isDead)
         {
-            minionState = MinionSate.Idle;
+            minionState = MinionSate.roam;
             // trigger ontrigger stay to see if there is enemy inside the cllider
             target = null;
         }
         
+    }
+
+    //**************************************************Radom Roaming***************************************
+    private void GetRoamingPostion()
+    {
+        // get random direction
+        Vector3 startPos = PlayerManager.instance.player.transform.position;
+        Vector3 randomDir = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
+
+        roamingPos = startPos + randomDir * Random.Range(1f,2f);
+    }
+
+    void RoamMove()
+    {
+        agent.SetDestination(roamingPos);
+        if (agent.remainingDistance <= agent.stoppingDistance)
+        {
+            Invoke("GetRoamingPostion", 1.5f);
+        }
     }
 
 }

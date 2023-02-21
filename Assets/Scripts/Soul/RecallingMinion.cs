@@ -5,7 +5,7 @@ using UnityEngine;
 public class RecallingMinion : MonoBehaviour
 {
     Transform player;
-    [SerializeField] float moveSpeed = 10;
+    [SerializeField] float moveSpeed = 0.05f;
     private void Start()
     {
         player = PlayerManager.instance.player.transform;

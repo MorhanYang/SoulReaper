@@ -11,7 +11,7 @@ public class MinionTroop : MonoBehaviour
 
     [SerializeField] GameObject[] minionTemple;
     [SerializeField] TMP_Text memberNum;
-    public int MaxMember = 5;
+    public int MaxMember = 8;
 
     private void Start()
     {
@@ -34,7 +34,7 @@ public class MinionTroop : MonoBehaviour
 
     void UpdateMemberNumText()
     {
-        memberNum.text = troopMembers.Count.ToString();
+        memberNum.text = troopMembers.Count + "/" + MaxMember;
     }
 
     public bool AddTroopMember(Minion member) {
@@ -49,7 +49,7 @@ public class MinionTroop : MonoBehaviour
 
             canAdd = true;
         }
-        else if ((troopMembers.Count + assignedTroopMember.Count) < 5)
+        else if ((troopMembers.Count + assignedTroopMember.Count) < MaxMember)
         {
             // if member is not in the assignedTroopMember
             int memberTypeID = member.MinionType;

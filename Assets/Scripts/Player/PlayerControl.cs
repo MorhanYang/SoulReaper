@@ -1,14 +1,12 @@
 using Fungus;
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
 
-    Health hp;
+    PlayerHealthBar hp;
     [SerializeField] GameManager gameManager;
 
     Vector3 move;
@@ -17,7 +15,7 @@ public class PlayerControl : MonoBehaviour
     Vector3 aimPos;
     Vector3 aimDir;
     Transform aim;
-    Transform soulGenerator;
+    [SerializeField]Transform[] soulGenerator;
 
     [SerializeField] LayerMask groundMask;
     [SerializeField] GameObject aimPivot;
@@ -69,19 +67,17 @@ public class PlayerControl : MonoBehaviour
     [HideInInspector] public PlayerState playerState;
 
     //Dash
-    bool isSuperDashing = false;
-    Vector3 dashTarget = Vector3.zero;
+    //bool isSuperDashing = false;
+    //Vector3 dashTarget = Vector3.zero;
 
 
     void Start()
     {
         rb= GetComponent<Rigidbody>();
         aim = aimPivot.transform.Find("Aim");
-        soulGenerator = aimPivot.transform.Find("SoulGenerator");
         soulList = GetComponent<SoulList>();
         characterAnimator = transform.Find("Character").GetComponent<Animator>();
-        hp = GetComponent<Health>();
-        hp.ShowHPUI();// For testing!!!!!!!!!!!!!!!!!!!!!!!!!
+        hp = GetComponent<PlayerHealthBar>();
 
         playerState = PlayerState.combat;
         combateState = CombateState.normal;
@@ -144,8 +140,6 @@ public class PlayerControl : MonoBehaviour
         // if player talk to anyone, force player to become normal state
         if (gameManager.fungusFlowchart.HasExecutingBlocks()){
             playerState = PlayerState.normal;
-            // hide hp bar
-            hp.HideHPUI();
         }
         else{
             //switch combat state
@@ -167,14 +161,14 @@ public class PlayerControl : MonoBehaviour
         }
 
         // switch Troop
-        if (Input.GetAxis("Mouse ScrollWheel") != 0)
-        {
-            SwitchTroop(Input.GetAxis("Mouse ScrollWheel"));
-        }
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            SwitchTroop(1);// any number greater than 0
-        }
+        //if (Input.GetAxis("Mouse ScrollWheel") != 0)
+        //{
+        //    SwitchTroop(Input.GetAxis("Mouse ScrollWheel"));
+        //}
+        //if (Input.GetKeyDown(KeyCode.LeftShift))
+        //{
+        //    SwitchTroop(1);// any number greater than 0
+        //}
 
         // heal TroopHP;
         if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -184,7 +178,6 @@ public class PlayerControl : MonoBehaviour
             {
                 item.HealTroops();
             }
-            hp.TakeDamage(10);
         }
 
     }
@@ -243,10 +236,6 @@ public class PlayerControl : MonoBehaviour
         // invincible time
         hp.Invincible(delayBeforeInvincible, invincibleDuration);
 
-
-        //Physics.IgnoreLayerCollision(2, 9);
-        //Invoke("RegainColider", invincibleDuration);
-
         // slow down
         presentRollingSpeed -= rollingResistance * Time.fixedDeltaTime;
         if (presentRollingSpeed <= 90f){
@@ -259,9 +248,6 @@ public class PlayerControl : MonoBehaviour
             combateState = CombateState.normal;
         }
     }
-    //void RegainColider(){
-    //    Physics.IgnoreLayerCollision(2, 9, false);
-    //}
 
     //**********************************************************************Aiming Function****************************************************
     void MouseAimFunction()
@@ -322,7 +308,7 @@ public class PlayerControl : MonoBehaviour
             if (shootCount >= 0.2f)
             {
                 // detract minion from troop
-                GameObject GeneratedMinion = troopList[troopId].GenerateMinion(soulGenerator.position);
+                GameObject GeneratedMinion = troopList[troopId].GenerateMinion(soulGenerator[Random.Range(0,soulGenerator.Length-1)].position);
                 Debug.Log(GeneratedMinion);
 
                 GeneratedMinion.GetComponent<MinionAI>().SpriteToEnemy(sprintPos, target);
@@ -377,7 +363,7 @@ public class PlayerControl : MonoBehaviour
         
         recallTimer += Time.fixedDeltaTime;
 
-        float holdtime = 0.1f;
+        float holdtime = 0.15f;
         //enough time
         if (recallTimer >= holdtime)
         {
@@ -385,10 +371,8 @@ public class PlayerControl : MonoBehaviour
             {
                 if (minionsInGame[0] != null && Vector3.Distance(minionsInGame[0].transform.position,transform.position) <= recallDistance)
                 {
-                    // if minions excess maxtroop capacity, it will not be recalled.
-                    if (troopList[troopId].AddTroopMember(minionsInGame[0])){
-                        minionsInGame[0].RecallMinion();
-                    }
+                    // Add member into troop
+                    hp.AddTroopMember(minionsInGame[0]);
                 }
                 minionsInGame.RemoveAt(0);
                 recallTimer = 0;
@@ -430,8 +414,6 @@ public class PlayerControl : MonoBehaviour
     void SwitchPlayerState() {
         if (playerState == PlayerState.combat){
             playerState = PlayerState.normal;
-            // hide hp bar
-            hp.HideHPUI();
             // clean the hovering items of SoulList
             soulList.CleanHoverItem();
             //change cursor
@@ -439,8 +421,6 @@ public class PlayerControl : MonoBehaviour
         }
         else if (playerState == PlayerState.normal){
             playerState = PlayerState.combat;
-            // show hp bar
-            hp.ShowHPUI();
             // clean the hovering items of SoulList
             soulList.CleanHoverItem();
             //change cursor
@@ -478,9 +458,6 @@ public class PlayerControl : MonoBehaviour
     {
         hp.TakeDamage(damage);
         hp.Invincible(0f, invincibleDuration);
-        //aviod enemy's collision
-        Physics.IgnoreLayerCollision(2, 9);
-        Invoke("RegainColider", invincibleDuration);
 
         if (hp.presentHealth <= 0){
             Debug.Log("You died");

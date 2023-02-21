@@ -192,7 +192,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.14
-  m_Speed: 1.5
+  m_Speed: 1.2
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 0
@@ -237,8 +237,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpUI: {fileID: 2329640088877314943}
   hpBar: {fileID: 2329640088917620357}
-  Maxhealth: 30
-  presentHealth: 30
+  Maxhealth: 20
+  presentHealth: 20
 --- !u!114 &956341428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,6 +255,7 @@ MonoBehaviour:
   MinionType: 0
   maxHealth: 20
   presentHealth: 20
+  lifespan: 15
 --- !u!1 &2329640088302978043
 GameObject:
   m_ObjectHideFlags: 0

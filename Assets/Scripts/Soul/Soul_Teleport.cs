@@ -141,7 +141,7 @@ public class Soul_Teleport : MonoBehaviour
                 rb.velocity = Vector3.zero;
                 GetComponent<Collider>().enabled = false;
                 Vector3 playerPos = player.transform.position;
-                player.GetComponent<PlayerControl>().Teleport(this.transform.position);
+               // player.GetComponent<PlayerControl>().Teleport(this.transform.position);
                 
                 this.transform.position = playerPos;
                 GetComponent<Collider>().enabled = true;

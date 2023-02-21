@@ -13,11 +13,27 @@ public class Minion : MonoBehaviour
     public float maxHealth = 30;
     public float presentHealth;
 
+    // self destory
+    float selfDestroyTimer = 0;
+    [SerializeField] float lifespan = 15f;
+
 
     private void Awake()
     {
         presentHealth = maxHealth;
         myAI = GetComponent<MinionAI>();
+    }
+
+    private void Update()
+    {
+        // destory itself if it is not added to troop
+        if (myTroop == null)
+        {
+            selfDestroyTimer += Time.deltaTime;
+            if (selfDestroyTimer > lifespan){
+                Destroy(gameObject);
+            }
+        }
     }
 
     //*********************************************************Method*******************************************************

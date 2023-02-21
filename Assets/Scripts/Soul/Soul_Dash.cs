@@ -122,7 +122,7 @@ public class Soul_Dash : MonoBehaviour
         Debug.Log("Recall counting");
         if (canRecall){
             rb.velocity = Vector3.zero;
-            player.GetComponent<PlayerControl>().SuperDash(this.transform.position, soulDamage*5);
+            //player.GetComponent<PlayerControl>().SuperDash(this.transform.position, soulDamage*5);
         }
     }
     // avoid keeping recalling when this hit obstruction
