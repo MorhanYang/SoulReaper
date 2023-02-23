@@ -7,37 +7,24 @@ public class Minion : MonoBehaviour
     MinionTroop myTroop;
     MinionAI myAI;
 
+    [SerializeField] Animator myAnimator;
     [SerializeField] GameObject recallingMinion;
+    [SerializeField] float getDamageRate = 0.5f;
 
     public int MinionType = 0; // refer to MinionTroop;
-    public float maxHealth = 30;
-    public float presentHealth;
+    public bool isActive = false;
 
-    // self destory
-    float selfDestroyTimer = 0;
-    [SerializeField] float lifespan = 15f;
-
+    float initaldamage;
 
     private void Awake()
     {
-        presentHealth = maxHealth;
         myAI = GetComponent<MinionAI>();
-    }
+        initaldamage = myAI.attackDamage;
 
-    private void Update()
-    {
-        // destory itself if it is not added to troop
-        if (myTroop == null)
-        {
-            selfDestroyTimer += Time.deltaTime;
-            if (selfDestroyTimer > lifespan){
-                Destroy(gameObject);
-            }
-        }
     }
 
     //*********************************************************Method*******************************************************
-    public void SetListId(MinionTroop Troop )
+    public void SetTroop(MinionTroop Troop)
     {
         myTroop = Troop;
     }
@@ -45,29 +32,57 @@ public class Minion : MonoBehaviour
     public void RecallMinion()
     {
         Instantiate(recallingMinion,transform.position,transform.rotation);
-        Destroy(gameObject);
+        SetInactive();
     }
 
-    public void TakeDamage(float damage)
-    {
-        if (myTroop != null && myTroop.GetPresentHP() > 0) {
-            myTroop.TakeDamage(damage);
-        } 
-        else presentHealth -= damage;
-
-        if (presentHealth <= 0) Destroy(gameObject);
-
-        Debug.Log("deal Damage to Troop");
+    //******************************************************combate*********************************************************
+    public void SetDealDamageRate(float rate){
+        myAI.attackDamage = initaldamage * rate;
+    }
+    
+    public void SprintToPos(Vector3 pos){
+        myAI.SpriteToPos(pos);
     }
 
-    public void SetRebirthDelay(float delay)
+    public void SprintToEnemy(Transform enemy )
     {
-        myAI.enabled= false;
-        Invoke("RecoverMinionAI", delay);
+        myAI.SprintToEnemy(enemy);
     }
-    void RecoverMinionAI()
+
+    public void TakeDamage(float damage){
+        if (myTroop != null && myTroop.GetPresentHP() > 0)
+        {
+            myTroop.TakeDamage(damage * getDamageRate);
+        }
+    }
+
+    //*****************************************************Change Minion State******************************************
+
+    public void SetActiveDelay(float delay)
     {
-        myAI.enabled = true;
+        Invoke("ActiveMinion", delay);
+        gameObject.layer = 0;
+
+        // play recall animation
+        myAnimator.SetBool("Rebirth", true);
+        myAnimator.SetBool("Dying", false);
+    }
+    void ActiveMinion()
+    {
+        myAI.ActiveMinion();
+        isActive = true;
+    }
+
+    public void SetInactive()
+    {
+        myAI.InactiveMinion();
+        gameObject.layer = 11;
+
+        // play recall animation
+        myAnimator.SetBool("Dying", true);
+        myAnimator.SetBool("Rebirth", false);
+
+        isActive = false;
     }
 
 }

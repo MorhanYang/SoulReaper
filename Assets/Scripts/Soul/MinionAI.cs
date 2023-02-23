@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,6 +8,7 @@ public class MinionAI : MonoBehaviour
     NavMeshAgent agent;
     Transform target;
     Vector3 sprintPos;
+    GameObject player;
 
     [SerializeField] float attackRang = 1f;
     [SerializeField] float SprintSpeed = 1f;
@@ -17,13 +19,15 @@ public class MinionAI : MonoBehaviour
     bool isFacingRight = true;
 
     //Melee Attack
-    [SerializeField] float attackDamage;
+    public float attackDamage = 2f;
     [SerializeField] float attackCD;
     [SerializeField] Transform attackPoint;
     [SerializeField] float attackCircle;
     float attackTimer = 0;
 
     // roaming
+    List<Transform> roamingPosList;
+    Transform InitialRoamingPoint;
     Vector3 roamingPos;
 
     enum MinionSate
@@ -36,18 +40,17 @@ public class MinionAI : MonoBehaviour
     }
     MinionSate minionState;
 
-    private void OnEnable()
+    private void Start()
     {
         agent= GetComponent<NavMeshAgent>();
         minionSprite = transform.Find("Mimion").GetComponent<SpriteRenderer>();
-        minionState = MinionSate.roam;
+        player = PlayerManager.instance.player;
 
+        SetUpRoamingPoints();
+
+        minionState = MinionSate.Idle;
         GetComponent<SphereCollider>().radius = searchingRange;
-
         attackTimer = 0;
-
-        GetRoamingPostion();
-
     }
 
     private void Update()
@@ -63,6 +66,9 @@ public class MinionAI : MonoBehaviour
                         minionState = MinionSate.Attack;
                     }
                     attackTimer = 0;
+                }
+                if (target == null){
+                    minionState = MinionSate.roam;
                 }
                 else attackTimer += Time.deltaTime;
                 break;
@@ -82,7 +88,7 @@ public class MinionAI : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (minionState == MinionSate.Idle || minionState == MinionSate.roam)
+        if (minionState == MinionSate.roam)
         {
             if (other.GetComponent<Enemy>() != null && !other.GetComponent<Enemy>().isDead)
             {
@@ -99,32 +105,37 @@ public class MinionAI : MonoBehaviour
         }
     }
 
+    //************************************************************* State ****************************************************************************
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(attackPoint.position, attackCircle);
     }
-
-    //*****************************************************************Sprint***********************************************************************
-
-    public void SpriteToEnemy(Vector3 aimPos, Transform enemy){
-        // don't change target because of collision
-        agent.isStopped = true;
-
-        target = enemy;
-        sprintPos = aimPos;
-
-        Invoke("ChangeToSprint", 0.7f);
-    }
-    void ChangeToSprint()
+    public void ActiveMinion()
     {
+        minionState = MinionSate.roam;
+        GetRoamingStartPos();
+    }
+    public void InactiveMinion()
+    {
+        minionState = MinionSate.Idle;
+        agent.SetDestination(transform.position);
+    }
+
+    //***************************************************************** Sprint ***********************************************************************
+
+    public void SpriteToPos(Vector3 aimPos){
+        target = null; // ignore prevous target
+        sprintPos = aimPos;
         minionState = MinionSate.Sprint;
-        agent.isStopped = false;
+    }
+    public void SprintToEnemy(Transform aim)
+    {
+        target = aim;
+        minionState = MinionSate.Sprint;
     }
 
     void SprintFunction()
     {
-        // play Sprint ainamtion
-
         // Don't hit enemy
         if (target == null)
         {
@@ -158,10 +169,11 @@ public class MinionAI : MonoBehaviour
         if (target != null)
         {
             agent.SetDestination(target.position);
+            // when roaming the strop distance become 0.1f;
+            if (agent.stoppingDistance != 0.4f) agent.stoppingDistance = 0.4f;
 
             // flip
             FlipMinion();
-
         }
     }
 
@@ -196,30 +208,56 @@ public class MinionAI : MonoBehaviour
         // if kill the enemy
         if (target.GetComponent<Enemy>().isDead)
         {
+            GetRoamingStartPos();
             minionState = MinionSate.roam;
             // trigger ontrigger stay to see if there is enemy inside the cllider
             target = null;
         }
-        
     }
 
     //**************************************************Radom Roaming***************************************
-    private void GetRoamingPostion()
+    void SetUpRoamingPoints(){
+        // setup roamingPoints
+        Transform roamingPointSet = player.transform.Find("RoamingPosSet");
+        roamingPosList = new List<Transform>();
+        foreach (Transform item in roamingPointSet)
+        {
+            roamingPosList.Add(item);
+        }
+    }
+    void GetRoamingStartPos()
     {
-        // get random direction
-        Vector3 startPos = PlayerManager.instance.player.transform.position;
-        Vector3 randomDir = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
+        // random a roaming position
+        int IDforRoamingPoint = Random.Range(0,roamingPosList.Count);
+        InitialRoamingPoint = roamingPosList[IDforRoamingPoint];
+        roamingPos = InitialRoamingPoint.position;
 
-        roamingPos = startPos + randomDir * Random.Range(1f,2f);
+        // change agent stop distance
+        agent.stoppingDistance = 0.1f;
     }
 
+    void GetRandomRoamingPos()
+    {
+        // get random direction
+        Vector3 randomDir = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
+        roamingPos = InitialRoamingPoint.position + randomDir * Random.Range(1.5f, 2.5f);
+    }
     void RoamMove()
     {
+        // move
         agent.SetDestination(roamingPos);
-        if (agent.remainingDistance <= agent.stoppingDistance)
+
+        // when minion reach the start point, after few second it start random moving
+        if (roamingPos == InitialRoamingPoint.position && agent.remainingDistance <= agent.stoppingDistance)
         {
-            Invoke("GetRoamingPostion", 1.5f);
+            Invoke("GetRandomRoamingPos", Random.Range(3f, 5f));
         }
+        // when minion reach random moving pos;
+        else if (agent.remainingDistance <= agent.stoppingDistance)
+        {
+            roamingPos= InitialRoamingPoint.position;
+        }
+
     }
 
 }

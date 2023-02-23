@@ -14,7 +14,7 @@ public class Health : MonoBehaviour
 
     float initialHPBarWidth;
 
-    private void Start()
+    private void Awake()
     {
         presentHealth = Maxhealth; 
     }
@@ -35,10 +35,10 @@ public class Health : MonoBehaviour
 
     //*****************Method*******************
     public void HideHPUI(){
-        hpUI.gameObject.SetActive(false);
+        if (hpUI != null) hpUI.gameObject.SetActive(false);
     }
     public void ShowHPUI(){
-        hpUI.gameObject.SetActive(true);
+        if (hpUI != null) hpUI.gameObject.SetActive(true);
     }
 
     public void TakeDamage(float damage)

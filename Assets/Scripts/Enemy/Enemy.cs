@@ -46,7 +46,11 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         // target is missing set new target
-        if (target == null)
+        if (target == null){
+            target = player;
+            ai.SetTarget(target);
+        }
+        else if (target.GetComponent<Minion>() != null && !target.GetComponent<Minion>().isActive)
         {
             target = player;
             ai.SetTarget(target);
@@ -114,15 +118,19 @@ public class Enemy : MonoBehaviour
             ai.SlowDownEnemy(0.2f);
         }
 
-        if (health.presentHealth <= 0){
-            CheckIfHaveSoul();
-        }
-
         // change target
         if (target == player){
             target = subject;
             ai.SetTarget(target);
         }
+
+        //died
+        if (health.presentHealth <= 0)
+        {
+            CheckIfHaveSoul();
+            BecomeMinion();
+        }
+
     }
 
     void CheckIfHaveSoul()
@@ -162,12 +170,11 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void Rebirth(){
+    public void BecomeMinion(){
         if (haveSoul){
             GameObject minion = Instantiate(enemySoul, transform.position, transform.rotation);
-            minion.GetComponent<Minion>().SetRebirthDelay(1f);
             haveSoul = false;
-            GetComponent<Collider>().enabled = false;
+            Destroy(gameObject);
         }
     }
 }

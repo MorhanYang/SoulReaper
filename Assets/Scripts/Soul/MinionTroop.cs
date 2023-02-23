@@ -5,106 +5,137 @@ using TMPro;
 
 public class MinionTroop : MonoBehaviour
 {
+    //Health health;
     Health health;
-    List<int> troopMembers;
+    PlayerHealthBar playerHealthBar;
+
     List<Minion> assignedTroopMember;
 
     [SerializeField] GameObject[] minionTemple;
     [SerializeField] TMP_Text memberNum;
-    public int MaxMember = 8;
+    int MaxMember = 6;
+    // reduce Damge
+    int ReduceDamageStateCount = 0;
 
-    private void Start()
+    private void Awake()
     {
-        health= GetComponent<Health>();
-        troopMembers= new List<int>();
-        assignedTroopMember= new List<Minion>();
+        health = GetComponent<Health>();
+        assignedTroopMember = new List<Minion>();
+        playerHealthBar = PlayerManager.instance.player.GetComponent<PlayerHealthBar>();
 
         UpdateMemberNumText();
     }
+
+    private void Update()
+    {
+        ReduceMinionsDamge();
+    }
+
+    //********************************************Reset Troop Info************************************************************
+    public void ResetTroopHP(float hp, int maxMember)
+    {
+        health.Maxhealth = hp;
+        health.presentHealth = hp;
+        MaxMember = maxMember;
+    }
+
+    //************************************************Sprint***************************************************************
+    public void AssignTroopTowards(Vector3 destination)
+    {
+        // find target
+        Collider[] hitedEnemy = Physics.OverlapSphere(destination, 0.2f, LayerMask.GetMask("Enemy"));
+        Transform target = null;
+
+        // hit enemies. find closed one
+        if (hitedEnemy.Length > 0) target = GetClosestEnemyTransform(hitedEnemy, destination);
+        // if didn't hit a enemy
+        else target = null;
+
+        // Execute sprint action
+        if (target == null) // didn't hit any enemy
+        {
+            for (int i = 0; i < assignedTroopMember.Count; i++){
+                assignedTroopMember[i].SprintToPos(destination);
+            }
+        }
+        if(target != null) // Hit something
+        {
+            for (int i = 0; i < assignedTroopMember.Count; i++){
+                assignedTroopMember[i].SprintToEnemy(target);
+            }
+        }
+    }
+
+    private Transform GetClosestEnemyTransform(Collider[] enemyList, Vector3 referencePoint)
+    {
+        Transform closedEnemy = null;
+
+        for (int i = 0; i < enemyList.Length; i++)
+        {
+            if (!enemyList[i].GetComponent<Enemy>().isDead)
+            {
+                Collider testEnemy = enemyList[i];
+                if (closedEnemy == null) {
+                    closedEnemy = testEnemy.transform;
+                }
+                // test which is closer
+                else if(Vector3.Distance(testEnemy.transform.position, referencePoint) > Vector3.Distance(closedEnemy.transform.position, referencePoint)){
+                    closedEnemy = testEnemy.transform;
+                }
+            }
+        }
+        return closedEnemy;
+    }
+
     //********************************************Add & Remove Members********************************************************
     public GameObject GetMinionTemple(int TempleNum)
     {
         return minionTemple[TempleNum];
     }
 
-    public float GetMinionNumber()
+    public int GetTroopSize()
     {
-        return troopMembers.Count;
+        return assignedTroopMember.Count;
     }
 
     void UpdateMemberNumText()
     {
-        memberNum.text = troopMembers.Count + "/" + MaxMember;
+        memberNum.text = assignedTroopMember.Count + "/" + MaxMember;
     }
 
-    public bool AddTroopMember(Minion member) {
-
-        bool canAdd;
-
-        if (assignedTroopMember.Contains(member))
+    public void AddTroopMember(Minion member) {
+        if (member != null)
         {
-            int memberTypeID = member.MinionType;
-            troopMembers.Add(memberTypeID);
-            assignedTroopMember.Remove(member);
+            assignedTroopMember.Add(member);
+            member.SetTroop(this);
 
-            canAdd = true;
+            UpdateMemberNumText();
         }
-        else if ((troopMembers.Count + assignedTroopMember.Count) < MaxMember)
-        {
-            // if member is not in the assignedTroopMember
-            int memberTypeID = member.MinionType;
-            troopMembers.Add(memberTypeID);
-            
-            health.Maxhealth += member.maxHealth;
-            health.presentHealth += member.presentHealth;
-
-            health.HealthUpdate();
-
-            canAdd = true;
-        }
-        else canAdd = false;
-
-        UpdateMemberNumText();
-        return canAdd;
     }
-
-    public GameObject GenerateMinion(Vector3 pos)
-    {
-        GameObject removedMember = minionTemple[troopMembers[0]];
-        troopMembers.RemoveAt(0);
-        // generate a minion
-        GameObject soul = Instantiate(removedMember, pos, Quaternion.Euler(Vector3.zero));
-        assignedTroopMember.Add(soul.GetComponent<Minion>());
-
-        UpdateMemberNumText();
-        return soul;
-    }
-
 
     // ******************************************* Combat ********************************************************************
     public void TakeDamage(float damage)
     {
-        health.TakeDamage(damage);
-
-        if (health.presentHealth < 0 && assignedTroopMember.Count >0 )
+        if (health.presentHealth > 0) // prevent executing method for many times
         {
-            foreach (Minion item in assignedTroopMember)
+            health.TakeDamage(damage);
+
+            if (health.presentHealth <= 0 && assignedTroopMember.Count > 0)
             {
-                PlayerManager.instance.player.GetComponent<PlayerControl>().RemoveMinionFromList(item);
-
-                if (item != null)
-                {
-                    item.GetComponent<Collider>().enabled = false;
-                    Destroy(item.gameObject);
+                foreach (Minion item in assignedTroopMember){
+                    if (item != null){
+                        item.SetInactive();
+                        health.presentHealth = 0;
+                    }
                 }
-            }
 
-            assignedTroopMember.Clear();
-            // reset health
-            health.presentHealth= 1;
-            health.Maxhealth = 1;
-            health.HealthUpdate();
-        }
+                playerHealthBar.RemoveTroopFromPlayerHealth(this);
+
+                assignedTroopMember.Clear();
+                // reset health
+                health.HealthUpdate();
+            }
+        } 
     }
 
     public float GetPresentHP()
@@ -112,9 +143,43 @@ public class MinionTroop : MonoBehaviour
         return health.presentHealth;
     }
 
-    public void HealTroops()
+    void ReduceMinionsDamge()
     {
-        health.presentHealth = health.Maxhealth;
-        health.HealthUpdate();
+        float healthRate = health.presentHealth / health.Maxhealth;
+
+        // 0.9
+        if (healthRate > 0.9f && ReduceDamageStateCount == 0){
+            for (int i = 0; i < assignedTroopMember.Count; i++){
+                assignedTroopMember[i].SetDealDamageRate(1.2f);
+            }
+            ReduceDamageStateCount++;
+        }
+        // 0.4 - 0.9
+        else if(healthRate <= 0.9f && healthRate > 0.4 && ReduceDamageStateCount == 1)
+        {
+            for (int i = 0; i < assignedTroopMember.Count; i++)
+            {
+                assignedTroopMember[i].SetDealDamageRate(1f);
+            }
+            ReduceDamageStateCount++;
+        }
+        // 0.4 or less
+        else if (healthRate<= 0.4f && ReduceDamageStateCount == 2)
+        {
+            for (int i = 0; i < assignedTroopMember.Count; i++)
+            {
+                assignedTroopMember[i].SetDealDamageRate(0.6f);
+            }
+            ReduceDamageStateCount++;
+        }
+    }
+
+    // *********************************************** recall ******************************************
+    public void PlayMinionRecall()
+    {
+        for (int i = 0; i < assignedTroopMember.Count; i++)
+        {
+            assignedTroopMember[i].RecallMinion();
+        }
     }
 }

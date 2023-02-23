@@ -22,9 +22,6 @@ public class SoulList : MonoBehaviour
     private void Start()
     {
         // this script will change the prefab's PrensentIntervalX, so I must rest the prefab value when game start
-        for (int i = 0; i < soulItemTemp.Length; i++){
-            soulItemTemp[i].GetComponent<SoulListItem>().presentIntervalX = Mathf.Abs(soulItemTemp[i].GetComponent<SoulListItem>().presentIntervalX);
-        }
 
         SetupSoulList();
     }
