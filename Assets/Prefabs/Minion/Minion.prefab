@@ -287,7 +287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRang: 0.4
-  SprintSpeed: 2.5
+  SprintSpeed: 3
   searchingRange: 2
   attackDamage: 4
   attackCD: 2
@@ -323,7 +323,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myAnimator: {fileID: 314891880}
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
-  takeDamageRate: 0.8
+  getDamageRate: 0.5
   MinionType: 0
   isActive: 0
 --- !u!1 &2329640088302978043

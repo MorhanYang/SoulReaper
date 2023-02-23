@@ -8,10 +8,10 @@ public class Enemy : MonoBehaviour
     bool haveSoul;
 
     [SerializeField] GameObject enemySprite;
-    [SerializeField] GameObject haveSoulIcon;
     [SerializeField] GameObject enemySoul;
     [SerializeField] float myDamage = 10;
     [SerializeField] float attackInterval = 3f;
+
     Health health;
     EnemyBasicAi ai;
     GameObject player;
@@ -21,6 +21,8 @@ public class Enemy : MonoBehaviour
     float damageTimer;
     GameObject target;
 
+    // death trigger
+    [SerializeField] GameObject otherScrips;
 
 
     private void Start()
@@ -32,10 +34,6 @@ public class Enemy : MonoBehaviour
         ai = GetComponent<EnemyBasicAi>();
         player = PlayerManager.instance.player;
 
-        // for static blocks
-        if (isDead){
-            ShowHaveSoulIcon();
-        }
 
         // Initiate the havesoul 
         if (enemySoul != null){
@@ -63,9 +61,6 @@ public class Enemy : MonoBehaviour
             health.HideHPUI();
             }
         }
-        // havesoul icon hiding
-        DisableHaveSoulIcon();
-
     }
 
     // Cursor Controll
@@ -104,7 +99,7 @@ public class Enemy : MonoBehaviour
     }
 
 
-    //**************************************************************************Method**************************************************************
+    //************************************************************************** Combat **************************************************************
     public void TakeDamage(float damage , GameObject subject) {
         float hideHealthBarDelay = 5f;
 
@@ -127,12 +122,16 @@ public class Enemy : MonoBehaviour
         //died
         if (health.presentHealth <= 0)
         {
+            // generate minion
             CheckIfHaveSoul();
-            BecomeMinion();
+
+            // tirgger event
+            if (otherScrips != null) TriggerAdditionalScript();
         }
 
     }
 
+    // ********************************************* rebirth *******************************************
     void CheckIfHaveSoul()
     {
         if (!haveSoul){
@@ -141,33 +140,18 @@ public class Enemy : MonoBehaviour
         else
         {
             isDead = true;
-            ShowHaveSoulIcon();
-            if (ai != null){
-                ai.enabled = false;
-            }
-            GetComponent<Collider>().isTrigger = true;
+            if (ai != null) ai.enabled = false;
 
             health.HideHPUI();
 
             // play dead animation
-            enemySprite.GetComponent<Animator>().SetBool("isDead", true);
+            if (enemySprite.GetComponent<Animator>() != null)
+            {
+                enemySprite.GetComponent<Animator>().SetBool("isDead", true);
+            }
+            BecomeMinion();
         }
             
-    }
-
-    public void ShowHaveSoulIcon()
-    {
-        if (haveSoulIcon != null){
-            haveSoulIcon.SetActive(true);
-        }
-    }
-
-    void DisableHaveSoulIcon()
-    {
-        if (haveSoulIcon != null && !haveSoul)
-        {
-            haveSoulIcon.SetActive(false);
-        }
     }
 
     public void BecomeMinion(){
@@ -176,5 +160,10 @@ public class Enemy : MonoBehaviour
             haveSoul = false;
             Destroy(gameObject);
         }
+    }
+
+    // **************************************Addtional Scrips trigger*********************************
+    void TriggerAdditionalScript()
+    {
     }
 }

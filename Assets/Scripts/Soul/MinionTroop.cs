@@ -43,7 +43,7 @@ public class MinionTroop : MonoBehaviour
     public void AssignTroopTowards(Vector3 destination)
     {
         // find target
-        Collider[] hitedEnemy = Physics.OverlapSphere(destination, 0.2f, LayerMask.GetMask("Enemy"));
+        Collider[] hitedEnemy = Physics.OverlapSphere(destination, 0.2f, LayerMask.GetMask("Enemy","PuzzleTrigger"));
         Transform target = null;
 
         // hit enemies. find closed one
@@ -52,7 +52,7 @@ public class MinionTroop : MonoBehaviour
         else target = null;
 
         // Execute sprint action
-        if (target == null) // didn't hit any enemy
+        if (target == null) // didn't hit any thing
         {
             for (int i = 0; i < assignedTroopMember.Count; i++){
                 assignedTroopMember[i].SprintToPos(destination);
@@ -72,16 +72,25 @@ public class MinionTroop : MonoBehaviour
 
         for (int i = 0; i < enemyList.Length; i++)
         {
-            if (!enemyList[i].GetComponent<Enemy>().isDead)
+            // get trigger
+            if (enemyList[i].GetComponent<PuzzleTrigger>()!= null)
+            {
+                closedEnemy = enemyList[i].transform;
+                return closedEnemy;
+            }
+            // get enemy
+            else if (enemyList[i].GetComponent<Enemy>())
             {
                 Collider testEnemy = enemyList[i];
-                if (closedEnemy == null) {
+                if (closedEnemy == null)
+                {
                     closedEnemy = testEnemy.transform;
                 }
                 // test which is closer
-                else if(Vector3.Distance(testEnemy.transform.position, referencePoint) > Vector3.Distance(closedEnemy.transform.position, referencePoint)){
+                else if (Vector3.Distance(testEnemy.transform.position, referencePoint) > Vector3.Distance(closedEnemy.transform.position, referencePoint))
+                {
                     closedEnemy = testEnemy.transform;
-                }
+                } 
             }
         }
         return closedEnemy;

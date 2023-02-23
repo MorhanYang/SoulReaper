@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class EnemyBasicAi : MonoBehaviour
 {
+    Enemy enemy;
+
     [SerializeField] Transform enemySprite;
     [SerializeField] float followDistance = 4.5f;
     [SerializeField] float distanceForDash;
@@ -39,6 +41,7 @@ public class EnemyBasicAi : MonoBehaviour
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        enemy = GetComponent<Enemy>();
         player = PlayerManager.instance.player;
         target = player.transform;
 
@@ -65,8 +68,7 @@ public class EnemyBasicAi : MonoBehaviour
                 }
                 FollowTarget();
                 if (canDash){
-                    if (dashCDTimer >= dashCD && distance <= distanceForDash)
-                    {
+                    if (dashCDTimer >= dashCD && distance <= distanceForDash){
                         action = EnemyAction.dashing;
                     }
                 }
@@ -78,8 +80,6 @@ public class EnemyBasicAi : MonoBehaviour
                 break;
             case EnemyAction.dashing:
                 Dashing();
-                break;
-            case EnemyAction.shooting:
                 break;
         }
 

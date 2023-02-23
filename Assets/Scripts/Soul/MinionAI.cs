@@ -29,6 +29,7 @@ public class MinionAI : MonoBehaviour
     List<Transform> roamingPosList;
     Transform InitialRoamingPoint;
     Vector3 roamingPos;
+    bool randomHandler = true; // prevent random many times 
 
     enum MinionSate
     {
@@ -170,7 +171,7 @@ public class MinionAI : MonoBehaviour
         {
             agent.SetDestination(target.position);
             // when roaming the strop distance become 0.1f;
-            if (agent.stoppingDistance != 0.4f) agent.stoppingDistance = 0.4f;
+            //if (agent.stoppingDistance != 0.4f) agent.stoppingDistance = 0.4f;
 
             // flip
             FlipMinion();
@@ -198,15 +199,22 @@ public class MinionAI : MonoBehaviour
     //****************************************************Attack*****************************************
     void MeleeAttack()
     {
-        Collider[] hitEnemy = Physics.OverlapSphere(attackPoint.position, attackCircle, LayerMask.GetMask("Enemy"));
+        Collider[] hitEnemy = Physics.OverlapSphere(attackPoint.position, attackCircle, LayerMask.GetMask("Enemy", "PuzzleTrigger"));
         for (int i = 0; i < hitEnemy.Length; i++)
         {
-            hitEnemy[i].GetComponent<Enemy>().TakeDamage(attackDamage, gameObject);
+            // enemy
+            if (hitEnemy[i].GetComponent<Enemy>() != null){
+                hitEnemy[i].GetComponent<Enemy>().TakeDamage(attackDamage, gameObject);
+            }
+            //puzzle trigger
+            if (hitEnemy[i].GetComponent<PuzzleTrigger>() != null){
+                hitEnemy[i].GetComponent<PuzzleTrigger>().TakeDamage(attackDamage, gameObject);
+            }
         }
         minionState = MinionSate.Follow;
 
         // if kill the enemy
-        if (target.GetComponent<Enemy>().isDead)
+        if (target.GetComponent<Health>().presentHealth < 0)
         {
             GetRoamingStartPos();
             minionState = MinionSate.roam;
@@ -231,17 +239,9 @@ public class MinionAI : MonoBehaviour
         int IDforRoamingPoint = Random.Range(0,roamingPosList.Count);
         InitialRoamingPoint = roamingPosList[IDforRoamingPoint];
         roamingPos = InitialRoamingPoint.position;
-
-        // change agent stop distance
-        agent.stoppingDistance = 0.1f;
+        randomHandler = true;
     }
 
-    void GetRandomRoamingPos()
-    {
-        // get random direction
-        Vector3 randomDir = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
-        roamingPos = InitialRoamingPoint.position + randomDir * Random.Range(1.5f, 2.5f);
-    }
     void RoamMove()
     {
         // move
@@ -250,14 +250,25 @@ public class MinionAI : MonoBehaviour
         // when minion reach the start point, after few second it start random moving
         if (roamingPos == InitialRoamingPoint.position && agent.remainingDistance <= agent.stoppingDistance)
         {
-            Invoke("GetRandomRoamingPos", Random.Range(3f, 5f));
+            if (randomHandler){
+                Debug.Log("Random Count");
+                Invoke("GetRandomRoamingPos", Random.Range(1.5f, 3f));
+                randomHandler= false;
+            }
         }
         // when minion reach random moving pos;
         else if (agent.remainingDistance <= agent.stoppingDistance)
         {
             roamingPos= InitialRoamingPoint.position;
+            randomHandler = true;
         }
+    }
 
+    void GetRandomRoamingPos()
+    {
+        // get random direction
+        Vector3 randomDir = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
+        roamingPos = InitialRoamingPoint.position + randomDir * Random.Range(1f, 2.5f);
     }
 
 }

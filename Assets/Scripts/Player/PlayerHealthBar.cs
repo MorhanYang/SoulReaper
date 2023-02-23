@@ -17,7 +17,8 @@ public class PlayerHealthBar : MonoBehaviour
 
     // hp
     [SerializeField] GameObject hpUI;
-    List<Image> hpBars = new List<Image>();
+    List<RectTransform> hpBars = new List<RectTransform>();
+    float initialBarWidth;
     public float Maxhealth = 100;
     public float presentHealth = 100;
 
@@ -26,7 +27,7 @@ public class PlayerHealthBar : MonoBehaviour
     float invincibleTimer = 0;
 
     // HealthBar Switch
-    Image barPresent;
+    RectTransform barPresent;
     int barPresentId;
     float indiviualMaxValue;
     float HpInPresentBar;
@@ -68,6 +69,7 @@ public class PlayerHealthBar : MonoBehaviour
     void InitiatePlayerHPBar()
     {
         itemTemp.gameObject.SetActive(true);
+        initialBarWidth = itemTemp.troopHPUI.sizeDelta.x;
         for (int i = 0; i < cellNum; i++)
         {
             Item_PlayerHealth hpCell = Instantiate(itemTemp, hpUI.transform);
@@ -82,6 +84,10 @@ public class PlayerHealthBar : MonoBehaviour
         return activedTroopList;
     }
 
+    Vector3 BarWidthSize(Vector3 previousSize, float Hpinbar){
+        return new Vector3((Hpinbar / indiviualMaxValue * initialBarWidth), previousSize.y, previousSize.z);
+    }
+
     //*********************************************************** Damage **********************************************************
 
     public void TakeDamage(float damage)
@@ -92,11 +98,11 @@ public class PlayerHealthBar : MonoBehaviour
             {
                 presentHealth -= damage;
                 HpInPresentBar -= damage;
-                barPresent.fillAmount = HpInPresentBar / indiviualMaxValue;
+                barPresent.sizeDelta= BarWidthSize(barPresent.sizeDelta,HpInPresentBar);
             }
             else
             {
-                barPresent.fillAmount = 0;
+                barPresent.sizeDelta = BarWidthSize(barPresent.sizeDelta, 0);
                 float passedDamage = damage - HpInPresentBar;
                 //reset previous bar info
                 HpInPresentBar = indiviualMaxValue;
@@ -109,17 +115,6 @@ public class PlayerHealthBar : MonoBehaviour
     }
 
     //*************************************************Recover*****************************************
-    public void RecoverHPRegular(float recoverNum)
-    {
-        if (recoverNum <= (Maxhealth - presentHealth)){
-            presentHealth += recoverNum;
-        }
-        else if (recoverNum > (Maxhealth - presentHealth))
-        {
-            presentHealth = Maxhealth;
-        }
-        HealthHPReset();
-    }
 
     void HealingAfterSeconds(float healingValue, float interval){
         if (healingTimer > interval){
@@ -139,10 +134,10 @@ public class PlayerHealthBar : MonoBehaviour
         if (healingValue <= BarSpaceLeft){
             presentHealth += healingValue;
             HpInPresentBar += healingValue;
-            barPresent.fillAmount = HpInPresentBar / indiviualMaxValue;
+            barPresent.sizeDelta =BarWidthSize(barPresent.sizeDelta, HpInPresentBar);
         }
         else{
-            barPresent.fillAmount = 1;
+            barPresent.sizeDelta = BarWidthSize(barPresent.sizeDelta, indiviualMaxValue);
             float passedHP = healingValue - BarSpaceLeft;
             // load prevous bar
             if (barPresentId < (cellNum - activedTroopList.Count - 1)) barPresentId++;
@@ -256,12 +251,11 @@ public class PlayerHealthBar : MonoBehaviour
         // refresh health bar
         presentHealth -= indiviualMaxValue;
         Maxhealth -= indiviualMaxValue;
-        barPresent.fillAmount = 0;// clean previous bar
+        barPresent.sizeDelta = BarWidthSize(barPresent.sizeDelta, 0);// clean previous bar
         // next bar
         if (barPresentId > 0) barPresentId--;
         barPresent = hpBars[barPresentId];
-        barPresent.fillAmount = HpInPresentBar/ indiviualMaxValue;
-        Debug.Log("HpInPresentBar: " + HpInPresentBar);
+        barPresent.sizeDelta = BarWidthSize(barPresent.sizeDelta, HpInPresentBar);
 
 
         // show Troop Bar
@@ -282,7 +276,7 @@ public class PlayerHealthBar : MonoBehaviour
     {
         // clean all bars
         for (int i = 0; i < hpBars.Count; i++){
-            hpBars[i].fillAmount = 0;
+            hpBars[i].sizeDelta = BarWidthSize(barPresent.sizeDelta, 0);
         }
 
         // count full bars
@@ -293,13 +287,13 @@ public class PlayerHealthBar : MonoBehaviour
         // set full bars
         for (int i = 0; i < fullBarNum; i++)
         {
-            hpBars[i].fillAmount = 1;
+            hpBars[i].sizeDelta = BarWidthSize(barPresent.sizeDelta, indiviualMaxValue);
         }
 
         // set the half bar
         HpInPresentBar = presentHealth - (indiviualMaxValue * fullBarNum);
         if (HpInPresentBar > 0){
-            hpBars[fullBarNum].fillAmount = HpInPresentBar / indiviualMaxValue;
+            hpBars[fullBarNum].sizeDelta = BarWidthSize(barPresent.sizeDelta, HpInPresentBar);
         }
 
         // property

@@ -3,6 +3,6 @@ using UnityEngine.UI;
 
 public class Item_PlayerHealth : MonoBehaviour
 {
-    public Image troopHPUI;
+    public RectTransform troopHPUI;
     public MinionTroop troop;
 }

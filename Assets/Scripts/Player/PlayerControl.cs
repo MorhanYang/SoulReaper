@@ -112,7 +112,7 @@ public class PlayerControl : MonoBehaviour
                 }
                 // Rebirth Enemy
                 if (Input.GetKeyDown(KeyCode.Alpha1)){
-                    hp.RebirthTroop(aimPos , 3f);
+                    hp.RebirthTroop(aimPos , 2f);
                 }
                 break;
         }
@@ -122,12 +122,10 @@ public class PlayerControl : MonoBehaviour
         }
         else{
             //switch combat state
-            if (Input.GetKeyDown(KeyCode.M))
-            {
+            if (Input.GetKeyDown(KeyCode.M)){
                 SwitchPlayerState();
             }
         }
-
 
         //recall control
         if (Input.GetMouseButtonDown(1) && combateState == CombateState.normal)
