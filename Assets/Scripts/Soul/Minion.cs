@@ -10,8 +10,8 @@ public class Minion : MonoBehaviour
     [SerializeField] Animator myAnimator;
     [SerializeField] GameObject recallingMinion;
     [SerializeField] float getDamageRate = 0.5f;
+    [SerializeField] GameObject rebirthIcon;
 
-    public int MinionType = 0; // refer to MinionTroop;
     public bool isActive = false;
 
     float initaldamage;
@@ -20,7 +20,6 @@ public class Minion : MonoBehaviour
     {
         myAI = GetComponent<MinionAI>();
         initaldamage = myAI.attackDamage;
-
     }
 
     //*********************************************************Method*******************************************************
@@ -31,7 +30,6 @@ public class Minion : MonoBehaviour
 
     public void RecallMinion()
     {
-        Instantiate(recallingMinion,transform.position,transform.rotation);
         SetInactive();
     }
 
@@ -56,29 +54,45 @@ public class Minion : MonoBehaviour
         }
     }
 
+    public void KnockBack( Vector3 Dir)
+    {
+
+    }
+
     //*****************************************************Change Minion State******************************************
 
     public void SetActiveDelay(float delay)
     {
         Invoke("ActiveMinion", delay);
-        gameObject.layer = 0;
+        isActive = true;
 
         // play recall animation
+        rebirthIcon.SetActive(false);
+        // get a recalling minion from player
+        GameObject effect = Instantiate(recallingMinion, PlayerManager.instance.player.transform.position, transform.rotation);
+        effect.GetComponent<RecallingMinion>().AimTo(transform);
+
         myAnimator.SetBool("Rebirth", true);
         myAnimator.SetBool("Dying", false);
     }
     void ActiveMinion()
     {
-        myAI.ActiveMinion();
-        isActive = true;
+        if (isActive){
+            gameObject.layer = LayerMask.NameToLayer("MovingMinion");
+            myAI.ActiveMinion();
+        }
     }
 
     public void SetInactive()
     {
         myAI.InactiveMinion();
-        gameObject.layer = 11;
+        gameObject.layer = LayerMask.NameToLayer("Minion");
 
         // play recall animation
+        GameObject effect = Instantiate(recallingMinion, transform.position, transform.rotation);
+        effect.GetComponent<RecallingMinion>().AimTo(PlayerManager.instance.player.transform);
+
+        rebirthIcon.SetActive(true);
         myAnimator.SetBool("Dying", true);
         myAnimator.SetBool("Rebirth", false);
 

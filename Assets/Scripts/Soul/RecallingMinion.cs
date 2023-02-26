@@ -5,21 +5,32 @@ using UnityEngine;
 public class RecallingMinion : MonoBehaviour
 {
     Transform player;
-    [SerializeField] float moveSpeed = 0.05f;
+    Transform target;
+    [SerializeField] float moveSpeed = 5f;
+
+    Coroutine recallCoroutine;
     private void Start()
     {
         player = PlayerManager.instance.player.transform;
     }
 
-    private void Update()
+
+    IEnumerator SetTarget(Transform destination)
     {
-        transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
+        target = destination;
+
+        while (transform.position != target.position)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.fixedDeltaTime);
+            yield return new WaitForFixedUpdate();
+        }
+
+        Destroy(gameObject);
     }
 
-    private void OnTriggerEnter(Collider other)
+
+    public void AimTo( Transform minion)
     {
-        if (other.tag == "Player"){
-            Destroy(gameObject);
-        }
+        recallCoroutine = StartCoroutine(SetTarget(minion));
     }
 }

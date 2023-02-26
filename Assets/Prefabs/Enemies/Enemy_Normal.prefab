@@ -230,7 +230,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 781885203487099882}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.1
+  m_Radius: 0.05
   m_Speed: 0.4
   m_Acceleration: 8
   avoidancePriority: 50
@@ -255,13 +255,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cddb079cf86b32e409ac29a680231e20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
   enemySprite: {fileID: 781885203998012033}
   followDistance: 4.5
+  attackInterval: 2.5
+  myDamage: 5
+  canDash: 0
+  dashIndicator_Axis: {fileID: 0}
   distanceForDash: 2.5
   dashPrepareTime: 0.8
   dashCD: 2
   dashSpeed: 10
-  canDash: 0
 --- !u!114 &781885203487099890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,10 +280,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDead: 0
   enemySprite: {fileID: 781885203998012032}
-  haveSoulIcon: {fileID: 781885203346279476}
   enemySoul: {fileID: 2329640087748747304, guid: b7ed528af67ac0e47bacc2885a5712fb, type: 3}
-  myDamage: 5
-  attackInterval: 2
+  otherScrips: {fileID: 0}
 --- !u!114 &781885203487099891
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -19,10 +19,10 @@ TagManager:
   - UI
   - PostProcessing
   - Ground
-  - FollowingSoul
+  - Minion
   - Enemy
   - Obstacle
-  - MinionLayer
+  - MovingMinion
   - Player
   - PuzzleTrigger
   - 

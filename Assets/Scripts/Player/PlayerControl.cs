@@ -114,6 +114,10 @@ public class PlayerControl : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Alpha1)){
                     hp.RebirthTroop(aimPos , 2f);
                 }
+
+                if (Input.GetKeyDown(KeyCode.Alpha2)){
+                    hp.ActivateRecover();
+                }
                 break;
         }
         // if player talk to anyone, force player to become normal state

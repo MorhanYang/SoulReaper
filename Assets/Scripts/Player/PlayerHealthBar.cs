@@ -36,7 +36,12 @@ public class PlayerHealthBar : MonoBehaviour
     float healingTimer = 0f;
     [SerializeField] float healingValue = 5f;
     [SerializeField] float healingInterval = 10f;
+    bool isActiveRecover = false;
+    float recoverTime = 0;
 
+    // Effect
+    [SerializeField] GameObject rebirthRangeEffect;
+    float rebirthDelay = 1f;
 
 
     private void Awake()
@@ -62,7 +67,16 @@ public class PlayerHealthBar : MonoBehaviour
         }
 
         // recover through time
-        HealingAfterSeconds(healingValue, healingInterval);
+        if (isActiveRecover){
+            if (recoverTime <= 12 ){
+                HealingAfterSeconds(healingValue, healingInterval);
+                recoverTime += Time.deltaTime;
+            }else isActiveRecover= false;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.T)) {
+            TakeDamage(30f);
+        }
 
     }
     //****************************************************Initialize & property*************************************************************
@@ -102,10 +116,9 @@ public class PlayerHealthBar : MonoBehaviour
             }
             else
             {
+                presentHealth -= indiviualMaxValue;
                 barPresent.sizeDelta = BarWidthSize(barPresent.sizeDelta, 0);
-                float passedDamage = damage - HpInPresentBar;
-                //reset previous bar info
-                HpInPresentBar = indiviualMaxValue;
+                float passedDamage = damage - indiviualMaxValue;
                 // next bar
                 if (barPresentId > 0) barPresentId--;
                 barPresent = hpBars[barPresentId];
@@ -115,6 +128,11 @@ public class PlayerHealthBar : MonoBehaviour
     }
 
     //*************************************************Recover*****************************************
+    public void ActivateRecover()
+    {
+        isActiveRecover= true;
+        recoverTime = 0;
+    }
 
     void HealingAfterSeconds(float healingValue, float interval){
         if (healingTimer > interval){
@@ -137,6 +155,7 @@ public class PlayerHealthBar : MonoBehaviour
             barPresent.sizeDelta =BarWidthSize(barPresent.sizeDelta, HpInPresentBar);
         }
         else{
+            presentHealth += BarSpaceLeft;
             barPresent.sizeDelta = BarWidthSize(barPresent.sizeDelta, indiviualMaxValue);
             float passedHP = healingValue - BarSpaceLeft;
             // load prevous bar
@@ -207,7 +226,7 @@ public class PlayerHealthBar : MonoBehaviour
 
     public void RebirthTroop( Vector3 pointedPos , float radius)
     {
-        Collider[] MinionInCircle = Physics.OverlapSphere(pointedPos, radius, LayerMask.GetMask("MinionLayer"));
+        Collider[] MinionInCircle = Physics.OverlapSphere(pointedPos, radius, LayerMask.GetMask("Minion"));// when rebirth minion, the layer will change
 
         if (MinionInCircle.Length > 0)
         {
@@ -224,7 +243,7 @@ public class PlayerHealthBar : MonoBehaviour
                 for (int i = 0; i < MinionInCircle.Length; i++)
                 {
                     if (MinionInCircle[i].GetComponent<Minion>() != null){
-                        MinionInCircle[i].GetComponent<Minion>().SetActiveDelay(0.6f);
+                        MinionInCircle[i].GetComponent<Minion>().SetActiveDelay(rebirthDelay);
                         //add to troop list
                         troopPresent.AddTroopMember(MinionInCircle[i].GetComponent<Minion>());
                     }
@@ -237,7 +256,7 @@ public class PlayerHealthBar : MonoBehaviour
                 {
                     if (MinionInCircle[i].GetComponent<Minion>() != null)
                     {
-                        MinionInCircle[i].GetComponent<Minion>().SetActiveDelay(0.6f);
+                        MinionInCircle[i].GetComponent<Minion>().SetActiveDelay(rebirthDelay);
                         //add to troop list
                         troopPresent.AddTroopMember(MinionInCircle[i].GetComponent<Minion>());
                     }
@@ -300,8 +319,6 @@ public class PlayerHealthBar : MonoBehaviour
         barPresent = hpBars[fullBarNum];
         barPresentId = fullBarNum;
     }
-
-
     //****************************************************** Invincible ******************************************************
     public void Invincible(float delay, float duration)
     {

@@ -106,7 +106,7 @@ public class MinionAI : MonoBehaviour
         }
     }
 
-    //************************************************************* State ****************************************************************************
+    //************************************************************* State & get State ****************************************************************************
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(attackPoint.position, attackCircle);
@@ -122,6 +122,14 @@ public class MinionAI : MonoBehaviour
         agent.SetDestination(transform.position);
     }
 
+    public bool IsIdle()
+    {
+        if (minionState == MinionSate.Idle){
+            return true;
+        }
+        else return false;
+
+    }
     //***************************************************************** Sprint ***********************************************************************
 
     public void SpriteToPos(Vector3 aimPos){
@@ -241,7 +249,6 @@ public class MinionAI : MonoBehaviour
         roamingPos = InitialRoamingPoint.position;
         randomHandler = true;
     }
-
     void RoamMove()
     {
         // move
@@ -251,24 +258,26 @@ public class MinionAI : MonoBehaviour
         if (roamingPos == InitialRoamingPoint.position && agent.remainingDistance <= agent.stoppingDistance)
         {
             if (randomHandler){
-                Debug.Log("Random Count");
-                Invoke("GetRandomRoamingPos", Random.Range(1.5f, 3f));
-                randomHandler= false;
+                Invoke("GetRandomRoamingPos", Random.Range(3.5f, 5f));
+                Invoke("GetRandomRoamingPos", Random.Range(2f, 4f));
+                randomHandler = false;
             }
         }
         // when minion reach random moving pos;
         else if (agent.remainingDistance <= agent.stoppingDistance)
         {
             roamingPos= InitialRoamingPoint.position;
-            randomHandler = true;
         }
     }
-
     void GetRandomRoamingPos()
     {
-        // get random direction
-        Vector3 randomDir = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
-        roamingPos = InitialRoamingPoint.position + randomDir * Random.Range(1f, 2.5f);
+        if (minionState == MinionSate.roam) // because is a delay function, it would cause movement when minion is inactive
+        {
+            // get random direction
+            Vector3 randomDir = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
+            roamingPos = InitialRoamingPoint.position + randomDir * Random.Range(2.5f, 3.5f);
+            randomHandler = true;
+        }
     }
 
 }

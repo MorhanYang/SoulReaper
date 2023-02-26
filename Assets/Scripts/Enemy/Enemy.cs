@@ -9,8 +9,6 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] GameObject enemySprite;
     [SerializeField] GameObject enemySoul;
-    [SerializeField] float myDamage = 10;
-    [SerializeField] float attackInterval = 3f;
 
     Health health;
     EnemyBasicAi ai;
@@ -18,8 +16,7 @@ public class Enemy : MonoBehaviour
 
     float showHealthBarTimer = 0f;
     // combat
-    float damageTimer;
-    GameObject target;
+
 
     // death trigger
     [SerializeField] GameObject otherScrips;
@@ -43,16 +40,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        // target is missing set new target
-        if (target == null){
-            target = player;
-            ai.SetTarget(target);
-        }
-        else if (target.GetComponent<Minion>() != null && !target.GetComponent<Minion>().isActive)
-        {
-            target = player;
-            ai.SetTarget(target);
-        }
+
 
         // health bar
         if (showHealthBarTimer >= 0){
@@ -82,23 +70,6 @@ public class Enemy : MonoBehaviour
         else CursorManager.instance.ActivateDefaultCursor();
     }
 
-
-    private void OnTriggerStay(Collider other)
-    {
-        // colide with target
-        if (other.gameObject == target)
-        {
-            if (!isDead && damageTimer >= attackInterval)
-            {
-                if (other.transform.GetComponent<Minion>() != null && !other.IsDestroyed()) other.transform.GetComponent<Minion>().TakeDamage(myDamage);
-                if (other.transform.GetComponent<PlayerControl>() != null) other.transform.GetComponent<PlayerControl>().PlayerTakeDamage(myDamage);
-                damageTimer = 0f;
-            }
-            else damageTimer += Time.deltaTime;
-        }
-    }
-
-
     //************************************************************************** Combat **************************************************************
     public void TakeDamage(float damage , GameObject subject) {
         float hideHealthBarDelay = 5f;
@@ -114,9 +85,8 @@ public class Enemy : MonoBehaviour
         }
 
         // change target
-        if (target == player){
-            target = subject;
-            ai.SetTarget(target);
+        if (ai.target == player.transform){
+            ai.target = subject.transform;
         }
 
         //died
