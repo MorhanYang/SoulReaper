@@ -52,23 +52,23 @@ public class Enemy : MonoBehaviour
     }
 
     // Cursor Controll
-    private void OnMouseEnter()
-    {
-        if (isDead && haveSoul){
-            // change cursor
-            CursorManager.instance.ActivateRecallCursor();
-        }
-    }
-    private void OnMouseExit()
-    {
-        // change cursor
-        PlayerControl playerControl = PlayerManager.instance.player.GetComponent<PlayerControl>();
-        if (playerControl.playerState == PlayerControl.PlayerState.combat)
-        {
-            CursorManager.instance.ActivateCombatCursor();
-        }
-        else CursorManager.instance.ActivateDefaultCursor();
-    }
+    //private void OnMouseEnter()
+    //{
+    //    if (isDead && haveSoul){
+    //        // change cursor
+    //        CursorManager.instance.ActivateRecallCursor();
+    //    }
+    //}
+    //private void OnMouseExit()
+    //{
+    //    // change cursor
+    //    PlayerControl playerControl = PlayerManager.instance.player.GetComponent<PlayerControl>();
+    //    if (playerControl.playerState == PlayerControl.PlayerState.combat)
+    //    {
+    //        CursorManager.instance.ActivateCombatCursor();
+    //    }
+    //    else CursorManager.instance.ActivateDefaultCursor();
+    //}
 
     //************************************************************************** Combat **************************************************************
     public void TakeDamage(float damage , GameObject subject) {

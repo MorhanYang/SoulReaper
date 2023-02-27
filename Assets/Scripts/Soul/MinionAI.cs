@@ -155,6 +155,7 @@ public class MinionAI : MonoBehaviour
             if (Vector3.Distance(transform.position, sprintPos) <= 0.1f)
             {
                 minionState = MinionSate.roam;
+                GetRoamingStartPos();
             }
         }
         // Hit enemy

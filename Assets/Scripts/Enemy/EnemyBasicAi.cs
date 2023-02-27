@@ -94,7 +94,7 @@ public class EnemyBasicAi : MonoBehaviour
                 if (dashCDTimer <= dashCD) dashCDTimer += Time.deltaTime;
                 break;
             case EnemyAction.dashing:
-                Dashing();
+                Dashing(myDamage);
                 break;
         }
 
@@ -137,7 +137,7 @@ public class EnemyBasicAi : MonoBehaviour
         dashIndicator_Axis.transform.rotation = DashRoatation;
     }
 
-    void Dashing()
+    void Dashing(float damage)
     {
         // start timer
         dashTimer += Time.deltaTime;
@@ -156,11 +156,15 @@ public class EnemyBasicAi : MonoBehaviour
             // don't use Minion layermask because the moving minion is not in Minion 
             for (int i = 0; i < hitedObjecct.Length; i++){
                 if (hitedObjecct[i].GetComponent<PlayerControl>() != null){
-                    hitedObjecct[i].GetComponent<PlayerControl>().PlayerTakeDamage(myDamage);
+                    hitedObjecct[i].GetComponent<PlayerControl>().PlayerTakeDamage(damage);
+                    // recuce damge after hit an object
+                    damage = (int)(damage*0.6f);
                 }
                 else if (!DamagedMinion.Contains(hitedObjecct[i])){
-                    hitedObjecct[i].GetComponent<Minion>().TakeDamage(myDamage);
+                    hitedObjecct[i].GetComponent<Minion>().TakeDamage(damage);
                     DamagedMinion.Add(hitedObjecct[i]);
+                    // recuce damge after hit an object
+                    damage = (int)(damage * 0.6f);
                 }
             }
         }
