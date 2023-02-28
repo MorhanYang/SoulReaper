@@ -51,7 +51,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.7
+  m_Radius: 0.6
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!195 &3444220120501066856
 NavMeshAgent:
@@ -91,12 +91,12 @@ MonoBehaviour:
   enemySprite: {fileID: 3444220122287105284}
   followDistance: 4.5
   attackInterval: 2.5
-  myDamage: 7
+  myDamage: 6
   canDash: 1
   dashIndicator_Axis: {fileID: 6751629214558052776}
   distanceForDash: 3
-  dashPrepareTime: 2
-  dashCD: 4.5
+  dashPrepareTime: 1.6
+  dashCD: 2.5
   dashSpeed: 8
 --- !u!114 &3444220120501066871
 MonoBehaviour:
@@ -128,8 +128,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpUI: {fileID: 3444220122308579128}
   hpBar: {fileID: 3444220122268404418}
-  Maxhealth: 80
-  presentHealth: 80
+  Maxhealth: 100
+  presentHealth: 100
 --- !u!54 &3226805919991222666
 Rigidbody:
   m_ObjectHideFlags: 0

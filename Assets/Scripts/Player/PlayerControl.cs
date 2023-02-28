@@ -1,6 +1,5 @@
 using Fungus;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
@@ -112,11 +111,25 @@ public class PlayerControl : MonoBehaviour
                 }
                 // Rebirth Enemy
                 if (Input.GetKeyDown(KeyCode.Alpha1)){
-                    hp.RebirthTroop(aimPos , 1.5f);
+                    // check Spell CD
+                    if (gameManager.IsSpellIsReady(1)) {
+                        //Activate CD UI
+                        gameManager.ActivateSpellCDUI(1);
+                        // Excute Function
+                        hp.RebirthTroop(aimPos, 1.5f);
+                    }
+                    
                 }
                 // Recover
                 if (Input.GetKeyDown(KeyCode.Alpha2)){
-                    hp.ActivateRecover();
+                    // check Spell CD
+                    if (gameManager.IsSpellIsReady(2)){
+                        //Activate CD UI
+                        gameManager.ActivateSpellCDUI(2);
+                        // Excute Function
+                        hp.ActivateRecover();
+                    }
+
                 }
                 break;
         }
