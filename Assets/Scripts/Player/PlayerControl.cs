@@ -112,9 +112,9 @@ public class PlayerControl : MonoBehaviour
                 }
                 // Rebirth Enemy
                 if (Input.GetKeyDown(KeyCode.Alpha1)){
-                    hp.RebirthTroop(aimPos , 2f);
+                    hp.RebirthTroop(aimPos , 1.5f);
                 }
-
+                // Recover
                 if (Input.GetKeyDown(KeyCode.Alpha2)){
                     hp.ActivateRecover();
                 }

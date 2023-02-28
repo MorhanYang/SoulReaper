@@ -81,7 +81,7 @@ public class Enemy : MonoBehaviour
 
         // slow down enemy
         if (ai != null){
-            ai.SlowDownEnemy(0.2f);
+            ai.SlowDownEnemy(0.6f);
         }
 
         // change target

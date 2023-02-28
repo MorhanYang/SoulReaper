@@ -133,7 +133,7 @@ public class MinionTroop : MonoBehaviour
             {
                 foreach (Minion item in assignedTroopMember){
                     if (item != null){
-                        item.SetInactive();
+                        item.SetInactive(false);
                         health.presentHealth = 0;
                     }
                 }
@@ -184,11 +184,11 @@ public class MinionTroop : MonoBehaviour
     }
 
     // *********************************************** recall ******************************************
-    public void PlayMinionRecall()
+    public void ExecuteMinionRecall()
     {
         for (int i = 0; i < assignedTroopMember.Count; i++)
         {
-            assignedTroopMember[i].RecallMinion();
+            assignedTroopMember[i].SetInactive(true);
         }
     }
 }

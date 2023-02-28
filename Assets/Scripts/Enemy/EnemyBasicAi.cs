@@ -158,13 +158,13 @@ public class EnemyBasicAi : MonoBehaviour
                 if (hitedObjecct[i].GetComponent<PlayerControl>() != null){
                     hitedObjecct[i].GetComponent<PlayerControl>().PlayerTakeDamage(damage);
                     // recuce damge after hit an object
-                    damage = (int)(damage*0.6f);
+                    damage = (int)(damage*0.5f) + 1;
                 }
                 else if (!DamagedMinion.Contains(hitedObjecct[i])){
                     hitedObjecct[i].GetComponent<Minion>().TakeDamage(damage);
                     DamagedMinion.Add(hitedObjecct[i]);
                     // recuce damge after hit an object
-                    damage = (int)(damage * 0.6f);
+                    damage = (int)(damage * 0.5f) + 1;
                 }
             }
         }

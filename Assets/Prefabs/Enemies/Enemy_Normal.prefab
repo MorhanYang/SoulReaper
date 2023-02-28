@@ -258,7 +258,7 @@ MonoBehaviour:
   target: {fileID: 0}
   enemySprite: {fileID: 781885203998012033}
   followDistance: 4.5
-  attackInterval: 2.5
+  attackInterval: 1
   myDamage: 5
   canDash: 0
   dashIndicator_Axis: {fileID: 0}

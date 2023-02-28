@@ -6,7 +6,7 @@ using static UnityEngine.GraphicsBuffer;
 public class PuzzleTrigger : MonoBehaviour
 {
     Health hp;
-    [SerializeField] Puzzle_Bridge myBridge;
+    [SerializeField] Puzzle_MagicDoor myBridge;
 
     float showHealthBarTimer = 0f;
 

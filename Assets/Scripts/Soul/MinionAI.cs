@@ -50,7 +50,6 @@ public class MinionAI : MonoBehaviour
         SetUpRoamingPoints();
 
         minionState = MinionSate.Idle;
-        GetComponent<SphereCollider>().radius = searchingRange;
         attackTimer = 0;
     }
 
@@ -81,28 +80,10 @@ public class MinionAI : MonoBehaviour
                 break;
             case MinionSate.roam:
                 RoamMove();
+                RoamCheckEnemy();
                 break;
             default:
                 break;
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (minionState == MinionSate.roam)
-        {
-            if (other.GetComponent<Enemy>() != null && !other.GetComponent<Enemy>().isDead)
-            {
-                if (target == null)
-                {
-                    target = other.transform;
-                }
-                else if (Vector3.Distance(transform.position, other.transform.position) < Vector3.Distance(transform.position, target.position))
-                {
-                    target = other.transform;
-                }
-                minionState = MinionSate.Follow;
-            }
         }
     }
 
@@ -277,7 +258,23 @@ public class MinionAI : MonoBehaviour
             // get random direction
             Vector3 randomDir = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
             roamingPos = InitialRoamingPoint.position + randomDir * Random.Range(2.5f, 3.5f);
+            // find nearest point on the navmesh
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(roamingPos, out hit, 2.5f, NavMesh.AllAreas)){
+                roamingPos = hit.position;
+            }else roamingPos = InitialRoamingPoint.position;
+
             randomHandler = true;
+        }
+    }
+
+    void RoamCheckEnemy()
+    {
+        Collider[] EnemyFound = Physics.OverlapSphere(transform.position, searchingRange, LayerMask.GetMask("Enemy"));
+
+        if (EnemyFound.Length > 0){
+            target = EnemyFound[0].transform;
+            minionState = MinionSate.Follow;
         }
     }
 

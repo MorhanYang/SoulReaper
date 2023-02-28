@@ -28,11 +28,6 @@ public class Minion : MonoBehaviour
         myTroop = Troop;
     }
 
-    public void RecallMinion()
-    {
-        SetInactive();
-    }
-
     //******************************************************combate*********************************************************
     public void SetDealDamageRate(float rate){
         myAI.attackDamage = initaldamage * rate;
@@ -83,15 +78,17 @@ public class Minion : MonoBehaviour
         }
     }
 
-    public void SetInactive()
+    public void SetInactive(bool needRecallEffect)
     {
         myAI.InactiveMinion();
         gameObject.layer = LayerMask.NameToLayer("Minion");
 
         // play recall animation
-        GameObject effect = Instantiate(recallingMinion, transform.position, transform.rotation);
-        effect.GetComponent<RecallingMinion>().AimTo(PlayerManager.instance.player.transform);
-
+        if (needRecallEffect){
+            GameObject effect = Instantiate(recallingMinion, transform.position, transform.rotation);
+            effect.GetComponent<RecallingMinion>().AimTo(PlayerManager.instance.player.transform);
+        }
+        
         rebirthIcon.SetActive(true);
         myAnimator.SetBool("Dying", true);
         myAnimator.SetBool("Rebirth", false);

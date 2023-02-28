@@ -125,6 +125,11 @@ public class PlayerHealthBar : MonoBehaviour
                 TakeDamage(passedDamage);
             }
         }
+
+        // player dead
+        if (presentHealth < 0){
+            GameManager.Restart();
+        }
     }
 
     //*************************************************Recover*****************************************
@@ -182,12 +187,11 @@ public class PlayerHealthBar : MonoBehaviour
                 }
                 else if (activedTroopList[i].GetPresentHP() < lowHPTroop.GetPresentHP())
                 {
-                    if (activedTroopList[i].GetPresentHP() < lowHPTroop.GetPresentHP())
-                        lowHPTroop = activedTroopList[i];
+                    lowHPTroop = activedTroopList[i];
                 }
             }
             // play recall effect
-            lowHPTroop.PlayMinionRecall();
+            lowHPTroop.ExecuteMinionRecall();
 
             //remove lowest hp Troop
             RemoveTroopFromPlayerHealth(lowHPTroop);
@@ -222,49 +226,56 @@ public class PlayerHealthBar : MonoBehaviour
         HealthHPReset();
     }
 
-    //*************************************************************** Troop ***************************************************
+    //*************************************************************** Rebirth Troop ***************************************************
 
     public void RebirthTroop( Vector3 pointedPos , float radius)
     {
-        Collider[] MinionInCircle = Physics.OverlapSphere(pointedPos, radius, LayerMask.GetMask("Minion"));// when rebirth minion, the layer will change
-
-        if (MinionInCircle.Length > 0)
+        // have health to rebirth troop
+        if (presentHealth > indiviualMaxValue)
         {
-            // if present troop is full
-            if (troopPresent == null || troopPresent.GetTroopSize()>= SingleTroopMaxMember)
-            {
-                GenerateNewTroop();
-            }
+            // show range indicator
+            StartCoroutine(ShowRebirthRange(pointedPos, rebirthDelay));
+            Collider[] MinionInCircle = Physics.OverlapSphere(pointedPos, radius, LayerMask.GetMask("Minion"));// when rebirth minion, the layer will change
 
-            // fill the troop
-            if ((troopPresent.GetTroopSize() + MinionInCircle.Length) <= SingleTroopMaxMember) // enough slot for minion
+            if (MinionInCircle.Length > 0)
             {
-                // call all minions out
-                for (int i = 0; i < MinionInCircle.Length; i++)
+                // if present troop is full
+                if (troopPresent == null || troopPresent.GetTroopSize() >= SingleTroopMaxMember)
                 {
-                    if (MinionInCircle[i].GetComponent<Minion>() != null){
-                        MinionInCircle[i].GetComponent<Minion>().SetActiveDelay(rebirthDelay);
-                        //add to troop list
-                        troopPresent.AddTroopMember(MinionInCircle[i].GetComponent<Minion>());
+                    GenerateNewTroop();
+                }
+                // fill the troop
+                if ((troopPresent.GetTroopSize() + MinionInCircle.Length) <= SingleTroopMaxMember) // enough slot for minion
+                {
+                    // call all minions out
+                    for (int i = 0; i < MinionInCircle.Length; i++)
+                    {
+                        if (MinionInCircle[i].GetComponent<Minion>() != null)
+                        {
+                            MinionInCircle[i].GetComponent<Minion>().SetActiveDelay(rebirthDelay);
+                            //add to troop list
+                            troopPresent.AddTroopMember(MinionInCircle[i].GetComponent<Minion>());
+                        }
                     }
                 }
-            }
-            else if ((troopPresent.GetTroopSize() + MinionInCircle.Length) > SingleTroopMaxMember) // too much minions
-            {
-                int leftSlots = SingleTroopMaxMember - troopPresent.GetTroopSize();
-                for (int i = 0; i < leftSlots; i++)
+                else if ((troopPresent.GetTroopSize() + MinionInCircle.Length) > SingleTroopMaxMember) // too much minions
                 {
-                    if (MinionInCircle[i].GetComponent<Minion>() != null)
+                    int leftSlots = SingleTroopMaxMember - troopPresent.GetTroopSize();
+                    for (int i = 0; i < leftSlots; i++)
                     {
-                        MinionInCircle[i].GetComponent<Minion>().SetActiveDelay(rebirthDelay);
-                        //add to troop list
-                        troopPresent.AddTroopMember(MinionInCircle[i].GetComponent<Minion>());
+                        if (MinionInCircle[i].GetComponent<Minion>() != null)
+                        {
+                            MinionInCircle[i].GetComponent<Minion>().SetActiveDelay(rebirthDelay);
+                            //add to troop list
+                            troopPresent.AddTroopMember(MinionInCircle[i].GetComponent<Minion>());
+                        }
                     }
                 }
             }
         }
+        
     }
-
+    
     void GenerateNewTroop()
     {
         // refresh health bar
@@ -288,6 +299,13 @@ public class PlayerHealthBar : MonoBehaviour
         // add it to count list
         activedTroopList.Add(troopPresent);
 
+    }
+
+    IEnumerator ShowRebirthRange( Vector3 pos , float delay)
+    {
+        GameObject effect = Instantiate(rebirthRangeEffect, pos, transform.rotation);
+        yield return new WaitForSeconds(delay);
+        Destroy(effect);
     }
 
     //*********************************************************** Display *****************************************************
