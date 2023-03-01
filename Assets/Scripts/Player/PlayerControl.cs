@@ -1,4 +1,5 @@
 using Fungus;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,16 +25,16 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] float actionColdDown = 0.5f;
     float actionTimer = 0;
 
-    //recall
-    float recallTimer = 0;
+    // Mouse control
+    int mouseInputCount = 0;
+    bool holdMouse = false;
 
     //rolling
     enum CombateState{
         normal,
         shooting,
         rolling,
-        recalling,
-        superdashing,
+        teleporting,
     }
     CombateState combateState;
     Vector3 lastMoveDir;
@@ -49,12 +50,6 @@ public class PlayerControl : MonoBehaviour
     //Animation
     Animator characterAnimator;
 
-    public enum PlayerState{
-        normal,
-        combat,
-    }
-    [HideInInspector] public PlayerState playerState;
-
     void Start()
     {
         rb= GetComponent<Rigidbody>();
@@ -62,7 +57,6 @@ public class PlayerControl : MonoBehaviour
         characterAnimator = transform.Find("Character").GetComponent<Animator>();
         hp = GetComponent<PlayerHealthBar>();
 
-        playerState = PlayerState.combat;
         combateState = CombateState.normal;
 
         presentRollingSpeed = rollingSpeed;
@@ -73,87 +67,40 @@ public class PlayerControl : MonoBehaviour
     void Update()
     {
         //*****************************************ControlPanel******************************************
-        // shooting and rolling
-        switch (playerState)
+        // aim
+        MouseAimFunction();
+
+        //Mouse Control Combo
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)){
+            StartCoroutine("ExecuteMouseControl");
+        }
+
+        // rolling
+        if (actionTimer < actionColdDown){
+            actionTimer += Time.deltaTime;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            case PlayerState.normal:
-                if (aim.gameObject.activeSelf){
-                    aim.gameObject.SetActive(false);
-                }
-
-                // recover Action CD;
-                if (actionTimer <= actionColdDown)
-                {
-                    actionTimer += Time.fixedDeltaTime;
-                }
-                break;
-            case PlayerState.combat:
-                // aim
-                MouseAimFunction();
-                // shoot
-                if (Input.GetMouseButtonDown(0)){
-                    AssignSouls(aimPos);
-                }
-                if (Input.GetMouseButtonUp(0)){
-                    combateState = CombateState.normal;
-                }
-                // rolling
-                if (Input.GetKeyDown(KeyCode.Space)){
-
-                    if (actionTimer >= actionColdDown){
-                        // stop recalling if player is reclling
-                        if (combateState == CombateState.recalling){
-                            EndRecallFunction();
-                        }
-                        combateState = CombateState.rolling;
-                        actionTimer = 0;
-                    }
-                }
-                // Rebirth Enemy
-                if (Input.GetKeyDown(KeyCode.Alpha1)){
-                    // check Spell CD
-                    if (gameManager.IsSpellIsReady(1)) {
-                        //Activate CD UI
-                        gameManager.ActivateSpellCDUI(1);
-                        // Excute Function
-                        hp.RebirthTroop(aimPos, 1.5f);
-                    }
-                    
-                }
-                // Recover
-                if (Input.GetKeyDown(KeyCode.Alpha2)){
-                    // check Spell CD
-                    if (gameManager.IsSpellIsReady(2)){
-                        //Activate CD UI
-                        gameManager.ActivateSpellCDUI(2);
-                        // Excute Function
-                        hp.ActivateRecover();
-                    }
-
-                }
-                break;
-        }
-        // if player talk to anyone, force player to become normal state
-        if (gameManager.fungusFlowchart.HasExecutingBlocks()){
-            playerState = PlayerState.normal;
-        }
-        else{
-            //switch combat state
-            if (Input.GetKeyDown(KeyCode.M)){
-                SwitchPlayerState();
+            if (actionTimer >= actionColdDown){
+                combateState = CombateState.rolling;
+                actionTimer = 0;
             }
         }
 
-        //recall control
-        if (Input.GetMouseButtonDown(1) && combateState == CombateState.normal)
+       
+        // Recover
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            combateState = CombateState.recalling;
+            // check Spell CD
+            if (gameManager.IsSpellIsReady(2))
+            {
+                //Activate CD UI
+                gameManager.ActivateSpellCDUI(2);
+                // Excute Function
+                hp.ActivateRecover();
+            }
         }
-        if (Input.GetMouseButtonUp(1))
-        {
-            EndRecallFunction();
-        }
-
     }
 
     private void FixedUpdate()
@@ -162,25 +109,58 @@ public class PlayerControl : MonoBehaviour
         {
             case CombateState.normal:
                 MoveFunction(1f);
-
                 characterAnimator.SetBool("IsRolling", false);// prevent rolling all the time.
-                // recover CD;
-                if (actionTimer <= actionColdDown){
-                    actionTimer += Time.fixedDeltaTime;
-                }
                 break;
             case CombateState.shooting:
                 break;
             case CombateState.rolling:
                 RollFunction();
                 break;
-            case CombateState.recalling:
-                MoveFunction(0.5f);
-                RecallFunction();
-                break;
         }
     }
 
+    // ******************************************************* Mouse Control Function******************************************************************
+
+    IEnumerator ExecuteMouseControl()
+    {
+        // left mouse = 1; 
+        if (Input.GetMouseButtonDown(0)){
+            mouseInputCount += 1;
+        }
+
+        // Right mouse = 2;
+        if (Input.GetMouseButtonDown(1)){
+            mouseInputCount += 10;
+        }
+
+        // excute events
+        yield return new WaitForSeconds(0.1f);
+        if (mouseInputCount != 0)
+        {
+            // Recall Function
+            if (mouseInputCount % 10 > 0 && mouseInputCount / 10 > 0){
+                // Left & Right Click + Hold
+                if (gameManager.IsSpellIsReady(1)){
+                    RecallTroops();
+                }
+                //Still Hoding Left * Right Button
+
+            }
+            // Assign Minion
+            else if (mouseInputCount % 10 > 0 && mouseInputCount / 10 == 0){
+                // left Click
+                AssignSouls(aimPos);
+            }
+            // Rebirth Fucntion
+            else if (mouseInputCount % 10 == 0 && mouseInputCount / 10 > 0){
+                // Right Click
+                hp.RebirthTroop(aimPos, 1.5f);
+            }
+
+            mouseInputCount = 0;
+        }
+       
+    }
 
     //**********************************************************Moving Function***************************************************************************
     // Use speedMultiplyer to change speed.
@@ -262,44 +242,36 @@ public class PlayerControl : MonoBehaviour
         else Debug.Log("There is no troop");
     }
 
-    //********************************************************************Recalling Function****************************************************************
-
-    private void RecallFunction(){
-        // start animation
-        characterAnimator.SetBool("IsRecalling", true);
-        
-        recallTimer += Time.fixedDeltaTime;
-
-        float holdtime = 0.2f;
-        //enough time
-        if (recallTimer >= holdtime)
+    // ************************************************** recall *********************************************
+    void RecallTroops()
+    {
+        hp.RegainHP();
+        StartCoroutine("ContinueRecallTroops");
+    }
+    IEnumerator ContinueRecallTroops()
+    {
+        // hold at the begining
+        if (Input.GetMouseButton(0) && Input.GetMouseButton(1))
         {
-            hp.RegainHP();
-            recallTimer = 0;
+            holdMouse = true;
         }
-    }
-    //reset recall 
-    private void EndRecallFunction(){
-        // End animation
-        characterAnimator.SetBool("IsRecalling", false);
 
-        recallTimer = 0;
-        combateState = CombateState.normal;
-    }
+        yield return new WaitForSeconds(0.25f);
 
-  
-    //*******************************State
-    void SwitchPlayerState() {
-        if (playerState == PlayerState.combat){
-            playerState = PlayerState.normal;
-            //change cursor
-            CursorManager.instance.ActivateDefaultCursor();
+        // hold at the begining and now
+        if (holdMouse && Input.GetMouseButton(0) && Input.GetMouseButton(1))
+        {
+            // recall all troops
+            Debug.Log("recall All Troops");
+            List<MinionTroop> allTroop = hp.GetActivedTroop();
+            int recallTimes = allTroop.Count; // allTroop.Count will change after the reacall
+            for (int i = 0; i < recallTimes; i++)
+            {
+                hp.RegainHP();
+            }
         }
-        else if (playerState == PlayerState.normal){
-            playerState = PlayerState.combat;
-            //change cursor
-            CursorManager.instance.ActivateCombatCursor();
-        }
+
+        holdMouse = false;
     }
 
     //***************************************************Flip the character*********************************
@@ -331,5 +303,13 @@ public class PlayerControl : MonoBehaviour
         if (hp.presentHealth <= 0){
             Debug.Log("You died");
         }
+    }
+    // ************************************************************* Teleport ***********************************************
+    public void SetPlayerToTeleporting(){
+        combateState = CombateState.teleporting;
+    }
+    public void inActivateTeleporting()
+    {
+        combateState = CombateState.normal;
     }
 }

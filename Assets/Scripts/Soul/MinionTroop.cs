@@ -26,17 +26,14 @@ public class MinionTroop : MonoBehaviour
         UpdateMemberNumText();
     }
 
-    private void Update()
-    {
-        ReduceMinionsDamge();
-    }
-
     //********************************************Reset Troop Info************************************************************
     public void ResetTroopHP(float hp, int maxMember)
     {
         health.Maxhealth = hp;
         health.presentHealth = hp;
         MaxMember = maxMember;
+        // adjust damage rate
+        ReduceMinionsDamge();
     }
 
     //************************************************Sprint***************************************************************
@@ -66,6 +63,20 @@ public class MinionTroop : MonoBehaviour
         }
     }
 
+    // ************************************************* Share property ***************************************
+    public GameObject GetMinionTemple(int TempleNum)
+    {
+        return minionTemple[TempleNum];
+    }
+    public int GetTroopSize()
+    {
+        return assignedTroopMember.Count;
+    }
+    public List<Minion> GetMinionList()
+    {
+        return assignedTroopMember;
+    }
+    //********************************************Add & Remove Members********************************************************
     private Transform GetClosestEnemyTransform(Collider[] enemyList, Vector3 referencePoint)
     {
         Transform closedEnemy = null;
@@ -94,17 +105,6 @@ public class MinionTroop : MonoBehaviour
             }
         }
         return closedEnemy;
-    }
-
-    //********************************************Add & Remove Members********************************************************
-    public GameObject GetMinionTemple(int TempleNum)
-    {
-        return minionTemple[TempleNum];
-    }
-
-    public int GetTroopSize()
-    {
-        return assignedTroopMember.Count;
     }
 
     void UpdateMemberNumText()
@@ -144,6 +144,8 @@ public class MinionTroop : MonoBehaviour
                 // reset health
                 health.HealthUpdate();
             }
+            // adjust damage rate
+            ReduceMinionsDamge();
         } 
     }
 
