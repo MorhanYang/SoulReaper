@@ -32,7 +32,6 @@ public class PlayerControl : MonoBehaviour
     //rolling
     enum CombateState{
         normal,
-        shooting,
         rolling,
         teleporting,
     }
@@ -90,13 +89,11 @@ public class PlayerControl : MonoBehaviour
 
        
         // Recover
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
+        if (Input.GetKeyDown(KeyCode.Alpha1)){
             // check Spell CD
-            if (gameManager.IsSpellIsReady(2))
-            {
+            if (gameManager.IsSpellIsReady(4)){
                 //Activate CD UI
-                gameManager.ActivateSpellCDUI(2);
+                gameManager.ActivateSpellCDUI(4);
                 // Excute Function
                 hp.ActivateRecover();
             }
@@ -111,15 +108,16 @@ public class PlayerControl : MonoBehaviour
                 MoveFunction(1f);
                 characterAnimator.SetBool("IsRolling", false);// prevent rolling all the time.
                 break;
-            case CombateState.shooting:
-                break;
             case CombateState.rolling:
                 RollFunction();
                 break;
+            case CombateState.teleporting:
+                break;
+
         }
     }
 
-    // ******************************************************* Mouse Control Function******************************************************************
+    // ******************************************************* Mouse Control Function ******************************************************************
 
     IEnumerator ExecuteMouseControl()
     {
@@ -128,33 +126,46 @@ public class PlayerControl : MonoBehaviour
             mouseInputCount += 1;
         }
 
-        // Right mouse = 2;
+        // Right mouse = 10;
         if (Input.GetMouseButtonDown(1)){
             mouseInputCount += 10;
         }
 
-        // excute events
+        // excute events after delay
         yield return new WaitForSeconds(0.1f);
-        if (mouseInputCount != 0)
-        {
+
+        if (mouseInputCount != 0){
             // Recall Function
             if (mouseInputCount % 10 > 0 && mouseInputCount / 10 > 0){
                 // Left & Right Click + Hold
-                if (gameManager.IsSpellIsReady(1)){
+                if (gameManager.IsSpellIsReady(3))
+                {
+                    //Activate CD UI
+                    gameManager.ActivateSpellCDUI(3);
+                    // Excute Function
                     RecallTroops();
                 }
-                //Still Hoding Left * Right Button
-
             }
             // Assign Minion
             else if (mouseInputCount % 10 > 0 && mouseInputCount / 10 == 0){
                 // left Click
-                AssignSouls(aimPos);
+                if (gameManager.IsSpellIsReady(1)){
+                    //Activate CD UI
+                    gameManager.ActivateSpellCDUI(1);
+                    // Excute Function
+                    AssignSouls(aimPos);
+                }
             }
             // Rebirth Fucntion
             else if (mouseInputCount % 10 == 0 && mouseInputCount / 10 > 0){
                 // Right Click
-                hp.RebirthTroop(aimPos, 1.5f);
+                if (gameManager.IsSpellIsReady(2))
+                {
+                    //Activate CD UI
+                    gameManager.ActivateSpellCDUI(2);
+                    // Excute Function
+                    hp.RebirthTroop(aimPos, 1.5f);
+                }
             }
 
             mouseInputCount = 0;
