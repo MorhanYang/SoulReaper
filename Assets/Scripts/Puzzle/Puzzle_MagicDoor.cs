@@ -23,42 +23,39 @@ public class Puzzle_MagicDoor : MonoBehaviour
     }
     private void Update()
     {
-        if (state == ScriptState.Active)
+        switch (state)
         {
-            Debug.Log("active");
-            transform.position = Vector3.MoveTowards(transform.position, destination, 0.3f * Time.deltaTime);
-            if (transform.position == destination){
-                gameObject.SetActive(false);
-                state = ScriptState.Regular;
-            }
-        }
+            case ScriptState.Regular:
+                break;
 
-        if (state == ScriptState.Cancel)
-        {
-            Debug.Log("Cancel");
-            transform.position = Vector3.MoveTowards(transform.position, destination, 0.3f * Time.deltaTime);
-            if (transform.position == destination)
-            {
-                state = ScriptState.Regular;
-            }
+            case ScriptState.Active:
+                transform.position = Vector3.MoveTowards(transform.position, destination, 0.4f * Time.deltaTime);
+                if (transform.position == destination){
+                    gameObject.SetActive(false);
+                    state = ScriptState.Regular;
+                }
+                break;
+
+            case ScriptState.Cancel:
+                transform.position = Vector3.MoveTowards(transform.position, destination, 0.4f * Time.deltaTime);
+                if (transform.position == destination){
+                    state = ScriptState.Regular;
+                }
+                break;
         }
 
     }
 
     public void ActiveScript()
     {
-        if (state == ScriptState.Regular){
-            destination = transform.position + new Vector3(0f, 0.1f, 0.3f);
-            state = ScriptState.Active;
-        }
+        destination = transform.position + new Vector3(0f, 0.1f, 0.3f);
+        state = ScriptState.Active;
     }
 
     public void CancelScript()
     {
-        if (state == ScriptState.Regular){
-            gameObject.SetActive(true);// setActive then script can run
-            destination = initalPos;
-            state = ScriptState.Cancel;
-        }
+        gameObject.SetActive(true);// setActive then script can run
+        destination = initalPos;
+        state = ScriptState.Cancel;
     }
 }
