@@ -14,6 +14,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] Transform spellSet;
     List<Spell_Item> spellList = new List<Spell_Item>();
 
+    // Inventory
+    [SerializeField] Transform InventorySet;
+    List<Inventory_Item> inventoryList = new List<Inventory_Item>();
+
     private void Start(){
         EnemyList = GameObject.FindGameObjectsWithTag("Enemy");
         startUI.SetActive(true);
@@ -22,6 +26,11 @@ public class GameManager : MonoBehaviour
         // setup Spell List
         foreach (Transform item in spellSet){
             spellList.Add(item.GetComponent<Spell_Item>());
+        }
+
+        // setup Inventory List
+        foreach (Transform item in InventorySet){
+            inventoryList.Add(item.GetComponent<Inventory_Item>());
         }
     }
 
@@ -35,7 +44,7 @@ public class GameManager : MonoBehaviour
 
     // ********************************************** Scene Control **************************************************
     public static void Restart(){
-        SceneManager.LoadScene("Tutorial Level");
+        SceneManager.LoadScene("Tutorial_Test");
     }
 
     // ********************************************* Spell CD ************************************************
@@ -60,5 +69,26 @@ public class GameManager : MonoBehaviour
             spellList[spellID - 1].ActivateSpell();
         }
     }
-
+    // ********************************************** Inventory ************************************************
+    public bool IsItemIsReady(int ItemId) // 1 is the first instead of 0
+    {
+        if (ItemId == 0){
+            Debug.Log("Item ID starts from 1");
+            return false;
+        }
+        else{
+            bool spellIsReady = spellList[ItemId - 1].IsReady();
+            return spellIsReady;
+        }
+    }
+    public void UseItem(int ItemId) // 1 is the first instead of 0
+    {
+        if (ItemId == 0){
+            Debug.Log("Item ID starts from 1");
+        }
+        else{
+            // Activate
+            inventoryList[ItemId - 1].UseThis();
+        }
+    }
 }

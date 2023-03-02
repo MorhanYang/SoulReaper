@@ -91,9 +91,9 @@ public class PlayerControl : MonoBehaviour
         // Recover
         if (Input.GetKeyDown(KeyCode.Alpha1)){
             // check Spell CD
-            if (gameManager.IsSpellIsReady(4)){
+            if (gameManager.IsItemIsReady(1)){
                 //Activate CD UI
-                gameManager.ActivateSpellCDUI(4);
+                gameManager.UseItem(1);
                 // Excute Function
                 hp.ActivateRecover();
             }
