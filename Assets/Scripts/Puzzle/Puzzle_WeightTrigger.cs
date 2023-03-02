@@ -1,9 +1,12 @@
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
+using System.Linq;
 
 public class Puzzle_WeightTrigger : MonoBehaviour
 {
     [SerializeField] Puzzle_MagicDoor myDoor;
+    [SerializeField] Transform platform;
     [SerializeField] Canvas myCanvas;
     [SerializeField] TMP_Text text;
 
@@ -24,19 +27,19 @@ public class Puzzle_WeightTrigger : MonoBehaviour
     {
         if (other.GetComponent<Minion>() != null || other.GetComponent<PlayerControl>() != null)
         {
-            if (objectCount < objectsNeeded)
-            {
-                objectCount++;
-                // move trigger platform downward
-                transform.position = new Vector3(transform.position.x, transform.position.y - (0.05f/ objectsNeeded), transform.position.z);
-                // open door
-                if (objectCount >= objectsNeeded) myDoor.ActiveScript();
+            objectCount++;
+            // Show UI
+            myCanvas.gameObject.SetActive(true);
+            text.text = objectCount + " / " + objectsNeeded;
+            UITimer = 5f;
 
-                // Show UI
-                myCanvas.gameObject.SetActive(true);
-                text.text = objectCount + " / " + objectsNeeded;
-                UITimer = 4f;
+            // Move platform downward
+            if (objectCount < 5){
+                platform.position = new Vector3(platform.position.x, platform.position.y - 0.01f, platform.position.z);
             }
+
+            // Open door
+            if (objectCount >= objectsNeeded) myDoor.ActiveScript();
         }
     }
 
@@ -44,19 +47,29 @@ public class Puzzle_WeightTrigger : MonoBehaviour
     {
         if (other.GetComponent<Minion>() != null || other.GetComponent<PlayerControl>() != null)
         {
-            if (objectCount>0)
-            {
-                objectCount--;
-                // move trigger platform upward
-                transform.position = new Vector3(transform.position.x, transform.position.y + (0.05f / objectsNeeded), transform.position.z);
-                // open door
-                if (objectCount < objectsNeeded) myDoor.CancelScript();
+            objectCount--;
+            // Show UI
+            myCanvas.gameObject.SetActive(true);
+            text.text = objectCount + " / " + objectsNeeded;
+            UITimer = 5f;
 
-                // Show UI
-                myCanvas.gameObject.SetActive(true);
-                text.text = objectCount + " / " + objectsNeeded;
-                UITimer = 4f;
+            // Move platform upward
+            if (objectCount >= 0 ){
+                platform.position = new Vector3(platform.position.x, platform.position.y + 0.01f, platform.position.z);
             }
+
+            // Close door
+            if (objectCount < objectsNeeded) myDoor.CancelScript();
         }
+    }
+
+    int CheckObjectInside()
+    {
+        Collider[] allObjects = Physics.OverlapBox(
+            transform.position + new Vector3(0, 0.7f, 0), 
+            new Vector3(0.4f, 0.3f, 0.4f), 
+            transform.rotation, 
+            LayerMask.GetMask("Player","Minion","MovingMinion"));
+        return allObjects.Length;
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.AI;
 
 public class MinionTroop : MonoBehaviour
 {
@@ -40,7 +41,7 @@ public class MinionTroop : MonoBehaviour
     public void AssignTroopTowards(Vector3 destination)
     {
         // find target
-        Collider[] hitedEnemy = Physics.OverlapSphere(destination, 0.2f, LayerMask.GetMask("Enemy","PuzzleTrigger"));
+        Collider[] hitedEnemy = Physics.OverlapSphere(destination, 0.3f, LayerMask.GetMask("Enemy","PuzzleTrigger"));
         Transform target = null;
 
         // hit enemies. find closed one
@@ -51,8 +52,15 @@ public class MinionTroop : MonoBehaviour
         // Execute sprint action
         if (target == null) // didn't hit any thing
         {
+            // find pos at the navmesh
+            NavMeshHit hit;
+            Vector3 sprintPos = Vector3.zero;
+            if (NavMesh.SamplePosition(destination, out hit, 2.5f, NavMesh.AllAreas)){
+                sprintPos = hit.position;
+            }
+            // assign minions
             for (int i = 0; i < assignedTroopMember.Count; i++){
-                assignedTroopMember[i].SprintToPos(destination);
+                assignedTroopMember[i].SprintToPos(sprintPos);
             }
         }
         if(target != null) // Hit something

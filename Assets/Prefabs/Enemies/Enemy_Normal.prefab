@@ -258,7 +258,7 @@ MonoBehaviour:
   target: {fileID: 0}
   enemySprite: {fileID: 781885203998012033}
   followDistance: 4.5
-  attackInterval: 1
+  attackInterval: 1.25
   myDamage: 5
   canDash: 0
   dashIndicator_Axis: {fileID: 0}
@@ -296,8 +296,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpUI: {fileID: 781885203943987389}
   hpBar: {fileID: 781885203978919239}
-  Maxhealth: 20
-  presentHealth: 20
+  Maxhealth: 15
+  presentHealth: 15
 --- !u!54 &802363182
 Rigidbody:
   m_ObjectHideFlags: 0

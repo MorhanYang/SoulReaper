@@ -41,7 +41,7 @@ public class PlayerHealthBar : MonoBehaviour
 
     // Effect
     [SerializeField] GameObject rebirthRangeEffect;
-    float rebirthDelay = 1f;
+    float rebirthDelay = 0.6f;
 
 
     private void Awake()

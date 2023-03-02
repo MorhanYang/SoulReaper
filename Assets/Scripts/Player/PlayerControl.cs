@@ -143,7 +143,7 @@ public class PlayerControl : MonoBehaviour
                     //Activate CD UI
                     gameManager.ActivateSpellCDUI(3);
                     // Excute Function
-                    RecallTroops();
+                    hp.RebirthTroop(aimPos, 1.5f);
                 }
             }
             // Assign Minion
@@ -164,7 +164,7 @@ public class PlayerControl : MonoBehaviour
                     //Activate CD UI
                     gameManager.ActivateSpellCDUI(2);
                     // Excute Function
-                    hp.RebirthTroop(aimPos, 1.5f);
+                    RecallTroops();
                 }
             }
 
@@ -242,7 +242,6 @@ public class PlayerControl : MonoBehaviour
     {
         List<MinionTroop> Mytroop = hp.GetActivedTroop();
         if (Mytroop.Count > 0){
-            rb.velocity = Vector3.zero;
 
             // find every active troops
             for (int i = 0; i < Mytroop.Count; i++)
@@ -259,25 +258,25 @@ public class PlayerControl : MonoBehaviour
         hp.RegainHP();
         StartCoroutine("ContinueRecallTroops");
     }
+
     IEnumerator ContinueRecallTroops()
     {
         // hold at the begining
-        if (Input.GetMouseButton(0) && Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1))
         {
             holdMouse = true;
         }
 
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.3f);
 
         // hold at the begining and now
-        if (holdMouse && Input.GetMouseButton(0) && Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1))
         {
             // recall all troops
             Debug.Log("recall All Troops");
             List<MinionTroop> allTroop = hp.GetActivedTroop();
             int recallTimes = allTroop.Count; // allTroop.Count will change after the reacall
-            for (int i = 0; i < recallTimes; i++)
-            {
+            for (int i = 0; i < recallTimes; i++){
                 hp.RegainHP();
             }
         }

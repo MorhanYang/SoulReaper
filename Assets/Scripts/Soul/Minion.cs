@@ -74,7 +74,7 @@ public class Minion : MonoBehaviour
     {
         if (isActive){
             gameObject.layer = LayerMask.NameToLayer("MovingMinion");
-            myAI.ActiveMinion();
+            myAI.ActivateMinion();
         }
     }
 
