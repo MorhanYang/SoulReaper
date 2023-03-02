@@ -36,9 +36,13 @@ public class GameManager : MonoBehaviour
 
     private void Update(){
         // active game
-        if (Input.GetKeyDown(KeyCode.Return)){
+        if (Input.GetKeyDown(KeyCode.Return) && startUI.activeSelf){
             startUI.SetActive(false);
             Time.timeScale = 1.0f;
+        }
+
+        if (Input.GetKeyDown(KeyCode.R)){
+            Restart();
         }
     }
 

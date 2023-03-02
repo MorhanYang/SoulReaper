@@ -7,6 +7,7 @@ public class Teleport : MonoBehaviour
 {
     [SerializeField] Vector3 PlayerNextPos;
     [SerializeField] CanvasGroup transportUI;
+    [SerializeField] CameraFollow camMain;
     PlayerControl player;
     bool isTransiting = false;
     bool isFadingOut = false;// decide when transportUI will fade in or out
@@ -29,6 +30,7 @@ public class Teleport : MonoBehaviour
                 }
                 if (transportUI.alpha >= 1){
                     player.transform.position = PlayerNextPos;
+                    camMain.transform.position = PlayerNextPos + camMain.GetCamOffset();
                     TeleportAllMinions();
                     isFadingOut = true;
                 }

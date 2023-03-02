@@ -13,4 +13,8 @@ public class CameraFollow : MonoBehaviour
         Vector3 nextPos = target.transform.position + camOffset;
         transform.position = Vector3.Lerp(transform.position, nextPos, camSpeed * Time.fixedDeltaTime);
     }
+    public Vector3 GetCamOffset()
+    {
+        return camOffset;
+    }
 }
