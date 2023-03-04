@@ -26,6 +26,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] float attackCD = 1f;
     float upAttackTimer;
     float downAttackTimer;
+    [SerializeField] GameObject attackEffect;
 
     //Movement
     [SerializeField] float moveSpeed;
@@ -321,6 +322,9 @@ public class PlayerControl : MonoBehaviour
             if (upAttackTimer >= attackCD && downAttackTimer >= 0.4f)
             {
                 Debug.Log("upward");
+                GameObject effect = Instantiate(attackEffect, transform.position + new Vector3(0, 0.1f, 0.1f), transform.rotation, transform);
+                effect.GetComponent<Animator>().Play("Upward Attack");
+                Destroy(effect, 0.5f);
                 DamageEnemy();
                 upAttackTimer = 0;
             }
@@ -332,6 +336,9 @@ public class PlayerControl : MonoBehaviour
             if (downAttackTimer >= attackCD && upAttackTimer >= 0.4f)
             {
                 Debug.Log("downward");
+                GameObject effect = Instantiate(attackEffect, transform.position + new Vector3(0, 0.1f, 0.1f), transform.rotation, transform);
+                effect.GetComponent<Animator>().Play("Downward Attack");
+                Destroy(effect, 0.5f);
                 DamageEnemy();
                 downAttackTimer = 0;
             }
@@ -339,7 +346,7 @@ public class PlayerControl : MonoBehaviour
     }
     void DamageEnemy()
     {
-        Collider[] HitedEnemy = Physics.OverlapSphere(attackPoint.position, 0.3f, LayerMask.GetMask("Enemy"));
+        Collider[] HitedEnemy = Physics.OverlapSphere(attackPoint.position, 0.15f, LayerMask.GetMask("Enemy"));
         if (HitedEnemy.Length > 0){
             // deal damage to enemies
             for (int i = 0; i < HitedEnemy.Length; i++)
