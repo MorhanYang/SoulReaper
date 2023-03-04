@@ -1,6 +1,7 @@
 using Fungus;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
@@ -15,10 +16,16 @@ public class PlayerControl : MonoBehaviour
     Vector3 aimPos;
     Vector3 aimDir;
     Transform aim;
-    [SerializeField]Transform[] soulGenerator;
+    [SerializeField] Transform[] soulGenerator;
 
     [SerializeField] LayerMask groundMask;
-    [SerializeField] GameObject aimPivot;
+
+    // Attack
+    [SerializeField] Transform attackPoint;
+    [SerializeField] float myDamage = 5;
+    [SerializeField] float attackCD = 1f;
+    float upAttackTimer;
+    float downAttackTimer;
 
     //Movement
     [SerializeField] float moveSpeed;
@@ -52,7 +59,6 @@ public class PlayerControl : MonoBehaviour
     void Start()
     {
         rb= GetComponent<Rigidbody>();
-        aim = aimPivot.transform.Find("Aim");
         characterAnimator = transform.Find("Character").GetComponent<Animator>();
         hp = GetComponent<PlayerHealthBar>();
 
@@ -86,7 +92,6 @@ public class PlayerControl : MonoBehaviour
                 actionTimer = 0;
             }
         }
-
        
         // Recover
         if (Input.GetKeyDown(KeyCode.Alpha1)){
@@ -97,6 +102,13 @@ public class PlayerControl : MonoBehaviour
                 // Excute Function
                 hp.ActivateRecover();
             }
+        }
+
+        // Melee Combat
+        if (upAttackTimer < attackCD) upAttackTimer += Time.deltaTime;
+        if (downAttackTimer < attackCD) downAttackTimer+= Time.deltaTime;
+        if (Input.GetAxis("Mouse ScrollWheel") != 0){
+            MeleeAttack(Input.GetAxis("Mouse ScrollWheel"));
         }
     }
 
@@ -117,8 +129,7 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    // ******************************************************* Mouse Control Function ******************************************************************
-
+    // ******************************************************* Mouse Button Control Function ******************************************************************
     IEnumerator ExecuteMouseControl()
     {
         // left mouse = 1; 
@@ -216,25 +227,12 @@ public class PlayerControl : MonoBehaviour
     //**********************************************************************Aiming Function****************************************************
     void MouseAimFunction()
     {
-        // enable aim
-        if (!aim.gameObject.activeSelf){
-            aim.gameObject.SetActive(true);
-        }
-
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, groundMask))
         {
             aimPos = hitInfo.point;
         }
-
-        //Get the aim direction and convert it to degree angle
-        aimDir = aimPos - aimPivot.transform.position;
-        aimDir= aimDir.normalized;
-        float angle = Mathf.Atan2(aimDir.z, aimDir.x) * Mathf.Rad2Deg;
-        aimPivot.transform.eulerAngles = new Vector3(0, -angle, 0);
-        // aim won't rotate
-        aim.eulerAngles = new Vector3(0, 0, 0);
     }
 
     // generate soul and shoot it towards mouse
@@ -314,6 +312,43 @@ public class PlayerControl : MonoBehaviour
             Debug.Log("You died");
         }
     }
+    // melee attack
+    void MeleeAttack(float scrollData)
+    {
+        if (scrollData > 0)
+        {
+            // upward Attack
+            if (upAttackTimer >= attackCD && downAttackTimer >= 0.4f)
+            {
+                Debug.Log("upward");
+                DamageEnemy();
+                upAttackTimer = 0;
+            }
+        }
+
+        if (scrollData < 0)
+        {
+            // Downward Attack
+            if (downAttackTimer >= attackCD && upAttackTimer >= 0.4f)
+            {
+                Debug.Log("downward");
+                DamageEnemy();
+                downAttackTimer = 0;
+            }
+        }
+    }
+    void DamageEnemy()
+    {
+        Collider[] HitedEnemy = Physics.OverlapSphere(attackPoint.position, 0.3f, LayerMask.GetMask("Enemy"));
+        if (HitedEnemy.Length > 0){
+            // deal damage to enemies
+            for (int i = 0; i < HitedEnemy.Length; i++)
+            {
+                HitedEnemy[i].GetComponent<Enemy>().TakeDamage(myDamage, gameObject);
+            }
+        }
+    }
+
     // ************************************************************* Teleport ***********************************************
     public void SetPlayerToTeleporting(){
         combateState = CombateState.teleporting;
