@@ -140,10 +140,13 @@ public class MinionAI : MonoBehaviour
             // set destination
             if (aimPos == Vector3.zero) sprintPos = transform.position;
             else sprintPos = aimPos;
+
             // set property
             agent.speed = SprintSpeed;
             minionState = MinionSate.Sprint;
             agent.stoppingDistance = attackRang;
+            // set roaming pos. prevent minion from move back to previous roaming Pos
+            roamingPos= aimPos;
         }
     }
     public void SprintToEnemy(Transform aim){
@@ -156,6 +159,7 @@ public class MinionAI : MonoBehaviour
             agent.speed = SprintSpeed;
             minionState = MinionSate.Sprint;
             agent.stoppingDistance = attackRang;
+            roamingPos = aim.position;
         }
     }
 
@@ -234,12 +238,15 @@ public class MinionAI : MonoBehaviour
         minionState = MinionSate.Follow;
 
         // if kill the enemy
-        if (target.GetComponent<Health>().presentHealth < 0)
+        if (target.GetComponent<Health>() != null)
         {
-            GetRoamingStartPos();
-            minionState = MinionSate.Roam;
-            // trigger ontrigger stay to see if there is enemy inside the cllider
-            target = null;
+            if (target.GetComponent<Health>().presentHealth < 0)
+            {
+                GetRoamingStartPos();
+                minionState = MinionSate.Roam;
+                // trigger ontrigger stay to see if there is enemy inside the cllider
+                target = null;
+            }
         }
     }
 

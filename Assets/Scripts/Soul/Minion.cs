@@ -48,12 +48,6 @@ public class Minion : MonoBehaviour
             myTroop.TakeDamage(damage * getDamageRate);
         }
     }
-
-    public void KnockBack( Vector3 Dir)
-    {
-
-    }
-
     //*****************************************************Change Minion State******************************************
 
     public void SetActiveDelay(float delay)

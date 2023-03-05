@@ -7,7 +7,7 @@ public class CursorManager : MonoBehaviour
     public static CursorManager instance;
 
     public Texture2D combatCursor;  
-    public Texture2D talkCursor;
+    public Texture2D InvestigateCursor;
     public Texture2D recallCursor;
 
     private void Awake()
@@ -22,15 +22,15 @@ public class CursorManager : MonoBehaviour
 
     public void ActivateCombatCursor()
     {
-        Cursor.SetCursor(combatCursor, new Vector2(combatCursor.width / 2, combatCursor.height / 2), CursorMode.Auto);
+        Cursor.SetCursor(combatCursor, new Vector2(0, combatCursor.height), CursorMode.Auto);
     }
 
-    public void ActivateTalkCursor()
+    public void ActivateInvestigateCursor()
     {
-        Cursor.SetCursor(talkCursor, new Vector2(talkCursor.width / 2, talkCursor.height / 2), CursorMode.Auto);
+        Cursor.SetCursor(InvestigateCursor, new Vector2(0, InvestigateCursor.height), CursorMode.Auto);
     }
     public void ActivateRecallCursor()
     {
-        Cursor.SetCursor(recallCursor, new Vector2(recallCursor.width / 2, recallCursor.height / 2), CursorMode.Auto);
+        Cursor.SetCursor(recallCursor, new Vector2(0, recallCursor.height), CursorMode.Auto);
     }
 }

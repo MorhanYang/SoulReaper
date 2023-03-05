@@ -1,13 +1,15 @@
-using Fungus;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
+using DG.Tweening;
 
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+
     public static GameObject[] EnemyList;
-    public Flowchart fungusFlowchart;
     [SerializeField] GameObject startUI;
 
     // spell
@@ -17,6 +19,17 @@ public class GameManager : MonoBehaviour
     // Inventory
     [SerializeField] Transform InventorySet;
     List<Inventory_Item> inventoryList = new List<Inventory_Item>();
+
+    // Popup Information
+    [SerializeField] TMP_Text popUpInfo;
+
+    // HitMarker
+    [SerializeField] GameObject AimMarker;
+    GameObject myMarker;
+
+    private void Awake(){
+        instance= this;
+    }
 
     private void Start(){
         EnemyList = GameObject.FindGameObjectsWithTag("Enemy");
@@ -95,4 +108,38 @@ public class GameManager : MonoBehaviour
             inventoryList[ItemId - 1].UseThis();
         }
     }
+    // ****************************************** UI ****************************************
+    public void PopUpUI( Vector3 startPosOnScreen, string text)
+    {
+        float fadeTime = 1.5f;
+        CanvasGroup cg = popUpInfo.GetComponent<CanvasGroup>();
+
+        if (cg.alpha == 0f){
+            // set up
+            cg.alpha = 1.0f;
+            popUpInfo.rectTransform.localPosition = startPosOnScreen;
+
+            // move 
+            popUpInfo.text = text;
+            popUpInfo.rectTransform.DOAnchorPos(new Vector2(0, startPosOnScreen.y + 25f), fadeTime);
+            cg.DOFade(0, fadeTime);
+        }
+    }
+    // ****************************************** world UI *********************************************
+    public void GenerateMarker(Vector3 pos, Transform subject)
+    {
+        GameObject myMarker;
+        // don't hit object
+        if (subject == null){
+            myMarker = Instantiate(AimMarker, pos, transform.rotation);
+        }
+        // hit object
+        else{
+            myMarker = Instantiate(AimMarker, subject.position, subject.rotation, subject);
+        }
+
+
+        Destroy(myMarker, 0.8f);
+    }
+
 }

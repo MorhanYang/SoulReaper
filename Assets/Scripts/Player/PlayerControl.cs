@@ -21,9 +21,10 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] LayerMask groundMask;
 
     // Attack
-    [SerializeField] Transform attackPoint;
+    [SerializeField] Transform attackFlipAix;
     [SerializeField] float myDamage = 5;
     [SerializeField] float attackCD = 1f;
+    Transform attackPoint;
     float upAttackTimer;
     float downAttackTimer;
     [SerializeField] GameObject attackEffect;
@@ -35,7 +36,11 @@ public class PlayerControl : MonoBehaviour
 
     // Mouse control
     int mouseInputCount = 0;
-    bool holdMouse = false;
+    // recall Minion
+    float recallMinionTimer = 0;
+    // Assign Minion
+    float assignMinionTimer = 0;
+    int assignTroopID = 0;
 
     //rolling
     enum CombateState{
@@ -67,7 +72,9 @@ public class PlayerControl : MonoBehaviour
 
         presentRollingSpeed = rollingSpeed;
 
+        attackPoint = attackFlipAix.Find("Aim");
 
+        assignTroopID = 0;
     }
 
     void Update()
@@ -165,7 +172,7 @@ public class PlayerControl : MonoBehaviour
                     //Activate CD UI
                     gameManager.ActivateSpellCDUI(1);
                     // Excute Function
-                    AssignSouls(aimPos);
+                    AssignOneMinion();
                 }
             }
             // Rebirth Fucntion
@@ -214,7 +221,7 @@ public class PlayerControl : MonoBehaviour
 
         // slow down
         presentRollingSpeed -= rollingResistance * Time.fixedDeltaTime;
-        if (presentRollingSpeed <= 90f){
+        if (presentRollingSpeed <= (moveSpeed+ 30f)){
             rb.velocity = Vector3.zero;
             presentRollingSpeed = rollingSpeed;
             
@@ -236,12 +243,92 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    // generate soul and shoot it towards mouse
-    void AssignSouls(Vector3 destination)
+   
+
+    // ************************************************** recall *********************************************
+    void RecallTroops()
+    {
+        hp.RegainHP();
+        recallMinionTimer = 0;
+        StartCoroutine("ContinueRecallTroops");
+    }
+
+    IEnumerator ContinueRecallTroops()
+    {
+        float holdTime = 0.5f;
+        // loop
+        while (recallMinionTimer < holdTime && Input.GetMouseButton(1))
+        {
+            recallMinionTimer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        // recall all
+        if (recallMinionTimer >= holdTime)
+        {
+            // recall all troops
+            List<MinionTroop> allTroop = hp.GetActivedTroop();
+            int recallTimes = allTroop.Count; // allTroop.Count will change after the reacall
+            for (int i = 0; i < recallTimes; i++){
+                hp.RegainHP();
+            }
+        }
+
+        // hold at the begining
+        //if (Input.GetMouseButton(1))
+        //{
+        //    holdMouse = true;
+        //}
+
+        //yield return new WaitForSeconds(0.6f);
+
+        //// hold at the begining and now
+        //if (Input.GetMouseButton(1))
+        //{
+            
+        //}
+
+        //holdMouse = false;
+    }
+    //************************************************** Assign Troop *******************************************
+    void AssignOneMinion()
+    {
+        // assign single minion
+        List<MinionTroop> Mytroop = hp.GetActivedTroop();
+        // check if a minion is left. if so send it out.
+        if (!Mytroop[assignTroopID].AssignOneMinionTowards(aimPos)){
+            if ((assignTroopID + 1) >= (Mytroop.Count - 1)){
+                assignTroopID = 0;
+            } else assignTroopID++;
+        }
+
+        assignMinionTimer = 0;
+        StartCoroutine("ContinueAssignMinion");
+
+    }
+
+    IEnumerator ContinueAssignMinion()
+    {
+        float holdTime = 0.4f;
+        // loop
+        while (assignMinionTimer < holdTime && Input.GetMouseButton(0))
+        {
+            assignMinionTimer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        // recall all
+        if (assignMinionTimer >= holdTime)
+        {
+            AssignAllMinions(aimPos);
+        }
+    }
+
+    void AssignAllMinions(Vector3 destination)
     {
         List<MinionTroop> Mytroop = hp.GetActivedTroop();
-        if (Mytroop.Count > 0){
-
+        if (Mytroop.Count > 0)
+        {
             // find every active troops
             for (int i = 0; i < Mytroop.Count; i++)
             {
@@ -250,50 +337,21 @@ public class PlayerControl : MonoBehaviour
         }
         else Debug.Log("There is no troop");
     }
-
-    // ************************************************** recall *********************************************
-    void RecallTroops()
-    {
-        hp.RegainHP();
-        StartCoroutine("ContinueRecallTroops");
-    }
-
-    IEnumerator ContinueRecallTroops()
-    {
-        // hold at the begining
-        if (Input.GetMouseButton(1))
-        {
-            holdMouse = true;
-        }
-
-        yield return new WaitForSeconds(0.3f);
-
-        // hold at the begining and now
-        if (Input.GetMouseButton(1))
-        {
-            // recall all troops
-            Debug.Log("recall All Troops");
-            List<MinionTroop> allTroop = hp.GetActivedTroop();
-            int recallTimes = allTroop.Count; // allTroop.Count will change after the reacall
-            for (int i = 0; i < recallTimes; i++){
-                hp.RegainHP();
-            }
-        }
-
-        holdMouse = false;
-    }
-
     //***************************************************Flip the character*********************************
     void FlipPlayer()
     {
         if (move.x < 0 && isFacingRight)
         {
             transform.Find("Character").GetComponent<SpriteRenderer>().flipX = true;
+            // Flip Attack Point
+            attackFlipAix.Rotate(0f,180f,0f);
             isFacingRight = !isFacingRight;
         }
         if (move.x > 0 && !isFacingRight)
         {
             transform.Find("Character").GetComponent<SpriteRenderer>().flipX = false;
+            // Flip Attack Point
+            attackFlipAix.Rotate(0f, 180f, 0f);
             isFacingRight = !isFacingRight;
         }
     }
@@ -323,7 +381,9 @@ public class PlayerControl : MonoBehaviour
             {
                 Debug.Log("upward");
                 GameObject effect = Instantiate(attackEffect, transform.position + new Vector3(0, 0.1f, 0.1f), transform.rotation, transform);
-                effect.GetComponent<Animator>().Play("Upward Attack");
+                if (isFacingRight) effect.GetComponent<Animator>().Play("Upward Attack");
+                else effect.GetComponent<Animator>().Play("Upward Attack_Flip");
+
                 Destroy(effect, 0.5f);
                 DamageEnemy();
                 upAttackTimer = 0;
@@ -337,8 +397,10 @@ public class PlayerControl : MonoBehaviour
             {
                 Debug.Log("downward");
                 GameObject effect = Instantiate(attackEffect, transform.position + new Vector3(0, 0.1f, 0.1f), transform.rotation, transform);
-                effect.GetComponent<Animator>().Play("Downward Attack");
-                Destroy(effect, 0.5f);
+                if(isFacingRight) effect.GetComponent<Animator>().Play("Downward Attack");
+                else effect.GetComponent<Animator>().Play("Downward Attack_Flip");
+
+                Destroy(effect, 0.5f); 
                 DamageEnemy();
                 downAttackTimer = 0;
             }

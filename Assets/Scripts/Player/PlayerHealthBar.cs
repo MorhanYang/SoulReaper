@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class PlayerHealthBar : MonoBehaviour
 {
+
     //items
     [SerializeField] Item_PlayerHealth itemTemp;
     [SerializeField] int cellNum = 5;
@@ -273,7 +275,7 @@ public class PlayerHealthBar : MonoBehaviour
                 }
             }
         }
-        
+        else GameManager.instance.PopUpUI(new Vector3(0, 24f, 0), "Not engouh Health");        
     }
     
     void GenerateNewTroop()

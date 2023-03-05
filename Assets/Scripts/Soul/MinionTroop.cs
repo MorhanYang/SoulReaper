@@ -10,7 +10,8 @@ public class MinionTroop : MonoBehaviour
     Health health;
     PlayerHealthBar playerHealthBar;
 
-    List<Minion> assignedTroopMember;
+    List<Minion> TroopMember;
+    int assignedMemberCount = 0;
 
     [SerializeField] GameObject[] minionTemple;
     [SerializeField] TMP_Text memberNum;
@@ -21,7 +22,7 @@ public class MinionTroop : MonoBehaviour
     private void Awake()
     {
         health = GetComponent<Health>();
-        assignedTroopMember = new List<Minion>();
+        TroopMember = new List<Minion>();
         playerHealthBar = PlayerManager.instance.player.GetComponent<PlayerHealthBar>();
 
         UpdateMemberNumText();
@@ -38,6 +39,59 @@ public class MinionTroop : MonoBehaviour
     }
 
     //************************************************Sprint***************************************************************
+    public bool AssignOneMinionTowards(Vector3 destination)
+    {
+        bool canAssign = true;
+        // find target
+        Collider[] hitedEnemy = Physics.OverlapSphere(destination, 0.3f, LayerMask.GetMask("Enemy", "PuzzleTrigger"));
+        Transform target = null;
+
+        // hit enemies. find closed one
+        if (hitedEnemy.Length > 0) target = GetClosestEnemyTransform(hitedEnemy, destination);
+        // if didn't hit a enemy
+        else target = null;
+
+        // show destination marker
+        GameManager.instance.GenerateMarker(destination, target);
+
+        // Execute sprint action
+        if (target == null) // didn't hit any thing
+        {
+            // find pos at the navmesh
+            NavMeshHit hit;
+            Vector3 sprintPos = Vector3.zero;
+            if (NavMesh.SamplePosition(destination, out hit, 2.5f, NavMesh.AllAreas))
+            {
+                sprintPos = hit.position;
+            }
+
+            // assign minions
+            if (assignedMemberCount <= (TroopMember.Count -1))
+            {
+                TroopMember[assignedMemberCount].SprintToPos(sprintPos);
+                assignedMemberCount++;
+            }
+            else {
+                assignedMemberCount = 0;
+                return canAssign = false; 
+            }
+
+        }
+        if (target != null) // Hit something
+        {
+            if (assignedMemberCount <= (TroopMember.Count - 1))
+            {
+                TroopMember[assignedMemberCount].SprintToEnemy(target);
+                assignedMemberCount++;
+            }
+            else{
+                assignedMemberCount = 0;
+                return canAssign = false;
+            }
+        }
+
+        return canAssign;
+    }
     public void AssignTroopTowards(Vector3 destination)
     {
         // find target
@@ -49,6 +103,9 @@ public class MinionTroop : MonoBehaviour
         // if didn't hit a enemy
         else target = null;
 
+        // show destination marker
+        GameManager.instance.GenerateMarker(destination, target);
+
         // Execute sprint action
         if (target == null) // didn't hit any thing
         {
@@ -59,14 +116,14 @@ public class MinionTroop : MonoBehaviour
                 sprintPos = hit.position;
             }
             // assign minions
-            for (int i = 0; i < assignedTroopMember.Count; i++){
-                assignedTroopMember[i].SprintToPos(sprintPos);
+            for (int i = 0; i < TroopMember.Count; i++){
+                TroopMember[i].SprintToPos(sprintPos);
             }
         }
         if(target != null) // Hit something
         {
-            for (int i = 0; i < assignedTroopMember.Count; i++){
-                assignedTroopMember[i].SprintToEnemy(target);
+            for (int i = 0; i < TroopMember.Count; i++){
+                TroopMember[i].SprintToEnemy(target);
             }
         }
     }
@@ -78,11 +135,11 @@ public class MinionTroop : MonoBehaviour
     }
     public int GetTroopSize()
     {
-        return assignedTroopMember.Count;
+        return TroopMember.Count;
     }
     public List<Minion> GetMinionList()
     {
-        return assignedTroopMember;
+        return TroopMember;
     }
     //********************************************Add & Remove Members********************************************************
     private Transform GetClosestEnemyTransform(Collider[] enemyList, Vector3 referencePoint)
@@ -117,13 +174,13 @@ public class MinionTroop : MonoBehaviour
 
     void UpdateMemberNumText()
     {
-        memberNum.text = assignedTroopMember.Count + "/" + MaxMember;
+        memberNum.text = TroopMember.Count + "/" + MaxMember;
     }
 
     public void AddTroopMember(Minion member) {
         if (member != null)
         {
-            assignedTroopMember.Add(member);
+            TroopMember.Add(member);
             member.SetTroop(this);
 
             UpdateMemberNumText();
@@ -137,9 +194,9 @@ public class MinionTroop : MonoBehaviour
         {
             health.TakeDamage(damage);
 
-            if (health.presentHealth <= 0 && assignedTroopMember.Count > 0)
+            if (health.presentHealth <= 0 && TroopMember.Count > 0)
             {
-                foreach (Minion item in assignedTroopMember){
+                foreach (Minion item in TroopMember){
                     if (item != null){
                         item.SetInactive(false);
                         health.presentHealth = 0;
@@ -148,7 +205,7 @@ public class MinionTroop : MonoBehaviour
 
                 playerHealthBar.RemoveTroopFromPlayerHealth(this);
 
-                assignedTroopMember.Clear();
+                TroopMember.Clear();
                 // reset health
                 health.HealthUpdate();
             }
@@ -168,26 +225,26 @@ public class MinionTroop : MonoBehaviour
 
         // 0.9
         if (healthRate > 0.9f && ReduceDamageStateCount == 0){
-            for (int i = 0; i < assignedTroopMember.Count; i++){
-                assignedTroopMember[i].SetDealDamageRate(1.2f);
+            for (int i = 0; i < TroopMember.Count; i++){
+                TroopMember[i].SetDealDamageRate(1.2f);
             }
             ReduceDamageStateCount++;
         }
         // 0.4 - 0.9
         else if(healthRate <= 0.9f && healthRate > 0.4 && ReduceDamageStateCount == 1)
         {
-            for (int i = 0; i < assignedTroopMember.Count; i++)
+            for (int i = 0; i < TroopMember.Count; i++)
             {
-                assignedTroopMember[i].SetDealDamageRate(1f);
+                TroopMember[i].SetDealDamageRate(1f);
             }
             ReduceDamageStateCount++;
         }
         // 0.4 or less
         else if (healthRate<= 0.4f && ReduceDamageStateCount == 2)
         {
-            for (int i = 0; i < assignedTroopMember.Count; i++)
+            for (int i = 0; i < TroopMember.Count; i++)
             {
-                assignedTroopMember[i].SetDealDamageRate(0.6f);
+                TroopMember[i].SetDealDamageRate(0.6f);
             }
             ReduceDamageStateCount++;
         }
@@ -196,9 +253,9 @@ public class MinionTroop : MonoBehaviour
     // *********************************************** recall ******************************************
     public void ExecuteMinionRecall()
     {
-        for (int i = 0; i < assignedTroopMember.Count; i++)
+        for (int i = 0; i < TroopMember.Count; i++)
         {
-            assignedTroopMember[i].SetInactive(true);
+            TroopMember[i].SetInactive(true);
         }
     }
 }

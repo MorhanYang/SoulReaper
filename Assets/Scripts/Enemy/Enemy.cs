@@ -51,24 +51,15 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // Cursor Controll
-    //private void OnMouseEnter()
-    //{
-    //    if (isDead && haveSoul){
-    //        // change cursor
-    //        CursorManager.instance.ActivateRecallCursor();
-    //    }
-    //}
-    //private void OnMouseExit()
-    //{
-    //    // change cursor
-    //    PlayerControl playerControl = PlayerManager.instance.player.GetComponent<PlayerControl>();
-    //    if (playerControl.playerState == PlayerControl.PlayerState.combat)
-    //    {
-    //        CursorManager.instance.ActivateCombatCursor();
-    //    }
-    //    else CursorManager.instance.ActivateDefaultCursor();
-    //}
+    // Cursor Icon
+    private void OnMouseEnter()
+    {
+        GameManager.instance.GetComponent<CursorManager>().ActivateCombatCursor();
+    }
+    private void OnMouseExit()
+    {
+        GameManager.instance.GetComponent<CursorManager>().ActivateDefaultCursor();
+    }
 
     //************************************************************************** Combat **************************************************************
     public void TakeDamage(float damage , GameObject subject) {
@@ -97,6 +88,9 @@ public class Enemy : MonoBehaviour
 
             // tirgger event
             if (otherScrips != null) TriggerAdditionalScript();
+
+            // change cursor
+            GameManager.instance.GetComponent<CursorManager>().ActivateDefaultCursor();
         }
 
     }
