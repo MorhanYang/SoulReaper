@@ -41,6 +41,9 @@ public class PlayerHealthBar : MonoBehaviour
     bool isActiveRecover = false;
     float recoverTime = 0;
 
+    //recall
+    MinionTroop MarkedTroop;
+
     // Effect
     [SerializeField] GameObject rebirthRangeEffect;
     float rebirthDelay = 0.6f;
@@ -175,28 +178,46 @@ public class PlayerHealthBar : MonoBehaviour
     }
 
     //*************************************************************** recall Or troop die ******************************************
+    public void MarkTroop(MinionTroop troop)
+    {
+        MarkedTroop = troop;
+    }
     public void RegainHP()
     {
         if (activedTroopList.Count > 0)
         {
-            // find troop with lowest HP
-            MinionTroop lowHPTroop = null;
-            for (int i = 0; i < activedTroopList.Count; i++)
-            {
-                if (lowHPTroop == null)
+            MinionTroop TargetTroop = null;
+
+            // player didn't select a troop
+            if (MarkedTroop == null){
+                // find troop with lowest HP
+                MinionTroop lowHPTroop = null;
+                for (int i = 0; i < activedTroopList.Count; i++)
                 {
-                    lowHPTroop = activedTroopList[i];
+                    if (lowHPTroop == null)
+                    {
+                        lowHPTroop = activedTroopList[i];
+                    }
+                    else if (activedTroopList[i].GetPresentHP() < lowHPTroop.GetPresentHP())
+                    {
+                        lowHPTroop = activedTroopList[i];
+                    }
                 }
-                else if (activedTroopList[i].GetPresentHP() < lowHPTroop.GetPresentHP())
-                {
-                    lowHPTroop = activedTroopList[i];
-                }
+                TargetTroop = lowHPTroop;
             }
+            // player select a troop
+            else{
+                TargetTroop = MarkedTroop;
+            }
+
             // play recall effect
-            lowHPTroop.ExecuteMinionRecall();
+            TargetTroop.ExecuteMinionRecall();
 
             //remove lowest hp Troop
-            RemoveTroopFromPlayerHealth(lowHPTroop);
+            RemoveTroopFromPlayerHealth(TargetTroop);
+
+            // reset property
+            MarkedTroop = null;
         }
     }
 

@@ -256,6 +256,8 @@ public class MinionTroop : MonoBehaviour
         for (int i = 0; i < TroopMember.Count; i++)
         {
             TroopMember[i].SetInactive(true);
+            // change cursor
+            GameManager.instance.GetComponent<CursorManager>().ActivateDefaultCursor();
         }
     }
 }

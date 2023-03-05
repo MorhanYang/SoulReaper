@@ -11,6 +11,7 @@ public class Minion : MonoBehaviour
     [SerializeField] GameObject recallingMinion;
     [SerializeField] float getDamageRate = 0.5f;
     [SerializeField] GameObject rebirthIcon;
+    [SerializeField] GameObject SelectEffect;
 
     public bool isActive = false;
 
@@ -20,6 +21,21 @@ public class Minion : MonoBehaviour
     {
         myAI = GetComponent<MinionAI>();
         initaldamage = myAI.attackDamage;
+    }
+
+    private void OnMouseEnter()
+    {
+        GameManager.instance.GetComponent<CursorManager>().ActivateRecallCursor();
+        SelectEffect.SetActive(true);
+        // mark recall troop
+        PlayerManager.instance.player.GetComponent<PlayerHealthBar>().MarkTroop(myTroop);
+    }
+    private void OnMouseExit()
+    {
+        GameManager.instance.GetComponent<CursorManager>().ActivateDefaultCursor();
+        SelectEffect.SetActive(false);
+        // unmark recall troop
+        PlayerManager.instance.player.GetComponent<PlayerHealthBar>().MarkTroop(null);
     }
 
     //*********************************************************Method*******************************************************
