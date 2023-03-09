@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,8 @@ public class PlayerHealthBar : MonoBehaviour
 {
 
     //items
-    [SerializeField] Item_PlayerHealth itemTemp;
+    [SerializeField] Item_PlayerHealth itemHPTemp;
+    [SerializeField] MinionTroop itemMinionHPTemp;
     [SerializeField] int cellNum = 5;
 
     // troop
@@ -19,7 +21,7 @@ public class PlayerHealthBar : MonoBehaviour
 
     // hp
     [SerializeField] GameObject hpUI;
-    List<RectTransform> hpBars = new List<RectTransform>();
+    List<RectTransform> hpBarsList = new List<RectTransform>();
     float initialBarWidth;
     public float Maxhealth = 100;
     public float presentHealth = 100;
@@ -56,10 +58,9 @@ public class PlayerHealthBar : MonoBehaviour
 
     private void Start()
     {
-        indiviualMaxValue = Maxhealth / hpBars.Count;
-        barPresent = hpBars[cellNum - 1];
+        indiviualMaxValue = Maxhealth / hpBarsList.Count;
+        barPresent = hpBarsList[cellNum - 1];
 
-        //presentHealth = Maxhealth;
         HealthHPReset();
     }
 
@@ -87,16 +88,15 @@ public class PlayerHealthBar : MonoBehaviour
     //****************************************************Initialize & property*************************************************************
     void InitiatePlayerHPBar()
     {
-        itemTemp.gameObject.SetActive(true);
-        initialBarWidth = itemTemp.troopHPUI.sizeDelta.x;
+        itemHPTemp.gameObject.SetActive(true);
+        initialBarWidth = itemHPTemp.troopHPUI.sizeDelta.x;
         for (int i = 0; i < cellNum; i++)
         {
-            Item_PlayerHealth hpCell = Instantiate(itemTemp, hpUI.transform);
-            allTroopList.Add(hpCell.troop);
-            hpBars.Add(hpCell.troopHPUI);
+            Item_PlayerHealth hpCell = Instantiate(itemHPTemp, hpUI.transform);
+            hpBarsList.Add(hpCell.troopHPUI);
         }
 
-        itemTemp.gameObject.SetActive(false);
+        itemHPTemp.gameObject.SetActive(false);
     }
 
     public List<MinionTroop> GetActivedTroop(){
@@ -106,9 +106,39 @@ public class PlayerHealthBar : MonoBehaviour
     Vector3 BarWidthSize(Vector3 previousSize, float Hpinbar){
         return new Vector3((Hpinbar / indiviualMaxValue * initialBarWidth), previousSize.y, previousSize.z);
     }
+    //*********************************************************** HP Display Refresh *****************************************************
+    void HealthHPReset()
+    {
+        // clean all bars
+        for (int i = 0; i < hpBarsList.Count; i++)
+        {
+            hpBarsList[i].sizeDelta = BarWidthSize(barPresent.sizeDelta, 0);
+        }
+
+        // count full bars
+        int fullBarNum = 0;
+        fullBarNum = (int)((presentHealth - 0.1f) / indiviualMaxValue);
+        if (fullBarNum < 0) fullBarNum = 0;
+
+        // set full bars
+        for (int i = 0; i < fullBarNum; i++)
+        {
+            hpBarsList[i].sizeDelta = BarWidthSize(barPresent.sizeDelta, indiviualMaxValue);
+        }
+
+        // set the half bar
+        HpInPresentBar = presentHealth - (indiviualMaxValue * fullBarNum);
+        if (HpInPresentBar > 0)
+        {
+            hpBarsList[fullBarNum].sizeDelta = BarWidthSize(barPresent.sizeDelta, HpInPresentBar);
+        }
+
+        // property
+        barPresent = hpBarsList[fullBarNum];
+        barPresentId = fullBarNum;
+    }
 
     //*********************************************************** Damage **********************************************************
-
     public void TakeDamage(float damage)
     {
         if (invincibleTimer <= 0)
@@ -126,7 +156,7 @@ public class PlayerHealthBar : MonoBehaviour
                 float passedDamage = damage - indiviualMaxValue;
                 // next bar
                 if (barPresentId > 0) barPresentId--;
-                barPresent = hpBars[barPresentId];
+                barPresent = hpBarsList[barPresentId];
                 TakeDamage(passedDamage);
             }
         }
@@ -171,7 +201,7 @@ public class PlayerHealthBar : MonoBehaviour
             // load prevous bar
             if (barPresentId < (cellNum - activedTroopList.Count - 1)) barPresentId++;
             HpInPresentBar = 0;
-            barPresent = hpBars[barPresentId];
+            barPresent = hpBarsList[barPresentId];
 
             Healing(passedHP);
         }
@@ -228,22 +258,24 @@ public class PlayerHealthBar : MonoBehaviour
         Maxhealth += indiviualMaxValue;
 
         //remove 
-        Item_PlayerHealth previousItem = troop.transform.parent.GetComponent<Item_PlayerHealth>();
         activedTroopList.Remove(troop);
-        allTroopList.Remove(troop);
-        hpBars.Remove(previousItem.troopHPUI);
-        Destroy(previousItem.gameObject);
+        Destroy(troop.gameObject,0.4f);
 
         // genrate new item 
-        itemTemp.gameObject.SetActive(true);
-        Item_PlayerHealth myItem = Instantiate(itemTemp, hpUI.transform);
-        itemTemp.gameObject.SetActive(false);
+        Item_PlayerHealth myItem = Instantiate(itemHPTemp, hpUI.transform);
+        myItem.gameObject.SetActive(true);
+        myItem.GetComponent<CanvasGroup>().alpha = 0f;
         // change new item hierarchy to 0
         myItem.transform.SetSiblingIndex(0);
 
-        // add it to two list
-        allTroopList.Insert(0, myItem.troop);
-        hpBars.Insert(0, myItem.troopHPUI);
+        // display
+        Sequence mysequence = DOTween.Sequence();
+        mysequence.Join(troop.transform.DOMoveY(-10, 0.3f))
+            .Join(troop.GetComponent<CanvasGroup>().DOFade(0, 0.3f))
+            .Join(myItem.GetComponent<CanvasGroup>().DOFade(1, 1f));
+
+        // add it to list
+        hpBarsList.Insert(0, myItem.troopHPUI);
 
         //reset parameter
         HealthHPReset();
@@ -257,7 +289,7 @@ public class PlayerHealthBar : MonoBehaviour
         if (presentHealth > indiviualMaxValue)
         {
             // show range indicator
-            StartCoroutine(ShowRebirthRange(pointedPos, rebirthDelay));
+            ShowRebirthRange(pointedPos, rebirthDelay);
             Collider[] MinionInCircle = Physics.OverlapSphere(pointedPos, radius, LayerMask.GetMask("Minion"));// when rebirth minion, the layer will change
 
             if (MinionInCircle.Length > 0)
@@ -301,65 +333,38 @@ public class PlayerHealthBar : MonoBehaviour
     
     void GenerateNewTroop()
     {
-        // refresh health bar
+        // update data
         presentHealth -= indiviualMaxValue;
         Maxhealth -= indiviualMaxValue;
-        barPresent.sizeDelta = BarWidthSize(barPresent.sizeDelta, 0);// clean previous bar
-        // next bar
+
+        //Destory First HP 
+        Transform hpBarRemoving = hpBarsList[0].transform.parent.parent;
+        Destroy(hpBarRemoving.gameObject, 0.53f);// delay for display
+        hpBarsList.RemoveAt(0);
         if (barPresentId > 0) barPresentId--;
-        barPresent = hpBars[barPresentId];
-        barPresent.sizeDelta = BarWidthSize(barPresent.sizeDelta, HpInPresentBar);
 
-
-        // show Troop Bar
-        int troopId = allTroopList.Count - 1 - activedTroopList.Count;
-        if (troopId < 0) troopId++;
-        troopPresent = allTroopList[troopId];
-
+        // Generate Troop Bar
+        troopPresent = Instantiate(itemMinionHPTemp, hpUI.transform);
+        troopPresent.GetComponent<CanvasGroup>().alpha = 0f;
         troopPresent.gameObject.SetActive(true);
-        troopPresent.ResetTroopHP(indiviualMaxValue, SingleTroopMaxMember);
+
+        // display
+        Sequence mysequence = DOTween.Sequence();
+        mysequence.Join(hpBarRemoving.DOMoveY(-10f, 0.5f))
+            .Join(hpBarRemoving.GetComponent<CanvasGroup>().DOFade(0, 0.5f))
+            .Append(troopPresent.GetComponent<CanvasGroup>().DOFade(1f, 1f));
 
         // add it to count list
         activedTroopList.Add(troopPresent);
 
     }
 
-    IEnumerator ShowRebirthRange( Vector3 pos , float delay)
+    void ShowRebirthRange( Vector3 pos , float delay)
     {
         GameObject effect = Instantiate(rebirthRangeEffect, pos, transform.rotation);
-        yield return new WaitForSeconds(delay);
-        Destroy(effect);
+        Destroy(effect, delay);
     }
 
-    //*********************************************************** Display *****************************************************
-    void HealthHPReset()
-    {
-        // clean all bars
-        for (int i = 0; i < hpBars.Count; i++){
-            hpBars[i].sizeDelta = BarWidthSize(barPresent.sizeDelta, 0);
-        }
-
-        // count full bars
-        int fullBarNum = 0;
-        fullBarNum = (int)((presentHealth - 0.1f) / indiviualMaxValue);
-        if (fullBarNum < 0) fullBarNum= 0;
-
-        // set full bars
-        for (int i = 0; i < fullBarNum; i++)
-        {
-            hpBars[i].sizeDelta = BarWidthSize(barPresent.sizeDelta, indiviualMaxValue);
-        }
-
-        // set the half bar
-        HpInPresentBar = presentHealth - (indiviualMaxValue * fullBarNum);
-        if (HpInPresentBar > 0){
-            hpBars[fullBarNum].sizeDelta = BarWidthSize(barPresent.sizeDelta, HpInPresentBar);
-        }
-
-        // property
-        barPresent = hpBars[fullBarNum];
-        barPresentId = fullBarNum;
-    }
     //****************************************************** Invincible ******************************************************
     public void Invincible(float delay, float duration)
     {

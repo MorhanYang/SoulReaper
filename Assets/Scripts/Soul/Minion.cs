@@ -17,25 +17,34 @@ public class Minion : MonoBehaviour
 
     float initaldamage;
 
+    CursorManager cursorManager;
+    PlayerHealthBar playerHealthBar;
+
     private void Awake()
     {
         myAI = GetComponent<MinionAI>();
         initaldamage = myAI.attackDamage;
     }
 
+    private void Start()
+    {
+        cursorManager = GameManager.instance.GetComponent<CursorManager>();
+        playerHealthBar = PlayerManager.instance.player.GetComponent<PlayerHealthBar>();
+    }
+
     private void OnMouseEnter()
     {
-        GameManager.instance.GetComponent<CursorManager>().ActivateRecallCursor();
+        cursorManager.ActivateRecallCursor();
         SelectEffect.SetActive(true);
         // mark recall troop
-        PlayerManager.instance.player.GetComponent<PlayerHealthBar>().MarkTroop(myTroop);
+        playerHealthBar.MarkTroop(myTroop);
     }
     private void OnMouseExit()
     {
-        GameManager.instance.GetComponent<CursorManager>().ActivateDefaultCursor();
+        cursorManager.ActivateDefaultCursor();
         SelectEffect.SetActive(false);
         // unmark recall troop
-        PlayerManager.instance.player.GetComponent<PlayerHealthBar>().MarkTroop(null);
+        playerHealthBar.MarkTroop(null);
     }
 
     //*********************************************************Method*******************************************************

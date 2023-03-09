@@ -273,22 +273,6 @@ public class PlayerControl : MonoBehaviour
                 hp.RegainHP();
             }
         }
-
-        // hold at the begining
-        //if (Input.GetMouseButton(1))
-        //{
-        //    holdMouse = true;
-        //}
-
-        //yield return new WaitForSeconds(0.6f);
-
-        //// hold at the begining and now
-        //if (Input.GetMouseButton(1))
-        //{
-            
-        //}
-
-        //holdMouse = false;
     }
     //************************************************** Assign Troop *******************************************
     void AssignOneMinion()
@@ -296,7 +280,7 @@ public class PlayerControl : MonoBehaviour
         // assign single minion
         List<MinionTroop> Mytroop = hp.GetActivedTroop();
         // check if a minion is left. if so send it out.
-        if (!Mytroop[assignTroopID].AssignOneMinionTowards(aimPos)){
+        if (Mytroop.Count > 0 && !Mytroop[assignTroopID].AssignOneMinionTowards(aimPos)){
             if ((assignTroopID + 1) >= (Mytroop.Count - 1)){
                 assignTroopID = 0;
             } else assignTroopID++;

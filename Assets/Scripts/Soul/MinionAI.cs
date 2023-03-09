@@ -205,14 +205,14 @@ public class MinionAI : MonoBehaviour
 
     void FlipMinion()
     {
-        if (agent.velocity.x < 0 && isFacingRight)
+        if (agent.velocity.x < -0.3 && isFacingRight) // minion will wave their heads if it is 0
         {
             minionSprite.flipX = true;
             isFacingRight = !isFacingRight;
 
             attackPoint.localPosition = new Vector3(-0.4f, 0.1f, 0.1f);
         }
-        if (agent.velocity.x > 0 && !isFacingRight)
+        if (agent.velocity.x > 0.3 && !isFacingRight)
         {
             minionSprite.flipX = false;
             isFacingRight = !isFacingRight;
