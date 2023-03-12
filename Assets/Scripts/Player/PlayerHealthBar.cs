@@ -44,7 +44,7 @@ public class PlayerHealthBar : MonoBehaviour
     float recoverTime = 0;
 
     //recall
-    MinionTroop MarkedTroop;
+    Transform MarkedSubject;
 
     // Effect
     [SerializeField] GameObject rebirthRangeEffect;
@@ -210,49 +210,55 @@ public class PlayerHealthBar : MonoBehaviour
     }
 
     //*************************************************************** recall Or troop die ******************************************
-    public void MarkTroop(MinionTroop troop)
+    public void MarkRegainTarget(Transform target)
     {
-        MarkedTroop = troop;
+        MarkedSubject = target;
     }
     public void RegainHP()
     {
-        if (activedTroopList.Count > 0)
-        {
-            MinionTroop TargetTroop = null;
 
-            // player didn't select a troop
-            if (MarkedTroop == null){
-                // find troop with lowest HP
-                MinionTroop lowHPTroop = null;
-                for (int i = 0; i < activedTroopList.Count; i++)
-                {
-                    if (lowHPTroop == null)
-                    {
-                        lowHPTroop = activedTroopList[i];
-                    }
-                    else if (activedTroopList[i].GetPresentHP() < lowHPTroop.GetPresentHP())
-                    {
-                        lowHPTroop = activedTroopList[i];
-                    }
-                }
-                TargetTroop = lowHPTroop;
-            }
-            // player select a troop
-            else{
-                TargetTroop = MarkedTroop;
-            }
-
-            // play recall effect
-            TargetTroop.ExecuteMinionRecall();
-
-            //remove lowest hp Troop
-            RemoveTroopFromPlayerHealth(TargetTroop);
-
-            // reset property
-            MarkedTroop = null;
+        // marked a absorbable object 
+        if (MarkedSubject != null && MarkedSubject.GetComponent<Absorbable>() != null){
+            RegainAbsorbableHP();
         }
-    }
+        // marked a troop or don't mark anything
+        else if (activedTroopList.Count > 0){
+            RegainTroopHP();
+        }
 
+    }
+    void RegainTroopHP()
+    {
+        MinionTroop TargetTroop = null;
+
+        // player didn't select a troop
+        if (MarkedSubject == null){
+            // find troop with lowest HP
+            MinionTroop lowHPTroop = null;
+            for (int i = 0; i < activedTroopList.Count; i++){
+                if (lowHPTroop == null){
+                    lowHPTroop = activedTroopList[i];
+                }
+                else if (activedTroopList[i].GetPresentHP() < lowHPTroop.GetPresentHP()){
+                    lowHPTroop = activedTroopList[i];
+                }
+            }
+            TargetTroop = lowHPTroop;
+        }
+        // player select a troop
+        else{
+            TargetTroop = MarkedSubject.GetComponent<Minion>().GetTroop();
+        }
+
+        // play recall effect
+        TargetTroop.ExecuteMinionRecall();
+
+        //remove lowest hp Troop
+        RemoveTroopFromPlayerHealth(TargetTroop);
+
+        // reset property
+        MarkedSubject = null;
+    }
     public void RemoveTroopFromPlayerHealth(MinionTroop troop) {
 
         // set HP
@@ -261,7 +267,7 @@ public class PlayerHealthBar : MonoBehaviour
 
         //remove 
         activedTroopList.Remove(troop);
-        Destroy(troop.gameObject,0.4f);
+        Destroy(troop.gameObject, 0.53f);
 
         // genrate new item 
         Item_PlayerHealth myItem = Instantiate(itemHPTemp, hpUI.transform);
@@ -282,7 +288,13 @@ public class PlayerHealthBar : MonoBehaviour
         //reset parameter
         HealthHPReset();
     }
-
+    void RegainAbsorbableHP()
+    {
+        Absorbable myAbsorbabl = MarkedSubject.GetComponent<Absorbable>();
+        float healValue;
+        healValue = myAbsorbabl.TakeLife();
+        if (healValue != 0) Healing(healValue);
+    }
     //*************************************************************** Rebirth Troop ***************************************************
 
     public void RebirthTroop( Vector3 pointedPos , float radius)

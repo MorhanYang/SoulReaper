@@ -36,23 +36,28 @@ public class Minion : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        cursorManager.ActivateRecallCursor();
-        SelectEffect.SetActive(true);
-        // mark recall troop
-        playerHealthBar.MarkTroop(myTroop);
+        if (isActive){
+            cursorManager.ActivateRecallCursor();
+            SelectEffect.SetActive(true);
+            // mark recall troop
+            playerHealthBar.MarkRegainTarget(transform);
+        }
     }
     private void OnMouseExit()
     {
         cursorManager.ActivateDefaultCursor();
         SelectEffect.SetActive(false);
         // unmark recall troop
-        playerHealthBar.MarkTroop(null);
+        playerHealthBar.MarkRegainTarget(null);
     }
 
-    //*********************************************************Method*******************************************************
+    //*********************************************************Set Troop & Get Troop*******************************************************
     public void SetTroop(MinionTroop Troop)
     {
         myTroop = Troop;
+    }
+    public MinionTroop GetTroop(){
+        return myTroop;
     }
 
     //******************************************************combate*********************************************************
