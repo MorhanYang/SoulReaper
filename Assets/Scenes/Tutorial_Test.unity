@@ -63793,7 +63793,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh28938
+  m_Name: pb_Mesh140574
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -63964,6 +63964,7 @@ GameObject:
   - component: {fileID: 1140426396}
   - component: {fileID: 1140426390}
   - component: {fileID: 1140426397}
+  - component: {fileID: 1140426398}
   m_Layer: 12
   m_Name: Player
   m_TagString: Player
@@ -64076,6 +64077,21 @@ MonoBehaviour:
   healingValue: 1.5
   healingInterval: 0.25
   rebirthRangeEffect: {fileID: 5919993194319152528, guid: 70fdc8bf5b9803c4bb1424a478948321, type: 3}
+--- !u!114 &1140426398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140426389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8981f99061849a498aba9cfaba86eb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MySprite: {fileID: 1825836972}
+  SpringStrengh: 8
+  Mass: 1.5
 --- !u!1 &1141784881
 GameObject:
   m_ObjectHideFlags: 0
