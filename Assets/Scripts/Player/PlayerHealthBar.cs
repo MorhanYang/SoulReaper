@@ -143,12 +143,14 @@ public class PlayerHealthBar : MonoBehaviour
     {
         if (invincibleTimer <= 0)
         {
+            // real damage
             if (damage < HpInPresentBar)
             {
                 presentHealth -= damage;
                 HpInPresentBar -= damage;
                 barPresent.sizeDelta= BarWidthSize(barPresent.sizeDelta,HpInPresentBar);
             }
+            // reduce a cell of bar
             else
             {
                 presentHealth -= indiviualMaxValue;

@@ -110,7 +110,7 @@ public class EnemyBasicAi : MonoBehaviour
         if (other.transform == target && action == EnemyAction.following){
             if (damageTimer >= attackInterval){
                 if (other.transform.GetComponent<Minion>() != null && !other.IsDestroyed()) other.transform.GetComponent<Minion>().TakeDamage(myDamage);
-                if (other.transform.GetComponent<PlayerControl>() != null) other.transform.GetComponent<PlayerControl>().PlayerTakeDamage(myDamage);
+                if (other.transform.GetComponent<PlayerControl>() != null) other.transform.GetComponent<PlayerControl>().PlayerTakeDamage(myDamage,transform);
                 damageTimer = 0f;
             }
             else damageTimer += Time.deltaTime;
@@ -156,7 +156,7 @@ public class EnemyBasicAi : MonoBehaviour
             // don't use Minion layermask because the moving minion is not in Minion 
             for (int i = 0; i < hitedObjecct.Length; i++){
                 if (hitedObjecct[i].GetComponent<PlayerControl>() != null){
-                    hitedObjecct[i].GetComponent<PlayerControl>().PlayerTakeDamage(damage);
+                    hitedObjecct[i].GetComponent<PlayerControl>().PlayerTakeDamage(damage,transform);
                     // recuce damge after hit an object
                     damage = (int)(damage*0.5f) + 1;
                 }
