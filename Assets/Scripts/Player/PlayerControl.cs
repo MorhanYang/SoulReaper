@@ -401,7 +401,7 @@ public class PlayerControl : MonoBehaviour
             // deal damage to enemies
             for (int i = 0; i < HitedEnemy.Length; i++)
             {
-                HitedEnemy[i].GetComponent<Enemy>().TakeDamage(myDamage, gameObject);
+                HitedEnemy[i].GetComponent<Enemy>().TakeDamage(myDamage, transform);
             }
         }
     }
