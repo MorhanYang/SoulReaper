@@ -61,12 +61,15 @@ public class PlayerControl : MonoBehaviour
 
     //Animation
     Animator characterAnimator;
+    //shacker
+    Shaker shacker;
 
     void Start()
     {
         rb= GetComponent<Rigidbody>();
         characterAnimator = transform.Find("Character").GetComponent<Animator>();
         hp = GetComponent<PlayerHealthBar>();
+        shacker= GetComponent<Shaker>();
 
         combateState = CombateState.normal;
 
@@ -346,9 +349,10 @@ public class PlayerControl : MonoBehaviour
     }
 
     // *********************************************************************Combat *********************************************
-    public void PlayerTakeDamage(float damage)
+    public void PlayerTakeDamage(float damage, Transform damageDealer)
     {
         hp.TakeDamage(damage);
+        shacker.AddImpact(transform.position - damageDealer.position, damage, false);
         hp.Invincible(0f, invincibleDuration);
 
         if (hp.presentHealth <= 0){
