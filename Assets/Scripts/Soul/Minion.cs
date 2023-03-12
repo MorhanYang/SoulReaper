@@ -36,19 +36,19 @@ public class Minion : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (isActive){
-            cursorManager.ActivateRecallCursor();
-            SelectEffect.SetActive(true);
-            // mark recall troop
-            playerHealthBar.MarkRegainTarget(transform);
+        if (myTroop != null)
+        {
+            myTroop.SellectAllMember();
         }
+
     }
     private void OnMouseExit()
     {
-        cursorManager.ActivateDefaultCursor();
-        SelectEffect.SetActive(false);
-        // unmark recall troop
-        playerHealthBar.MarkRegainTarget(null);
+        if (myTroop != null)
+        {
+            myTroop.UnsellectAllMember();
+        }
+
     }
 
     //*********************************************************Set Troop & Get Troop*******************************************************
@@ -81,7 +81,6 @@ public class Minion : MonoBehaviour
         }
     }
     //*****************************************************Change Minion State******************************************
-
     public void SetActiveDelay(float delay)
     {
         Invoke("ActiveMinion", delay);
@@ -103,10 +102,10 @@ public class Minion : MonoBehaviour
             myAI.ActivateMinion();
         }
     }
-
     public void SetInactive(bool needRecallEffect)
     {
         myAI.InactiveMinion();
+        myTroop = null;
         gameObject.layer = LayerMask.NameToLayer("Minion");
 
         // play recall animation
@@ -120,6 +119,22 @@ public class Minion : MonoBehaviour
         myAnimator.SetBool("Rebirth", false);
 
         isActive = false;
+    }
+
+    // ************************************************ Select Phase ***********************************************
+    public void ActivateSelected()
+    {
+        cursorManager.ActivateRecallCursor();
+        SelectEffect.SetActive(true);
+        // mark recall troop
+        playerHealthBar.MarkRegainTarget(transform);
+    }
+
+    public void DeactivateSeleted(){
+        cursorManager.ActivateDefaultCursor();
+        SelectEffect.SetActive(false);
+        // unmark recall troop
+        playerHealthBar.MarkRegainTarget(null);
     }
 
 }

@@ -246,8 +246,6 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-   
-
     // ************************************************** recall *********************************************
     void RecallTroops()
     {

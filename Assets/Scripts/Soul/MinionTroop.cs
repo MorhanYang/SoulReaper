@@ -260,4 +260,19 @@ public class MinionTroop : MonoBehaviour
             GameManager.instance.GetComponent<CursorManager>().ActivateDefaultCursor();
         }
     }
+    public void SellectAllMember()
+    {
+        for (int i = 0; i < TroopMember.Count ; i++)
+        {
+            TroopMember[i].ActivateSelected();
+        }
+
+    }
+    public void UnsellectAllMember()
+    {
+        for (int i = 0; i < TroopMember.Count; i++)
+        {
+            TroopMember[i].DeactivateSeleted();
+        }
+    }
 }
