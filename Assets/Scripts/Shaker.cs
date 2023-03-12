@@ -7,10 +7,11 @@ public class Shaker : MonoBehaviour
     //Attach this to a combat unit so its sprite shakes.
     [SerializeField]
     private Transform mySprite;
-    //[SerializeField]
+    private SpriteRenderer myRenderer;
+
     private Vector3 initialLocalPos;
-    //[SerializeField]
     private Vector3 velocity;
+
     [SerializeField]
     private float returnStrengh;
     [SerializeField]
@@ -20,6 +21,7 @@ public class Shaker : MonoBehaviour
 
     void Start()
     {
+        myRenderer= mySprite.GetComponent<SpriteRenderer>();
         initialLocalPos = mySprite.localPosition;
     }
 
@@ -33,22 +35,32 @@ public class Shaker : MonoBehaviour
 
         if (velocity != Vector3.zero)
         {
+            mySprite.position += velocity * Time.deltaTime;
+
             //Change Velocity as a spring pulls the sprite back to center
             Vector3 returnFoce = (initialLocalPos - mySprite.localPosition).normalized * returnStrengh * 0.1f;
             Vector3 Acceleration = returnFoce / mass;
             velocity += Acceleration;
 
+
             //Simplified friction that eventually slows the spirte down
             velocity *= (1 - Time.deltaTime * 25);
 
-            //Static friction
-            if (velocity.magnitude<0.1f && Vector3.Distance(mySprite.localPosition,initialLocalPos) < 0.1f)
+            //velocity is near 0
+            if (velocity.magnitude < 0.1f)
             {
-                velocity *= 0;
-                mySprite.localPosition = initialLocalPos;
+                // back to the initialPos
+                if (Vector3.Distance(mySprite.localPosition, initialLocalPos) < 0.05f)
+                {
+                    velocity *= 0;
+                    mySprite.localPosition = initialLocalPos;
+                }
+                // moving back
+                else if (myRenderer.color != Color.white)
+                {
+                    myRenderer.color = Color.white;
+                }
             }
-
-            mySprite.position += velocity * Time.deltaTime;
         }
     }
 
@@ -63,5 +75,8 @@ public class Shaker : MonoBehaviour
 
         // knock back
         transform.position += direction.normalized * (knockBack / mass) * 0.05f;
+
+        // trun to red
+        myRenderer.color = new Color(255,216,216);
     }
 }
