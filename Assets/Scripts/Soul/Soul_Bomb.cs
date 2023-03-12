@@ -195,13 +195,13 @@ public class Soul_Bomb : MonoBehaviour
     {
         Enemy enemy = collision.transform.GetComponent<Enemy>();
         if (enemy != null){
-            enemy.TakeDamage(soulDamage, gameObject);
+            enemy.TakeDamage(soulDamage, transform);
         }
     }
 
     void RegularSoulHitEnemy(GameObject collision, float damage)
     {
         Enemy enemy = collision.transform.GetComponent<Enemy>();
-        enemy.TakeDamage(damage, gameObject);
+        enemy.TakeDamage(damage, transform);
     }
 }

@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
 
     float showHealthBarTimer = 0f;
     // combat
-
+    Shaker shaker;
 
     // death trigger
     [SerializeField] GameObject otherScrips;
@@ -30,6 +30,7 @@ public class Enemy : MonoBehaviour
         
         ai = GetComponent<EnemyBasicAi>();
         player = PlayerManager.instance.player;
+        shaker= GetComponent<Shaker>();
 
 
         // Initiate the havesoul 
@@ -62,7 +63,7 @@ public class Enemy : MonoBehaviour
     }
 
     //************************************************************************** Combat **************************************************************
-    public void TakeDamage(float damage , GameObject subject) {
+    public void TakeDamage(float damage , Transform subject) {
         float hideHealthBarDelay = 5f;
 
         health.TakeDamage(damage);
@@ -74,10 +75,12 @@ public class Enemy : MonoBehaviour
         if (ai != null){
             ai.SlowDownEnemy(0.6f);
         }
+        //knock back
+        shaker.AddImpact(transform.position - subject.position, damage, false);
 
         // change target
         if (ai.target == player.transform){
-            ai.target = subject.transform;
+            ai.target = subject;
         }
 
         //died

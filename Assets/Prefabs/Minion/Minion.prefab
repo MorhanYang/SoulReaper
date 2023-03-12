@@ -299,6 +299,7 @@ GameObject:
   - component: {fileID: 956341428}
   - component: {fileID: 1729562323}
   - component: {fileID: 1326993549}
+  - component: {fileID: 1760636381}
   m_Layer: 8
   m_Name: Minion
   m_TagString: Minion
@@ -432,6 +433,22 @@ CapsuleCollider:
   m_Height: 0.6
   m_Direction: 1
   m_Center: {x: 0, y: 0.3, z: 0}
+--- !u!114 &1760636381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2329640087748747304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8981f99061849a498aba9cfaba86eb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mySprite: {fileID: 2329640088932374851}
+  returnStrengh: 0.3
+  mass: 1
+  knockBack: 3
 --- !u!1 &2329640088302978043
 GameObject:
   m_ObjectHideFlags: 0

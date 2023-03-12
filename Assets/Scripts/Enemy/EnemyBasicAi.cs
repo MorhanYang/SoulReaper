@@ -109,7 +109,7 @@ public class EnemyBasicAi : MonoBehaviour
         // colide with target
         if (other.transform == target && action == EnemyAction.following){
             if (damageTimer >= attackInterval){
-                if (other.transform.GetComponent<Minion>() != null && !other.IsDestroyed()) other.transform.GetComponent<Minion>().TakeDamage(myDamage);
+                if (other.transform.GetComponent<Minion>() != null && !other.IsDestroyed()) other.transform.GetComponent<Minion>().TakeDamage(myDamage,transform);
                 if (other.transform.GetComponent<PlayerControl>() != null) other.transform.GetComponent<PlayerControl>().PlayerTakeDamage(myDamage,transform);
                 damageTimer = 0f;
             }
@@ -161,7 +161,7 @@ public class EnemyBasicAi : MonoBehaviour
                     damage = (int)(damage*0.5f) + 1;
                 }
                 else if (!DamagedMinion.Contains(hitedObjecct[i])){
-                    hitedObjecct[i].GetComponent<Minion>().TakeDamage(damage);
+                    hitedObjecct[i].GetComponent<Minion>().TakeDamage(damage,transform);
                     DamagedMinion.Add(hitedObjecct[i]);
                     // recuce damge after hit an object
                     damage = (int)(damage * 0.5f) + 1;

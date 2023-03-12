@@ -19,6 +19,7 @@ public class Minion : MonoBehaviour
 
     CursorManager cursorManager;
     PlayerHealthBar playerHealthBar;
+    Shaker shaker;
 
     private void Awake()
     {
@@ -30,6 +31,7 @@ public class Minion : MonoBehaviour
     {
         cursorManager = GameManager.instance.GetComponent<CursorManager>();
         playerHealthBar = PlayerManager.instance.player.GetComponent<PlayerHealthBar>();
+        shaker = GetComponent<Shaker>();
     }
 
     private void OnMouseEnter()
@@ -67,9 +69,9 @@ public class Minion : MonoBehaviour
         myAI.SprintToEnemy(enemy);
     }
 
-    public void TakeDamage(float damage){
-        if (myTroop != null && myTroop.GetPresentHP() > 0)
-        {
+    public void TakeDamage(float damage, Transform damageDealer){
+        if (myTroop != null && myTroop.GetPresentHP() > 0){
+            shaker.AddImpact(transform.position - damageDealer.position, damage, false);
             myTroop.TakeDamage(damage * getDamageRate);
         }
     }

@@ -228,7 +228,7 @@ public class MinionAI : MonoBehaviour
         {
             // enemy
             if (hitEnemy[i].GetComponent<Enemy>() != null){
-                hitEnemy[i].GetComponent<Enemy>().TakeDamage(attackDamage, gameObject);
+                hitEnemy[i].GetComponent<Enemy>().TakeDamage(attackDamage, transform);
             }
             //puzzle trigger
             if (hitEnemy[i].GetComponent<PuzzleTrigger>() != null){

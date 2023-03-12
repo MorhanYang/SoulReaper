@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3444220120501066871}
   - component: {fileID: 3444220120501066870}
   - component: {fileID: 3226805919991222666}
+  - component: {fileID: 1624068418}
   m_Layer: 9
   m_Name: Enemy_Dash
   m_TagString: Enemy
@@ -91,12 +92,12 @@ MonoBehaviour:
   enemySprite: {fileID: 3444220122287105284}
   followDistance: 4.5
   attackInterval: 2.5
-  myDamage: 6
+  myDamage: 8
   canDash: 1
   dashIndicator_Axis: {fileID: 6751629214558052776}
   distanceForDash: 3
   dashPrepareTime: 1.6
-  dashCD: 2.5
+  dashCD: 3
   dashSpeed: 8
 --- !u!114 &3444220120501066871
 MonoBehaviour:
@@ -146,6 +147,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 96
   m_CollisionDetection: 0
+--- !u!114 &1624068418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3444220120501066863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8981f99061849a498aba9cfaba86eb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mySprite: {fileID: 3444220122287105284}
+  returnStrengh: 0.3
+  mass: 5
+  knockBack: 2
 --- !u!1 &3444220121054265276
 GameObject:
   m_ObjectHideFlags: 0
