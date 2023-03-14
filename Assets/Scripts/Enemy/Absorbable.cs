@@ -65,11 +65,15 @@ public class Absorbable : MonoBehaviour
             }
             else destination = transform.position;
 
-            // set destination
-            agent.SetDestination(destination);
+            if (canRoam)
+            {
+                // set destination
+                agent.SetDestination(destination);
 
-            // reset timer
-            startRoamTime = Time.time + Random.Range(0,4f);
+                // reset timer
+                startRoamTime = Time.time + Random.Range(0, 4f);
+            }
+
         }
     }
 
