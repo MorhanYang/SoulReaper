@@ -117,7 +117,6 @@ public class Minion : MonoBehaviour
         rebirthIcon.SetActive(true);
         myAnimator.SetBool("Dying", true);
         myAnimator.SetBool("Rebirth", false);
-        DeactivateSeleted();
 
         isActive = false;
     }
