@@ -71,7 +71,7 @@ public class Absorbable : MonoBehaviour
                 agent.SetDestination(destination);
 
                 // reset timer
-                startRoamTime = Time.time + Random.Range(0, 4f);
+                startRoamTime = Time.time + Random.Range(0, 8f);
             }
 
         }

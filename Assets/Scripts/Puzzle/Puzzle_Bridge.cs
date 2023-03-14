@@ -6,6 +6,7 @@ public class Puzzle_Bridge : MonoBehaviour
 {
     [SerializeField] Vector3 endPos;
     [SerializeField] GameObject Blocker;
+    [SerializeField] Puzzle_Bridge secondBridge;
     enum ScriptState
     {
         Regular,
@@ -16,10 +17,11 @@ public class Puzzle_Bridge : MonoBehaviour
 
     Vector3 initalPos;
     Vector3 destination;
+    public bool isWalkable = false;
 
     private void Start()
     {
-        initalPos = transform.position;
+        initalPos = transform.localPosition;
     }
     private void Update()
     {
@@ -29,17 +31,22 @@ public class Puzzle_Bridge : MonoBehaviour
                 break;
 
             case ScriptState.Active:
-                transform.position = Vector3.MoveTowards(transform.position, destination, 0.8f * Time.deltaTime);
-                if (transform.position == destination)
+                transform.localPosition = Vector3.MoveTowards(transform.localPosition, destination, 0.8f * Time.deltaTime);
+                if (transform.localPosition == destination)
                 {
-                    Blocker.SetActive(false);
                     state = ScriptState.Regular;
+                    isWalkable = true;// help other script to check if it is walkable
+                    // open blocker
+                    if (secondBridge != null && secondBridge.isWalkable){
+                        OpenBlocker();
+                        secondBridge.OpenBlocker();
+                    }
                 }
                 break;
 
             case ScriptState.Cancel:
-                transform.position = Vector3.MoveTowards(transform.position, destination, 0.8f * Time.deltaTime);
-                if (transform.position == destination)
+                transform.localPosition = Vector3.MoveTowards(transform.localPosition, destination, 0.8f * Time.deltaTime);
+                if (transform.localPosition == destination)
                 {
                     state = ScriptState.Regular;
                 }
@@ -57,8 +64,20 @@ public class Puzzle_Bridge : MonoBehaviour
     public void CancelScript()
     {
         gameObject.SetActive(true);// setActive then script can run
-        Blocker.SetActive(true);
         destination = initalPos;
         state = ScriptState.Cancel;
+
+        // Close Blocker
+        CloseBlocker();
+        if (secondBridge != null) secondBridge.CloseBlocker();
+
+        isWalkable = false;// help other script to check if it is walkable
+    }
+
+    public void OpenBlocker(){
+        Blocker.SetActive(false);
+    }
+    public void CloseBlocker(){
+        Blocker.SetActive(true);
     }
 }
