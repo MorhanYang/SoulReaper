@@ -18,6 +18,8 @@ public class Shaker : MonoBehaviour
     public float mass = 1;
     [SerializeField]
     float knockBack;
+    [SerializeField]
+    Color fleshColor= Color.white;
 
     void Start()
     {
@@ -77,6 +79,6 @@ public class Shaker : MonoBehaviour
         transform.position += direction.normalized * (knockBack / mass) * 0.05f;
 
         // trun to red
-        myRenderer.color = new Color(255,216,216);
+        myRenderer.color = fleshColor;
     }
 }

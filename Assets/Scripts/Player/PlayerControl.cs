@@ -350,7 +350,7 @@ public class PlayerControl : MonoBehaviour
     public void PlayerTakeDamage(float damage, Transform damageDealer)
     {
         hp.TakeDamage(damage);
-        shacker.AddImpact(transform.position - damageDealer.position, damage, false);
+        shacker.AddImpact((transform.position - damageDealer.position), damage, false);
         hp.Invincible(0f, invincibleDuration);
 
         if (hp.presentHealth <= 0){
