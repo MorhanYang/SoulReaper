@@ -5,7 +5,7 @@ using System.Linq;
 
 public class Puzzle_WeightTrigger : MonoBehaviour
 {
-    [SerializeField] Puzzle_MagicDoor myDoor;
+    [SerializeField] Transform targetObject;
     [SerializeField] Transform platform;
     [SerializeField] Canvas myCanvas;
     [SerializeField] TMP_Text text;
@@ -13,7 +13,16 @@ public class Puzzle_WeightTrigger : MonoBehaviour
     [SerializeField] int objectsNeeded = 2;
     int objectCount = 0 ;
 
+    Puzzle_Bridge myBridge;
+    Puzzle_MagicDoor myDoor;
+
     float UITimer;
+
+    private void Start()
+    {
+        if (targetObject.GetComponent<Puzzle_Bridge>() != null) myBridge = targetObject.GetComponent<Puzzle_Bridge>();
+        if (targetObject.GetComponent<Puzzle_MagicDoor>() != null) myDoor = targetObject.GetComponent<Puzzle_MagicDoor>();
+    }
     private void Update()
     {
         // hide UI after a few seconds 
@@ -39,7 +48,11 @@ public class Puzzle_WeightTrigger : MonoBehaviour
             }
 
             // Open door
-            if (objectCount >= objectsNeeded) myDoor.ActiveScript();
+            if (objectCount >= objectsNeeded)
+            {
+                if(myDoor != null) myDoor.ActiveScript();
+                if(myBridge != null) myBridge.ActiveScript();
+            }
         }
     }
 
@@ -59,17 +72,11 @@ public class Puzzle_WeightTrigger : MonoBehaviour
             }
 
             // Close door
-            if (objectCount < objectsNeeded) myDoor.CancelScript();
+            if (objectCount < objectsNeeded)
+            {
+                if (myDoor != null) myDoor.CancelScript();
+                if (myBridge != null) myBridge.CancelScript();
+            }
         }
-    }
-
-    int CheckObjectInside()
-    {
-        Collider[] allObjects = Physics.OverlapBox(
-            transform.position + new Vector3(0, 0.7f, 0), 
-            new Vector3(0.4f, 0.3f, 0.4f), 
-            transform.rotation, 
-            LayerMask.GetMask("Player","Minion","MovingMinion"));
-        return allObjects.Length;
     }
 }
