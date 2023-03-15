@@ -4,25 +4,19 @@ using UnityEngine;
 
 public class SpriteAnimationEffect : MonoBehaviour
 {
-    [SerializeField]
-    private Vector3 InitialShift;
     public bool Loop;
     [SerializeField]
     private List<Sprite> myFrames;
     [SerializeField]
-    private List<Vector4> ShiftsOnFrame;//XYXshift and Layer
+    private List<Vector4> ShiftsOnFrame;//XYXshift and OrderInLayer
     [SerializeField]
     private float totalTime;
-    [SerializeField]
     private float timePerFrame;
-    [SerializeField]
     private float timer;
     [SerializeField]
     private int currentframe;
     [SerializeField]
     private SpriteRenderer MyRenderer;
-    private bool flipped;
-
 
     void Start()
     {
@@ -32,7 +26,6 @@ public class SpriteAnimationEffect : MonoBehaviour
             Debug.Log("Effect " + gameObject.name + "has no sprite frames!");
             Destroy(gameObject);
         }
-        transform.localPosition += InitialShift;
         timePerFrame = totalTime / myFrames.Count;
         if (MyRenderer == null)
         { 
@@ -49,6 +42,7 @@ public class SpriteAnimationEffect : MonoBehaviour
 
         timer += Time.deltaTime;
         MyRenderer.sprite = myFrames[currentframe];
+
         if (timer >= timePerFrame) 
         {
             currentframe++;
@@ -66,7 +60,7 @@ public class SpriteAnimationEffect : MonoBehaviour
             if (currentframe < ShiftsOnFrame.Count)
             {
                 transform.localPosition += new Vector3(
-                                                            ShiftsOnFrame[currentframe].x * (System.Convert.ToSingle(flipped) * 2 - 1),
+                                                            ShiftsOnFrame[currentframe].x * flippedFactor(),
                                                             ShiftsOnFrame[currentframe].y,
                                                             ShiftsOnFrame[currentframe].z
                                                       );
@@ -79,5 +73,10 @@ public class SpriteAnimationEffect : MonoBehaviour
     public void PauseOnThisFrame(float time)
     {
         timer -= time;
+    }
+
+    private float flippedFactor() 
+    {
+        return (transform.localScale.x / Mathf.Abs(transform.localScale.x));
     }
 }
