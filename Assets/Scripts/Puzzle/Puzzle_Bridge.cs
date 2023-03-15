@@ -36,11 +36,13 @@ public class Puzzle_Bridge : MonoBehaviour
                 {
                     state = ScriptState.Regular;
                     isWalkable = true;// help other script to check if it is walkable
+
                     // open blocker
-                    if (secondBridge != null && secondBridge.isWalkable){
+                    if (secondBridge == null){
                         OpenBlocker();
-                        secondBridge.OpenBlocker();
                     }
+                    else if (secondBridge.isWalkable) secondBridge.OpenBlocker();
+
                 }
                 break;
 
