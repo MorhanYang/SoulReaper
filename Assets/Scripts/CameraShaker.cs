@@ -72,11 +72,5 @@ public class CameraShaker : MonoBehaviour
             acceleration = new Vector3(acceleration.x, 0, acceleration.z);
         }
         velocity += acceleration;
-
-        // knock back
-        transform.position += direction.normalized * (knockBack / mass) * 0.05f;
-
-        // trun to red
-        myRenderer.color = fleshColor;
     }
 }
