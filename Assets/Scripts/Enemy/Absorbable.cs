@@ -52,7 +52,6 @@ public class Absorbable : MonoBehaviour
         if (canRoam && !isDead && (Time.time - startRoamTime) > roamInterval)
         {
             // random a destination
-            Debug.Log("Mouse random");
             Vector3 rdmDir = new Vector3(Random.Range(-1,1f), 0, Random.Range(-1, 1f));
             rdmDir.Normalize();
             destination = transform.position + rdmDir * Random.Range(0.4f, 1.5f);

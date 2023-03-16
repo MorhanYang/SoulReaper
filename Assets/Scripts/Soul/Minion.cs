@@ -34,21 +34,15 @@ public class Minion : MonoBehaviour
         shaker = GetComponent<Shaker>();
     }
 
-    private void OnMouseEnter()
-    {
-        if (myTroop != null)
-        {
+    private void OnMouseEnter(){
+        if (myTroop != null){
             myTroop.SellectAllMember();
         }
-
     }
-    private void OnMouseExit()
-    {
-        if (myTroop != null)
-        {
+    private void OnMouseExit(){
+        if (myTroop != null){
             myTroop.UnsellectAllMember();
         }
-
     }
 
     //*********************************************************Set Troop & Get Troop*******************************************************

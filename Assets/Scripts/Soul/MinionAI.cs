@@ -20,7 +20,7 @@ public class MinionAI : MonoBehaviour
     bool isFacingRight = true;
 
     //Melee Attack
-    public float attackDamage = 2f;
+    public float attackDamage = 0.4f;
     [SerializeField] float attackCD;
     [SerializeField] Transform attackPoint;
     [SerializeField] float attackCircle;
@@ -32,15 +32,21 @@ public class MinionAI : MonoBehaviour
     Vector3 roamingPos;
     bool randomHandler = true; // prevent random many times 
 
+    // dash
+    AI_Dash dashScript;
+    [SerializeField] bool canDash = false;
+    [SerializeField] float dashDistance = 2f;
+    [SerializeField] float IntervalDashing = 10f;
+    float dashCD = 0;
+
     enum MinionSate
     {
         Dead,
         Follow,
         Sprint,
-        Attack,
+        Dash,
         Roam,
         Wait,
-        
     }
     MinionSate minionState;
 
@@ -49,6 +55,7 @@ public class MinionAI : MonoBehaviour
         agent= GetComponent<NavMeshAgent>();
         minionSprite = transform.Find("Mimion").GetComponent<SpriteRenderer>();
         player = PlayerManager.instance.player;
+        if (canDash) dashScript = GetComponent<AI_Dash>();
 
         SetUpRoamingPoints();
 
@@ -66,28 +73,42 @@ public class MinionAI : MonoBehaviour
                 break;
             case MinionSate.Follow:
                 FollowEnemy();
-                if (attackTimer >= attackCD) {
-                    if (target != null && Vector3.Distance(transform.position, target.position) <= attackRang){
-                        minionState = MinionSate.Attack;
+                // Attack
+                attackTimer += Time.deltaTime;
+                if (attackTimer >= attackCD && target != null) {
+                    // dash attack 
+                    if (canDash && (Time.time - dashCD) > IntervalDashing && Vector3.Distance(transform.position, target.position) <= dashDistance){
+                        //dash
+                        Debug.Log("Minion_Dash");
+                        dashScript.PrepareDash(target);
+                        minionState = MinionSate.Dash;
+
+                        
+                    }
+                    // normal Attack
+                    if (Vector3.Distance(transform.position, target.position) <= attackRang){
+                        MeleeAttack();
                     }
                     attackTimer = 0;
                 }
-                if (target == null){
-                    minionState = MinionSate.Roam;
-                }
-                else attackTimer += Time.deltaTime;
                 break;
+
             case MinionSate.Sprint:
                 SprintFunction();
                 break;
-            case MinionSate.Attack:
-                MeleeAttack();
+
+            case MinionSate.Dash:
+                // start Dashing, when it ends reset property
+                if (!dashScript.MinionDashing(attackDamage * 1.5f))
+                {
+                    minionState = MinionSate.Follow;
+                    dashCD = Time.time;
+                }
                 break;
+
             case MinionSate.Roam:
                 RoamMove();
                 RoamCheckEnemy();
-                break;
-            default:
                 break;
         }
 
@@ -195,11 +216,17 @@ public class MinionAI : MonoBehaviour
 
     void FollowEnemy()
     {
+        // follow
         if (target != null)
         {
             agent.SetDestination(target.position);
             // when roaming the strop distance become 0.1f;
             if (agent.stoppingDistance != attackRang) agent.stoppingDistance = attackRang;
+        }
+        // roaming
+        else if (target == null)
+        {
+            minionState = MinionSate.Roam;
         }
     }
 
@@ -235,7 +262,6 @@ public class MinionAI : MonoBehaviour
                 hitEnemy[i].GetComponent<PuzzleTrigger>().TakeDamage(attackDamage, gameObject);
             }
         }
-        minionState = MinionSate.Follow;
 
         // if kill the enemy
         if (target.GetComponent<Health>() != null)

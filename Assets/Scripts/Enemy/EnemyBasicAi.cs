@@ -10,6 +10,7 @@ public class EnemyBasicAi : MonoBehaviour
     public Transform target;
     NavMeshAgent agent;
     GameObject player;
+    AI_Dash dashScript;
 
     [SerializeField] Transform enemySprite;
     [SerializeField] float followDistance = 4.5f;
@@ -22,16 +23,11 @@ public class EnemyBasicAi : MonoBehaviour
 
     // dash
     [SerializeField] bool canDash = false;
-    [SerializeField] GameObject dashIndicator_Axis;
     [SerializeField] float distanceForDash;
     [SerializeField] float dashPrepareTime;
     [SerializeField] float dashCD;
-    [SerializeField] float dashSpeed = 2f;
     float dashTimer;
     float dashCDTimer;
-    Vector3 dashDir;
-    float presentDashSpeed;
-    List<Collider> DamagedMinion = new List<Collider>();
 
     //player distance
     float targetDistance;
@@ -52,11 +48,11 @@ public class EnemyBasicAi : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         player = PlayerManager.instance.player;
         target = player.transform;
+        dashScript = GetComponent<AI_Dash>();
 
         action = EnemyAction.idle;
 
         dashTimer = 0;
-        presentDashSpeed = dashSpeed;
         dashCDTimer = dashCD;
     }
     private void Update()
@@ -73,28 +69,47 @@ public class EnemyBasicAi : MonoBehaviour
 
         switch (action)
         {
+            // idle
             case EnemyAction.idle:
                 if (targetDistance < followDistance){
                     action = EnemyAction.following;
                 }
                 break;
+
+            // following
             case EnemyAction.following:
+                // stop following
                 if (targetDistance > followDistance){
                     action = EnemyAction.idle;
                 }
+                // follow enemy
                 FollowTarget();
+                // can dash enemy
                 if (canDash){
-                    if (dashCDTimer >= dashCD && targetDistance <= distanceForDash) {
-                        agent.SetDestination(transform.position);
-                        PrepareDash();
+                    if (dashCDTimer >= dashCD && targetDistance <= distanceForDash){
+                        dashScript.PrepareDash(target);
                         action = EnemyAction.dashing;
                     }
                 }
+
+               
                 // Dash CD timer counting
                 if (dashCDTimer <= dashCD) dashCDTimer += Time.deltaTime;
                 break;
+
+            // dasing
             case EnemyAction.dashing:
-                Dashing(myDamage);
+                // start timer
+                dashTimer += Time.deltaTime;
+                // start Dashing, when it ends reset property
+                if (!dashScript.EnemyDashing(myDamage))
+                {
+                    action = EnemyAction.following;
+                    target = player.transform;
+                    dashTimer = 0;
+                    dashCDTimer = 0;
+                    damageTimer = 1f;// prevent deal 2 times
+                }
                 break;
         }
 
@@ -124,66 +139,7 @@ public class EnemyBasicAi : MonoBehaviour
         agent.SetDestination(target.position);
     }
 
-    void PrepareDash()
-    {
-        dashDir = target.position - transform.position;
-        dashDir.Normalize();
-
-        //display
-        enemySprite.GetComponent<SpriteRenderer>().color = Color.red;
-        dashIndicator_Axis.SetActive(true);
-        float angle = Mathf.Atan2(dashDir.z, dashDir.x) * Mathf.Rad2Deg;
-        Quaternion DashRoatation = Quaternion.Euler(new Vector3(0, -angle, 0));
-        dashIndicator_Axis.transform.rotation = DashRoatation;
-    }
-
-    void Dashing(float damage)
-    {
-        // start timer
-        dashTimer += Time.deltaTime;
-        // start Dashing
-        if (dashTimer >= dashPrepareTime){
-            // display
-            dashIndicator_Axis.SetActive(false);
-
-            // dash movement
-            float dashResistance = 1.2f * dashSpeed;
-            agent.Move(dashDir * presentDashSpeed * Time.deltaTime);
-            presentDashSpeed -= dashResistance * Time.deltaTime;
-
-            // deal damage
-            Collider[] hitedObjecct = Physics.OverlapSphere((transform.position + dashDir * 0.2f), 0.14f, LayerMask.GetMask("Player", "MovingMinion"));
-            // don't use Minion layermask because the moving minion is not in Minion 
-            for (int i = 0; i < hitedObjecct.Length; i++){
-                if (hitedObjecct[i].GetComponent<PlayerControl>() != null){
-                    hitedObjecct[i].GetComponent<PlayerControl>().PlayerTakeDamage(damage,transform);
-                    // recuce damge after hit an object
-                    damage = (int)(damage*0.5f) + 1;
-                }
-                else if (!DamagedMinion.Contains(hitedObjecct[i])){
-                    hitedObjecct[i].GetComponent<Minion>().TakeDamage(damage,transform);
-                    DamagedMinion.Add(hitedObjecct[i]);
-                    // recuce damge after hit an object
-                    damage = (int)(damage * 0.5f) + 1;
-                }
-            }
-        }
-
-        // End dashing
-        if (presentDashSpeed <= 1f){
-
-            enemySprite.GetComponent<SpriteRenderer>().color = Color.white;
-            action = EnemyAction.following;
-
-            Debug.Log("End Dash");
-            // reset the property
-            presentDashSpeed = dashSpeed;
-            dashTimer = 0;
-            dashCDTimer = 0;
-            damageTimer= 1f;// prevent deal 2 times
-            DamagedMinion.Clear();
-        }
-    }
+  
     public void SlowDownEnemy(float offset){
         slowDownSpeedOffset = offset;
     }
