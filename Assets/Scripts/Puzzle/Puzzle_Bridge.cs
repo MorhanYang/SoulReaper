@@ -41,7 +41,10 @@ public class Puzzle_Bridge : MonoBehaviour
                     if (secondBridge == null){
                         OpenBlocker();
                     }
-                    else if (secondBridge.isWalkable) secondBridge.OpenBlocker();
+                    else if (secondBridge.isWalkable){
+                        OpenBlocker();
+                        secondBridge.OpenBlocker();
+                    }
 
                 }
                 break;

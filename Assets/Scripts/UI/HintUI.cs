@@ -11,26 +11,17 @@ public class HintUI : MonoBehaviour
     [SerializeField] Sprite[] diagramList;
     [SerializeField] string[] textList;
 
-    public void ShowHint(int hintID)
+    int hintId = 0;
+    public void ShowHint()
     {
         offest.SetActive(true);
-        switch (hintID)
-        {
-            case 0:
-                diagram.sprite = diagramList[0];
-
-                break;
-
-            case 1:
-                break;
-            case 2:
-                break;
-            default:
-                break;
-        }
+        diagram.sprite = diagramList[hintId];
+        text.text = textList[hintId];
+        if(hintId < (textList.Length - 1) && hintId < (diagramList.Length - 1)) hintId++;
     }
     public void HideHint() 
     { 
         offest.SetActive(false);
+        Time.timeScale= 1.0f;
     }
 }

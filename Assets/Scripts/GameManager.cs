@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour
 
     // HitMarker
     [SerializeField] GameObject AimMarker;
-    GameObject myMarker;
 
     private void Awake(){
         instance= this;
