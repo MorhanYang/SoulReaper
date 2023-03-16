@@ -106,7 +106,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -2
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.31510323, g: 0.55377674, b: 0.6886792, a: 0.29803923}
+  m_Color: {r: 0.31510323, g: 0.55377674, b: 0.6886792, a: 0.15686275}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -190,7 +190,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.3137255, g: 0.6901961, b: 0.34534207, a: 0.50980395}
+  m_Color: {r: 0.6901961, g: 0.32414347, b: 0.3137255, a: 0.50980395}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -294,7 +294,7 @@ MonoBehaviour:
   followDistance: 4.5
   attackInterval: 2.5
   myDamage: 0
-  canDash: 0
+  canDash: 1
   distanceForDash: 3
   dashPrepareTime: 1.6
   dashCD: 3
@@ -315,6 +315,7 @@ MonoBehaviour:
   enemySprite: {fileID: 3444220122287105287}
   dashPrepareTime: 1.6
   dashSpeed: 8
+  prepareTimeDashing: 1.6
 --- !u!114 &3444220120501066871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,7 +330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDead: 0
   enemySprite: {fileID: 3444220122287105285}
-  enemySoul: {fileID: 2329640087748747304, guid: b7ed528af67ac0e47bacc2885a5712fb, type: 3}
+  enemySoul: {fileID: 8820282583806114311, guid: 733da962e7b14ff4a8bf3192d6e766da, type: 3}
   otherScrips: {fileID: 0}
 --- !u!114 &3444220120501066870
 MonoBehaviour:
@@ -837,7 +838,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6751629214558052777
 Transform:
   m_ObjectHideFlags: 0

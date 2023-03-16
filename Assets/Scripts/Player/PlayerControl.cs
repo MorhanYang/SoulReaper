@@ -220,7 +220,7 @@ public class PlayerControl : MonoBehaviour
 
         rb.velocity = lastMoveDir * presentRollingSpeed * Time.fixedDeltaTime;
         // invincible time
-        hp.Invincible(delayBeforeInvincible, invincibleDuration);
+        hp.Invincible(invincibleDuration);
 
         // slow down
         presentRollingSpeed -= rollingResistance * Time.fixedDeltaTime;
@@ -349,9 +349,8 @@ public class PlayerControl : MonoBehaviour
     // *********************************************************************Combat *********************************************
     public void PlayerTakeDamage(float damage, Transform damageDealer)
     {
-        hp.TakeDamage(damage);
-        shacker.AddImpact((transform.position - damageDealer.position), damage, false);
-        hp.Invincible(0f, invincibleDuration);
+        hp.TakeDamage(damage, damageDealer);
+        hp.Invincible(invincibleDuration);
 
         if (hp.presentHealth <= 0){
             Debug.Log("You died");

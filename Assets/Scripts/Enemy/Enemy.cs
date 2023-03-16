@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
     Shaker shaker;
 
     // death trigger
-    [SerializeField] GameObject otherScrips;
+    [SerializeField] BossBlocker blocker;
 
 
     private void Start()
@@ -89,8 +89,8 @@ public class Enemy : MonoBehaviour
             // generate minion
             CheckIfHaveSoul();
 
-            // tirgger event
-            if (otherScrips != null) TriggerAdditionalScript();
+            // decativate blockers
+            if (blocker != null) blocker.ChangeBlockersState(false);
 
             // change cursor
             GameManager.instance.GetComponent<CursorManager>().ActivateDefaultCursor();
@@ -129,8 +129,4 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // **************************************Addtional Scrips trigger*********************************
-    void TriggerAdditionalScript()
-    {
-    }
 }

@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Sprites;
 using UnityEngine;
 using UnityEngine.UI;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
@@ -26,9 +27,12 @@ public class PlayerHealthBar : MonoBehaviour
     public float Maxhealth = 100;
     public float presentHealth = 100;
 
+    //knock back
+    Shaker shacker;
 
     // invincible
     float invincibleTimer = 0;
+    bool isInvicible = false; // reset the collision state
 
     // HealthBar Switch
     RectTransform barPresent;
@@ -58,6 +62,7 @@ public class PlayerHealthBar : MonoBehaviour
 
     private void Start()
     {
+        shacker = GetComponent<Shaker>();
         indiviualMaxValue = Maxhealth / hpBarsList.Count;
         barPresent = hpBarsList[cellNum - 1];
 
@@ -67,9 +72,16 @@ public class PlayerHealthBar : MonoBehaviour
     private void Update()
     {
         //Timer to prevent players getting multiple Damage;
-        if (invincibleTimer > 0)
+        if (isInvicible)
         {
-            invincibleTimer -= Time.deltaTime;
+            if (invincibleTimer > 0) {
+                invincibleTimer -= Time.deltaTime;
+            }
+            else
+            {
+                Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+                isInvicible= false;
+            }
         }
 
         // recover through time
@@ -81,7 +93,7 @@ public class PlayerHealthBar : MonoBehaviour
         }
         
         if (Input.GetKeyDown(KeyCode.T)) {
-            TakeDamage(30f);
+            TakeDamage(30f,null);
         }
 
     }
@@ -139,7 +151,7 @@ public class PlayerHealthBar : MonoBehaviour
     }
 
     //*********************************************************** Damage **********************************************************
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Transform damageDealer)
     {
         if (invincibleTimer <= 0)
         {
@@ -149,6 +161,12 @@ public class PlayerHealthBar : MonoBehaviour
                 presentHealth -= damage;
                 HpInPresentBar -= damage;
                 barPresent.sizeDelta= BarWidthSize(barPresent.sizeDelta,HpInPresentBar);
+
+                // knock back
+                if(damageDealer != null) shacker.AddImpact((transform.position - damageDealer.position), damage, false);
+
+                // become invincible
+                Invincible(0.2f);
             }
             // reduce a cell of bar
             else
@@ -159,7 +177,7 @@ public class PlayerHealthBar : MonoBehaviour
                 // next bar
                 if (barPresentId > 0) barPresentId--;
                 barPresent = hpBarsList[barPresentId];
-                TakeDamage(passedDamage);
+                TakeDamage(passedDamage , null);
             }
         }
 
@@ -380,25 +398,12 @@ public class PlayerHealthBar : MonoBehaviour
     }
 
     //****************************************************** Invincible ******************************************************
-    public void Invincible(float delay, float duration)
+    public void Invincible(float duration)
     {
-        if (delay > 0)
-        {
-            StartInvincible(delay, duration);
-        }
-        else
-        {
-            // set invincible time;
-            invincibleTimer = duration;
-        }
-    }
-
-    IEnumerator StartInvincible(float dly, float invcDuration)
-    {
-        // delay few second to continue function
-        yield return new WaitForSeconds(dly);
-
         // set invincible time;
-        invincibleTimer = invcDuration;
+        invincibleTimer = duration;
+        isInvicible = true;
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"));
+
     }
 }
