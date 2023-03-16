@@ -689,7 +689,6 @@ GameObject:
   - component: {fileID: 8820282583806114304}
   - component: {fileID: 8820282583806114307}
   - component: {fileID: 8820282583806114319}
-  - component: {fileID: 8820282583806114334}
   - component: {fileID: 6499674022040913563}
   - component: {fileID: 6499674022878567676}
   - component: {fileID: 6499674023281920674}
@@ -767,7 +766,6 @@ MonoBehaviour:
   canDash: 1
   dashDistance: 2
   IntervalDashing: 5
-  prepareTimeDashing: 1.6
 --- !u!114 &8820282583806114319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -785,22 +783,7 @@ MonoBehaviour:
   enemySprite: {fileID: 8820282584266638191}
   dashPrepareTime: 1.6
   dashSpeed: 8
---- !u!114 &8820282583806114334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8820282583806114311}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e253fa0c109ac04cb14fdecd9cc3836, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hpUI: {fileID: 8820282584280820048}
-  hpBar: {fileID: 8820282584251788458}
-  Maxhealth: 20
-  presentHealth: 20
+  prepareTimeDashing: 1.6
 --- !u!114 &6499674022040913563
 MonoBehaviour:
   m_ObjectHideFlags: 0

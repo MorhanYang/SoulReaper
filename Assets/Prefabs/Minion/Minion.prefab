@@ -211,7 +211,6 @@ GameObject:
   - component: {fileID: 2329640087748747305}
   - component: {fileID: 2329640087748747311}
   - component: {fileID: 2329640087748747308}
-  - component: {fileID: 2329640087748747313}
   - component: {fileID: 956341428}
   - component: {fileID: 1729562323}
   - component: {fileID: 1326993549}
@@ -285,22 +284,9 @@ MonoBehaviour:
   attackCD: 1
   attackPoint: {fileID: 2099285196}
   attackCircle: 0.4
---- !u!114 &2329640087748747313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2329640087748747304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e253fa0c109ac04cb14fdecd9cc3836, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hpUI: {fileID: 2329640088877314943}
-  hpBar: {fileID: 2329640088917620357}
-  Maxhealth: 20
-  presentHealth: 20
+  canDash: 0
+  dashDistance: 2
+  IntervalDashing: 10
 --- !u!114 &956341428
 MonoBehaviour:
   m_ObjectHideFlags: 0

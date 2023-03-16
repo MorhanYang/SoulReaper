@@ -120,22 +120,12 @@ public class AI_Dash : MonoBehaviour
             presentDashSpeed -= dashResistance * Time.deltaTime;
 
             // deal damage
-            Collider[] hitedObjecct = Physics.OverlapSphere((transform.position + dashDir * 0.2f), 0.14f, LayerMask.GetMask("Enemy"));
-            // don't use Minion layermask because the moving minion is not in Minion 
+            Collider[] hitedObjecct = Physics.OverlapSphere((transform.position + dashDir * 0.2f), 0.14f, LayerMask.GetMask("Enemy")); 
             for (int i = 0; i < hitedObjecct.Length; i++)
             {
-                if (hitedObjecct[i].GetComponent<PlayerControl>() != null)
-                {
-                    hitedObjecct[i].GetComponent<PlayerControl>().PlayerTakeDamage(damage, transform);
-                    // recuce damge after hit an object
-                    damage = (int)(damage * 0.5f) + 1;
-                }
-                else if (!DamagedMinion.Contains(hitedObjecct[i]))
-                {
+                if (!DamagedMinion.Contains(hitedObjecct[i])){
                     hitedObjecct[i].GetComponent<Enemy>().TakeDamage(damage, transform);
                     DamagedMinion.Add(hitedObjecct[i]);
-                    // recuce damge after hit an object
-                    damage = (int)(damage * 0.5f) + 1;
                 }
             }
 
