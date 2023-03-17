@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5651079860264585718
 Transform:
   m_ObjectHideFlags: 0
@@ -97,7 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93cd768b8d0f27b4892be40be4103195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitialShift: {x: 0, y: 0, z: 0}
   Loop: 1
   myFrames:
   - {fileID: -1760462809, guid: 0849270de2037d341a174ff93989d40c, type: 3}
@@ -106,7 +105,5 @@ MonoBehaviour:
   - {fileID: 1384255286, guid: 0849270de2037d341a174ff93989d40c, type: 3}
   ShiftsOnFrame: []
   totalTime: 0.2
-  timePerFrame: 0
-  timer: 0
   currentframe: 0
   MyRenderer: {fileID: 0}

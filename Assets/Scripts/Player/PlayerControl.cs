@@ -27,7 +27,8 @@ public class PlayerControl : MonoBehaviour
     Transform attackPoint;
     float upAttackTimer;
     float downAttackTimer;
-    [SerializeField] GameObject attackEffect;
+    [SerializeField] GameObject upAttackEffect;
+    [SerializeField] GameObject downAttackEffect;
 
     //Movement
     [SerializeField] float moveSpeed;
@@ -363,12 +364,9 @@ public class PlayerControl : MonoBehaviour
             // upward Attack
             if (upAttackTimer >= attackCD && downAttackTimer >= 0.4f)
             {
-                Debug.Log("upward");
-                GameObject effect = Instantiate(attackEffect, transform.position + new Vector3(0, 0.1f, 0.1f), transform.rotation, transform);
-                if (isFacingRight) effect.GetComponent<Animator>().Play("Upward Attack");
-                else effect.GetComponent<Animator>().Play("Upward Attack_Flip");
+                if (isFacingRight) Instantiate(upAttackEffect, transform.position + new Vector3(0.3f, 0.35f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
+                else Instantiate(upAttackEffect, transform.position + new Vector3(-0.3f, 0.35f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
 
-                Destroy(effect, 0.5f);
                 DamageEnemy();
                 upAttackTimer = 0;
             }
@@ -379,12 +377,9 @@ public class PlayerControl : MonoBehaviour
             // Downward Attack
             if (downAttackTimer >= attackCD && upAttackTimer >= 0.4f)
             {
-                Debug.Log("downward");
-                GameObject effect = Instantiate(attackEffect, transform.position + new Vector3(0, 0.1f, 0.1f), transform.rotation, transform);
-                if(isFacingRight) effect.GetComponent<Animator>().Play("Downward Attack");
-                else effect.GetComponent<Animator>().Play("Downward Attack_Flip");
+                if (isFacingRight) Instantiate(downAttackEffect, transform.position + new Vector3(0.3f, 0.35f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
+                else Instantiate(downAttackEffect, transform.position + new Vector3(-0.3f, 0.35f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
 
-                Destroy(effect, 0.5f); 
                 DamageEnemy();
                 downAttackTimer = 0;
             }
