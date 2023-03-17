@@ -107,7 +107,7 @@ MonoBehaviour:
   - {x: 0.3, y: 0.35, z: 0, w: -1}
   - {x: 0, y: 0, z: 0, w: -1}
   - {x: 0, y: 0, z: 0, w: -1}
-  - {x: 0, y: 0, z: 0, w: 1}
-  totalTime: 0.4
+  - {x: 0, y: 0, z: 0, w: 2}
+  totalTime: 0.2
   currentframe: 0
   MyRenderer: {fileID: 0}
