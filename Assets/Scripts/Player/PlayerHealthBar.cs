@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Sprites;
@@ -15,10 +16,9 @@ public class PlayerHealthBar : MonoBehaviour
     [SerializeField] int cellNum = 5;
 
     // troop
-    List<MinionTroop> allTroopList = new List<MinionTroop>();
-    [SerializeField] int SingleTroopMaxMember = 6;
     List<MinionTroop> activedTroopList = new List<MinionTroop>();
     MinionTroop troopPresent = null;
+    [SerializeField] int maxTroopCapacity = 5;
 
     // hp
     [SerializeField] GameObject hpUI;
@@ -314,7 +314,6 @@ public class PlayerHealthBar : MonoBehaviour
         if (healValue != 0) Healing(healValue);
     }
     //*************************************************************** Rebirth Troop ***************************************************
-
     public void RebirthTroop( Vector3 pointedPos , float radius)
     {
         // have health to rebirth troop
@@ -326,35 +325,68 @@ public class PlayerHealthBar : MonoBehaviour
 
             if (MinionInCircle.Length > 0)
             {
-                // if present troop is full
-                if (troopPresent == null || troopPresent.GetTroopSize() >= SingleTroopMaxMember)
-                {
-                    GenerateNewTroop();
-                }
-                // fill the troop
-                if ((troopPresent.GetTroopSize() + MinionInCircle.Length) <= SingleTroopMaxMember) // enough slot for minion
-                {
-                    // call all minions out
-                    for (int i = 0; i < MinionInCircle.Length; i++)
-                    {
-                        if (MinionInCircle[i].GetComponent<Minion>() != null)
-                        {
-                            MinionInCircle[i].GetComponent<Minion>().SetActiveDelay(rebirthDelay);
-                            //add to troop list
-                            troopPresent.AddTroopMember(MinionInCircle[i].GetComponent<Minion>());
-                        }
+                // get minion list
+                List<Minion> minionSet = new List<Minion>();
+                for (int i = 0; i < MinionInCircle.Length; i++){
+                    if (MinionInCircle[i]!= null){
+                        minionSet.Add(MinionInCircle[i].GetComponent<Minion>());
                     }
                 }
-                else if ((troopPresent.GetTroopSize() + MinionInCircle.Length) > SingleTroopMaxMember) // too much minions
+                // reorder minions from highest to lowest
+                //minionSet.Sort(SortByMinionSize);
+                //minionSet.Reverse();
+
+                // ********special minion
+                for (int i = 0; i < minionSet.Count; i++)
                 {
-                    int leftSlots = SingleTroopMaxMember - troopPresent.GetTroopSize();
-                    for (int i = 0; i < leftSlots; i++)
+                    if (minionSet[i].minionSize == maxTroopCapacity)
                     {
-                        if (MinionInCircle[i].GetComponent<Minion>() != null)
+                        MinionTroop mytroop = troopPresent;
+                        GenerateNewTroop();
+
+                        // revieve minion
+                        minionSet[0].GetComponent<Minion>().SetActiveDelay(rebirthDelay);
+                        //add to troop list
+                        troopPresent.AddTroopMember(minionSet[i].GetComponent<Minion>());
+
+                        // reset the present troop
+                        troopPresent = mytroop;// prevent troop present change trooppresent for small minion;
+
+                        // remove item
+                        minionSet.RemoveAt(i);
+                        i--;
+                    }
+                }
+
+                //*******Normal minion
+                if (minionSet.Count>0)
+                {
+                    // if present troop is full
+                    if (troopPresent == null || troopPresent.GetTroopEmptySpace() <= 0)
+                    {
+                        GenerateNewTroop();
+                    }
+
+                    // fill the troop
+                    if (troopPresent.GetTroopEmptySpace() >= minionSet.Count) // enough slot for minion
+                    {
+                        // call all minions out
+                        for (int i = 0; i < minionSet.Count; i++)
                         {
-                            MinionInCircle[i].GetComponent<Minion>().SetActiveDelay(rebirthDelay);
+                            minionSet[i].SetActiveDelay(rebirthDelay);
                             //add to troop list
-                            troopPresent.AddTroopMember(MinionInCircle[i].GetComponent<Minion>());
+                            troopPresent.AddTroopMember(minionSet[i]);
+
+                        }
+                    }
+                    else if (troopPresent.GetTroopEmptySpace() < minionSet.Count) // too much minions
+                    {
+                        int leftSlots = troopPresent.GetTroopEmptySpace();
+                        for (int i = 0; i < leftSlots; i++)
+                        {
+                            minionSet[i].SetActiveDelay(rebirthDelay);
+                            //add to troop list
+                            troopPresent.AddTroopMember(minionSet[i]);
                         }
                     }
                 }
@@ -363,6 +395,11 @@ public class PlayerHealthBar : MonoBehaviour
         else GameManager.instance.PopUpUI(new Vector3(0, 24f, 0), "Not engouh Health");        
     }
     
+    static int SortByMinionSize(Minion p1, Minion p2)
+    {
+        return p1.minionSize.CompareTo(p2.minionSize);
+    }
+
     void GenerateNewTroop()
     {
         // update data
@@ -379,6 +416,7 @@ public class PlayerHealthBar : MonoBehaviour
         troopPresent = Instantiate(itemMinionHPTemp, hpUI.transform);
         troopPresent.GetComponent<CanvasGroup>().alpha = 0f;
         troopPresent.gameObject.SetActive(true);
+        troopPresent.GetComponent<MinionTroop>().ResetTroopHP(indiviualMaxValue, maxTroopCapacity);
 
         // display
         Sequence mysequence = DOTween.Sequence();

@@ -296,7 +296,7 @@ MonoBehaviour:
   canDash: 1
   distanceForDash: 3
   dashPrepareTime: 1.6
-  dashCD: 3
+  dashCD: 4
 --- !u!114 &657218503990400077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,7 +312,6 @@ MonoBehaviour:
   dashIndicator_Axis: {fileID: 6751629214558052776}
   DashIndicator_Bar: {fileID: 381501858}
   enemySprite: {fileID: 3444220122287105287}
-  dashPrepareTime: 1.6
   dashSpeed: 8
   prepareTimeDashing: 1.6
 --- !u!114 &3444220120501066871
@@ -345,8 +344,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpUI: {fileID: 3444220122308579128}
   hpBar: {fileID: 3444220122268404418}
-  Maxhealth: 500
-  presentHealth: 500
+  Maxhealth: 150
+  presentHealth: 150
 --- !u!114 &1624068418
 MonoBehaviour:
   m_ObjectHideFlags: 0

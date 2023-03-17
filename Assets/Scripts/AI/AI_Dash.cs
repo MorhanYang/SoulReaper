@@ -10,14 +10,13 @@ public class AI_Dash : MonoBehaviour
     [SerializeField] GameObject dashIndicator_Axis;
     [SerializeField] GameObject DashIndicator_Bar;
     [SerializeField] SpriteRenderer enemySprite;
-    [SerializeField] float dashPrepareTime = 1.6f;
     [SerializeField] float dashSpeed = 8f;
     [SerializeField] float prepareTimeDashing = 1.6f;
     float dashDelayTime = 0;
     Vector3 dashDir;
     float presentDashSpeed;
 
-    List<Collider> DamagedMinion = new List<Collider>();
+    List<Collider> DamagedTarget = new List<Collider>();
     NavMeshAgent agent;
 
 
@@ -33,7 +32,6 @@ public class AI_Dash : MonoBehaviour
     {
         dashDelayTime = Time.time;// delay timer
 
-        Debug.Log("Prepare Dashing");
         agent.SetDestination(transform.position);// stop moving
 
         dashDir = target.position - transform.position;
@@ -73,13 +71,14 @@ public class AI_Dash : MonoBehaviour
                 if (hitedObjecct[i].GetComponent<PlayerControl>() != null)
                 {
                     hitedObjecct[i].GetComponent<PlayerControl>().PlayerTakeDamage(damage, transform);
-                    // recuce damge after hit an object
+                    //recuce damge after hit an object
                     damage = (int)(damage * 0.5f) + 1;
                 }
-                else if (!DamagedMinion.Contains(hitedObjecct[i]))
+                else if (!DamagedTarget.Contains(hitedObjecct[i]))
                 {
                     hitedObjecct[i].GetComponent<Minion>().TakeDamage(damage, transform);
-                    DamagedMinion.Add(hitedObjecct[i]);
+                    DamagedTarget.Add(hitedObjecct[i]);
+                    Debug.Log("Deal Damage: " + damage);
                     // recuce damge after hit an object
                     damage = (int)(damage * 0.5f) + 1;
                 }
@@ -90,10 +89,9 @@ public class AI_Dash : MonoBehaviour
             {
                 enemySprite.color = Color.white;
 
-                Debug.Log("End Dash");
                 // reset the property
                 presentDashSpeed = dashSpeed;
-                DamagedMinion.Clear();
+                DamagedTarget.Clear();
 
                 return false; // isn't dashing
             }
@@ -123,9 +121,9 @@ public class AI_Dash : MonoBehaviour
             Collider[] hitedObjecct = Physics.OverlapSphere((transform.position + dashDir * 0.2f), 0.14f, LayerMask.GetMask("Enemy")); 
             for (int i = 0; i < hitedObjecct.Length; i++)
             {
-                if (!DamagedMinion.Contains(hitedObjecct[i])){
+                if (!DamagedTarget.Contains(hitedObjecct[i])){
                     hitedObjecct[i].GetComponent<Enemy>().TakeDamage(damage, transform);
-                    DamagedMinion.Add(hitedObjecct[i]);
+                    DamagedTarget.Add(hitedObjecct[i]);
                 }
             }
 
@@ -137,7 +135,7 @@ public class AI_Dash : MonoBehaviour
                 Debug.Log("End Dash");
                 // reset the property
                 presentDashSpeed = dashSpeed;
-                DamagedMinion.Clear();
+                DamagedTarget.Clear();
 
                 return false; // isn't dashing
             }

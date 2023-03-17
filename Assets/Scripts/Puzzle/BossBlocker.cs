@@ -16,6 +16,7 @@ public class BossBlocker : MonoBehaviour
         if (other.tag == "Player")
         {
             ChangeBlockersState(true);
+            GetComponent<Collider>().enabled = false;
         }
     }
 

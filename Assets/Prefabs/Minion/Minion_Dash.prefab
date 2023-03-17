@@ -781,7 +781,6 @@ MonoBehaviour:
   dashIndicator_Axis: {fileID: 6499674023777541322}
   DashIndicator_Bar: {fileID: 6499674023746601532}
   enemySprite: {fileID: 8820282584266638191}
-  dashPrepareTime: 1.6
   dashSpeed: 8
   prepareTimeDashing: 1.6
 --- !u!114 &6499674022040913563
@@ -802,6 +801,7 @@ MonoBehaviour:
   rebirthIcon: {fileID: 6499674022655950995}
   SelectEffect: {fileID: 4521613172250935710}
   isActive: 0
+  minionSize: 5
 --- !u!54 &6499674022878567676
 Rigidbody:
   m_ObjectHideFlags: 0

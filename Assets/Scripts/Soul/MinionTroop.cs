@@ -6,8 +6,7 @@ using UnityEngine.AI;
 
 public class MinionTroop : MonoBehaviour
 {
-    //Health health;
-    Health health;
+    [SerializeField] Health health; // serializedField to solve reset problem (can get access before end of the frame)
     PlayerHealthBar playerHealthBar;
 
     List<Minion> TroopMember;
@@ -15,27 +14,33 @@ public class MinionTroop : MonoBehaviour
 
     [SerializeField] GameObject[] minionTemple;
     [SerializeField] TMP_Text memberNum;
-    int MaxMember = 6;
+    [SerializeField]int MaxMember = 5;
     // reduce Damge
     int ReduceDamageStateCount = 0;
 
+    // Minion Size
+    int TroopSpaceLeft;
+
     private void Awake()
     {
-        health = GetComponent<Health>();
         TroopMember = new List<Minion>();
         playerHealthBar = PlayerManager.instance.player.GetComponent<PlayerHealthBar>();
+    }
 
+    private void Start()
+    {
         UpdateMemberNumText();
+        // adjust damage rate
+        ReduceMinionsDamge();
     }
 
     //********************************************Reset Troop Info************************************************************
-    public void ResetTroopHP(float hp, int maxMember)
+    public void ResetTroopHP(float hp, int maxCapacity)
     {
         health.Maxhealth = hp;
         health.presentHealth = hp;
-        MaxMember = maxMember;
-        // adjust damage rate
-        ReduceMinionsDamge();
+        MaxMember = maxCapacity;
+        TroopSpaceLeft = maxCapacity;
     }
 
     //************************************************Sprint***************************************************************
@@ -133,9 +138,9 @@ public class MinionTroop : MonoBehaviour
     {
         return minionTemple[TempleNum];
     }
-    public int GetTroopSize()
+    public int GetTroopEmptySpace()
     {
-        return TroopMember.Count;
+        return TroopSpaceLeft;
     }
     public List<Minion> GetMinionList()
     {
@@ -174,7 +179,7 @@ public class MinionTroop : MonoBehaviour
 
     void UpdateMemberNumText()
     {
-        memberNum.text = TroopMember.Count + "/" + MaxMember;
+        memberNum.text = (MaxMember - TroopSpaceLeft) + "/" + MaxMember;
     }
 
     public void AddTroopMember(Minion member) {
@@ -182,6 +187,7 @@ public class MinionTroop : MonoBehaviour
         {
             TroopMember.Add(member);
             member.SetTroop(this);
+            TroopSpaceLeft -= member.minionSize;
 
             UpdateMemberNumText();
         }
@@ -255,10 +261,12 @@ public class MinionTroop : MonoBehaviour
     {
         for (int i = 0; i < TroopMember.Count; i++)
         {
-            TroopMember[i].SetInactive(true);
-            // change cursor
-            GameManager.instance.GetComponent<CursorManager>().ActivateDefaultCursor();
+            TroopMember[i].SetInactive(true); 
         }
+        // change cursor
+        GameManager.instance.GetComponent<CursorManager>().ActivateDefaultCursor();
+
+        TroopSpaceLeft = MaxMember;
     }
     public void SellectAllMember()
     {

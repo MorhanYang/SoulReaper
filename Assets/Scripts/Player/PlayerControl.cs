@@ -53,7 +53,6 @@ public class PlayerControl : MonoBehaviour
     float presentRollingSpeed;
     [SerializeField] float rollingSpeed = 200f;
     [SerializeField] float rollingResistance = 600f;
-    [SerializeField] float delayBeforeInvincible = 0.1f;
     [SerializeField] float invincibleDuration = 0.4f;
 
     //soul list ( new )

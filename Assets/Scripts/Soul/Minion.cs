@@ -21,6 +21,9 @@ public class Minion : MonoBehaviour
     PlayerHealthBar playerHealthBar;
     Shaker shaker;
 
+    // Minion Size
+    public int minionSize = 1; // only can be maxTroopCapacity(PlayerHealthBar) or 1
+
     private void Awake()
     {
         myAI = GetComponent<MinionAI>();
@@ -53,7 +56,6 @@ public class Minion : MonoBehaviour
     public MinionTroop GetTroop(){
         return myTroop;
     }
-
     //******************************************************combate*********************************************************
     public void SetDealDamageRate(float rate){
         myAI.attackDamage = initaldamage * rate;

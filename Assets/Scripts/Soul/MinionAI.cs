@@ -250,16 +250,30 @@ public class MinionAI : MonoBehaviour
     //****************************************************Attack*****************************************
     void MeleeAttack()
     {
-        Collider[] hitEnemy = Physics.OverlapSphere(attackPoint.position, attackCircle, LayerMask.GetMask("Enemy", "PuzzleTrigger"));
-        for (int i = 0; i < hitEnemy.Length; i++)
+        // aoe
+        //Collider[] hitEnemy = Physics.OverlapSphere(attackPoint.position, attackCircle, LayerMask.GetMask("Enemy", "PuzzleTrigger"));
+        //for (int i = 0; i < hitEnemy.Length; i++)
+        //{
+        //    // enemy
+        //    if (hitEnemy[i].GetComponent<Enemy>() != null){
+        //        hitEnemy[i].GetComponent<Enemy>().TakeDamage(attackDamage, transform);
+        //    }
+        //    //puzzle trigger
+        //    if (hitEnemy[i].GetComponent<PuzzleTrigger>() != null){
+        //        hitEnemy[i].GetComponent<PuzzleTrigger>().TakeDamage(attackDamage, gameObject);
+        //    }
+        //}
+        if (Vector3.Distance(transform.position,target.position)<= attackRang + 0.2f)
         {
-            // enemy
-            if (hitEnemy[i].GetComponent<Enemy>() != null){
-                hitEnemy[i].GetComponent<Enemy>().TakeDamage(attackDamage, transform);
+            //enemy
+                if (target.GetComponent<Enemy>() != null)
+            {
+                target.GetComponent<Enemy>().TakeDamage(attackDamage, transform);
             }
             //puzzle trigger
-            if (hitEnemy[i].GetComponent<PuzzleTrigger>() != null){
-                hitEnemy[i].GetComponent<PuzzleTrigger>().TakeDamage(attackDamage, gameObject);
+            if (target.GetComponent<PuzzleTrigger>() != null)
+            {
+                target.GetComponent<PuzzleTrigger>().TakeDamage(attackDamage, gameObject);
             }
         }
 
@@ -321,7 +335,6 @@ public class MinionAI : MonoBehaviour
     {
         if (minionState == MinionSate.Roam) // because is a delay function, it would cause movement when minion is inactive
         {
-            Debug.Log("random");
             // get random direction
             Vector3 randomDir = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
             roamingPos = InitialRoamingPoint.position + randomDir * Random.Range(1.5f, 2.5f);
