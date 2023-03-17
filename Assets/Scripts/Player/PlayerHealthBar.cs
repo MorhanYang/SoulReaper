@@ -51,7 +51,6 @@ public class PlayerHealthBar : MonoBehaviour
     Transform MarkedSubject;
 
     // Effect
-    [SerializeField] GameObject rebirthRangeEffect;
     float rebirthDelay = 0.6f;
 
 
@@ -319,8 +318,7 @@ public class PlayerHealthBar : MonoBehaviour
         // have health to rebirth troop
         if (presentHealth > indiviualMaxValue)
         {
-            // show range indicator
-            ShowRebirthRange(pointedPos, rebirthDelay);
+
             Collider[] MinionInCircle = Physics.OverlapSphere(pointedPos, radius, LayerMask.GetMask("Minion"));// when rebirth minion, the layer will change
 
             if (MinionInCircle.Length > 0)
@@ -427,12 +425,6 @@ public class PlayerHealthBar : MonoBehaviour
         // add it to count list
         activedTroopList.Add(troopPresent);
 
-    }
-
-    void ShowRebirthRange( Vector3 pos , float delay)
-    {
-        GameObject effect = Instantiate(rebirthRangeEffect, pos, transform.rotation);
-        Destroy(effect, delay);
     }
 
     //****************************************************** Invincible ******************************************************
