@@ -11,6 +11,7 @@ public class Absorbable : MonoBehaviour
     [SerializeField] SpriteRenderer mysprite;
     PlayerHealthBar playerHP;
     NavMeshAgent agent;
+    CursorManager cursorManager;
 
     [SerializeField] float hp = 10;
     [SerializeField] bool canRoam = false;
@@ -31,6 +32,7 @@ public class Absorbable : MonoBehaviour
         playerHP= PlayerManager.instance.player.GetComponent<PlayerHealthBar>();
         agent = GetComponent<NavMeshAgent>();
         player = PlayerManager.instance.player;
+        cursorManager = GameManager.instance.GetComponent<CursorManager>();
 
         startRoamTime = Time.time;
         destination = transform.position;
@@ -41,12 +43,14 @@ public class Absorbable : MonoBehaviour
         if (!isDead){
             selectEffect.SetActive(true);
             playerHP.MarkRegainTarget(transform);
+            cursorManager.ActivateRecallCursor();
         }
     }
     private void OnMouseExit()
     {
         selectEffect.SetActive(false);
         playerHP.MarkRegainTarget(null);
+        cursorManager.ActivateDefaultCursor();
     }
 
     private void Update()
@@ -107,23 +111,5 @@ public class Absorbable : MonoBehaviour
             return hp;
         }
         else return 0;
-    }
-
-    void FlipMinion()
-    {
-        if (agent.velocity.x < 0 && isFacingRight) // minion will wave their heads if it is 0
-        {
-            mysprite.flipX = true;
-            isFacingRight = !isFacingRight;
-
-            //mysprite.localPosition = new Vector3(-0.4f, 0.1f, 0.1f);
-        }
-        if (agent.velocity.x > 0 && !isFacingRight)
-        {
-            mysprite.flipX = false;
-            isFacingRight = !isFacingRight;
-
-            //mysprite.localPosition = new Vector3(0.4f, 0.1f, 0.1f);
-        }
     }
 }

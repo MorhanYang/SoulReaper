@@ -16,7 +16,7 @@ public class MinionAI : MonoBehaviour
 
     // find enemy & movement
     [SerializeField] float searchingRange = 2f;
-    SpriteRenderer minionSprite;
+    [SerializeField]SpriteRenderer minionSprite;
     bool isFacingRight = true;
 
     //Melee Attack
@@ -53,7 +53,6 @@ public class MinionAI : MonoBehaviour
     private void Start()
     {
         agent= GetComponent<NavMeshAgent>();
-        minionSprite = transform.Find("Mimion").GetComponent<SpriteRenderer>();
         player = PlayerManager.instance.player;
         if (canDash) dashScript = GetComponent<AI_Dash>();
 

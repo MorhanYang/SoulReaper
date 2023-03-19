@@ -79,17 +79,19 @@ public class Minion : MonoBehaviour
     //*****************************************************Change Minion State******************************************
     public void SetActiveDelay(float delay)
     {
-        Invoke("ActiveMinion", delay);
-        isActive = true;
+        if (!isActive){
+            Invoke("ActiveMinion", delay);
+            isActive = true;
 
-        // play recall animation
-        rebirthIcon.SetActive(false);
-        // get a recalling minion from player
-        GameObject effect = Instantiate(recallingMinion, PlayerManager.instance.player.transform.position, transform.rotation);
-        effect.GetComponent<RecallingMinion>().AimTo(transform);
+            // play recall animation
+            rebirthIcon.SetActive(false);
+            // get a recalling minion from player
+            GameObject effect = Instantiate(recallingMinion, PlayerManager.instance.player.transform.position, transform.rotation);
+            effect.GetComponent<RecallingMinion>().AimTo(transform);
 
-        myAnimator.SetBool("Rebirth", true);
-        myAnimator.SetBool("Dying", false);
+            myAnimator.SetBool("Rebirth", true);
+            myAnimator.SetBool("Dying", false);
+        }
     }
     void ActiveMinion()
     {

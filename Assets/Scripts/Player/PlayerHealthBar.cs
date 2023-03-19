@@ -207,11 +207,11 @@ public class PlayerHealthBar : MonoBehaviour
         if (healingValue <= BarSpaceLeft){
             presentHealth += healingValue;
             HpInPresentBar += healingValue;
-            barPresent.sizeDelta =BarWidthSize(barPresent.sizeDelta, HpInPresentBar);
+            if(barPresent!= null) barPresent.sizeDelta =BarWidthSize(barPresent.sizeDelta, HpInPresentBar);
         }
         else{
             presentHealth += BarSpaceLeft;
-            barPresent.sizeDelta = BarWidthSize(barPresent.sizeDelta, indiviualMaxValue);
+            if(barPresent != null) barPresent.sizeDelta = BarWidthSize(barPresent.sizeDelta, indiviualMaxValue);
             float passedHP = healingValue - BarSpaceLeft;
             // load prevous bar
             if (barPresentId < (cellNum - activedTroopList.Count - 1)) barPresentId++;
@@ -339,8 +339,9 @@ public class PlayerHealthBar : MonoBehaviour
                         GenerateNewTroop();
 
                         // revieve minion
-                        minionSet[0].GetComponent<Minion>().SetActiveDelay(rebirthDelay);
+                        minionSet[i].GetComponent<Minion>().SetActiveDelay(rebirthDelay);
                         //add to troop list
+                        Debug.Log("maxTroopCapacity" + maxTroopCapacity);
                         troopPresent.AddTroopMember(minionSet[i].GetComponent<Minion>());
 
                         // reset the present troop
@@ -349,6 +350,7 @@ public class PlayerHealthBar : MonoBehaviour
                         // remove item
                         minionSet.RemoveAt(i);
                         i--;
+                        return;
                     }
                 }
 

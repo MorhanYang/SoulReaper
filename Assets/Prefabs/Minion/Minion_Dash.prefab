@@ -759,6 +759,7 @@ MonoBehaviour:
   SprintSpeed: 2.5
   NormalSpeed: 1.5
   searchingRange: 2
+  minionSprite: {fileID: 8820282584266638191}
   attackDamage: 3
   attackCD: 1
   attackPoint: {fileID: 6499674023049647843}
@@ -937,7 +938,7 @@ GameObject:
   - component: {fileID: 8820282584266638191}
   - component: {fileID: 6499674022657197127}
   m_Layer: 8
-  m_Name: Mimion
+  m_Name: Mimion_Dash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -999,7 +1000,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1073243689, guid: ec2b49b0673fd5449850d6acf1147305, type: 3}
+  m_Sprite: {fileID: -1998717319, guid: b6c6aa915b6f0fb4c8ed0051eb2ee301, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1020,7 +1021,7 @@ Animator:
   m_GameObject: {fileID: 8820282584266638189}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f97db308fa882064990f427b6e4e318b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 870646aa35b90f4419fdb1999042b6bf, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

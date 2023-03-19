@@ -280,6 +280,7 @@ MonoBehaviour:
   SprintSpeed: 2.5
   NormalSpeed: 1.5
   searchingRange: 2
+  minionSprite: {fileID: 2329640088932374848}
   attackDamage: 3
   attackCD: 1
   attackPoint: {fileID: 2099285196}
@@ -305,6 +306,7 @@ MonoBehaviour:
   rebirthIcon: {fileID: 313252540}
   SelectEffect: {fileID: 7245311238218668977}
   isActive: 0
+  minionSize: 1
 --- !u!54 &1729562323
 Rigidbody:
   m_ObjectHideFlags: 0
