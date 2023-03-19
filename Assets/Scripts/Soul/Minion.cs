@@ -1,11 +1,14 @@
+using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Minion : MonoBehaviour
 {
     MinionTroop myTroop;
     MinionAI myAI;
+    NavMeshAgent myagent;
 
     [SerializeField] Animator myAnimator;
     [SerializeField] GameObject recallingMinion;
@@ -27,6 +30,7 @@ public class Minion : MonoBehaviour
     private void Awake()
     {
         myAI = GetComponent<MinionAI>();
+        myagent= GetComponent<NavMeshAgent>();
         initaldamage = myAI.attackDamage;
     }
 
@@ -35,6 +39,11 @@ public class Minion : MonoBehaviour
         cursorManager = GameManager.instance.GetComponent<CursorManager>();
         playerHealthBar = PlayerManager.instance.player.GetComponent<PlayerHealthBar>();
         shaker = GetComponent<Shaker>();
+    }
+
+    private void Update()
+    {
+        myAnimator.SetFloat("MovingSpeed", myagent.velocity.magnitude);
     }
 
     private void OnMouseEnter(){

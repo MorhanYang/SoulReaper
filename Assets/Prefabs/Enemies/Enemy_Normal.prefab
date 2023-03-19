@@ -262,11 +262,9 @@ MonoBehaviour:
   attackInterval: 1.25
   myDamage: 5
   canDash: 0
-  dashIndicator_Axis: {fileID: 0}
   distanceForDash: 2.5
   dashPrepareTime: 0.8
   dashCD: 2
-  dashSpeed: 10
 --- !u!114 &781885203487099890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,7 +280,7 @@ MonoBehaviour:
   isDead: 0
   enemySprite: {fileID: 781885203998012032}
   enemySoul: {fileID: 2329640087748747304, guid: b7ed528af67ac0e47bacc2885a5712fb, type: 3}
-  otherScrips: {fileID: 0}
+  blocker: {fileID: 0}
 --- !u!114 &781885203487099891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,6 +342,7 @@ MonoBehaviour:
   returnStrengh: 0.3
   mass: 1
   knockBack: 2
+  fleshColor: {r: 1, g: 0.5058824, b: 0.5058824, a: 1}
 --- !u!1 &781885203943987385
 GameObject:
   m_ObjectHideFlags: 0
