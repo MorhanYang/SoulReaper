@@ -47,11 +47,6 @@ public class GameManager : MonoBehaviour
     }
 
     private void Update(){
-        // active game
-        if (Input.GetKeyDown(KeyCode.Return) && startUI.activeSelf){
-            startUI.SetActive(false);
-            Time.timeScale = 1.0f;
-        }
 
         if (Input.GetKeyDown(KeyCode.R)){
             Restart();
@@ -60,7 +55,19 @@ public class GameManager : MonoBehaviour
 
     // ********************************************** Scene Control **************************************************
     public static void Restart(){
-        SceneManager.LoadScene("Tutorial_Test");
+        SceneManager.LoadScene("Sewer_Tutorial");
+    }
+    public void StartGame()
+    {
+        Time.timeScale = 1.0f;
+        CanvasGroup canvasGroup = startUI.GetComponent<CanvasGroup>();
+        canvasGroup.DOFade(0, 0.5f);
+        if (canvasGroup.alpha <= 0.1f)
+        {
+            startUI.SetActive(false);
+            canvasGroup.alpha = 1f;
+        }
+
     }
 
     // ********************************************* Spell CD ************************************************

@@ -798,7 +798,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myAnimator: {fileID: 6499674022657197127}
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
-  getDamageRate: 0.8
+  getDamageRate: 0.5
   rebirthIcon: {fileID: 6499674022655950995}
   SelectEffect: {fileID: 4521613172250935710}
   isActive: 0
