@@ -19,6 +19,9 @@ public class Absorbable : MonoBehaviour
     float startRoamTime;
     Vector3 destination;
 
+    // flip
+    bool isFacingRight = true;
+
     // recall effect
     [SerializeField] GameObject recallingMinion;
     GameObject player;
@@ -56,6 +59,18 @@ public class Absorbable : MonoBehaviour
             rdmDir.Normalize();
             destination = transform.position + rdmDir * Random.Range(0.4f, 1.5f);
 
+            // flip charactor
+            if(rdmDir.x > 0 && isFacingRight) 
+        {
+                mysprite.flipX = true;
+                isFacingRight = !isFacingRight;
+            }
+            if (rdmDir.x < 0 && !isFacingRight)
+            {
+                mysprite.flipX = false;
+                isFacingRight = !isFacingRight;
+            }
+
             // find nearest point on the navmesh
             NavMeshHit hit;
             if (NavMesh.SamplePosition(destination, out hit, 2.5f, NavMesh.AllAreas))
@@ -92,5 +107,23 @@ public class Absorbable : MonoBehaviour
             return hp;
         }
         else return 0;
+    }
+
+    void FlipMinion()
+    {
+        if (agent.velocity.x < 0 && isFacingRight) // minion will wave their heads if it is 0
+        {
+            mysprite.flipX = true;
+            isFacingRight = !isFacingRight;
+
+            //mysprite.localPosition = new Vector3(-0.4f, 0.1f, 0.1f);
+        }
+        if (agent.velocity.x > 0 && !isFacingRight)
+        {
+            mysprite.flipX = false;
+            isFacingRight = !isFacingRight;
+
+            //mysprite.localPosition = new Vector3(0.4f, 0.1f, 0.1f);
+        }
     }
 }

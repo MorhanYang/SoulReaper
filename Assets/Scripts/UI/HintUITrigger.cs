@@ -8,7 +8,6 @@ public class HintUITrigger : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        Time.timeScale = 0;
         myHint.ShowHint();
 
         Destroy(gameObject);
