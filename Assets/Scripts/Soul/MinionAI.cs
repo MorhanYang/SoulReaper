@@ -72,11 +72,6 @@ public class MinionAI : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            SetToFaint();
-        }
-
         switch (minionState)
         {
             case MinionSate.Dead:

@@ -29,11 +29,6 @@ public class Shaker : MonoBehaviour
 
     void Update()
     {
-        //Debug
-        if (Input.GetKeyDown(KeyCode.Q)) 
-        {
-            AddImpact(new Vector3(1, 0, 0), 20, false);
-        }
 
         if (velocity != Vector3.zero)
         {
@@ -58,7 +53,7 @@ public class Shaker : MonoBehaviour
                     mySprite.localPosition = initialLocalPos;
                 }
                 // moving back
-                else if (myRenderer.color != Color.white)
+                if (myRenderer.color != Color.white)
                 {
                     myRenderer.color = Color.white;
                 }
