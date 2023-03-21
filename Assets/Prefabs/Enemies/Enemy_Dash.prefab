@@ -293,10 +293,11 @@ MonoBehaviour:
   followDistance: 4.5
   attackInterval: 2.5
   myDamage: 5
+  attackEffect: {fileID: 8295354949021519652, guid: 310bf40f820e6464bb41e0a1bae2cab7, type: 3}
   canDash: 1
   distanceForDash: 3
-  dashPrepareTime: 1.6
-  dashCD: 5
+  dashPrepareTime: 1.8
+  dashCD: 4.5
 --- !u!114 &657218503990400077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,6 +330,7 @@ MonoBehaviour:
   isDead: 0
   enemySprite: {fileID: 3444220122287105285}
   enemySoul: {fileID: 8820282583806114311, guid: 733da962e7b14ff4a8bf3192d6e766da, type: 3}
+  attackEffect: {fileID: 0}
   blocker: {fileID: 0}
 --- !u!114 &3444220120501066870
 MonoBehaviour:
@@ -344,8 +346,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpUI: {fileID: 3444220122308579128}
   hpBar: {fileID: 3444220122268404418}
-  Maxhealth: 150
-  presentHealth: 1
+  Maxhealth: 180
+  presentHealth: 180
 --- !u!114 &1624068418
 MonoBehaviour:
   m_ObjectHideFlags: 0

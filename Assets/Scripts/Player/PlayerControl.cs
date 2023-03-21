@@ -272,7 +272,7 @@ public class PlayerControl : MonoBehaviour
 
     IEnumerator ContinueRecallTroops()
     {
-        float holdTime = 0.5f;
+        float holdTime = 0.6f;
         // loop
         while (recallMinionTimer < holdTime && Input.GetMouseButton(1))
         {
@@ -287,7 +287,7 @@ public class PlayerControl : MonoBehaviour
             List<MinionTroop> allTroop = hp.GetActivedTroop();
             int recallTimes = allTroop.Count; // allTroop.Count will change after the reacall
             for (int i = 0; i < recallTimes; i++){
-                hp.RegainHP();
+                hp.RegainAllTroopHP();
             }
         }
     }

@@ -1,3 +1,4 @@
+using Fungus;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -74,6 +75,10 @@ public class MinionAI : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            SetToFaint();
+        }
         switch (minionState)
         {
             case MinionSate.Dead:
@@ -127,6 +132,8 @@ public class MinionAI : MonoBehaviour
                     }
                 }
                 break;
+            case MinionSate.Bait:
+                break;
         }
 
         if (minionState != MinionSate.Dead) FlipMinion();
@@ -146,6 +153,8 @@ public class MinionAI : MonoBehaviour
     {
         minionState = MinionSate.Dead;
         agent.SetDestination(transform.position);
+
+        faintEffect.SetActive(false); 
     }
     public bool IsDead(){
         if (minionState == MinionSate.Dead){
@@ -172,7 +181,7 @@ public class MinionAI : MonoBehaviour
 
     void StartRoam() // it is used for live minion
     {
-        if(minionState != MinionSate.Dead || minionState != MinionSate.Bait)
+        if(minionState != MinionSate.Dead && minionState != MinionSate.Bait)
         {
             minionState = MinionSate.Roam;
             GetRoamingStartPos();
@@ -181,7 +190,7 @@ public class MinionAI : MonoBehaviour
     //***************************************************************** Sprint ***********************************************************************
 
     public void SprinteToPos(Vector3 aimPos){
-        if (minionState != MinionSate.Dead)
+        if (minionState != MinionSate.Dead && minionState != MinionSate.Faint)
         {
             target = null; // ignore prevous target
             // set destination
@@ -197,7 +206,7 @@ public class MinionAI : MonoBehaviour
         }
     }
     public void SprintToEnemy(Transform aim){
-        if (minionState != MinionSate.Dead)
+        if (minionState != MinionSate.Dead && minionState != MinionSate.Faint)
         {
             // set destination
             target = aim;
@@ -212,6 +221,7 @@ public class MinionAI : MonoBehaviour
 
     void SprintFunction()
     {
+
         // Don't hit enemy
         if (target == null)
         {
@@ -236,6 +246,7 @@ public class MinionAI : MonoBehaviour
                 minionState = MinionSate.Follow;
             }
         }
+      
     }
 
     // *******************************************************Automatically find enemy & move *****************************************************

@@ -17,6 +17,7 @@ public class HintUI : MonoBehaviour
     private void Start()
     {
         offest.alpha = 0f;
+        hintId = 0;
     }
     public void ShowHint()
     {
