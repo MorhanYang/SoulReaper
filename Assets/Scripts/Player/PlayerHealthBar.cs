@@ -245,32 +245,46 @@ public class PlayerHealthBar : MonoBehaviour
         MinionTroop TargetTroop = null;
 
         // player didn't select a troop
-        if (MarkedSubject == null){
-            // find troop with lowest HP
-            MinionTroop lowHPTroop = null;
-            for (int i = 0; i < activedTroopList.Count; i++){
-                if (lowHPTroop == null){
-                    lowHPTroop = activedTroopList[i];
-                }
-                else if (activedTroopList[i].GetPresentHP() < lowHPTroop.GetPresentHP()){
-                    lowHPTroop = activedTroopList[i];
-                }
-            }
-            TargetTroop = lowHPTroop;
-        }
+        //if (MarkedSubject == null){
+        //    // find troop with lowest HP
+        //    MinionTroop lowHPTroop = null;
+        //    for (int i = 0; i < activedTroopList.Count; i++){
+        //        if (lowHPTroop == null){
+        //            lowHPTroop = activedTroopList[i];
+        //        }
+        //        else if (activedTroopList[i].GetPresentHP() < lowHPTroop.GetPresentHP()){
+        //            lowHPTroop = activedTroopList[i];
+        //        }
+        //    }
+        //    TargetTroop = lowHPTroop;
+        //}
+
         // player select a troop
-        else{
+        if (MarkedSubject != null)
+        {
             TargetTroop = MarkedSubject.GetComponent<Minion>().GetTroop();
+            // play recall effect
+            TargetTroop.ExecuteMinionRecall();
+
+            //remove lowest hp Troop
+            RemoveTroopFromPlayerHealth(TargetTroop);
+
+            // reset property
+            MarkedSubject = null;
         }
 
-        // play recall effect
-        TargetTroop.ExecuteMinionRecall();
 
-        //remove lowest hp Troop
-        RemoveTroopFromPlayerHealth(TargetTroop);
-
-        // reset property
-        MarkedSubject = null;
+    }
+    public void RegainAllTroopHP()
+    {
+        if (activedTroopList.Count > 0 && MarkedSubject == null)
+        {
+            for (int i = 0; i < activedTroopList.Count; i++)
+            {
+                activedTroopList[i].ExecuteMinionRecall();
+                RemoveTroopFromPlayerHealth(activedTroopList[i]);
+            }
+        }
     }
     public void RemoveTroopFromPlayerHealth(MinionTroop troop) {
 
