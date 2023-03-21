@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class Bait : MonoBehaviour
 {
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<MinionAI>() != null){
             MinionAI myAi = other.GetComponent<MinionAI>();
-            myAi.SetToWait();
+            if (myAi.minionState == MinionAI.MinionSate.Sprint){
+                myAi.minionState = MinionAI.MinionSate.Bait;
+            }
+            
+
         }
     }
 }

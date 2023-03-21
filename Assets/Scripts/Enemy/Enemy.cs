@@ -1,5 +1,3 @@
-
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -18,10 +16,10 @@ public class Enemy : MonoBehaviour
     float showHealthBarTimer = 0f;
     // combat
     Shaker shaker;
+    [SerializeField] GameObject attackEffect;
 
     // death trigger
     [SerializeField] BossBlocker blocker;
-
 
     private void Start()
     {
@@ -43,8 +41,6 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-
-
         // health bar
         if (showHealthBarTimer >= 0){
             showHealthBarTimer -= Time.deltaTime;
@@ -130,5 +126,8 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    // ***********************************Flip***********************************
+
 
 }

@@ -10,18 +10,18 @@ public class Puzzle_WeightTrigger : MonoBehaviour
     [SerializeField] Canvas myCanvas;
     [SerializeField] TMP_Text text;
 
-    [SerializeField] int objectsNeeded = 2;
+    int objectsNeeded = 1;
     int objectCount = 0 ;
 
     Puzzle_Bridge myBridge;
-    Puzzle_MagicDoor myDoor;
+    //Puzzle_MagicDoor myDoor;
 
     float UITimer;
 
     private void Start()
     {
         if (targetObject.GetComponent<Puzzle_Bridge>() != null) myBridge = targetObject.GetComponent<Puzzle_Bridge>();
-        if (targetObject.GetComponent<Puzzle_MagicDoor>() != null) myDoor = targetObject.GetComponent<Puzzle_MagicDoor>();
+        objectsNeeded = myBridge.GetNeedObjectNumber();
     }
     private void Update()
     {
@@ -47,12 +47,7 @@ public class Puzzle_WeightTrigger : MonoBehaviour
                 platform.position = new Vector3(platform.position.x, platform.position.y - 0.01f, platform.position.z);
             }
 
-            // Open door
-            if (objectCount >= objectsNeeded)
-            {
-                if(myDoor != null) myDoor.ActiveScript();
-                if(myBridge != null) myBridge.ActiveScript();
-            }
+            if (myBridge != null) myBridge.AddObject();
         }
     }
 
@@ -71,12 +66,8 @@ public class Puzzle_WeightTrigger : MonoBehaviour
                 platform.position = new Vector3(platform.position.x, platform.position.y + 0.01f, platform.position.z);
             }
 
-            // Close door
-            if (objectCount < objectsNeeded)
-            {
-                if (myDoor != null) myDoor.CancelScript();
-                if (myBridge != null) myBridge.CancelScript();
-            }
+
+            if (myBridge != null) myBridge.DetractObject();
         }
     }
 }
