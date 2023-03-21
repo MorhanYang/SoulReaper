@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    CursorManager cursorManager;
     public bool isDead = false;
     bool haveSoul;
 
@@ -31,6 +32,7 @@ public class Enemy : MonoBehaviour
         ai = GetComponent<EnemyBasicAi>();
         player = PlayerManager.instance.player;
         shaker= GetComponent<Shaker>();
+        cursorManager = GameManager.instance.GetComponent<CursorManager>();
 
 
         // Initiate the havesoul 
@@ -55,11 +57,11 @@ public class Enemy : MonoBehaviour
     // Cursor Icon
     private void OnMouseEnter()
     {
-        GameManager.instance.GetComponent<CursorManager>().ActivateCombatCursor();
+        cursorManager.ActivateCombatCursor();
     }
     private void OnMouseExit()
     {
-        GameManager.instance.GetComponent<CursorManager>().ActivateDefaultCursor();
+        cursorManager.ActivateDefaultCursor();
     }
 
     //************************************************************************** Combat **************************************************************

@@ -1,12 +1,8 @@
 using DG.Tweening;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Sprites;
 using UnityEngine;
 using UnityEngine.UI;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
-
 public class PlayerHealthBar : MonoBehaviour
 {
 
@@ -51,7 +47,6 @@ public class PlayerHealthBar : MonoBehaviour
     Transform MarkedSubject;
 
     // Effect
-    [SerializeField] GameObject rebirthRangeEffect;
     float rebirthDelay = 0.6f;
 
 
@@ -212,11 +207,11 @@ public class PlayerHealthBar : MonoBehaviour
         if (healingValue <= BarSpaceLeft){
             presentHealth += healingValue;
             HpInPresentBar += healingValue;
-            barPresent.sizeDelta =BarWidthSize(barPresent.sizeDelta, HpInPresentBar);
+            if(barPresent!= null) barPresent.sizeDelta =BarWidthSize(barPresent.sizeDelta, HpInPresentBar);
         }
         else{
             presentHealth += BarSpaceLeft;
-            barPresent.sizeDelta = BarWidthSize(barPresent.sizeDelta, indiviualMaxValue);
+            if(barPresent != null) barPresent.sizeDelta = BarWidthSize(barPresent.sizeDelta, indiviualMaxValue);
             float passedHP = healingValue - BarSpaceLeft;
             // load prevous bar
             if (barPresentId < (cellNum - activedTroopList.Count - 1)) barPresentId++;
@@ -319,8 +314,7 @@ public class PlayerHealthBar : MonoBehaviour
         // have health to rebirth troop
         if (presentHealth > indiviualMaxValue)
         {
-            // show range indicator
-            ShowRebirthRange(pointedPos, rebirthDelay);
+
             Collider[] MinionInCircle = Physics.OverlapSphere(pointedPos, radius, LayerMask.GetMask("Minion"));// when rebirth minion, the layer will change
 
             if (MinionInCircle.Length > 0)
@@ -345,8 +339,9 @@ public class PlayerHealthBar : MonoBehaviour
                         GenerateNewTroop();
 
                         // revieve minion
-                        minionSet[0].GetComponent<Minion>().SetActiveDelay(rebirthDelay);
+                        minionSet[i].GetComponent<Minion>().SetActiveDelay(rebirthDelay);
                         //add to troop list
+                        Debug.Log("maxTroopCapacity" + maxTroopCapacity);
                         troopPresent.AddTroopMember(minionSet[i].GetComponent<Minion>());
 
                         // reset the present troop
@@ -355,6 +350,7 @@ public class PlayerHealthBar : MonoBehaviour
                         // remove item
                         minionSet.RemoveAt(i);
                         i--;
+                        return;
                     }
                 }
 
@@ -427,12 +423,6 @@ public class PlayerHealthBar : MonoBehaviour
         // add it to count list
         activedTroopList.Add(troopPresent);
 
-    }
-
-    void ShowRebirthRange( Vector3 pos , float delay)
-    {
-        GameObject effect = Instantiate(rebirthRangeEffect, pos, transform.rotation);
-        Destroy(effect, delay);
     }
 
     //****************************************************** Invincible ******************************************************

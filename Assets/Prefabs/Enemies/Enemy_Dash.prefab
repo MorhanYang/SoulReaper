@@ -292,11 +292,11 @@ MonoBehaviour:
   enemySprite: {fileID: 3444220122287105284}
   followDistance: 4.5
   attackInterval: 2.5
-  myDamage: 8
+  myDamage: 5
   canDash: 1
   distanceForDash: 3
   dashPrepareTime: 1.6
-  dashCD: 4
+  dashCD: 5
 --- !u!114 &657218503990400077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,7 +345,7 @@ MonoBehaviour:
   hpUI: {fileID: 3444220122308579128}
   hpBar: {fileID: 3444220122268404418}
   Maxhealth: 150
-  presentHealth: 150
+  presentHealth: 1
 --- !u!114 &1624068418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,7 +362,7 @@ MonoBehaviour:
   returnStrengh: 0.3
   mass: 5
   knockBack: 2
-  fleshColor: {r: 1, g: 1, b: 1, a: 1}
+  fleshColor: {r: 1, g: 0.5058824, b: 0.5058824, a: 1}
 --- !u!1 &3444220121054265276
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,7 +542,7 @@ Transform:
   m_GameObject: {fileID: 3444220122287105285}
   m_LocalRotation: {x: 0.38268343, y: -0, z: -0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: -0.1751, z: -0.309}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3444220120501066862}

@@ -16,7 +16,7 @@ public class MinionAI : MonoBehaviour
 
     // find enemy & movement
     [SerializeField] float searchingRange = 2f;
-    SpriteRenderer minionSprite;
+    [SerializeField]SpriteRenderer minionSprite;
     bool isFacingRight = true;
 
     //Melee Attack
@@ -39,6 +39,10 @@ public class MinionAI : MonoBehaviour
     [SerializeField] float IntervalDashing = 10f;
     float dashCD = 0;
 
+    // Faint
+    float FaintTimer = 0;
+    [SerializeField] GameObject faintEffect;
+
     enum MinionSate
     {
         Dead,
@@ -47,13 +51,13 @@ public class MinionAI : MonoBehaviour
         Dash,
         Roam,
         Wait,
+        Faint,
     }
     MinionSate minionState;
 
     private void Start()
     {
         agent= GetComponent<NavMeshAgent>();
-        minionSprite = transform.Find("Mimion").GetComponent<SpriteRenderer>();
         player = PlayerManager.instance.player;
         if (canDash) dashScript = GetComponent<AI_Dash>();
 
@@ -61,6 +65,7 @@ public class MinionAI : MonoBehaviour
 
         minionState = MinionSate.Dead;
         attackTimer = 0;
+        FaintTimer= 0;
 
         agent.stoppingDistance = attackRang;
     }
@@ -82,8 +87,6 @@ public class MinionAI : MonoBehaviour
                         Debug.Log("Minion_Dash");
                         dashScript.PrepareDash(target);
                         minionState = MinionSate.Dash;
-
-                        
                     }
                     // normal Attack
                     if (Vector3.Distance(transform.position, target.position) <= attackRang){
@@ -110,6 +113,18 @@ public class MinionAI : MonoBehaviour
                 RoamMove();
                 RoamCheckEnemy();
                 break;
+
+            case MinionSate.Faint:
+                if(FaintTimer <= 4)FaintTimer += Time.deltaTime;
+                if (FaintTimer >= 4f)
+                {
+                    FaintTimer = 0;
+                    if (minionState != MinionSate.Dead) { 
+                        ActivateMinion();
+                        faintEffect.SetActive(false);
+                    }
+                }
+                break;
         }
 
         if (minionState != MinionSate.Dead) FlipMinion();
@@ -130,7 +145,6 @@ public class MinionAI : MonoBehaviour
         minionState = MinionSate.Dead;
         agent.SetDestination(transform.position);
     }
-
     public bool IsDead(){
         if (minionState == MinionSate.Dead){
             return true;
@@ -138,10 +152,20 @@ public class MinionAI : MonoBehaviour
         else return false;
 
     }
-
     public void SetToWait(){
         minionState = MinionSate.Wait;
         agent.SetDestination(transform.position);
+    }
+    public void SetToFaint(){
+        if (minionState != MinionSate.Dead)
+        {
+            minionState = MinionSate.Faint;
+            agent.SetDestination(transform.position);
+
+            // display
+            Debug.Log("Faint");
+            faintEffect.SetActive(true);
+        }
     }
 
     void StartRoam() // it is used for live minion
@@ -195,7 +219,7 @@ public class MinionAI : MonoBehaviour
             {
                 agent.speed = NormalSpeed;
                 minionState = MinionSate.Wait;
-                Invoke("StartRoam", 0.8f);
+                Invoke("StartRoam", 1.2f);
                 GetRoamingStartPos();
             }
         }

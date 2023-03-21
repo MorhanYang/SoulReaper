@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public class HintUI : MonoBehaviour
 {
-    [SerializeField] GameObject offest;
+    [SerializeField] CanvasGroup offest;
     [SerializeField] Image diagram;
     [SerializeField] TMP_Text text;
 
@@ -12,16 +13,22 @@ public class HintUI : MonoBehaviour
     [SerializeField] string[] textList;
 
     int hintId = 0;
+
+    private void Start()
+    {
+        offest.alpha = 0f;
+    }
     public void ShowHint()
     {
-        offest.SetActive(true);
+        offest.DOFade(1, 0.4f);
+        //offest.SetActive(true);
         diagram.sprite = diagramList[hintId];
         text.text = textList[hintId];
         if(hintId < (textList.Length - 1) && hintId < (diagramList.Length - 1)) hintId++;
     }
     public void HideHint() 
-    { 
-        offest.SetActive(false);
-        Time.timeScale= 1.0f;
+    {
+        offest.DOFade(0, 0.4f);
+        //offest.SetActive(false);
     }
 }

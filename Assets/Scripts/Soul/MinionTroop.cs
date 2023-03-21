@@ -179,7 +179,11 @@ public class MinionTroop : MonoBehaviour
 
     void UpdateMemberNumText()
     {
-        memberNum.text = (MaxMember - TroopSpaceLeft) + "/" + MaxMember;
+        // special minion
+        if (TroopSpaceLeft <=0 && TroopMember.Count <=1){
+            memberNum.text = "Morgan";
+        }
+        else memberNum.text = (MaxMember - TroopSpaceLeft) + "/" + MaxMember;
     }
 
     public void AddTroopMember(Minion member) {

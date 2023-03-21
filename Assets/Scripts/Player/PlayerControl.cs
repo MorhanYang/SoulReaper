@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -14,7 +15,6 @@ public class PlayerControl : MonoBehaviour
     Rigidbody rb;
 
     Vector3 aimPos;
-    Vector3 aimDir;
     Transform aim;
     [SerializeField] Transform[] soulGenerator;
 
@@ -42,6 +42,8 @@ public class PlayerControl : MonoBehaviour
     // Assign Minion
     float assignMinionTimer = 0;
     int assignTroopID = 0;
+    // rebirth
+    [SerializeField] GameObject rebirthRangeEffect;
 
     //rolling
     enum CombateState{
@@ -61,15 +63,13 @@ public class PlayerControl : MonoBehaviour
 
     //Animation
     Animator characterAnimator;
-    //shacker
-    Shaker shacker;
+
 
     void Start()
     {
         rb= GetComponent<Rigidbody>();
         characterAnimator = transform.Find("Character").GetComponent<Animator>();
         hp = GetComponent<PlayerHealthBar>();
-        shacker= GetComponent<Shaker>();
 
         combateState = CombateState.normal;
 
@@ -157,7 +157,7 @@ public class PlayerControl : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         if (mouseInputCount != 0){
-            // Recall Function
+            // Rebirth Function
             if (mouseInputCount % 10 > 0 && mouseInputCount / 10 > 0){
                 // Left & Right Click + Hold
                 if (gameManager.IsSpellIsReady(3))
@@ -165,7 +165,8 @@ public class PlayerControl : MonoBehaviour
                     //Activate CD UI
                     gameManager.ActivateSpellCDUI(3);
                     // Excute Function
-                    hp.RebirthTroop(aimPos, 1.5f);
+                    StartCoroutine("RebirthTroop");
+                    //hp.RebirthTroop(aimPos, 1.5f);
                 }
             }
             // Assign Minion
@@ -178,7 +179,7 @@ public class PlayerControl : MonoBehaviour
                     AssignOneMinion();
                 }
             }
-            // Rebirth Fucntion
+            // Recall Fucntion
             else if (mouseInputCount % 10 == 0 && mouseInputCount / 10 > 0){
                 // Right Click
                 if (gameManager.IsSpellIsReady(2))
@@ -245,7 +246,22 @@ public class PlayerControl : MonoBehaviour
             aimPos = hitInfo.point;
         }
     }
+    // ******************************************************************* Rebirth ********************************************************
+    IEnumerator RebirthTroop()
+    {
+        // show range indicator
+        GameObject effect = Instantiate(rebirthRangeEffect, aimPos, transform.rotation);
+        // control range place
+        while (Input.GetMouseButton(0) && Input.GetMouseButton(1))
+        {
+            yield return new WaitForEndOfFrame();
+            effect.transform.position = aimPos;
+        }
+        //activate rebirth
+        hp.RebirthTroop(aimPos, 1.5f);
+        Destroy(effect);
 
+    }
     // ************************************************** recall *********************************************
     void RecallTroops()
     {

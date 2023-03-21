@@ -76,7 +76,9 @@ public class AI_Dash : MonoBehaviour
                 }
                 else if (!DamagedTarget.Contains(hitedObjecct[i]))
                 {
-                    hitedObjecct[i].GetComponent<Minion>().TakeDamage(damage, transform);
+                    Minion hitedMinion = hitedObjecct[i].GetComponent<Minion>();
+                    hitedMinion.TakeDamage(damage, transform);
+                    hitedMinion.GetComponent<MinionAI>().SetToFaint();
                     DamagedTarget.Add(hitedObjecct[i]);
                     Debug.Log("Deal Damage: " + damage);
                     // recuce damge after hit an object
