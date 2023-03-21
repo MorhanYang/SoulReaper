@@ -11,6 +11,7 @@ public class EnemyBasicAi : MonoBehaviour
     NavMeshAgent agent;
     GameObject player;
     AI_Dash dashScript;
+    SpriteRenderer enemySpriteRender;
 
     [SerializeField] Transform enemySprite;
     [SerializeField] float followDistance = 4.5f;
@@ -20,6 +21,7 @@ public class EnemyBasicAi : MonoBehaviour
     [SerializeField] float attackInterval = 3f;
     float damageTimer;
     [SerializeField] float myDamage = 5;
+    [SerializeField] GameObject attackEffect;
 
     // dash
     [SerializeField] bool canDash = false;
@@ -35,6 +37,9 @@ public class EnemyBasicAi : MonoBehaviour
     // recieve damage slow down
     float slowDownSpeedOffset;
 
+    // flip
+    bool isFacingRight;
+
     enum EnemyAction {
         idle,
         following,
@@ -49,6 +54,7 @@ public class EnemyBasicAi : MonoBehaviour
         player = PlayerManager.instance.player;
         target = player.transform;
         dashScript = GetComponent<AI_Dash>();
+        enemySpriteRender = enemySprite.GetComponent<SpriteRenderer>();
 
         action = EnemyAction.idle;
 
@@ -58,6 +64,8 @@ public class EnemyBasicAi : MonoBehaviour
     private void Update()
     {
         targetDistance = Vector3.Distance(transform.position, target.position);
+        // flip
+        FlipMinion();
 
         // target is missing set new target
         if (target == null){
@@ -122,13 +130,9 @@ public class EnemyBasicAi : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         // colide with target
-        if (other.transform == target && action == EnemyAction.following){
-            if (damageTimer >= attackInterval){
-                if (other.transform.GetComponent<Minion>() != null && !other.IsDestroyed()) other.transform.GetComponent<Minion>().TakeDamage(myDamage,transform);
-                if (other.transform.GetComponent<PlayerControl>() != null) other.transform.GetComponent<PlayerControl>().PlayerTakeDamage(myDamage,transform);
-                damageTimer = 0f;
-            }
-            else damageTimer += Time.deltaTime;
+        if (other.transform == target && action == EnemyAction.following)
+        {
+            AttackMethod(other.gameObject);
         }
     }
 
@@ -138,9 +142,39 @@ public class EnemyBasicAi : MonoBehaviour
     {
         agent.SetDestination(target.position);
     }
-
-  
     public void SlowDownEnemy(float offset){
         slowDownSpeedOffset = offset;
+    }
+    // ******************************************************Flip**********************************************************
+    void FlipMinion()
+    {
+        if (agent.velocity.x < -0.3 && isFacingRight) // minion will wave their heads if it is 0
+        {
+            enemySpriteRender.flipX = true;
+            isFacingRight = !isFacingRight;
+
+        }
+        if (agent.velocity.x > 0.3 && !isFacingRight)
+        {
+            enemySpriteRender.flipX = false;
+            isFacingRight = !isFacingRight;
+
+        }
+    }
+    // ***************************************************Attack************************************************************
+    void AttackMethod(GameObject prey)
+    {
+        if (damageTimer >= attackInterval)
+        {
+            // animation
+            if (isFacingRight) Instantiate(attackEffect, transform.position + new Vector3(0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
+            else Instantiate(attackEffect, transform.position + new Vector3(-0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
+            // deal damage
+            if (prey.transform.GetComponent<Minion>() != null && !prey.IsDestroyed()) prey.transform.GetComponent<Minion>().TakeDamage(myDamage, transform);
+            if (prey.transform.GetComponent<PlayerControl>() != null) prey.transform.GetComponent<PlayerControl>().PlayerTakeDamage(myDamage, transform);
+            damageTimer = 0f;
+        }
+        else damageTimer += Time.deltaTime;
+
     }
 }

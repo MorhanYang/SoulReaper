@@ -30,7 +30,7 @@ public class Absorbable : MonoBehaviour
     private void Start()
     {
         playerHP= PlayerManager.instance.player.GetComponent<PlayerHealthBar>();
-        agent = GetComponent<NavMeshAgent>();
+        if(canRoam) agent = GetComponent<NavMeshAgent>();
         player = PlayerManager.instance.player;
         cursorManager = GameManager.instance.GetComponent<CursorManager>();
 
@@ -102,7 +102,7 @@ public class Absorbable : MonoBehaviour
             isDead = true;
 
             // stop movement
-            agent.SetDestination(transform.position);
+            if(canRoam) agent.SetDestination(transform.position);
 
             // play recall effect;
             GameObject effect = Instantiate(recallingMinion, transform.position, transform.rotation);

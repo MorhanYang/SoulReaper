@@ -7,6 +7,9 @@ public class Puzzle_Bridge : MonoBehaviour
     [SerializeField] Vector3 endPos;
     [SerializeField] GameObject Blocker;
     [SerializeField] Puzzle_Bridge secondBridge;
+
+    [SerializeField] int objectsNeeded = 1;
+    int objectCounter;
     enum ScriptState
     {
         Regular,
@@ -45,7 +48,6 @@ public class Puzzle_Bridge : MonoBehaviour
                         OpenBlocker();
                         secondBridge.OpenBlocker();
                     }
-
                 }
                 break;
 
@@ -59,24 +61,37 @@ public class Puzzle_Bridge : MonoBehaviour
         }
 
     }
-
-    public void ActiveScript()
+    //*********************************************Method****************************************************
+    public int GetNeedObjectNumber()
     {
-        destination = endPos;
-        state = ScriptState.Active;
+        return objectsNeeded;
     }
 
-    public void CancelScript()
+
+    public void AddObject()
     {
-        gameObject.SetActive(true);// setActive then script can run
-        destination = initalPos;
-        state = ScriptState.Cancel;
+        objectCounter++;
+        if (objectCounter >= objectsNeeded){
+            destination = endPos;
+            state = ScriptState.Active;
+        }
 
-        // Close Blocker
-        CloseBlocker();
-        if (secondBridge != null) secondBridge.CloseBlocker();
+    }
 
-        isWalkable = false;// help other script to check if it is walkable
+    public void DetractObject()
+    {
+        objectCounter--;// solve multiple trigger problem
+        if (objectCounter <= 0) {
+            gameObject.SetActive(true);// setActive then script can run
+            destination = initalPos;
+            state = ScriptState.Cancel;
+
+            // Close Blocker
+            CloseBlocker();
+            if (secondBridge != null) secondBridge.CloseBlocker();
+
+            isWalkable = false;// help other script to check if it is walkable
+        } 
     }
 
     public void OpenBlocker(){
