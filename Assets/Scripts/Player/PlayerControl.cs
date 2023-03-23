@@ -8,6 +8,7 @@ public class PlayerControl : MonoBehaviour
 
     PlayerHealthBar hp;
     [SerializeField] GameManager gameManager;
+    [SerializeField] CursorTimer cursorTimer;
 
     Vector3 move;
     Rigidbody rb;
@@ -273,24 +274,26 @@ public class PlayerControl : MonoBehaviour
 
     IEnumerator ContinueRecallTroops()
     {
-        float holdTime = 0.4f;
+        float holdTime = 0.5f;
         // loop
         while (recallMinionTimer < holdTime && Input.GetMouseButton(1))
         {
             recallMinionTimer += Time.deltaTime;
+            if (recallMinionTimer > 0.15f) cursorTimer.ShowCursorTimer(holdTime-0.15f);
             yield return new WaitForEndOfFrame();
         }
 
         // recall all
         if (recallMinionTimer >= holdTime)
         {
+            cursorTimer.HideCursorTimer();
             // recall all troops
             List<MinionTroop> allTroop = hp.GetActivedTroop();
             int recallTimes = allTroop.Count; // allTroop.Count will change after the reacall
             for (int i = 0; i < recallTimes; i++){
                 hp.RegainAllTroopHP();
             }
-        }
+        }else cursorTimer.HideCursorTimer();
     }
     //************************************************** Assign Troop *******************************************
     void AssignOneMinion()
