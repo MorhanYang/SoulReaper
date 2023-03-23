@@ -19,6 +19,9 @@ public class SpikeGate : MonoBehaviour
     [SerializeField]
     private List<GameObject> Spikes;
 
+    [SerializeField]
+    Collider myBlocker;
+
     void Start()
     {
         
@@ -45,6 +48,7 @@ public class SpikeGate : MonoBehaviour
                 SpriteRenderer myRenderer = Spikes[i].GetComponent<SpriteRenderer>();
                 myRenderer.sprite = SpriteOpen;
             }
+            myBlocker.enabled = true;
         }
         open = false;
     }
@@ -58,6 +62,7 @@ public class SpikeGate : MonoBehaviour
                 SpriteRenderer myRenderer = Spikes[i].GetComponent<SpriteRenderer>();
                 myRenderer.sprite = SpriteClosed;
             }
+            myBlocker.enabled= false;
         }
         open = true;
     }
