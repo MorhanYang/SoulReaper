@@ -72,7 +72,7 @@ public class Shaker : MonoBehaviour
         velocity += acceleration;
 
         // knock back
-        //transform.position += direction.normalized * (knockBack / mass) * 0.05f;
+        transform.position += direction.normalized * (knockBack / mass) * 0.05f;
 
         // trun to red
         myRenderer.color = fleshColor;

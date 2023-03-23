@@ -341,7 +341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mySprite: {fileID: 781885203998012033}
-  returnStrengh: 4
+  returnStrengh: 2
   mass: 1
   knockBack: 2
   fleshColor: {r: 1, g: 0.5058824, b: 0.5058824, a: 1}
