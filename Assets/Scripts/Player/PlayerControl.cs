@@ -370,7 +370,7 @@ public class PlayerControl : MonoBehaviour
     public void PlayerTakeDamage(float damage, Transform damageDealer)
     {
         // play sound 
-        //mySoundManagers.PlaySoundAt(transform.position, "Hurt", false, false, 1, 1, 100, 100);
+        mySoundManagers.PlaySoundAt(transform.position, "Hurt", false, false, 1, 1, 100, 100);
         hp.TakeDamage(damage, damageDealer);
         hp.Invincible(invincibleDuration);
 
@@ -386,7 +386,7 @@ public class PlayerControl : MonoBehaviour
             if (upAttackTimer >= attackCD && downAttackTimer >= 0.4f)
             {
                 // sound effect
-                //mySoundManagers.PlaySoundAt(transform.position, "Swing", false, false, 1, 1, 100, 100);
+                mySoundManagers.PlaySoundAt(transform.position, "Swing", false, false, 1, 1, 100, 100);
 
                 if (isFacingRight) Instantiate(upAttackEffect, transform.position + new Vector3(0.3f, 0.35f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
                 else Instantiate(upAttackEffect, transform.position + new Vector3(-0.3f, 0.35f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
@@ -404,7 +404,7 @@ public class PlayerControl : MonoBehaviour
                 else Instantiate(downAttackEffect, transform.position + new Vector3(-0.3f, 0.35f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
 
                 // sound effect
-                //mySoundManagers.PlaySoundAt(transform.position, "Swing", false, false, 1, 1, 100, 100);
+                mySoundManagers.PlaySoundAt(transform.position, "Swing", false, false, 1, 1, 100, 100);
 
                 DamageEnemy();
                 downAttackTimer = 0;

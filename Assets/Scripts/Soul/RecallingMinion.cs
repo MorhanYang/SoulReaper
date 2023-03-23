@@ -27,7 +27,7 @@ public class RecallingMinion : MonoBehaviour
         }
 
         // play sound
-        if (destination == player){
+        if (destination == player || destination.tag == "Player"){
             mySoundManager.PlaySoundAt(mySoundManager.transform.position, "Heal", false, false, 1, 1, 100, 100);
         }
         else{
