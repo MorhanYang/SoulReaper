@@ -19,12 +19,12 @@ public class Shaker : MonoBehaviour
     [SerializeField]
     float knockBack;
     [SerializeField]
-    Color fleshColor= Color.white;
+    Color fleshColor = Color.white;
     [SerializeField] GameObject bloodEffect;
 
     void Start()
     {
-        myRenderer= mySprite.GetComponent<SpriteRenderer>();
+        myRenderer = mySprite.GetComponent<SpriteRenderer>();
         initialLocalPos = mySprite.localPosition;
     }
 
@@ -42,7 +42,7 @@ public class Shaker : MonoBehaviour
 
 
             //Simplified friction that eventually slows the spirte down
-            velocity *= (1 - Time.deltaTime * 25);
+            velocity *= (1 - Time.deltaTime * 10);
 
             //velocity is near 0
             if (velocity.magnitude < 0.1f)
@@ -62,17 +62,17 @@ public class Shaker : MonoBehaviour
         }
     }
 
-    public void AddImpact(Vector3 direction, float Force, bool includeYaxis) 
+    public void AddImpact(Vector3 direction, float Force, bool includeYaxis)
     {
         Vector3 acceleration = direction.normalized * Force / mass;
-        if (!includeYaxis) 
+        if (!includeYaxis)
         {
             acceleration = new Vector3(acceleration.x, 0, acceleration.z);
         }
         velocity += acceleration;
 
         // knock back
-        transform.position += direction.normalized * (knockBack / mass) * 0.05f;
+        //transform.position += direction.normalized * (knockBack / mass) * 0.05f;
 
         // trun to red
         myRenderer.color = fleshColor;
