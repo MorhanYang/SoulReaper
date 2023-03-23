@@ -883,8 +883,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mySprite: {fileID: 8820282584266638188}
-  returnStrengh: 0.3
-  mass: 1
+  returnStrengh: 4
+  mass: 3
   knockBack: 2
   fleshColor: {r: 1, g: 0.5058824, b: 0.5058824, a: 1}
   bloodEffect: {fileID: 203682428094779240, guid: 5f649d31b83378d44b5fb47ab8614d7f, type: 3}
