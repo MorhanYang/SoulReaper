@@ -157,6 +157,9 @@ public class MinionAI : MonoBehaviour
 
         faintEffect.SetActive(false);
         assignIcon.SetActive(false);
+
+        dashScript.CancelDashing();
+
     }
     public bool IsDead(){
         if (minionState == MinionSate.Dead){
@@ -182,12 +185,14 @@ public class MinionAI : MonoBehaviour
             Debug.Log("Faint");
             faintEffect.SetActive(true);
             assignIcon.SetActive(false);
+            dashScript.CancelDashing();
         }
     }
     public void SetToBait()
     {
         minionState = MinionSate.Bait;
         assignIcon.SetActive(false);
+        dashScript.CancelDashing();
     }
 
 
