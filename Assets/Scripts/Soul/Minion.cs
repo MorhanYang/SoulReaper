@@ -9,6 +9,7 @@ public class Minion : MonoBehaviour
     MinionTroop myTroop;
     MinionAI myAI;
     NavMeshAgent myagent;
+    SoundManager mySoundManager;
 
     [SerializeField] Animator myAnimator;
     [SerializeField] GameObject recallingMinion;
@@ -39,6 +40,7 @@ public class Minion : MonoBehaviour
         cursorManager = GameManager.instance.GetComponent<CursorManager>();
         playerHealthBar = PlayerManager.instance.player.GetComponent<PlayerHealthBar>();
         shaker = GetComponent<Shaker>();
+        mySoundManager= SoundManager.Instance;
     }
 
     private void Update()
@@ -83,6 +85,8 @@ public class Minion : MonoBehaviour
         if (myTroop != null && myTroop.GetPresentHP() > 0){
             shaker.AddImpact(transform.position - damageDealer.position, damage, false);
             myTroop.TakeDamage(damage * getDamageRate);
+
+            mySoundManager.PlaySoundAt(PlayerManager.instance.player.gameObject.transform.position, "Hurt", false, false, 1, 1, 100, 100);
         }
     }
     //*****************************************************Change Minion State******************************************
@@ -127,6 +131,9 @@ public class Minion : MonoBehaviour
         DeactivateSeleted();
 
         isActive = false;
+
+        // play sound
+        mySoundManager.PlaySoundAt(PlayerManager.instance.player.gameObject.transform.position, "Release", false, false, 1, 1, 100, 100);
     }
 
     // ************************************************ Select Phase ***********************************************

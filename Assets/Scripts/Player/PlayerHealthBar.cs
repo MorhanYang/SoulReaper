@@ -48,6 +48,9 @@ public class PlayerHealthBar : MonoBehaviour
     // Effect
     float rebirthDelay = 0.6f;
 
+    // sound
+    SoundManager mySoundManager;
+
 
     private void Awake()
     {
@@ -57,6 +60,7 @@ public class PlayerHealthBar : MonoBehaviour
     private void Start()
     {
         shacker = GetComponent<Shaker>();
+        mySoundManager = SoundManager.Instance;
         indiviualMaxValue = Maxhealth / hpBarsList.Count;
         barPresent = hpBarsList[cellNum - 1];
 
@@ -332,6 +336,9 @@ public class PlayerHealthBar : MonoBehaviour
 
             if (MinionInCircle.Length > 0)
             {
+                // play sound
+                mySoundManager.PlaySoundAt(mySoundManager.transform.position, "Release", false, false, 1, 1, 100, 100);
+
                 // get minion list
                 List<Minion> minionSet = new List<Minion>();
                 for (int i = 0; i < MinionInCircle.Length; i++){

@@ -26,6 +26,7 @@ public class Absorbable : MonoBehaviour
     // recall effect
     [SerializeField] GameObject recallingMinion;
     GameObject player;
+    SoundManager mySoundManager;
 
     private void Start()
     {
@@ -33,6 +34,7 @@ public class Absorbable : MonoBehaviour
         if(canRoam) agent = GetComponent<NavMeshAgent>();
         player = PlayerManager.instance.player;
         cursorManager = GameManager.instance.GetComponent<CursorManager>();
+        mySoundManager = SoundManager.Instance;
 
         startRoamTime = Time.time;
         destination = transform.position;
@@ -98,6 +100,9 @@ public class Absorbable : MonoBehaviour
     public float TakeLife()
     {
         if (!isDead){
+            // play sound
+            mySoundManager.PlaySoundAt(PlayerManager.instance.player.gameObject.transform.position, "Release", false, false, 1, 1, 100, 100);
+
             mysprite.color = Color.gray;
             isDead = true;
 

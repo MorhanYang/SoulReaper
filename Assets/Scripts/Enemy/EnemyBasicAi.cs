@@ -39,6 +39,8 @@ public class EnemyBasicAi : MonoBehaviour
 
     // flip
     bool isFacingRight;
+    // sound
+    SoundManager mySoundManagers;
 
     enum EnemyAction {
         idle,
@@ -55,6 +57,7 @@ public class EnemyBasicAi : MonoBehaviour
         target = player.transform;
         dashScript = GetComponent<AI_Dash>();
         enemySpriteRender = enemySprite.GetComponent<SpriteRenderer>();
+        mySoundManagers = SoundManager.Instance;
 
         action = EnemyAction.idle;
 
@@ -166,6 +169,8 @@ public class EnemyBasicAi : MonoBehaviour
     {
         if (damageTimer >= attackInterval)
         {
+            // sound
+            mySoundManagers.PlaySoundAt(mySoundManagers.transform.position, "Swing", false, false, 1, 0.5f, 100, 100);
             // animation
             if (isFacingRight) Instantiate(attackEffect, transform.position + new Vector3(0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
             else Instantiate(attackEffect, transform.position + new Vector3(-0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);

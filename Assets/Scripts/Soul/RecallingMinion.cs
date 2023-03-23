@@ -6,9 +6,16 @@ public class RecallingMinion : MonoBehaviour
 {
     Transform target;
     [SerializeField] float moveSpeed = 5f;
+    Transform player;
+    SoundManager mySoundManager;
 
     Coroutine recallCoroutine;
 
+    private void Start()
+    {
+        mySoundManager = SoundManager.Instance;
+        player = PlayerManager.instance.player.transform;
+    }
     IEnumerator SetTarget(Transform destination)
     {
         target = destination;
@@ -18,10 +25,14 @@ public class RecallingMinion : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.fixedDeltaTime);
             yield return new WaitForFixedUpdate();
         }
-        // play sound
-        SoundManager mySoundManager = SoundManager.Instance;
-        mySoundManager.PlaySoundAt(mySoundManager.transform.position, "Heal", false, false, 1, 1, 100, 100);
 
+        // play sound
+        if (destination == player){
+            mySoundManager.PlaySoundAt(mySoundManager.transform.position, "Heal", false, false, 1, 1, 100, 100);
+        }
+        else{
+            mySoundManager.PlaySoundAt(mySoundManager.transform.position, "Revive", false, false, 1, 1, 100, 100);
+        }
 
         Destroy(gameObject);
     }
