@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] GameObject attackEffect;
 
     // death trigger
-    [SerializeField] BossBlocker blocker;
+    [SerializeField] SpikeGate blocker;
 
     // sound 
     SoundManager mySoundManager;
@@ -91,7 +91,7 @@ public class Enemy : MonoBehaviour
             CheckIfHaveSoul();
 
             // decativate blockers
-            if (blocker != null) blocker.ChangeBlockersState(false);
+            if (blocker != null) blocker.openDoor();
 
             // change cursor
             GameManager.instance.GetComponent<CursorManager>().ActivateDefaultCursor();
