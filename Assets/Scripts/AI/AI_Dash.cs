@@ -145,4 +145,15 @@ public class AI_Dash : MonoBehaviour
 
         return true;
     }
+
+    public void CancelDashing()
+    {
+        enemySprite.color = Color.white;
+
+        Debug.Log("End Dash");
+        // reset the property
+        presentDashSpeed = dashSpeed;
+        DamagedTarget.Clear();
+        dashIndicator_Axis.SetActive(false);
+    }
 }

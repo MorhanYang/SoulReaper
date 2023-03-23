@@ -401,7 +401,7 @@ public class PlayerControl : MonoBehaviour
     }
     void DamageEnemy()
     {
-        Collider[] HitedEnemy = Physics.OverlapSphere(attackPoint.position, 0.15f, LayerMask.GetMask("Enemy"));
+        Collider[] HitedEnemy = Physics.OverlapSphere(attackPoint.position, 0.5f, LayerMask.GetMask("Enemy"));
         if (HitedEnemy.Length > 0){
             // deal damage to enemies
             for (int i = 0; i < HitedEnemy.Length; i++)
