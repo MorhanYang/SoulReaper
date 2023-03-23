@@ -46,6 +46,9 @@ public class MinionAI : MonoBehaviour
     float FaintTimer = 0;
     [SerializeField] GameObject faintEffect;
 
+    // sound
+    SoundManager mySoundManagers;
+
     public enum MinionSate
     {
         Dead,
@@ -64,6 +67,7 @@ public class MinionAI : MonoBehaviour
         agent= GetComponent<NavMeshAgent>();
         player = PlayerManager.instance.player;
         if (canDash) dashScript = GetComponent<AI_Dash>();
+        mySoundManagers = SoundManager.Instance;
 
         SetUpRoamingPoints();
 
@@ -158,7 +162,7 @@ public class MinionAI : MonoBehaviour
         faintEffect.SetActive(false);
         assignIcon.SetActive(false);
 
-        dashScript.CancelDashing();
+        if(canDash) dashScript.CancelDashing();
 
     }
     public bool IsDead(){
@@ -185,14 +189,14 @@ public class MinionAI : MonoBehaviour
             Debug.Log("Faint");
             faintEffect.SetActive(true);
             assignIcon.SetActive(false);
-            dashScript.CancelDashing();
+            if(canDash) dashScript.CancelDashing();
         }
     }
     public void SetToBait()
     {
         minionState = MinionSate.Bait;
         assignIcon.SetActive(false);
-        dashScript.CancelDashing();
+        if (canDash) dashScript.CancelDashing();
     }
 
 
@@ -320,6 +324,8 @@ public class MinionAI : MonoBehaviour
         // animation
         if (isFacingRight) Instantiate(attackEffect, transform.position + new Vector3(0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
         else Instantiate(attackEffect, transform.position + new Vector3(-0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
+        // play sound
+        mySoundManagers.PlaySoundAt(mySoundManagers.transform.position, "Swing", false, false, 1, 0.5f, 100, 100);
         // aoe
         //Collider[] hitEnemy = Physics.OverlapSphere(attackPoint.position, attackCircle, LayerMask.GetMask("Enemy", "PuzzleTrigger"));
         //for (int i = 0; i < hitEnemy.Length; i++)

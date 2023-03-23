@@ -31,15 +31,6 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Q)) 
-        {
-            PlaySoundAt(PlayerManager.instance.player.gameObject.transform.position, "Hurt", false, false, 1, 1, 100, 100);
-            Debug.Log("sound played");
-        }
-    }
-
     public void PlaySoundAt (Vector3 Position, string SoundName, bool loop, bool infinite, float Time, float volume, float MaxDistance, float MinDistance)//Player
     {
         for (int i = 0; i < MySounds.Count; i++) 

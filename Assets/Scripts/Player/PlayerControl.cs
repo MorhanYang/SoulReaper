@@ -62,12 +62,15 @@ public class PlayerControl : MonoBehaviour
     //Animation
     Animator characterAnimator;
 
+    // sound 
+    SoundManager mySoundManagers;
 
     void Start()
     {
         rb= GetComponent<Rigidbody>();
         characterAnimator = transform.Find("Character").GetComponent<Animator>();
         hp = GetComponent<PlayerHealthBar>();
+        mySoundManagers = SoundManager.Instance;
 
         combateState = CombateState.normal;
 
@@ -270,7 +273,7 @@ public class PlayerControl : MonoBehaviour
 
     IEnumerator ContinueRecallTroops()
     {
-        float holdTime = 0.7f;
+        float holdTime = 0.4f;
         // loop
         while (recallMinionTimer < holdTime && Input.GetMouseButton(1))
         {
@@ -363,6 +366,8 @@ public class PlayerControl : MonoBehaviour
     // *********************************************************************Combat *********************************************
     public void PlayerTakeDamage(float damage, Transform damageDealer)
     {
+        // play sound 
+        mySoundManagers.PlaySoundAt(PlayerManager.instance.player.gameObject.transform.position, "Hurt", false, false, 1, 1, 100, 100);
         hp.TakeDamage(damage, damageDealer);
         hp.Invincible(invincibleDuration);
 
@@ -373,11 +378,14 @@ public class PlayerControl : MonoBehaviour
     // melee attack
     void MeleeAttack(float scrollData)
     {
-        if (scrollData > 0)
-        {
+        SoundManager mySoundManager = SoundManager.Instance;
+        if (scrollData > 0) {
             // upward Attack
             if (upAttackTimer >= attackCD && downAttackTimer >= 0.4f)
             {
+                // sound effect
+                mySoundManager.PlaySoundAt(mySoundManager.transform.position, "Swing", false, false, 1, 1, 100, 100);
+
                 if (isFacingRight) Instantiate(upAttackEffect, transform.position + new Vector3(0.3f, 0.35f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
                 else Instantiate(upAttackEffect, transform.position + new Vector3(-0.3f, 0.35f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
 
@@ -386,13 +394,15 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
-        if (scrollData < 0)
-        {
+        if (scrollData < 0){
             // Downward Attack
             if (downAttackTimer >= attackCD && upAttackTimer >= 0.4f)
             {
                 if (isFacingRight) Instantiate(downAttackEffect, transform.position + new Vector3(0.3f, 0.35f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
                 else Instantiate(downAttackEffect, transform.position + new Vector3(-0.3f, 0.35f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
+
+                // sound effect
+                mySoundManager.PlaySoundAt(mySoundManager.transform.position, "Swing", false, false, 1, 1, 100, 100);
 
                 DamageEnemy();
                 downAttackTimer = 0;

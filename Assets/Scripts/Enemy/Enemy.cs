@@ -21,6 +21,8 @@ public class Enemy : MonoBehaviour
     // death trigger
     [SerializeField] BossBlocker blocker;
 
+    // sound 
+    SoundManager mySoundManager;
     private void Start()
     {
 
@@ -31,6 +33,7 @@ public class Enemy : MonoBehaviour
         player = PlayerManager.instance.player;
         shaker= GetComponent<Shaker>();
         cursorManager = GameManager.instance.GetComponent<CursorManager>();
+        mySoundManager = SoundManager.Instance;
 
 
         // Initiate the havesoul 
@@ -93,6 +96,9 @@ public class Enemy : MonoBehaviour
             // change cursor
             GameManager.instance.GetComponent<CursorManager>().ActivateDefaultCursor();
         }
+
+        // play sound 
+        mySoundManager.PlaySoundAt(PlayerManager.instance.player.gameObject.transform.position, "Hurt", false, false, 1, 1, 100, 100);
 
     }
 
