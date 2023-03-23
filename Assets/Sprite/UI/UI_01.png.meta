@@ -143,7 +143,7 @@ TextureImporter:
         serializedVersion: 2
         x: 67
         y: 235
-        width: 26
+        width: 27
         height: 10
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -179,6 +179,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: UI_01_3
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 231
+        width: 3
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93efe36e0743cfe4cbb8c4a96952ad2a
+      internalID: 1507917663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -191,6 +212,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       UI_01_1: 1233295360
+      UI_01_3: 1507917663
       UI_01_0: -1373046681
       UI_01_2: -1912969475
   spritePackingTag: 

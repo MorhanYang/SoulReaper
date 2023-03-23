@@ -1,5 +1,3 @@
-using Fungus;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -19,6 +17,9 @@ public class MinionAI : MonoBehaviour
     [SerializeField] float searchingRange = 2f;
     [SerializeField]SpriteRenderer minionSprite;
     bool isFacingRight = true;
+
+    //Assign
+    [SerializeField] GameObject assignIcon;
 
     //Melee Attack
     public float attackDamage = 0.4f;
@@ -154,7 +155,8 @@ public class MinionAI : MonoBehaviour
         minionState = MinionSate.Dead;
         agent.SetDestination(transform.position);
 
-        faintEffect.SetActive(false); 
+        faintEffect.SetActive(false);
+        assignIcon.SetActive(false);
     }
     public bool IsDead(){
         if (minionState == MinionSate.Dead){
@@ -166,6 +168,9 @@ public class MinionAI : MonoBehaviour
     public void SetToWait(){
         minionState = MinionSate.Wait;
         agent.SetDestination(transform.position);
+        faintEffect.SetActive(true);
+
+        assignIcon.SetActive(false);
     }
     public void SetToFaint(){
         if (minionState != MinionSate.Dead)
@@ -173,9 +178,10 @@ public class MinionAI : MonoBehaviour
             minionState = MinionSate.Faint;
             agent.SetDestination(transform.position);
 
-            // display
+            // display 
             Debug.Log("Faint");
             faintEffect.SetActive(true);
+            assignIcon.SetActive(false);
         }
     }
 
@@ -203,6 +209,9 @@ public class MinionAI : MonoBehaviour
             agent.stoppingDistance = attackRang;
             // set roaming pos. prevent minion from move back to previous roaming Pos
             roamingPos= aimPos;
+
+            //show AssignIcon
+            assignIcon.SetActive(true);
         }
     }
     public void SprintToEnemy(Transform aim){
@@ -216,12 +225,15 @@ public class MinionAI : MonoBehaviour
             minionState = MinionSate.Sprint;
             agent.stoppingDistance = attackRang;
             roamingPos = aim.position;
+
+            Debug.Log("assignIcon");
+            //show AssignIcon
+            assignIcon.SetActive(true);
         }
     }
 
     void SprintFunction()
     {
-
         // Don't hit enemy
         if (target == null)
         {
@@ -231,8 +243,11 @@ public class MinionAI : MonoBehaviour
             {
                 agent.speed = NormalSpeed;
                 minionState = MinionSate.Wait;
-                Invoke("StartRoam", 1.2f);
+                if (minionState != MinionSate.Faint) Invoke("StartRoam", 1.2f); // prevent if from coming back from the platform trigger
                 GetRoamingStartPos();
+
+                //hide AssignIcon
+                assignIcon.SetActive(false);
             }
         }
         // Hit enemy
@@ -244,9 +259,13 @@ public class MinionAI : MonoBehaviour
             {
                 agent.speed = NormalSpeed;
                 minionState = MinionSate.Follow;
+
+                //hide AssignIcon
+                assignIcon.SetActive(false);
             }
+
+
         }
-      
     }
 
     // *******************************************************Automatically find enemy & move *****************************************************
@@ -352,6 +371,8 @@ public class MinionAI : MonoBehaviour
     }
     void RoamMove()
     {
+        assignIcon.SetActive(false);
+
         // move
         agent.SetDestination(roamingPos);
 
