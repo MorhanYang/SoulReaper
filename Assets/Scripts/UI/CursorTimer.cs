@@ -2,10 +2,11 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CusorTimer : MonoBehaviour
+public class CursorTimer : MonoBehaviour
 {
     [SerializeField] Image timerBar;
     [SerializeField] Canvas canvas;
+    [SerializeField] GameObject BarCover;
     [SerializeField] Vector2 offset;
 
     RectTransform recttransform;
@@ -20,15 +21,11 @@ public class CusorTimer : MonoBehaviour
         recttransform = GetComponent<RectTransform>();
         myCanvasGroup = GetComponent<CanvasGroup>();
         myCanvasGroup.alpha = 0;
+        BarCover.SetActive(false);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            ShowCursorTimer(0.5f);
-        }
-
         if (showingCusorTimer)
         {
             RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, Input.mousePosition, canvas.worldCamera, out pos);
@@ -45,14 +42,16 @@ public class CusorTimer : MonoBehaviour
 
     public void ShowCursorTimer(float countdownTime)
     {
+        BarCover.SetActive(false);
         showingCusorTimer = true;
         countdown = countdownTime;
         myCanvasGroup.DOFade(1,0.1f);
     }
     public void HideCursorTimer()
     {
+        if(time < countdown) BarCover.SetActive(true);
         showingCusorTimer = false;
         time = 0;
-        myCanvasGroup.DOFade(0, 0.1f);
+        myCanvasGroup.DOFade(0, 0.2f);
     }
 }
