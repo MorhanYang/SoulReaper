@@ -365,6 +365,7 @@ MonoBehaviour:
   mass: 5
   knockBack: 2
   fleshColor: {r: 1, g: 0.5058824, b: 0.5058824, a: 1}
+  bloodEffect: {fileID: 203682428094779240, guid: 5f649d31b83378d44b5fb47ab8614d7f, type: 3}
 --- !u!1 &3444220121054265276
 GameObject:
   m_ObjectHideFlags: 0

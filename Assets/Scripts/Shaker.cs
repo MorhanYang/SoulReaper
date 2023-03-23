@@ -20,6 +20,7 @@ public class Shaker : MonoBehaviour
     float knockBack;
     [SerializeField]
     Color fleshColor= Color.white;
+    [SerializeField] GameObject bloodEffect;
 
     void Start()
     {
@@ -75,5 +76,20 @@ public class Shaker : MonoBehaviour
 
         // trun to red
         myRenderer.color = fleshColor;
+
+        // Show boold
+        GameObject blood;
+        if (direction.x > 0)
+        {
+            blood = Instantiate(bloodEffect, transform.position, Quaternion.Euler(0, 45f, 0), transform);
+        }
+
+        else
+        {
+            blood = Instantiate(bloodEffect, transform.position, Quaternion.Euler(0, 45f, 0), transform);
+            blood.transform.localScale = new Vector3(-1, 1, 1);
+        }
+
+        Destroy(blood, 1f);
     }
 }
