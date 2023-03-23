@@ -71,7 +71,7 @@ public class Minion : MonoBehaviour
     }
     
     public void SprintToPos(Vector3 pos){
-        myAI.SpriteToPos(pos);
+        myAI.SprinteToPos(pos);
     }
 
     public void SprintToEnemy(Transform enemy )

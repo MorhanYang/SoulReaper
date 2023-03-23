@@ -1,3 +1,4 @@
+using Fungus;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +26,7 @@ public class MinionAI : MonoBehaviour
     [SerializeField] Transform attackPoint;
     [SerializeField] float attackCircle;
     float attackTimer = 0;
+    [SerializeField] GameObject attackEffect;
 
     // roaming
     List<Transform> roamingPosList;
@@ -43,17 +45,18 @@ public class MinionAI : MonoBehaviour
     float FaintTimer = 0;
     [SerializeField] GameObject faintEffect;
 
-    enum MinionSate
+    public enum MinionSate
     {
         Dead,
         Follow,
         Sprint,
         Dash,
         Roam,
+        Bait,
         Wait,
         Faint,
     }
-    MinionSate minionState;
+    public MinionSate minionState;
 
     private void Start()
     {
@@ -72,6 +75,10 @@ public class MinionAI : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            SetToFaint();
+        }
         switch (minionState)
         {
             case MinionSate.Dead:
@@ -125,6 +132,8 @@ public class MinionAI : MonoBehaviour
                     }
                 }
                 break;
+            case MinionSate.Bait:
+                break;
         }
 
         if (minionState != MinionSate.Dead) FlipMinion();
@@ -144,6 +153,8 @@ public class MinionAI : MonoBehaviour
     {
         minionState = MinionSate.Dead;
         agent.SetDestination(transform.position);
+
+        faintEffect.SetActive(false); 
     }
     public bool IsDead(){
         if (minionState == MinionSate.Dead){
@@ -170,7 +181,7 @@ public class MinionAI : MonoBehaviour
 
     void StartRoam() // it is used for live minion
     {
-        if(minionState != MinionSate.Dead)
+        if(minionState != MinionSate.Dead && minionState != MinionSate.Bait)
         {
             minionState = MinionSate.Roam;
             GetRoamingStartPos();
@@ -178,8 +189,8 @@ public class MinionAI : MonoBehaviour
     }
     //***************************************************************** Sprint ***********************************************************************
 
-    public void SpriteToPos(Vector3 aimPos){
-        if (minionState != MinionSate.Dead)
+    public void SprinteToPos(Vector3 aimPos){
+        if (minionState != MinionSate.Dead && minionState != MinionSate.Faint)
         {
             target = null; // ignore prevous target
             // set destination
@@ -195,7 +206,7 @@ public class MinionAI : MonoBehaviour
         }
     }
     public void SprintToEnemy(Transform aim){
-        if (minionState != MinionSate.Dead)
+        if (minionState != MinionSate.Dead && minionState != MinionSate.Faint)
         {
             // set destination
             target = aim;
@@ -210,6 +221,7 @@ public class MinionAI : MonoBehaviour
 
     void SprintFunction()
     {
+
         // Don't hit enemy
         if (target == null)
         {
@@ -234,6 +246,7 @@ public class MinionAI : MonoBehaviour
                 minionState = MinionSate.Follow;
             }
         }
+      
     }
 
     // *******************************************************Automatically find enemy & move *****************************************************
@@ -274,6 +287,9 @@ public class MinionAI : MonoBehaviour
     //****************************************************Attack*****************************************
     void MeleeAttack()
     {
+        // animation
+        if (isFacingRight) Instantiate(attackEffect, transform.position + new Vector3(0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
+        else Instantiate(attackEffect, transform.position + new Vector3(-0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
         // aoe
         //Collider[] hitEnemy = Physics.OverlapSphere(attackPoint.position, attackCircle, LayerMask.GetMask("Enemy", "PuzzleTrigger"));
         //for (int i = 0; i < hitEnemy.Length; i++)
