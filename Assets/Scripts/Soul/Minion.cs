@@ -123,6 +123,8 @@ public class Minion : MonoBehaviour
         if (needRecallEffect){
             GameObject effect = Instantiate(recallingMinion, transform.position, transform.rotation);
             effect.GetComponent<RecallingMinion>().AimTo(PlayerManager.instance.player.transform);
+            // play sound
+            mySoundManager.PlaySoundAt(PlayerManager.instance.player.gameObject.transform.position, "Release", false, false, 1, 1, 100, 100);
         }
         
         rebirthIcon.SetActive(true);
@@ -131,9 +133,6 @@ public class Minion : MonoBehaviour
         DeactivateSeleted();
 
         isActive = false;
-
-        // play sound
-        mySoundManager.PlaySoundAt(PlayerManager.instance.player.gameObject.transform.position, "Release", false, false, 1, 1, 100, 100);
     }
 
     // ************************************************ Select Phase ***********************************************
