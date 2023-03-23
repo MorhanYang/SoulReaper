@@ -184,6 +184,12 @@ public class MinionAI : MonoBehaviour
             assignIcon.SetActive(false);
         }
     }
+    public void SetToBait()
+    {
+        minionState = MinionSate.Bait;
+        assignIcon.SetActive(false);
+    }
+
 
     void StartRoam() // it is used for live minion
     {

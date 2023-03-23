@@ -9,7 +9,7 @@ public class Bait : MonoBehaviour
         if (other.GetComponent<MinionAI>() != null){
             MinionAI myAi = other.GetComponent<MinionAI>();
             if (myAi.minionState == MinionAI.MinionSate.Sprint){
-                myAi.minionState = MinionAI.MinionSate.Bait;
+                myAi.SetToBait();
                 Debug.Log("Set to Bait");
             }
             
