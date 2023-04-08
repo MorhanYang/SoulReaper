@@ -134,6 +134,10 @@ public class Minion : MonoBehaviour
 
         isActive = false;
     }
+    public bool CanAssign()
+    {
+        return myAI.CanAssign();
+    }
 
     // ************************************************ Select Phase ***********************************************
     public void ActivateSelected()
