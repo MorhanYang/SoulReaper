@@ -783,8 +783,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c20f3257934731459f7ad4b657be153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
   itemHPTemp: {fileID: 126730998}
   itemMinionHPTemp: {fileID: 1323810047}
+  initalCellNum: 3
   cellNum: 3
   maxTroopCapacity: 5
   hpUI: {fileID: 62285847}
@@ -827,6 +829,7 @@ MonoBehaviour:
   rollingSpeed: 220
   rollingResistance: 200
   invincibleDuration: 0.8
+  levelNum: 0
 --- !u!136 &45625726
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7931,6 +7934,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 816081585}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &847287038
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 847287040}
+  - component: {fileID: 847287039}
+  m_Layer: 0
+  m_Name: WwiseGlobal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &847287039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 847287038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c6fd1444dc064138bc491b6d90a0946, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InitializationSettings: {fileID: 11400000, guid: b2969bee57c5046ed80542a3d57dd65f, type: 2}
+  basePath: 
+  language: 
+  defaultPoolSize: 0
+  lowerPoolSize: 0
+  streamingPoolSize: 0
+  memoryCutoffThreshold: 0
+  monitorPoolSize: 0
+  monitorQueuePoolSize: 0
+  callbackManagerBufferSize: 0
+  spatialAudioPoolSize: 0
+  maxSoundPropagationDepth: 0
+  engineLogging: 0
+--- !u!4 &847287040
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 847287038}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &861183040
 GameObject:
   m_ObjectHideFlags: 0
@@ -12507,10 +12567,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startUI: {fileID: 74244426}
+  camMain: {fileID: 0}
   spellSet: {fileID: 2094505103}
   InventorySet: {fileID: 791393513}
   popUpInfo: {fileID: 1229371516}
   AimMarker: {fileID: 2529825028326581490, guid: 38fde32932a5b324eb96c72f753ab29f, type: 3}
+  transportUI: {fileID: 0}
+  minionTemp: []
 --- !u!82 &1466221557
 AudioSource:
   m_ObjectHideFlags: 0
@@ -13110,8 +13173,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1573053152}
   - component: {fileID: 1573053155}
-  - component: {fileID: 1573053154}
   - component: {fileID: 1573053153}
+  - component: {fileID: 1573053157}
+  - component: {fileID: 1573053156}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -13194,14 +13258,6 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
---- !u!81 &1573053154
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1573053151}
-  m_Enabled: 1
 --- !u!20 &1573053155
 Camera:
   m_ObjectHideFlags: 0
@@ -13245,6 +13301,42 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1573053156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573053151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3db746b1dc464d2c9ff2b3123d0481c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDefaultListener: 1
+  listenerId: 0
+--- !u!114 &1573053157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573053151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e1275251f5d54f5f9f4c908ae973fd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1583279422
 GameObject:
   m_ObjectHideFlags: 0
