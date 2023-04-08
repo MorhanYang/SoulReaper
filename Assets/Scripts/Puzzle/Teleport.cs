@@ -11,6 +11,7 @@ public class Teleport : MonoBehaviour
     PlayerControl player;
     bool isTransiting = false;
     bool isFadingOut = false;// decide when transportUI will fade in or out
+    float fadeoutTimer = 0;
 
     // teleport minions
     [SerializeField] Vector3 MinionsNextPos;
@@ -32,18 +33,23 @@ public class Teleport : MonoBehaviour
                     player.transform.position = PlayerNextPos;
                     camMain.transform.position = PlayerNextPos + camMain.GetCamOffset();
                     TeleportAllMinions();
+                    // save data
+                    SavingSystem.SavePlayer(player);
                     isFadingOut = true;
                 }
             }
             // fade out
-            if (isFadingOut){
-                if (transportUI.alpha > 0) transportUI.alpha -= Time.deltaTime * 1f;
+            if (isFadingOut && fadeoutTimer > 0.8f){
+                if (transportUI.alpha > 0) transportUI.alpha -= Time.deltaTime * 2f;
                 if (transportUI.alpha <= 0){
                     Debug.Log("Fade Our runing");
                     player.inActivateTeleporting();
                     isTransiting = false;
                     isFadingOut = false;
+                    fadeoutTimer = 0;
                 }
+            }else if (isFadingOut){
+                fadeoutTimer += Time.deltaTime;
             }
         }
     }

@@ -199,6 +199,16 @@ public class MinionAI : MonoBehaviour
         if (canDash) dashScript.CancelDashing();
     }
 
+    public bool CanAssign()
+    {
+        if (minionState == MinionSate.Sprint &&
+            minionState == MinionSate.Roam &&
+            minionState == MinionSate.Wait)
+        {
+            return true;
+        }
+        else return false;
+    }
 
     void StartRoam() // it is used for live minion
     {

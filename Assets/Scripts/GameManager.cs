@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using DG.Tweening;
+using static Fungus.StopMotionRigidBody2D;
 
 
 public class GameManager : MonoBehaviour
@@ -10,7 +11,10 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public static GameObject[] EnemyList;
+    PlayerControl playerControl;
+    PlayerHealthBar playerHealthBar;
     [SerializeField] GameObject startUI;
+    [SerializeField] CameraFollow camMain;
 
     // spell
     [SerializeField] Transform spellSet;
@@ -26,12 +30,18 @@ public class GameManager : MonoBehaviour
     // HitMarker
     [SerializeField] GameObject AimMarker;
 
+    // load data
+    [SerializeField] CanvasGroup transportUI;
+    [SerializeField] GameObject[] minionTemp;
+
     private void Awake(){
         instance= this;
     }
 
     private void Start(){
         EnemyList = GameObject.FindGameObjectsWithTag("Enemy");
+        playerControl = PlayerManager.instance.player.GetComponent<PlayerControl>();
+        playerHealthBar = PlayerManager.instance.player.GetComponent<PlayerHealthBar>();
         startUI.SetActive(true);
         Time.timeScale = 0f;
 
@@ -51,6 +61,10 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R)){
             Restart();
         }
+
+        if (Input.GetKeyDown(KeyCode.F3)){
+            LoadPlayerData();
+        }
     }
 
     // ********************************************** Scene Control **************************************************
@@ -67,7 +81,70 @@ public class GameManager : MonoBehaviour
             startUI.SetActive(false);
             canvasGroup.alpha = 1f;
         }
+    }
+    // Save and Load
+    public void LoadPlayerData()
+    {
+        // show load cover
+        transportUI.DOFade(1,0.4f);
+        playerControl.SetPlayerToTeleporting();
 
+        Invoke("SetLoadPlayerData", 0.3f);
+    }
+    void SetLoadPlayerData()
+    {
+        PlayerData data = SavingSystem.LoadPlayer();
+
+        Vector3 position = new Vector3();
+        position.x = data.position[0];
+        position.y = data.position[1];
+        position.z = data.position[2];
+
+        // change position + camera
+        playerControl.transform.position = position;
+        camMain.transform.position = position + camMain.GetCamOffset();
+
+        // set health
+        playerHealthBar.cellNum = data.hpCellNum;
+        playerHealthBar.InitiatePlayerHPBar();
+        playerHealthBar.SetPlayerHealth(data.hpCellNum, data.healthMax, data.health);
+
+        // remove previous minion
+        List<MinionTroop> minionTroops = playerHealthBar.GetActivedTroop();
+        for (int i = 0; i < minionTroops.Count; i++)
+        {
+            //destory Minion
+            List<Minion> minionList = minionTroops[i].GetMinionList();
+            Debug.Log("MinionNum" + minionList.Count);
+            for (int j = 0; j < minionList.Count; j++)
+            {
+                Destroy(minionList[j].gameObject);
+            }
+            //remove troop bar Ui
+            playerHealthBar.RemoveTroopFromPlayerHealth(minionTroops[i], false);
+        }
+        playerHealthBar.CleanTroopList();
+
+        // add minion
+        List<Minion> allMinion = new List<Minion>();
+        for (int i = 0; i < data.normalMinionNum; i++){
+            GameObject minion = Instantiate(minionTemp[0], position + new Vector3(-0.8f, 0, 0), transform.rotation);
+            allMinion.Add(minion.GetComponent<Minion>());
+        }
+        for (int i = 0; i < data.specialMinionNum; i++){
+            GameObject minion = Instantiate(minionTemp[1], position + new Vector3(-0.8f, 0, 0), transform.rotation);
+            allMinion.Add(minion.GetComponent<Minion>());
+        }
+
+        // Revive Minions
+        playerHealthBar.ReviveTroopLoading(allMinion);
+        allMinion.Clear();
+
+        Invoke("HideTransportUI", 0.5f);
+    }
+    void HideTransportUI(){
+        transportUI.DOFade(0, 0.4f);
+        playerControl.inActivateTeleporting();
     }
 
     // ********************************************* Spell CD ************************************************
@@ -147,5 +224,6 @@ public class GameManager : MonoBehaviour
 
         Destroy(myMarker, 0.8f);
     }
+
 
 }

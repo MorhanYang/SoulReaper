@@ -44,8 +44,9 @@ public class MinionTroop : MonoBehaviour
     }
 
     //************************************************Sprint***************************************************************
-    public bool AssignOneMinionTowards(Vector3 destination)
+    public void AssignOneMinionTowards(Vector3 destination)
     {
+        Debug.Log("Assign");
         bool canAssign = true;
         // find target
         Collider[] hitedEnemy = Physics.OverlapSphere(destination, 0.3f, LayerMask.GetMask("Enemy", "PuzzleTrigger"));
@@ -71,14 +72,15 @@ public class MinionTroop : MonoBehaviour
             }
 
             // assign minions
-            if (assignedMemberCount <= (TroopMember.Count -1))
+            if (assignedMemberCount <= (TroopMember.Count - 1))
             {
                 TroopMember[assignedMemberCount].SprintToPos(sprintPos);
                 assignedMemberCount++;
             }
-            else {
+            else
+            {
                 assignedMemberCount = 0;
-                return canAssign = false; 
+                return canAssign = false;
             }
 
         }
@@ -89,7 +91,8 @@ public class MinionTroop : MonoBehaviour
                 TroopMember[assignedMemberCount].SprintToEnemy(target);
                 assignedMemberCount++;
             }
-            else{
+            else
+            {
                 assignedMemberCount = 0;
                 return canAssign = false;
             }
@@ -213,7 +216,7 @@ public class MinionTroop : MonoBehaviour
                     }
                 }
 
-                playerHealthBar.RemoveTroopFromPlayerHealth(this);
+                playerHealthBar.RemoveTroopFromPlayerHealth(this, true);
 
                 TroopMember.Clear();
                 // reset health

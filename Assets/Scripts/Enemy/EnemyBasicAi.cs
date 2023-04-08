@@ -66,6 +66,7 @@ public class EnemyBasicAi : MonoBehaviour
     }
     private void Update()
     {
+        if (target != null) target = player.transform;
         targetDistance = Vector3.Distance(transform.position, target.position);
         // flip
         FlipMinion();

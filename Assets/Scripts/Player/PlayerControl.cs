@@ -66,6 +66,9 @@ public class PlayerControl : MonoBehaviour
     // sound 
     SoundManager mySoundManagers;
 
+    // present Level
+    [HideInInspector]public int levelNum;
+
     void Start()
     {
         rb= GetComponent<Rigidbody>();
@@ -260,7 +263,7 @@ public class PlayerControl : MonoBehaviour
             effect.transform.position = aimPos;
         }
         //activate rebirth
-        hp.RebirthTroop(aimPos, 1.5f);
+        hp.ReviveTroopNormal(aimPos, 1.5f);
         Destroy(effect);
 
     }
@@ -300,11 +303,31 @@ public class PlayerControl : MonoBehaviour
     {
         // assign single minion
         List<MinionTroop> Mytroop = hp.GetActivedTroop();
-        // check if a minion is left. if so send it out.
-        if (Mytroop.Count > 0 && !Mytroop[assignTroopID].AssignOneMinionTowards(aimPos)){
-            if ((assignTroopID + 1) >= (Mytroop.Count - 1)){
-                assignTroopID = 0;
-            } else assignTroopID++;
+        // check if a minion is left if so send it out.
+        //if (Mytroop.Count > 0 && !Mytroop[assignTroopID].AssignOneMinionTowards(aimPos)){
+        //    if ((assignTroopID + 1) >= (Mytroop.Count - 1)){
+        //        assignTroopID = 0;
+        //    } else assignTroopID++;
+        //}
+
+        // Find closest Minin to the Target
+        Minion closestMinion = null;
+        for (int i = 0; i < Mytroop.Count; i++){
+            List<Minion> minionList = Mytroop[i].GetMinionList();
+            for (int j = 0; j < minionList.Count; j++)
+            {
+                if (closestMinion == null || minionList[j].CanAssign()){
+                    closestMinion = minionList[j];
+                }else if (Vector3.Distance(minionList[j].transform.position,aimPos) < Vector3.Distance(closestMinion.transform.position, aimPos) || minionList[j].CanAssign())
+                {
+                    closestMinion = minionList[j];
+                }
+            }
+        }
+
+        // excecute assignment
+        if (closestMinion != null){
+            closestMinion.GetTroop().AssignOneMinionTowards(aimPos);
         }
 
         assignMinionTimer = 0;
