@@ -138,6 +138,10 @@ public class MinionAI : MonoBehaviour
                 }
                 break;
             case MinionSate.Bait:
+                // if player run too far, follow the player
+                if (Vector3.Distance(player.transform.position,transform.position)>6f){
+                    minionState = MinionSate.Roam;
+                }
                 break;
         }
 
@@ -201,8 +205,8 @@ public class MinionAI : MonoBehaviour
 
     public bool CanAssign()
     {
-        if (minionState == MinionSate.Sprint &&
-            minionState == MinionSate.Roam &&
+        if (minionState == MinionSate.Sprint ||
+            minionState == MinionSate.Roam ||
             minionState == MinionSate.Wait)
         {
             return true;

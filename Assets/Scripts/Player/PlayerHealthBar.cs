@@ -365,8 +365,14 @@ public class PlayerHealthBar : MonoBehaviour
     //*************************************************************** Rebirth Troop ***************************************************
     public void ReviveTroopNormal( Vector3 pointedPos , float radius)
     {
+        // check if present troop have spacea and have a troop
+        bool troopHaveSpace;
+        if (troopPresent != null && troopPresent.GetTroopEmptySpace() > 0) 
+            troopHaveSpace = true; 
+        else troopHaveSpace = false;
+
         // have health to rebirth troop
-        if (presentHealth > indiviualMaxValue || troopPresent.GetTroopEmptySpace() > 0)
+        if (presentHealth > indiviualMaxValue || troopHaveSpace)
         {
             Collider[] MinionInCircle = Physics.OverlapSphere(pointedPos, radius, LayerMask.GetMask("Minion"));// when rebirth minion, the layer will change
 

@@ -66,11 +66,6 @@ public class EnemyBasicAi : MonoBehaviour
     }
     private void Update()
     {
-        if (target != null) target = player.transform;
-        targetDistance = Vector3.Distance(transform.position, target.position);
-        // flip
-        FlipMinion();
-
         // target is missing set new target
         if (target == null){
             target = player.transform;
@@ -78,6 +73,10 @@ public class EnemyBasicAi : MonoBehaviour
         else if (target.GetComponent<Minion>() != null && !target.GetComponent<Minion>().isActive){
             target = player.transform;
         }
+
+        targetDistance = Vector3.Distance(transform.position, target.position);
+        // flip
+        FlipMinion();
 
         switch (action)
         {

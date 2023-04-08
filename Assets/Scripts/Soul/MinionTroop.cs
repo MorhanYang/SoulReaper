@@ -10,7 +10,6 @@ public class MinionTroop : MonoBehaviour
     PlayerHealthBar playerHealthBar;
 
     List<Minion> TroopMember;
-    int assignedMemberCount = 0;
 
     [SerializeField] GameObject[] minionTemple;
     [SerializeField] TMP_Text memberNum;
@@ -44,10 +43,8 @@ public class MinionTroop : MonoBehaviour
     }
 
     //************************************************Sprint***************************************************************
-    public void AssignOneMinionTowards(Vector3 destination)
+    public void AssignOneMinionTowards(Vector3 destination, Minion assignedMinion)
     {
-        Debug.Log("Assign");
-        bool canAssign = true;
         // find target
         Collider[] hitedEnemy = Physics.OverlapSphere(destination, 0.3f, LayerMask.GetMask("Enemy", "PuzzleTrigger"));
         Transform target = null;
@@ -72,33 +69,14 @@ public class MinionTroop : MonoBehaviour
             }
 
             // assign minions
-            if (assignedMemberCount <= (TroopMember.Count - 1))
-            {
-                TroopMember[assignedMemberCount].SprintToPos(sprintPos);
-                assignedMemberCount++;
-            }
-            else
-            {
-                assignedMemberCount = 0;
-                return canAssign = false;
-            }
+            assignedMinion.SprintToPos(sprintPos);
 
         }
         if (target != null) // Hit something
         {
-            if (assignedMemberCount <= (TroopMember.Count - 1))
-            {
-                TroopMember[assignedMemberCount].SprintToEnemy(target);
-                assignedMemberCount++;
-            }
-            else
-            {
-                assignedMemberCount = 0;
-                return canAssign = false;
-            }
+            // assign minion to attack
+            assignedMinion.SprintToEnemy(target);
         }
-
-        return canAssign;
     }
     public void AssignTroopTowards(Vector3 destination)
     {

@@ -40,7 +40,6 @@ public class PlayerControl : MonoBehaviour
     float recallMinionTimer = 0;
     // Assign Minion
     float assignMinionTimer = 0;
-    int assignTroopID = 0;
     // rebirth
     [SerializeField] GameObject rebirthRangeEffect;
 
@@ -81,8 +80,6 @@ public class PlayerControl : MonoBehaviour
         presentRollingSpeed = rollingSpeed;
 
         attackPoint = attackFlipAix.Find("Aim");
-
-        assignTroopID = 0;
     }
 
     void Update()
@@ -303,12 +300,6 @@ public class PlayerControl : MonoBehaviour
     {
         // assign single minion
         List<MinionTroop> Mytroop = hp.GetActivedTroop();
-        // check if a minion is left if so send it out.
-        //if (Mytroop.Count > 0 && !Mytroop[assignTroopID].AssignOneMinionTowards(aimPos)){
-        //    if ((assignTroopID + 1) >= (Mytroop.Count - 1)){
-        //        assignTroopID = 0;
-        //    } else assignTroopID++;
-        //}
 
         // Find closest Minin to the Target
         Minion closestMinion = null;
@@ -316,9 +307,10 @@ public class PlayerControl : MonoBehaviour
             List<Minion> minionList = Mytroop[i].GetMinionList();
             for (int j = 0; j < minionList.Count; j++)
             {
-                if (closestMinion == null || minionList[j].CanAssign()){
-                    closestMinion = minionList[j];
-                }else if (Vector3.Distance(minionList[j].transform.position,aimPos) < Vector3.Distance(closestMinion.transform.position, aimPos) || minionList[j].CanAssign())
+                if (closestMinion == null){
+                    if (minionList[j].CanAssign()) closestMinion = minionList[j];     
+                    
+                }else if (Vector3.Distance(minionList[j].transform.position,aimPos) < Vector3.Distance(closestMinion.transform.position, aimPos) && minionList[j].CanAssign())
                 {
                     closestMinion = minionList[j];
                 }
@@ -327,7 +319,7 @@ public class PlayerControl : MonoBehaviour
 
         // excecute assignment
         if (closestMinion != null){
-            closestMinion.GetTroop().AssignOneMinionTowards(aimPos);
+            closestMinion.GetTroop().AssignOneMinionTowards(aimPos,closestMinion);
         }
 
         assignMinionTimer = 0;
@@ -354,6 +346,7 @@ public class PlayerControl : MonoBehaviour
 
     void AssignAllMinions(Vector3 destination)
     {
+        Debug.Log("Assign All Minions");
         List<MinionTroop> Mytroop = hp.GetActivedTroop();
         if (Mytroop.Count > 0)
         {
