@@ -20,7 +20,7 @@ public class RecallingMinion : MonoBehaviour
     {
         target = destination;
 
-        while (Vector3.Distance(transform.position, target.position) > 0.2f)
+        while (Vector3.Distance(transform.position, target.position) > 0.1f)
         {
             transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.fixedDeltaTime);
             yield return new WaitForFixedUpdate();
