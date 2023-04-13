@@ -27,6 +27,8 @@ public class Minion : MonoBehaviour
 
     // Minion Size
     public int minionSize = 1; // only can be maxTroopCapacity(PlayerHealthBar) or 1
+    [SerializeField] bool isTrigger;
+    [SerializeField] Puzzle_Bridge myBridge;
 
     private void Awake()
     {
@@ -69,7 +71,7 @@ public class Minion : MonoBehaviour
     }
     //******************************************************combate*********************************************************
     public void SetDealDamageRate(float rate){
-        myAI.attackDamage = initaldamage * rate;
+        if (!isTrigger) myAI.attackDamage = initaldamage * rate;
     }
     
     public void SprintToPos(Vector3 pos){
@@ -108,14 +110,26 @@ public class Minion : MonoBehaviour
     }
     void ActiveMinion()
     {
-        if (isActive){
+        // normal minion
+        if (!isTrigger && isActive){
             gameObject.layer = LayerMask.NameToLayer("MovingMinion");
             myAI.ActivateMinion();
+        }
+
+        // trigger
+        if (isTrigger && isActive){
+            myBridge.AddObject();
+            gameObject.layer = LayerMask.NameToLayer("Default");
         }
     }
     public void SetInactive(bool needRecallEffect)
     {
-        myAI.InactiveMinion();
+        // normal minion
+        if(!isTrigger)myAI.InactiveMinion();
+
+        // trigger
+        if (isTrigger) myBridge.DetractObject();
+        // set data
         myTroop = null;
         gameObject.layer = LayerMask.NameToLayer("Minion");
 
@@ -124,12 +138,13 @@ public class Minion : MonoBehaviour
             GameObject effect = Instantiate(recallingMinion, transform.position, transform.rotation);
             effect.GetComponent<RecallingMinion>().AimTo(PlayerManager.instance.player.transform);
             // play sound
-            mySoundManager.PlaySoundAt(PlayerManager.instance.player.gameObject.transform.position, "Release", false, false, 1, 1, 100, 100);
+            //mySoundManager.PlaySoundAt(PlayerManager.instance.player.gameObject.transform.position, "Release", false, false, 1, 1, 100, 100);
         }
         
         rebirthIcon.SetActive(true);
         myAnimator.SetBool("Dying", true);
         myAnimator.SetBool("Rebirth", false);
+
         DeactivateSeleted();
 
         isActive = false;

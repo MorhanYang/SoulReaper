@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -68,7 +69,7 @@ public class PlayerHealthBar : MonoBehaviour
         shacker = GetComponent<Shaker>();
         mySoundManager = SoundManager.Instance;
 
-        indiviualMaxValue = Maxhealth / hpBarsList.Count;
+        indiviualMaxValue = 20;
         barPresent = hpBarsList[cellNum - 1];
 
         HealthHPReset();
@@ -95,10 +96,6 @@ public class PlayerHealthBar : MonoBehaviour
                 HealingAfterSeconds(healingValue, healingInterval);
                 recoverTime += Time.deltaTime;
             }else isActiveRecover= false;
-        }
-        
-        if (Input.GetKeyDown(KeyCode.T)) {
-            TakeDamage(30f,null);
         }
     }
     //****************************************************Initialize & property*************************************************************
@@ -256,6 +253,16 @@ public class PlayerHealthBar : MonoBehaviour
         }
     }
 
+    public void AddHealthMax()
+    {
+        cellNum++;
+        presentHealth += indiviualMaxValue;
+        Maxhealth += indiviualMaxValue;
+
+        InitiatePlayerHPBar();
+        HealthHPReset();
+    }
+
     //*************************************************************** recall Or troop die ******************************************
     public void MarkRegainTarget(Transform target)
     {
@@ -360,7 +367,13 @@ public class PlayerHealthBar : MonoBehaviour
         Absorbable myAbsorbabl = MarkedSubject.GetComponent<Absorbable>();
         float healValue;
         healValue = myAbsorbabl.TakeLife();
-        if (healValue != 0) Healing(healValue);
+        
+        // recovering
+        // normal
+        if (healValue > 0) Healing(healValue);
+        // add healthMax
+        if (healValue < 0) AddHealthMax();
+
     }
     //*************************************************************** Rebirth Troop ***************************************************
     public void ReviveTroopNormal( Vector3 pointedPos , float radius)
@@ -387,7 +400,19 @@ public class PlayerHealthBar : MonoBehaviour
                 {
                     if (MinionInCircle[i] != null)
                     {
-                        minionSet.Add(MinionInCircle[i].GetComponent<Minion>());
+                        if (MinionInCircle[i].GetComponent<Minion>().minionSize == maxTroopCapacity)// Special minion
+                        {
+                            // only add special minion
+                            if (presentHealth > indiviualMaxValue){
+                                // clean the list and stop loop
+                                minionSet.Clear();
+                                minionSet.Add(MinionInCircle[i].GetComponent<Minion>());
+
+                                break;
+                            }
+                            else GameManager.instance.PopUpUI(new Vector3(0, 24f, 0), "Not engouh Health");
+                        }
+                        else minionSet.Add(MinionInCircle[i].GetComponent<Minion>());
                     }
                 }
 
@@ -405,60 +430,60 @@ public class PlayerHealthBar : MonoBehaviour
         //minionSet.Sort(SortByMinionSize);
         //minionSet.Reverse();
 
-        // ********special minion
-        for (int i = 0; i < minionSet.Count; i++)
+        if (minionSet.Count > 0)
         {
-            if (minionSet[i].minionSize == maxTroopCapacity)
+            // ********special minion
+            if (minionSet[0].minionSize == maxTroopCapacity && presentHealth > indiviualMaxValue)
             {
                 MinionTroop mytroop = troopPresent;
                 GenerateNewTroop();
 
                 // revieve minion
-                minionSet[i].GetComponent<Minion>().SetActiveDelay(rebirthDelay);
+                minionSet[0].GetComponent<Minion>().SetActiveDelay(rebirthDelay);
                 //add to troop list
                 Debug.Log("maxTroopCapacity" + maxTroopCapacity);
-                troopPresent.AddTroopMember(minionSet[i].GetComponent<Minion>());
+                troopPresent.AddTroopMember(minionSet[0].GetComponent<Minion>());
 
                 // reset the present troop
                 troopPresent = mytroop;// prevent troop present change trooppresent for small minion;
 
                 // remove item
-                minionSet.RemoveAt(i);
-                i--;
+                minionSet.RemoveAt(0);
                 return;
             }
-        }
 
-        //*******Normal minion
-        if (minionSet.Count > 0)
-        {
-            // if present troop is full
-            if (troopPresent == null || troopPresent.GetTroopEmptySpace() <= 0)
+            //*******Normal minion
+            else
             {
-                GenerateNewTroop();
-            }
-
-            // fill the troop
-            if (troopPresent.GetTroopEmptySpace() >= minionSet.Count) // enough slot for minion
-            {
-                // call all minions out
-                for (int i = 0; i < minionSet.Count; i++)
+                // if present troop is full
+                if (troopPresent == null || troopPresent.GetTroopEmptySpace() <= 0)
                 {
-                    minionSet[i].SetActiveDelay(rebirthDelay);
-                    //add to troop list
-                    troopPresent.AddTroopMember(minionSet[i]);
+                    GenerateNewTroop();
+                }
 
-                }
-            }
-            else if (troopPresent.GetTroopEmptySpace() < minionSet.Count) // too much minions
-            {
-                int leftSlots = troopPresent.GetTroopEmptySpace();
-                for (int i = 0; i < leftSlots; i++)
+                // fill the troop
+                if (troopPresent.GetTroopEmptySpace() >= minionSet.Count) // enough slot for minion
                 {
-                    minionSet[i].SetActiveDelay(rebirthDelay);
-                    //add to troop list
-                    troopPresent.AddTroopMember(minionSet[i]);
+                    // call all minions out
+                    for (int i = 0; i < minionSet.Count; i++)
+                    {
+                        minionSet[i].SetActiveDelay(rebirthDelay);
+                        //add to troop list
+                        troopPresent.AddTroopMember(minionSet[i]);
+
+                    }
                 }
+                else if (troopPresent.GetTroopEmptySpace() < minionSet.Count) // too much minions
+                {
+                    int leftSlots = troopPresent.GetTroopEmptySpace();
+                    for (int i = 0; i < leftSlots; i++)
+                    {
+                        minionSet[i].SetActiveDelay(rebirthDelay);
+                        //add to troop list
+                        troopPresent.AddTroopMember(minionSet[i]);
+                    }
+                }
+
             }
         }
     }
@@ -466,11 +491,6 @@ public class PlayerHealthBar : MonoBehaviour
     public void ReviveTroopLoading(List<Minion> reviveMinions)
     {
         ReviveTroopFunction(reviveMinions);
-    }
-    
-    static int SortByMinionSize(Minion p1, Minion p2)
-    {
-        return p1.minionSize.CompareTo(p2.minionSize);
     }
 
     void GenerateNewTroop()

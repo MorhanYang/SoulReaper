@@ -161,7 +161,7 @@ public class MinionAI : MonoBehaviour
     public void InactiveMinion()
     {
         minionState = MinionSate.Dead;
-        agent.SetDestination(transform.position);
+        if(agent != null)agent.SetDestination(transform.position);
 
         faintEffect.SetActive(false);
         assignIcon.SetActive(false);

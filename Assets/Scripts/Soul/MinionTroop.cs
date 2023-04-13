@@ -162,7 +162,7 @@ public class MinionTroop : MonoBehaviour
     {
         // special minion
         if (TroopSpaceLeft <=0 && TroopMember.Count <=1){
-            memberNum.text = "Morgan";
+            memberNum.text = "Special";
         }
         else memberNum.text = (MaxMember - TroopSpaceLeft) + "/" + MaxMember;
     }

@@ -14,6 +14,7 @@ public class Absorbable : MonoBehaviour
     CursorManager cursorManager;
 
     [SerializeField] float hp = 10;
+    [SerializeField] bool addHealthMax;
     [SerializeField] bool canRoam = false;
     [SerializeField] float roamInterval = 5f;
     bool isDead = false;
@@ -107,13 +108,15 @@ public class Absorbable : MonoBehaviour
             isDead = true;
 
             // stop movement
-            if(canRoam) agent.SetDestination(transform.position);
+            if (canRoam) agent.SetDestination(transform.position);
 
             // play recall effect;
             GameObject effect = Instantiate(recallingMinion, transform.position, transform.rotation);
             effect.GetComponent<RecallingMinion>().AimTo(player.transform);
 
-            return hp;
+            if (!addHealthMax) return hp;
+            // add player healthMax
+            else return -1;
         }
         else return 0;
     }

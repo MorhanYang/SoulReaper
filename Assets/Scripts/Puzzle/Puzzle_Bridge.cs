@@ -20,7 +20,7 @@ public class Puzzle_Bridge : MonoBehaviour
 
     Vector3 initalPos;
     Vector3 destination;
-    public bool isWalkable = false;
+    [HideInInspector]public bool isWalkable = false;
 
     private void Start()
     {
@@ -52,7 +52,7 @@ public class Puzzle_Bridge : MonoBehaviour
                 break;
 
             case ScriptState.Cancel:
-                transform.localPosition = Vector3.MoveTowards(transform.localPosition, destination, 0.8f * Time.deltaTime);
+                transform.localPosition = Vector3.MoveTowards(transform.localPosition, destination, 4f * Time.deltaTime);
                 if (transform.localPosition == destination)
                 {
                     state = ScriptState.Regular;
@@ -81,7 +81,7 @@ public class Puzzle_Bridge : MonoBehaviour
     public void DetractObject()
     {
         objectCounter--;// solve multiple trigger problem
-        if (objectCounter <= 0) {
+        if (objectCounter < objectsNeeded) {
             gameObject.SetActive(true);// setActive then script can run
             destination = initalPos;
             state = ScriptState.Cancel;
