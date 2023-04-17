@@ -381,6 +381,7 @@ public class PlayerHealthBar : MonoBehaviour
             // add healthMax
             if (healValue < 0) AddHealthMax();
         }
+        else GameManager.instance.PopUpUI(new Vector3(0, 24f, 0), "Health is full");
     }
     //*************************************************************** Rebirth Troop ***************************************************
     public void ReviveTroopNormal( Vector3 pointedPos , float radius)

@@ -292,7 +292,7 @@ MonoBehaviour:
   enemySprite: {fileID: 3444220122287105284}
   followDistance: 4.5
   attackInterval: 2.5
-  myDamage: 5.5
+  myDamage: 7
   attackEffect: {fileID: 8295354949021519652, guid: 310bf40f820e6464bb41e0a1bae2cab7, type: 3}
   canDash: 1
   distanceForDash: 3
@@ -346,8 +346,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpUI: {fileID: 3444220122308579128}
   hpBar: {fileID: 3444220122268404418}
-  Maxhealth: 180
-  presentHealth: 180
+  Maxhealth: 200
+  presentHealth: 200
 --- !u!114 &1624068418
 MonoBehaviour:
   m_ObjectHideFlags: 0
