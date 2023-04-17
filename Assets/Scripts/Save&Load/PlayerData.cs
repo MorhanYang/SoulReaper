@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData
 {
-    public int level;
+    public string scene;
     public int hpCellNum;
     public float healthMax;
     public float health;
@@ -17,7 +17,7 @@ public class PlayerData
 
         PlayerHealthBar playerHealthBar = player.GetComponent<PlayerHealthBar>();
 
-        level = player.levelNum;
+        scene = player.sceneName;
         hpCellNum = playerHealthBar.cellNum;
         healthMax = hpCellNum * 20;// Set 20 as a unit in unity
         health = healthMax;

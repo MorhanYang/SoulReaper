@@ -68,19 +68,20 @@ public class Puzzle_Bridge : MonoBehaviour
     }
 
 
-    public void AddObject()
+    public void AddObject(int size)
     {
-        objectCounter++;
+        objectCounter+= size;
         if (objectCounter >= objectsNeeded){
             destination = endPos;
             state = ScriptState.Active;
         }
-
     }
 
-    public void DetractObject()
+    public void DetractObject(int size)
     {
-        objectCounter--;// solve multiple trigger problem
+        objectCounter-= size;// solve multiple trigger problem
+        if (objectCounter < 0) objectCounter = 0;// just in case
+
         if (objectCounter < objectsNeeded) {
             gameObject.SetActive(true);// setActive then script can run
             destination = initalPos;

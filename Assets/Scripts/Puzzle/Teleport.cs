@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class Teleport : MonoBehaviour
 {
     [SerializeField] Vector3 PlayerNextPos;
     [SerializeField] CanvasGroup transportUI;
     [SerializeField] CameraFollow camMain;
+    [SerializeField] string sceneName = null; // only use to change scene
     PlayerControl player;
     bool isTransiting = false;
     bool isFadingOut = false;// decide when transportUI will fade in or out
@@ -46,6 +48,7 @@ public class Teleport : MonoBehaviour
                     player.inActivateTeleporting();
                     isTransiting = false;
                     isFadingOut = false;
+                    transportUI.gameObject.SetActive(false);
                     fadeoutTimer = 0;
                 }
             }else if (isFadingOut){
@@ -59,6 +62,7 @@ public class Teleport : MonoBehaviour
         if (collision.transform.GetComponent<PlayerControl>() != null){
             player.SetPlayerToTeleporting();
             isTransiting = true;
+            transportUI.gameObject.SetActive(true);
         }
     }
 

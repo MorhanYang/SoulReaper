@@ -1,6 +1,7 @@
 using Fungus;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
@@ -66,7 +67,7 @@ public class PlayerControl : MonoBehaviour
     SoundManager mySoundManagers;
 
     // present Level
-    [HideInInspector]public int levelNum;
+    [HideInInspector]public string sceneName;
 
     void Start()
     {
@@ -80,6 +81,8 @@ public class PlayerControl : MonoBehaviour
         presentRollingSpeed = rollingSpeed;
 
         attackPoint = attackFlipAix.Find("Aim");
+
+        sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
     }
 
     void Update()

@@ -118,7 +118,7 @@ public class Minion : MonoBehaviour
 
         // trigger
         if (isTrigger && isActive){
-            myBridge.AddObject();
+            myBridge.AddObject(1);
             gameObject.layer = LayerMask.NameToLayer("Default");
         }
     }
@@ -128,7 +128,7 @@ public class Minion : MonoBehaviour
         if(!isTrigger)myAI.InactiveMinion();
 
         // trigger
-        if (isTrigger) myBridge.DetractObject();
+        if (isTrigger) myBridge.DetractObject(1);
         // set data
         myTroop = null;
         gameObject.layer = LayerMask.NameToLayer("Minion");

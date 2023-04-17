@@ -76,11 +76,11 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1.0f;
         CanvasGroup canvasGroup = startUI.GetComponent<CanvasGroup>();
         canvasGroup.DOFade(0, 0.5f);
-        if (canvasGroup.alpha <= 0.1f)
-        {
-            startUI.SetActive(false);
-            canvasGroup.alpha = 1f;
-        }
+
+        Invoke("DisableStartUI", 0.5f);
+    }
+    void DisableStartUI(){
+        startUI.SetActive(false);
     }
     // Save and Load
     public void LoadPlayerData()

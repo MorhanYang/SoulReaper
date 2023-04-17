@@ -97,6 +97,12 @@ public class PlayerHealthBar : MonoBehaviour
                 recoverTime += Time.deltaTime;
             }else isActiveRecover= false;
         }
+
+        // test
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            AddHealthMax();
+        }
     }
     //****************************************************Initialize & property*************************************************************
     public void InitiatePlayerHPBar()
@@ -122,7 +128,6 @@ public class PlayerHealthBar : MonoBehaviour
 
         itemHPTemp.gameObject.SetActive(false);
     }
-
     public List<MinionTroop> GetActivedTroop(){
         return activedTroopList;
     }
@@ -131,7 +136,6 @@ public class PlayerHealthBar : MonoBehaviour
         activedTroopList.Clear();
         troopPresent = null;
     }
-
     Vector3 BarWidthSize(Vector3 previousSize, float Hpinbar){
         return new Vector3((Hpinbar / indiviualMaxValue * initialBarWidth), previousSize.y, previousSize.z);
     }
@@ -213,7 +217,7 @@ public class PlayerHealthBar : MonoBehaviour
         }
     }
 
-    //*************************************************Recover*****************************************
+    //************************************************* Recover *****************************************
     public void ActivateRecover()
     {
         isActiveRecover= true;
@@ -259,7 +263,22 @@ public class PlayerHealthBar : MonoBehaviour
         presentHealth += indiviualMaxValue;
         Maxhealth += indiviualMaxValue;
 
-        InitiatePlayerHPBar();
+        // generate new health bar unit
+        Item_PlayerHealth myItem = Instantiate(itemHPTemp, hpUI.transform);
+        myItem.gameObject.SetActive(true);
+        myItem.GetComponent<CanvasGroup>().alpha = 0f;
+        // change new item hierarchy to 0
+        myItem.transform.SetSiblingIndex(0);
+
+        // display
+        myItem.GetComponent<CanvasGroup>().DOFade(1, 1f);
+
+        // adjust present bar
+        hpBarsList.Insert(0,myItem.troopHPUI);
+        barPresentId++;
+        barPresent = barPresent = hpBarsList[barPresentId];
+
+
         HealthHPReset();
     }
 
@@ -284,21 +303,6 @@ public class PlayerHealthBar : MonoBehaviour
     void RegainSelectedTroopHP()
     {
         MinionTroop TargetTroop = null;
-
-        // player didn't select a troop
-        //if (MarkedSubject == null){
-        //    // find troop with lowest HP
-        //    MinionTroop lowHPTroop = null;
-        //    for (int i = 0; i < activedTroopList.Count; i++){
-        //        if (lowHPTroop == null){
-        //            lowHPTroop = activedTroopList[i];
-        //        }
-        //        else if (activedTroopList[i].GetPresentHP() < lowHPTroop.GetPresentHP()){
-        //            lowHPTroop = activedTroopList[i];
-        //        }
-        //    }
-        //    TargetTroop = lowHPTroop;
-        //}
 
         // player select a troop
         if (MarkedSubject != null)
@@ -365,15 +369,18 @@ public class PlayerHealthBar : MonoBehaviour
     void RegainAbsorbableHP()
     {
         Absorbable myAbsorbabl = MarkedSubject.GetComponent<Absorbable>();
-        float healValue;
-        healValue = myAbsorbabl.TakeLife();
-        
-        // recovering
-        // normal
-        if (healValue > 0) Healing(healValue);
-        // add healthMax
-        if (healValue < 0) AddHealthMax();
+        // if health is not full
+        if (presentHealth < Maxhealth || myAbsorbabl.addHealthMax)
+        {
+            float healValue;
+            healValue = myAbsorbabl.TakeLife();
 
+            // recovering
+            // normal
+            if (healValue > 0) Healing(healValue);
+            // add healthMax
+            if (healValue < 0) AddHealthMax();
+        }
     }
     //*************************************************************** Rebirth Troop ***************************************************
     public void ReviveTroopNormal( Vector3 pointedPos , float radius)
