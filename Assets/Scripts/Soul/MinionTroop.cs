@@ -182,19 +182,20 @@ public class MinionTroop : MonoBehaviour
     {
         if (member != null)
         {
-            TroopMember.Remove(member);
-
             //if don't have minions left in the troop
-            if (TroopMember.Count <= 0){
-                playerHealthBar.RegainATroopHP(this, false);
-            }
-            else // There is something left in the troop
+            if (TroopMember.Count <= 1)
             {
+                member.SetInactive(false);
+                playerHealthBar.RemoveTroopFromPlayerHealth(this,true);
+            }
+            else
+            {
+                TroopMember.Remove(member);
                 TroopSpaceLeft += member.minionSize;
                 member.SetInactive(false);
-            }
 
-            UpdateMemberNumText();
+                UpdateMemberNumText();
+            }
         }
     }
 

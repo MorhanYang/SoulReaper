@@ -78,8 +78,10 @@ public class Teleport : MonoBehaviour
             for (int j = 0; j < myMinions.Count; j++)
             {
                 // check if the minion is inside the range
-                if (Vector3.Distance(myMinions[j].transform.position,player.transform.position) < RangeToTeleport)
+                Debug.Log("Distance " + Vector3.Distance(myMinions[j].transform.position, player.transform.position));
+                if (Vector3.Distance(myMinions[j].transform.position, player.transform.position) < RangeToTeleport)
                 {
+                    
                     // send minions to the position
                     myMinions[j].GetComponent<NavMeshAgent>().enabled = false;
                     myMinions[j].transform.position = MinionsNextPos;

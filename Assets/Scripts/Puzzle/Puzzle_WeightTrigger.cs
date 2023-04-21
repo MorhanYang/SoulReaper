@@ -71,7 +71,7 @@ public class Puzzle_WeightTrigger : MonoBehaviour
             // Show UI
             //myCanvas.gameObject.SetActive(true);
             text.text = objectCount + " / " + objectsNeeded;
-            UITimer = 5f;
+            //UITimer = 5f;
 
             // Move platform upward
             if (objectCount >= 0 ){

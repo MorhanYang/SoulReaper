@@ -309,7 +309,6 @@ public class PlayerHealthBar : MonoBehaviour
             // play recall effect
             TargetTroop.ExecuteMinionRecall();
 
-            //remove lowest hp Troop
             RemoveTroopFromPlayerHealth(TargetTroop,true);
 
             // reset property
@@ -326,13 +325,6 @@ public class PlayerHealthBar : MonoBehaviour
                 RemoveTroopFromPlayerHealth(activedTroopList[i],true);
             }
         }
-    }
-    public void RegainATroopHP( MinionTroop troop , bool playEffect)
-    {
-        troop.ExecuteMinionRecall();
-
-        //remove lowest hp Troop
-        RemoveTroopFromPlayerHealth(troop, playEffect);
     }
     public void RemoveTroopFromPlayerHealth(MinionTroop troop, bool normalRemove) {
 
