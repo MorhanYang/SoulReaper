@@ -178,6 +178,25 @@ public class MinionTroop : MonoBehaviour
             UpdateMemberNumText();
         }
     }
+    public void RemoveTroopMember(Minion member)
+    {
+        if (member != null)
+        {
+            TroopMember.Remove(member);
+
+            //if don't have minions left in the troop
+            if (TroopMember.Count <= 0){
+                playerHealthBar.RegainATroopHP(this, false);
+            }
+            else // There is something left in the troop
+            {
+                TroopSpaceLeft += member.minionSize;
+                member.SetInactive(false);
+            }
+
+            UpdateMemberNumText();
+        }
+    }
 
     // ******************************************* Combat ********************************************************************
     public void TakeDamage(float damage)

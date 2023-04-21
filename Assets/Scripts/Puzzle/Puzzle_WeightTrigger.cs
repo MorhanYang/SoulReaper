@@ -26,10 +26,10 @@ public class Puzzle_WeightTrigger : MonoBehaviour
     private void Update()
     {
         // hide UI after a few seconds 
-        if (UITimer > 0f) UITimer -= Time.deltaTime;
-        if (myCanvas.gameObject.activeSelf && UITimer <= 0){
-            myCanvas.gameObject.SetActive(false);
-        }
+        //if (UITimer > 0f) UITimer -= Time.deltaTime;
+        //if (myCanvas.gameObject.activeSelf && UITimer <= 0){
+        //    myCanvas.gameObject.SetActive(false);
+        //}
     }
 
     private void OnTriggerEnter(Collider other)
@@ -44,7 +44,7 @@ public class Puzzle_WeightTrigger : MonoBehaviour
             else objectCount+= addNum;
 
             // Show UI
-            myCanvas.gameObject.SetActive(true);
+            //myCanvas.gameObject.SetActive(true);
             text.text = objectCount + " / " + objectsNeeded;
             UITimer = 5f;
 
@@ -69,7 +69,7 @@ public class Puzzle_WeightTrigger : MonoBehaviour
             else objectCount -= detractNum;
 
             // Show UI
-            myCanvas.gameObject.SetActive(true);
+            //myCanvas.gameObject.SetActive(true);
             text.text = objectCount + " / " + objectsNeeded;
             UITimer = 5f;
 

@@ -10,6 +10,7 @@ public class Teleport : MonoBehaviour
     [SerializeField] CanvasGroup transportUI;
     [SerializeField] CameraFollow camMain;
     [SerializeField] string sceneName = null; // only use to change scene
+    [SerializeField] float RangeToTeleport;
     PlayerControl player;
     bool isTransiting = false;
     bool isFadingOut = false;// decide when transportUI will fade in or out
@@ -76,10 +77,19 @@ public class Teleport : MonoBehaviour
             List<Minion> myMinions = myTroops[i].GetMinionList();
             for (int j = 0; j < myMinions.Count; j++)
             {
-                // send minions to the position
-                myMinions[j].GetComponent<NavMeshAgent>().enabled = false;
-                myMinions[j].transform.position = MinionsNextPos;
-                myMinions[j].GetComponent<NavMeshAgent>().enabled = true;
+                // check if the minion is inside the range
+                if (Vector3.Distance(myMinions[j].transform.position,player.transform.position) < RangeToTeleport)
+                {
+                    // send minions to the position
+                    myMinions[j].GetComponent<NavMeshAgent>().enabled = false;
+                    myMinions[j].transform.position = MinionsNextPos;
+                    myMinions[j].GetComponent<NavMeshAgent>().enabled = true;
+                }
+                else // kill the out range minion and regain hp
+                {
+                    myMinions[j].GetComponent<Minion>().GetTroop().RemoveTroopMember(myMinions[j]);
+                }
+                
             }
         }
 

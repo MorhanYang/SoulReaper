@@ -289,7 +289,6 @@ public class PlayerHealthBar : MonoBehaviour
     }
     public void RegainHP()
     {
-
         // marked a absorbable object 
         if (MarkedSubject != null && MarkedSubject.GetComponent<Absorbable>() != null){
             RegainAbsorbableHP();
@@ -298,7 +297,6 @@ public class PlayerHealthBar : MonoBehaviour
         else if (activedTroopList.Count > 0){
             RegainSelectedTroopHP();
         }
-
     }
     void RegainSelectedTroopHP()
     {
@@ -317,8 +315,6 @@ public class PlayerHealthBar : MonoBehaviour
             // reset property
             MarkedSubject = null;
         }
-
-
     }
     public void RegainAllTroopHP()
     {
@@ -330,6 +326,13 @@ public class PlayerHealthBar : MonoBehaviour
                 RemoveTroopFromPlayerHealth(activedTroopList[i],true);
             }
         }
+    }
+    public void RegainATroopHP( MinionTroop troop , bool playEffect)
+    {
+        troop.ExecuteMinionRecall();
+
+        //remove lowest hp Troop
+        RemoveTroopFromPlayerHealth(troop, playEffect);
     }
     public void RemoveTroopFromPlayerHealth(MinionTroop troop, bool normalRemove) {
 
