@@ -200,7 +200,7 @@ public class PlayerControl : MonoBehaviour
        
     }
 
-    //**********************************************************Moving Function***************************************************************************
+    //********************************************************** Moving Function ***************************************************************************
     // Use speedMultiplyer to change speed.
     void MoveFunction(float speedMultiplyer){
         float x = Input.GetAxisRaw("Horizontal");
@@ -240,7 +240,7 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    //**********************************************************************Aiming Function****************************************************
+    //********************************************************************** Aiming Function ****************************************************
     void MouseAimFunction()
     {
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -253,6 +253,9 @@ public class PlayerControl : MonoBehaviour
     // ******************************************************************* Rebirth ********************************************************
     IEnumerator RebirthTroop()
     {
+        float timeCount = 0;
+        float radius = 1.6f;
+
         // show range indicator
         GameObject effect = Instantiate(rebirthRangeEffect, aimPos, transform.rotation);
         // control range place
@@ -260,11 +263,20 @@ public class PlayerControl : MonoBehaviour
         {
             yield return new WaitForEndOfFrame();
             effect.transform.position = aimPos;
+
+            timeCount += Time.deltaTime;
+
+            if (timeCount >= 0.7f && radius > 0.2f){
+                effect.transform.localScale *= 0.6f;
+                radius *= 0.6f;
+
+                Debug.Log("radius" + radius);
+                timeCount = 0;
+            }
         }
         //activate rebirth
-        hp.ReviveTroopNormal(aimPos, 1.5f);
+        hp.ReviveTroopNormal(aimPos, radius);
         Destroy(effect);
-
     }
     // ************************************************** recall *********************************************
     void RecallTroops()
@@ -360,7 +372,7 @@ public class PlayerControl : MonoBehaviour
         }
         else Debug.Log("There is no troop");
     }
-    //***************************************************Flip the character*********************************
+    //*************************************************** Flip the character *********************************
     void FlipPlayer()
     {
         if (move.x < 0 && isFacingRight)
@@ -378,13 +390,12 @@ public class PlayerControl : MonoBehaviour
             isFacingRight = !isFacingRight;
         }
     }
-
     public void AddSoulList(int SoulType)
     {
         //soulList.AddSoul(SoulType);
     }
 
-    // *********************************************************************Combat *********************************************
+    // ********************************************************************* Combat *********************************************
     public void PlayerTakeDamage(float damage, Transform damageDealer)
     {
         // play sound 
