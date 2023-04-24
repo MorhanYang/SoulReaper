@@ -3,8 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using DG.Tweening;
-using static Fungus.StopMotionRigidBody2D;
-
+using Cinemachine.PostFX;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,7 +12,6 @@ public class GameManager : MonoBehaviour
     public static GameObject[] EnemyList;
     PlayerControl playerControl;
     PlayerHealthBar playerHealthBar;
-    [SerializeField] GameObject startUI;
     [SerializeField] CameraFollow camMain;
 
     // spell
@@ -42,8 +40,7 @@ public class GameManager : MonoBehaviour
         EnemyList = GameObject.FindGameObjectsWithTag("Enemy");
         playerControl = PlayerManager.instance.player.GetComponent<PlayerControl>();
         playerHealthBar = PlayerManager.instance.player.GetComponent<PlayerHealthBar>();
-        startUI.SetActive(true);
-        Time.timeScale = 0f;
+
 
         // setup Spell List
         foreach (Transform item in spellSet){
@@ -54,9 +51,19 @@ public class GameManager : MonoBehaviour
         foreach (Transform item in InventorySet){
             inventoryList.Add(item.GetComponent<Inventory_Item>());
         }
+
+        // Show Game
+        transportUI.gameObject.SetActive(true);
+        transportUI.alpha = 1f;
+
+        transportUI.DOFade(0, 3f);
     }
 
     private void Update(){
+
+        if (transportUI.gameObject.activeSelf == true && transportUI.alpha <= 0.1f){
+            transportUI.gameObject.SetActive(false);
+        }
 
         if (Input.GetKeyDown(KeyCode.R)){
             Restart();
@@ -70,17 +77,6 @@ public class GameManager : MonoBehaviour
     // ********************************************** Scene Control **************************************************
     public static void Restart(){
         SceneManager.LoadScene("Sewer_Tutorial");
-    }
-    public void StartGame()
-    {
-        Time.timeScale = 1.0f;
-        CanvasGroup canvasGroup = startUI.GetComponent<CanvasGroup>();
-        canvasGroup.DOFade(0, 0.5f);
-
-        Invoke("DisableStartUI", 0.5f);
-    }
-    void DisableStartUI(){
-        startUI.SetActive(false);
     }
     // Save and Load
     public void LoadPlayerData()
