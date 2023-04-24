@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Test_YouWin : MonoBehaviour
 {
@@ -9,8 +10,7 @@ public class Test_YouWin : MonoBehaviour
     {
         if (other.GetComponent<PlayerControl>() != null){
             // you win
-            WinUI.SetActive(true);
-            Time.timeScale = 0f;
+            SceneManager.LoadScene("CreditScene");
         }
     }
 }

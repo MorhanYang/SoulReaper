@@ -395,8 +395,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRang: 0.4
-  SprintSpeed: 3.2
-  NormalSpeed: 1.8
+  SprintSpeed: 3
+  NormalSpeed: 1.7
   searchingRange: 2
   minionSprite: {fileID: 2329640088932374848}
   assignIcon: {fileID: 961283761}

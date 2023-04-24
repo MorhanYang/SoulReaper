@@ -20,24 +20,8 @@ public class SpikeGate : MonoBehaviour
     private List<GameObject> Spikes;
 
     [SerializeField]
-    Collider myBlocker;
+    GameObject myBlocker;
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.O)) 
-        {
-            openDoor();
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            closeDoor();
-        }
-    }
 
     public void closeDoor() 
     {
@@ -48,7 +32,7 @@ public class SpikeGate : MonoBehaviour
                 SpriteRenderer myRenderer = Spikes[i].GetComponent<SpriteRenderer>();
                 myRenderer.sprite = SpriteOpen;
             }
-            myBlocker.enabled = true;
+            myBlocker.SetActive(true);
         }
         open = false;
     }
@@ -62,7 +46,7 @@ public class SpikeGate : MonoBehaviour
                 SpriteRenderer myRenderer = Spikes[i].GetComponent<SpriteRenderer>();
                 myRenderer.sprite = SpriteClosed;
             }
-            myBlocker.enabled= false;
+            myBlocker.SetActive(false);
         }
         open = true;
     }
