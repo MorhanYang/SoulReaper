@@ -17,12 +17,12 @@ MonoBehaviour:
     PathAndIcons:
     - ElementName: Virtual Acoustics
       ObjectType: 5
-      guid: 00000000000000000000000000000000
+      guid: 
     - ElementName: Default Work Unit
       ObjectType: 12
-      guid: 23b9aba641f76c46b7b2c5d625597998
+      guid: "#\0\0\0A\U001EC1B7\0\u0156%Yy\0"
     ParentPath: Virtual Acoustics\Default Work Unit
-    guid: 23b9aba641f76c46b7b2c5d625597998
+    guid: "#\0\0\0A\U001EC1B7\0\u0156%Yy\0"
     GuidInternal: 
     m_lastTime: -8585201007241769993
     List: []
@@ -31,84 +31,84 @@ MonoBehaviour:
     PathAndIcons:
     - ElementName: Master-Mixer Hierarchy
       ObjectType: 5
-      guid: 00000000000000000000000000000000
+      guid: 
     - ElementName: Default Work Unit
       ObjectType: 12
-      guid: 3feceff67b7e284a8ed9e7bd758cef48
+      guid: "?\uCBF6{~(J\0\u0667\0u\0\uF210"
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
-    guid: 3feceff67b7e284a8ed9e7bd758cef48
+    guid: "?\uCBF6{~(J\0\u0667\0u\0\uF207"
     GuidInternal: 
     m_lastTime: -8585201007242095506
     List:
     - name: Master Audio Bus
-      guid: d8a41415a61d2a41a17e75ca0c2149f3
+      guid: "\u0624\x14\x15\0\x1D*A\0~u\u028C!I\U000E9933"
       id: 3803692087
       PathAndIcons:
       - ElementName: Master-Mixer Hierarchy
         ObjectType: 5
-        guid: 00000000000000000000000000000000
+        guid: 
       - ElementName: Default Work Unit
         ObjectType: 12
-        guid: 3feceff67b7e284a8ed9e7bd758cef48
+        guid: "?\uCBF6{~(J\0\u0667\0u\0\uF205"
       - ElementName: Master Audio Bus
         ObjectType: 2
-        guid: d8a41415a61d2a41a17e75ca0c2149f3
+        guid: "\u0624\x14\x15\0\x1D*A\0~u\u028C!I\U000D0874"
       Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus
   BankWwu:
   - PhysicalPath: SoundBanks\Default Work Unit.wwu
     PathAndIcons:
     - ElementName: SoundBanks
       ObjectType: 5
-      guid: 00000000000000000000000000000000
+      guid: 
     - ElementName: Default Work Unit
       ObjectType: 12
-      guid: 847113b1f7a5274c84ba497a77a5b2ff
+      guid: "\0q\x13\0\U001E59CC\0\0Izw\0\0\0"
     ParentPath: SoundBanks\Default Work Unit
-    guid: 847113b1f7a5274c84ba497a77a5b2ff
+    guid: "\0q\x13\0\U001E59CC\0\0Izw\0\0\0"
     GuidInternal: 
     m_lastTime: -8585201007241848569
     List:
     - name: Soul_SFX
-      guid: db9b43579fd61f4baa1d43d217e4a7de
+      guid: "\u06DBCW\0\u059FK\0\x1DC\u0497\u49DE"
       id: 3490481900
       PathAndIcons:
       - ElementName: SoundBanks
         ObjectType: 5
-        guid: 00000000000000000000000000000000
+        guid: 
       - ElementName: Default Work Unit
         ObjectType: 12
-        guid: 847113b1f7a5274c84ba497a77a5b2ff
+        guid: "\0q\x13\0\U001E59CC\0\0Izw\0\0\0"
       - ElementName: Soul_SFX
         ObjectType: 7
-        guid: db9b43579fd61f4baa1d43d217e4a7de
+        guid: "\u06DBCW\0\u059FK\0\x1DC\u0497\u49DE"
       Path: SoundBanks\Default Work Unit\Soul_SFX
   EventWwu:
   - PhysicalPath: Events\Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Events
       ObjectType: 5
-      guid: 00000000000000000000000000000000
+      guid: 
     - ElementName: Default Work Unit
       ObjectType: 12
-      guid: 42cfeb10ac33a3438feebf5b55294deb
+      guid: "B\u03EB\x10\03\0C\0\uEFDBU)M\uB421"
     ParentPath: Events\Default Work Unit
-    guid: 42cfeb10ac33a3438feebf5b55294deb
+    guid: "B\u03EB\x10\03\0C\0\uEFDBU)M\uB1F5"
     GuidInternal: 
     m_lastTime: -8585201007242115562
     List:
     - name: Monster_hurt
-      guid: d5e923aaa20a04409d24c56217460ddc
+      guid: "\u0569#\0\0\n\x04@\0$\u0162\x17F\r\u0729"
       id: 2263242755
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
-        guid: 00000000000000000000000000000000
+        guid: 
       - ElementName: Default Work Unit
         ObjectType: 12
-        guid: 42cfeb10ac33a3438feebf5b55294deb
+        guid: "B\u03EB\x10\03\0C\0\uEFDBU)M\uB16C"
       - ElementName: Monster_hurt
         ObjectType: 3
-        guid: d5e923aaa20a04409d24c56217460ddc
+        guid: "\u0569#\0\0\n\x04@\0$\u0162\x17F\r\u0710"
       Path: Events\Default Work Unit\Monster_hurt
       maxAttenuation: 0
       maxDuration: -1
@@ -118,12 +118,12 @@ MonoBehaviour:
     PathAndIcons:
     - ElementName: Game Parameters
       ObjectType: 5
-      guid: 00000000000000000000000000000000
+      guid: 
     - ElementName: Default Work Unit
       ObjectType: 12
-      guid: 8a23ea4a6dfe554f9218257eccbc1fed
+      guid: "\0#\uA2AD\0UO\0\x18%~\u033C\x1F\uD421"
     ParentPath: Game Parameters\Default Work Unit
-    guid: 8a23ea4a6dfe554f9218257eccbc1fed
+    guid: "\0#\uA2AD\0UO\0\x18%~\u033C\x1F\uD1F5"
     GuidInternal: 
     m_lastTime: -8585201007242105570
     List: []
@@ -132,12 +132,12 @@ MonoBehaviour:
     PathAndIcons:
     - ElementName: States
       ObjectType: 5
-      guid: 00000000000000000000000000000000
+      guid: 
     - ElementName: Default Work Unit
       ObjectType: 12
-      guid: 1f8591ac9f4afc4b927c09c888663f2c
+      guid: "\x1F\0\0\0\0J\0K\0|\t\u0208f?,"
     ParentPath: States\Default Work Unit
-    guid: 1f8591ac9f4afc4b927c09c888663f2c
+    guid: "\x1F\0\0\0\0J\0K\0|\t\u0208f?,"
     GuidInternal: 
     m_lastTime: -8585201007241824469
     List: []
@@ -146,12 +146,12 @@ MonoBehaviour:
     PathAndIcons:
     - ElementName: Switches
       ObjectType: 5
-      guid: 00000000000000000000000000000000
+      guid: 
     - ElementName: Default Work Unit
       ObjectType: 12
-      guid: c70540aa31d27d4d8f37c58222cf1766
+      guid: "\u01C5@\01\u04BDM\07\u0142\"\u03D7f"
     ParentPath: Switches\Default Work Unit
-    guid: c70540aa31d27d4d8f37c58222cf1766
+    guid: "\u01C5@\01\u04BDM\07\u0142\"\u03D7f"
     GuidInternal: 
     m_lastTime: -8585201007241804646
     List: []
@@ -160,12 +160,12 @@ MonoBehaviour:
     PathAndIcons:
     - ElementName: Triggers
       ObjectType: 5
-      guid: 00000000000000000000000000000000
+      guid: 
     - ElementName: Default Work Unit
       ObjectType: 12
-      guid: d3df04bdb0acb844b2faa9e1d37d4176
+      guid: "\u04DF\x04\0\0\0\0D\0\0\0\u14FDAv"
     ParentPath: Triggers\Default Work Unit
-    guid: d3df04bdb0acb844b2faa9e1d37d4176
+    guid: "\u04DF\x04\0\0\0\0D\0\0\0\u14FDAv"
     GuidInternal: 
     m_lastTime: -8585201007241780200
     List: []
