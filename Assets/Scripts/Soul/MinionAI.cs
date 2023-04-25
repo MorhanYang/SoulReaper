@@ -20,6 +20,7 @@ public class MinionAI : MonoBehaviour
 
     //Assign
     [SerializeField] GameObject assignIcon;
+    float sprintTimer;
 
     //Melee Attack
     public float attackDamage = 0.4f;
@@ -139,7 +140,7 @@ public class MinionAI : MonoBehaviour
                 break;
             case MinionSate.Bait:
                 // if player run too far, follow the player
-                if (Vector3.Distance(player.transform.position,transform.position)>6f){
+                if (Vector3.Distance(player.transform.position,transform.position)>5f){
                     minionState = MinionSate.Roam;
                 }
                 break;
@@ -241,6 +242,8 @@ public class MinionAI : MonoBehaviour
 
             //show AssignIcon
             assignIcon.SetActive(true);
+
+            sprintTimer = 0;
         }
     }
     public void SprintToEnemy(Transform aim){
@@ -255,14 +258,22 @@ public class MinionAI : MonoBehaviour
             agent.stoppingDistance = attackRang;
             roamingPos = aim.position;
 
-            Debug.Log("assignIcon");
             //show AssignIcon
             assignIcon.SetActive(true);
+
+            sprintTimer = 0;
         }
     }
 
     void SprintFunction()
     {
+        if (sprintTimer > 5.5f){
+            agent.speed = NormalSpeed;
+            StartRoam();
+            GetRoamingStartPos();
+        }
+        else sprintTimer += Time.deltaTime;
+
         // Don't hit enemy
         if (target == null)
         {
@@ -292,8 +303,6 @@ public class MinionAI : MonoBehaviour
                 //hide AssignIcon
                 assignIcon.SetActive(false);
             }
-
-
         }
     }
 

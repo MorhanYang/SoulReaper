@@ -395,8 +395,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRang: 0.4
-  SprintSpeed: 2.5
-  NormalSpeed: 1.5
+  SprintSpeed: 3
+  NormalSpeed: 1.7
   searchingRange: 2
   minionSprite: {fileID: 2329640088932374848}
   assignIcon: {fileID: 961283761}
@@ -429,6 +429,8 @@ MonoBehaviour:
   SelectEffect: {fileID: 7245311238218668977}
   isActive: 0
   minionSize: 1
+  isTrigger: 0
+  myBridge: {fileID: 0}
 --- !u!54 &1729562323
 Rigidbody:
   m_ObjectHideFlags: 0

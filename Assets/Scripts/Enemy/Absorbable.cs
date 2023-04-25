@@ -14,7 +14,7 @@ public class Absorbable : MonoBehaviour
     CursorManager cursorManager;
 
     [SerializeField] float hp = 10;
-    [SerializeField] bool addHealthMax;
+    public bool addHealthMax;
     [SerializeField] bool canRoam = false;
     [SerializeField] float roamInterval = 5f;
 

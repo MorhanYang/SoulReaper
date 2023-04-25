@@ -13,7 +13,8 @@ public class MinionTroop : MonoBehaviour
 
     [SerializeField] GameObject[] minionTemple;
     [SerializeField] TMP_Text memberNum;
-    [SerializeField]int MaxMember = 5;
+    [SerializeField] int MaxMember = 5;
+    [SerializeField] GameObject selectSprite;
     // reduce Damge
     int ReduceDamageStateCount = 0;
 
@@ -177,6 +178,26 @@ public class MinionTroop : MonoBehaviour
             UpdateMemberNumText();
         }
     }
+    public void RemoveTroopMember(Minion member)
+    {
+        if (member != null)
+        {
+            //if don't have minions left in the troop
+            if (TroopMember.Count <= 1)
+            {
+                member.SetInactive(false);
+                playerHealthBar.RemoveTroopFromPlayerHealth(this,true);
+            }
+            else
+            {
+                TroopMember.Remove(member);
+                TroopSpaceLeft += member.minionSize;
+                member.SetInactive(false);
+
+                UpdateMemberNumText();
+            }
+        }
+    }
 
     // ******************************************* Combat ********************************************************************
     public void TakeDamage(float damage)
@@ -255,6 +276,7 @@ public class MinionTroop : MonoBehaviour
     }
     public void SellectAllMember()
     {
+        selectSprite.SetActive(true);
         for (int i = 0; i < TroopMember.Count ; i++)
         {
             TroopMember[i].ActivateSelected();
@@ -263,6 +285,7 @@ public class MinionTroop : MonoBehaviour
     }
     public void UnsellectAllMember()
     {
+        selectSprite.SetActive(false);
         for (int i = 0; i < TroopMember.Count; i++)
         {
             TroopMember[i].DeactivateSeleted();

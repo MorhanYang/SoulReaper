@@ -26,19 +26,25 @@ public class Puzzle_WeightTrigger : MonoBehaviour
     private void Update()
     {
         // hide UI after a few seconds 
-        if (UITimer > 0f) UITimer -= Time.deltaTime;
-        if (myCanvas.gameObject.activeSelf && UITimer <= 0){
-            myCanvas.gameObject.SetActive(false);
-        }
+        //if (UITimer > 0f) UITimer -= Time.deltaTime;
+        //if (myCanvas.gameObject.activeSelf && UITimer <= 0){
+        //    myCanvas.gameObject.SetActive(false);
+        //}
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        int addNum = 1;
         if (other.GetComponent<Minion>() != null || other.GetComponent<PlayerControl>() != null)
         {
-            objectCount++;
+            if (other.GetComponent<Minion>() != null && other.GetComponent<Minion>().minionSize > 1){
+                addNum = other.GetComponent<Minion>().minionSize;
+                objectCount += addNum;
+            }
+            else objectCount+= addNum;
+
             // Show UI
-            myCanvas.gameObject.SetActive(true);
+            //myCanvas.gameObject.SetActive(true);
             text.text = objectCount + " / " + objectsNeeded;
             UITimer = 5f;
 
@@ -47,19 +53,25 @@ public class Puzzle_WeightTrigger : MonoBehaviour
                 platform.position = new Vector3(platform.position.x, platform.position.y - 0.01f, platform.position.z);
             }
 
-            if (myBridge != null) myBridge.AddObject();
+            if (myBridge != null) myBridge.AddObject(addNum);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        int detractNum = 1;
         if (other.GetComponent<Minion>() != null || other.GetComponent<PlayerControl>() != null)
         {
-            objectCount--;
+            if (other.GetComponent<Minion>() != null && other.GetComponent<Minion>().minionSize > 1){
+                detractNum = other.GetComponent<Minion>().minionSize;
+                objectCount -= detractNum;
+            }
+            else objectCount -= detractNum;
+
             // Show UI
-            myCanvas.gameObject.SetActive(true);
+            //myCanvas.gameObject.SetActive(true);
             text.text = objectCount + " / " + objectsNeeded;
-            UITimer = 5f;
+            //UITimer = 5f;
 
             // Move platform upward
             if (objectCount >= 0 ){
@@ -67,7 +79,7 @@ public class Puzzle_WeightTrigger : MonoBehaviour
             }
 
 
-            if (myBridge != null) myBridge.DetractObject();
+            if (myBridge != null) myBridge.DetractObject(detractNum);
         }
     }
 }

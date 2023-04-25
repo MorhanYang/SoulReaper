@@ -9,7 +9,9 @@ public class Puzzle_Bridge : MonoBehaviour
     [SerializeField] Puzzle_Bridge secondBridge;
 
     [SerializeField] int objectsNeeded = 1;
+    [SerializeField] bool canTransparent = false;
     int objectCounter;
+    Color myColor;
     enum ScriptState
     {
         Regular,
@@ -25,6 +27,7 @@ public class Puzzle_Bridge : MonoBehaviour
     private void Start()
     {
         initalPos = transform.localPosition;
+        if (canTransparent) myColor = GetComponent<MeshRenderer>().material.color;
     }
     private void Update()
     {
@@ -47,6 +50,7 @@ public class Puzzle_Bridge : MonoBehaviour
                     else if (secondBridge.isWalkable){
                         OpenBlocker();
                         secondBridge.OpenBlocker();
+
                     }
                 }
                 break;
@@ -68,19 +72,20 @@ public class Puzzle_Bridge : MonoBehaviour
     }
 
 
-    public void AddObject()
+    public void AddObject(int size)
     {
-        objectCounter++;
+        objectCounter+= size;
         if (objectCounter >= objectsNeeded){
             destination = endPos;
             state = ScriptState.Active;
         }
-
     }
 
-    public void DetractObject()
+    public void DetractObject(int size)
     {
-        objectCounter--;// solve multiple trigger problem
+        objectCounter-= size;// solve multiple trigger problem
+        if (objectCounter < 0) objectCounter = 0;// just in case
+
         if (objectCounter < objectsNeeded) {
             gameObject.SetActive(true);// setActive then script can run
             destination = initalPos;
@@ -90,14 +95,28 @@ public class Puzzle_Bridge : MonoBehaviour
             CloseBlocker();
             if (secondBridge != null) secondBridge.CloseBlocker();
 
+
+
             isWalkable = false;// help other script to check if it is walkable
         } 
     }
 
     public void OpenBlocker(){
         Blocker.SetActive(false);
+
+        // transparent control
+        if (canTransparent){
+            Color newColor = new Color(myColor.r, myColor.g, myColor.b, 0.6f);
+            GetComponent<MeshRenderer>().material.color = newColor;
+        }
     }
     public void CloseBlocker(){
         Blocker.SetActive(true);
+
+        // transparent control
+        if (canTransparent){
+            Color newColor = new Color(myColor.r, myColor.g, myColor.b, 1f);
+            GetComponent<MeshRenderer>().material.color = newColor;
+        }
     }
 }

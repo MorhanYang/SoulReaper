@@ -21,15 +21,20 @@ public class HintUI : MonoBehaviour
     }
     public void ShowHint()
     {
-        offest.DOFade(1, 0.4f);
+        Invoke("ShowHintFunction", 1.5f);
+    }
+
+    void ShowHintFunction(){
+
+        offest.DOFade(1, 0.6f);
         //offest.SetActive(true);
         diagram.sprite = diagramList[hintId];
         text.text = textList[hintId];
-        if(hintId < (textList.Length - 1) && hintId < (diagramList.Length - 1)) hintId++;
+        if (hintId < (textList.Length - 1) && hintId < (diagramList.Length - 1)) hintId++;
     }
     public void HideHint() 
     {
-        offest.DOFade(0, 0.4f);
+        offest.DOFade(0, 0.6f);
         //offest.SetActive(false);
     }
 }

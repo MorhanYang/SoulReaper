@@ -794,7 +794,7 @@ MonoBehaviour:
   searchingRange: 2
   minionSprite: {fileID: 8820282584266638191}
   assignIcon: {fileID: 816675358}
-  attackDamage: 3
+  attackDamage: 4.5
   attackCD: 1
   attackPoint: {fileID: 6499674023049647843}
   attackCircle: 0.4
@@ -835,11 +835,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myAnimator: {fileID: 6499674022657197127}
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
-  getDamageRate: 0.5
+  getDamageRate: 0.2
   rebirthIcon: {fileID: 6499674022655950995}
   SelectEffect: {fileID: 4521613172250935710}
   isActive: 0
   minionSize: 5
+  isTrigger: 0
+  myBridge: {fileID: 0}
 --- !u!54 &6499674022878567676
 Rigidbody:
   m_ObjectHideFlags: 0
