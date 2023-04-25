@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
 
     // load data
     [SerializeField] CanvasGroup transportUI;
+    [SerializeField] CanvasGroup cover;
     [SerializeField] GameObject[] minionTemp;
 
     private void Awake(){
@@ -53,16 +54,17 @@ public class GameManager : MonoBehaviour
         }
 
         // Show Game
-        transportUI.gameObject.SetActive(true);
-        transportUI.alpha = 1f;
+        cover.gameObject.SetActive(true);
+        cover.alpha = 1f;
 
-        transportUI.DOFade(0, 3f);
+        cover.DOFade(0, 3f);
     }
 
     private void Update(){
 
-        if (transportUI.gameObject.activeSelf == true && transportUI.alpha <= 0.1f){
-            transportUI.gameObject.SetActive(false);
+        if (cover.gameObject.activeSelf == true && cover.alpha <= 0.1f){
+            cover.gameObject.SetActive(false);
+            cover.alpha = 0f;
         }
 
         if (Input.GetKeyDown(KeyCode.R)){
