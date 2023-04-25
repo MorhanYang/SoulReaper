@@ -151,18 +151,18 @@ public class EnemyBasicAi : MonoBehaviour
     // ******************************************************Flip**********************************************************
     void FlipMinion()
     {
-        if (agent.velocity.x < 0 && isFacingRight) // minion will wave their heads if it is 0
+        //Enemies face right when moving right
+        if (agent.velocity.x < 0)
         {
             enemySpriteRender.flipX = true;
-            isFacingRight = !isFacingRight;
 
         }
-        if (agent.velocity.x > 0 && !isFacingRight)
+        //face left when facing left
+        else if (agent.velocity.x > 0)
         {
             enemySpriteRender.flipX = false;
-            isFacingRight = !isFacingRight;
-
         }
+        //or remain its direction when static
     }
     // ***************************************************Attack************************************************************
     void AttackMethod(GameObject prey)

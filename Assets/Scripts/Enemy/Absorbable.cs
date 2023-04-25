@@ -17,7 +17,12 @@ public class Absorbable : MonoBehaviour
     [SerializeField] bool addHealthMax;
     [SerializeField] bool canRoam = false;
     [SerializeField] float roamInterval = 5f;
+
+    //IsDead
     bool isDead = false;
+    [HideInInspector]
+    public bool isDeadPublic { get { return isDead; } }
+
     float startRoamTime;
     Vector3 destination;
 
