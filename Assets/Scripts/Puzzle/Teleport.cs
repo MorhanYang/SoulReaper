@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 public class Teleport : MonoBehaviour
 {
     [SerializeField] Vector3 PlayerNextPos;
+    [SerializeField] GameObject landSet;
+    List<Transform> landList;
+    [SerializeField] int presentLandID;
+    [SerializeField] int nextLandID;
     [SerializeField] CanvasGroup transportUI;
     [SerializeField] CameraFollow camMain;
     [SerializeField] string sceneName = null; // only use to change scene
@@ -15,12 +19,19 @@ public class Teleport : MonoBehaviour
     bool isFadingOut = false;// decide when transportUI will fade in or out
     float fadeoutTimer = 0;
 
+    Vector3 previousPos;
+
     // teleport minions
     [SerializeField] Vector3 MinionsNextPos;
 
     private void Start()
     {
         player = PlayerManager.instance.player.GetComponent<PlayerControl>();
+
+        landList = new List<Transform>();
+        foreach (Transform child in landSet.transform){
+            landList.Add(child);
+        }
     }
 
     private void Update()
@@ -32,12 +43,26 @@ public class Teleport : MonoBehaviour
                     transportUI.alpha += Time.deltaTime * 2f;
                 }
                 if (transportUI.alpha >= 1){
+                    // show land
+                    landList[nextLandID - 1].gameObject.SetActive(true);// ID start from 1
+
+                    previousPos = player.transform.position;// record previous position for minion teleportation
+
                     player.transform.position = PlayerNextPos;
                     camMain.transform.position = PlayerNextPos + camMain.GetCamOffset();
                     TeleportAllMinions();
                     // save data
+                    player.landID = nextLandID - 1;// ID start from 1
                     SavingSystem.SavePlayer(player);
                     isFadingOut = true;
+
+                    // hide other lands
+                    for (int i = 0; i < landList.Count; i++){
+                        if (i!= nextLandID -1 && i != presentLandID -1)
+                        {
+                            landList[i].gameObject.SetActive(false);
+                        }
+                    }
                 }
             }
             // fade out
@@ -77,8 +102,9 @@ public class Teleport : MonoBehaviour
             for (int j = 0; j < myMinions.Count; j++)
             {
                 // check if the minion is inside the range
-                Debug.Log("Distance " + Vector3.Distance(myMinions[j].transform.position, player.transform.position));
-                if (Vector3.Distance(myMinions[j].transform.position, player.transform.position) < RangeToTeleport)
+                Debug.Log("Enemy Position" + myMinions[j].transform.position);
+                Debug.Log("Distance " + Vector3.Distance(myMinions[j].transform.position, previousPos));
+                if (Vector3.Distance(myMinions[j].transform.position, previousPos) < RangeToTeleport)
                 {
                     
                     // send minions to the position

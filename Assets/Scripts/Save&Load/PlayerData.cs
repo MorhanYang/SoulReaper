@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerData
 {
     public string scene;
+    public int landID;
     public int hpCellNum;
     public float healthMax;
     public float health;
@@ -18,6 +19,7 @@ public class PlayerData
         PlayerHealthBar playerHealthBar = player.GetComponent<PlayerHealthBar>();
 
         scene = player.sceneName;
+        landID = player.landID;
         hpCellNum = playerHealthBar.cellNum;
         healthMax = hpCellNum * 20;// Set 20 as a unit in unity
         health = healthMax;
