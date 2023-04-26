@@ -236,8 +236,17 @@ public class PlayerHealthBar : MonoBehaviour
     {
         if (healingValue + presentHealth > Maxhealth)
         {
+            // get extra health
+            float healthLeft = healingValue + presentHealth - Maxhealth;
             healingValue = Maxhealth - presentHealth;
+
+            // check troops' health
+            for (int i = 0; i < activedTroopList.Count; i++){
+                float remainHealthOfTroop = activedTroopList[i].HealTroop(healthLeft);
+                healthLeft= remainHealthOfTroop;
+            } 
         }
+
         float BarSpaceLeft = indiviualMaxValue - HpInPresentBar;
         if (healingValue <= BarSpaceLeft){
             presentHealth += healingValue;
@@ -364,12 +373,21 @@ public class PlayerHealthBar : MonoBehaviour
     void RegainAbsorbableHP()
     {
         Absorbable myAbsorbabl = MarkedSubject.GetComponent<Absorbable>();
+
+        // check troop hp state
+        bool troopNeedhealth = false;
+        for (int i = 0; i < activedTroopList.Count; i++){
+            if (activedTroopList[i].GetPresentHP() < activedTroopList[i].GetMaxHP()){
+                troopNeedhealth= true;
+                break;
+            }
+        }
+
         // if health is not full
-        if (presentHealth < Maxhealth || myAbsorbabl.addHealthMax)
+        if (presentHealth < Maxhealth || myAbsorbabl.addHealthMax || troopNeedhealth)
         {
             float healValue;
             healValue = myAbsorbabl.TakeLife();
-
             // recovering
             // normal
             if (healValue > 0) Healing(healValue);

@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] CanvasGroup transportUI;
     [SerializeField] CanvasGroup cover;
     [SerializeField] GameObject[] minionTemp;
+    [SerializeField] Transform landset;
+    List<Transform> landList;
 
     private void Awake(){
         instance= this;
@@ -42,6 +44,11 @@ public class GameManager : MonoBehaviour
         playerControl = PlayerManager.instance.player.GetComponent<PlayerControl>();
         playerHealthBar = PlayerManager.instance.player.GetComponent<PlayerHealthBar>();
 
+        // setup land List
+        landList = new List<Transform>();
+        foreach (Transform child in landset){
+            landList.Add(child);
+        }
 
         // setup Spell List
         foreach (Transform item in spellSet){
@@ -92,6 +99,12 @@ public class GameManager : MonoBehaviour
     void SetLoadPlayerData()
     {
         PlayerData data = SavingSystem.LoadPlayer();
+
+        // show land
+        for (int i = 0; i < landList.Count; i++){
+            landList[i].gameObject.SetActive(false);
+        }
+        landList[data.landID].gameObject.SetActive(true);
 
         Vector3 position = new Vector3();
         position.x = data.position[0];
