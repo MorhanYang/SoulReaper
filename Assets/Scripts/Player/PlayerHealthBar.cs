@@ -238,12 +238,13 @@ public class PlayerHealthBar : MonoBehaviour
         {
             // get extra health
             float healthLeft = healingValue + presentHealth - Maxhealth;
+            // player healing value
             healingValue = Maxhealth - presentHealth;
 
             // check troops' health
             for (int i = 0; i < activedTroopList.Count; i++){
                 float remainHealthOfTroop = activedTroopList[i].HealTroop(healthLeft);
-                healthLeft= remainHealthOfTroop;
+                healthLeft = remainHealthOfTroop;
             } 
         }
 
