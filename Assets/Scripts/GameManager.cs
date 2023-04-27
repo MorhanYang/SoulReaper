@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
 
     private void Update(){
 
-        if (cover.gameObject.activeSelf == true && cover.alpha <= 0.1f){
+        if (cover.gameObject.activeSelf == true && cover.alpha <= 0.2f){
             cover.gameObject.SetActive(false);
             cover.alpha = 0f;
         }

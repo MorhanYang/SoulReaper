@@ -119,4 +119,9 @@ public class Puzzle_Bridge : MonoBehaviour
             GetComponent<MeshRenderer>().material.color = newColor;
         }
     }
+
+    public bool GetBridgeState()
+    {
+        return Blocker.activeSelf;
+    }
 }

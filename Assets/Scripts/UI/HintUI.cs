@@ -14,10 +14,22 @@ public class HintUI : MonoBehaviour
 
     int hintId = 0;
 
+    bool needPause = false;
+
     private void Start()
     {
         offest.alpha = 0f;
         hintId = 0;
+    }
+
+    private void Update()
+    {
+        // Pause Game
+        if (offest.alpha >= 1 && needPause)
+        {
+            needPause= false;
+            Time.timeScale = 0f;
+        }
     }
     public void ShowHint()
     {
@@ -26,15 +38,18 @@ public class HintUI : MonoBehaviour
 
     void ShowHintFunction(){
 
-        offest.DOFade(1, 0.6f);
+        offest.DOFade(1, 0.3f);
         //offest.SetActive(true);
         diagram.sprite = diagramList[hintId];
         text.text = textList[hintId];
         if (hintId < (textList.Length - 1) && hintId < (diagramList.Length - 1)) hintId++;
+
+        needPause = true;
     }
     public void HideHint() 
     {
         offest.DOFade(0, 0.6f);
         //offest.SetActive(false);
+        Time.timeScale= 1f;
     }
 }

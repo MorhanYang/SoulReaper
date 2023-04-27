@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Fungus;
 using System.Collections;
 using System.Collections.Generic;
@@ -267,9 +268,10 @@ public class PlayerControl : MonoBehaviour
 
             timeCount += Time.deltaTime;
 
-            if (timeCount >= 0.7f && radius > 0.2f){
-                effect.transform.localScale *= 0.6f;
-                radius *= 0.6f;
+            if (timeCount >= 0.7f && radius > 0.3f){
+                effect.transform.DOScale(effect.transform.localScale * 0.6f, 0.2f);
+                //effect.transform.localScale *= 0.6f;
+                radius *= 0.65f;
 
                 timeCount = 0;
             }
