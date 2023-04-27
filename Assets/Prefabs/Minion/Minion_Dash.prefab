@@ -309,8 +309,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6499674022655950995}
   m_LocalRotation: {x: 0.38268343, y: -0, z: -0, w: 0.92387956}
-  m_LocalPosition: {x: 0.125, y: 0.74999976, z: 0.6249997}
-  m_LocalScale: {x: 0.2, y: 0.20000002, z: 0.20000002}
+  m_LocalPosition: {x: 0, y: 0.75, z: 0.5}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8820282583806114310}
@@ -357,7 +357,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1292131467, guid: 123fe0b12d1108d48885b0611cdb06a2, type: 3}
+  m_Sprite: {fileID: -1349812122, guid: 8c16933f4b1c5644ca51b3164378d638, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -763,7 +763,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 8820282583806114311}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.1
+  m_Radius: 0.3
   m_Speed: 1.5
   m_Acceleration: 20
   avoidancePriority: 50
@@ -833,6 +833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d905b1298ac4c3f4cbb0668af3f2e8c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minionName: Morgan
   myAnimator: {fileID: 6499674022657197127}
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
   getDamageRate: 0.2
@@ -868,10 +869,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.2
-  m_Height: 0.6
+  m_Radius: 0.4
+  m_Height: 0.8
   m_Direction: 1
-  m_Center: {x: 0, y: 0.3, z: 0}
+  m_Center: {x: 0, y: 0.4, z: 0}
 --- !u!114 &6499674022826276850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -992,7 +993,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8820282584266638189}
   m_LocalRotation: {x: 0.38268343, y: -0, z: -0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: -0.1, z: -0.23}
+  m_LocalPosition: {x: 0, y: -0.1, z: -0.5}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []

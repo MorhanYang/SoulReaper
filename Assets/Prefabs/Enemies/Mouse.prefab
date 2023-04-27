@@ -64,6 +64,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectEffect: {fileID: 5728332609312317931}
   mysprite: {fileID: 5728332608510709634}
+  particle: {fileID: 7725141086287639043}
   hp: 5
   addHealthMax: 0
   canRoam: 1
@@ -384,6 +385,11 @@ PrefabInstance:
       objectReference: {fileID: -923102557, guid: 7fb9b81d14fd7514aa4914a7b1eb866f, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6de2c85b401b3f429dc3d90b6acf7d3, type: 3}
+--- !u!1 &7725141086287639043 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6122476337324577746, guid: a6de2c85b401b3f429dc3d90b6acf7d3, type: 3}
+  m_PrefabInstance: {fileID: 4594323807212429777}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7725141086287639044 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6122476337324577749, guid: a6de2c85b401b3f429dc3d90b6acf7d3, type: 3}

@@ -66,7 +66,8 @@ public class PlayerControl : MonoBehaviour
     SoundManager mySoundManagers;
 
     // present Level
-    [HideInInspector]public string sceneName;
+    [HideInInspector] public string sceneName;
+    [HideInInspector] public int landID;
 
     void Start()
     {
@@ -270,7 +271,6 @@ public class PlayerControl : MonoBehaviour
                 effect.transform.localScale *= 0.6f;
                 radius *= 0.6f;
 
-                Debug.Log("radius" + radius);
                 timeCount = 0;
             }
         }

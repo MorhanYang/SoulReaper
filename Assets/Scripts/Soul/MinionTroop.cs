@@ -163,7 +163,8 @@ public class MinionTroop : MonoBehaviour
     {
         // special minion
         if (TroopSpaceLeft <=0 && TroopMember.Count <=1){
-            memberNum.text = "Special";
+            string name = TroopMember[0].minionName;
+            memberNum.text = name;
         }
         else memberNum.text = (MaxMember - TroopSpaceLeft) + "/" + MaxMember;
     }
@@ -226,9 +227,31 @@ public class MinionTroop : MonoBehaviour
         } 
     }
 
+    public float HealTroop( float healNum )
+    {
+        float leftHealth = healNum - (health.Maxhealth - health.presentHealth);
+
+        if (leftHealth < 0) {
+            health.presentHealth += healNum;
+            health.HealthUpdate();
+            return 0;
+        }
+        else { 
+            health.presentHealth = health.Maxhealth;
+            health.HealthUpdate();
+            return leftHealth;
+        }
+
+        
+    }
+
     public float GetPresentHP()
     {
         return health.presentHealth;
+    }
+    public float GetMaxHP()
+    {
+        return health.Maxhealth;
     }
 
     void ReduceMinionsDamge()

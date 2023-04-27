@@ -11,6 +11,7 @@ public class Minion : MonoBehaviour
     NavMeshAgent myagent;
     SoundManager mySoundManager;
 
+    public string minionName;
     [SerializeField] Animator myAnimator;
     [SerializeField] GameObject recallingMinion;
     [SerializeField] float getDamageRate = 0.5f;

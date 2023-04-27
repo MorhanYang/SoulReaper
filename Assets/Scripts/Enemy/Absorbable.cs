@@ -9,6 +9,7 @@ public class Absorbable : MonoBehaviour
 {
     [SerializeField] GameObject selectEffect;
     [SerializeField] SpriteRenderer mysprite;
+    [SerializeField] GameObject particle;
     PlayerHealthBar playerHP;
     NavMeshAgent agent;
     CursorManager cursorManager;
@@ -110,6 +111,7 @@ public class Absorbable : MonoBehaviour
             mySoundManager.PlaySoundAt(PlayerManager.instance.player.gameObject.transform.position, "Release", false, false, 1, 1, 100, 100);
 
             mysprite.color = Color.gray;
+            particle.SetActive(false);
             isDead = true;
 
             // stop movement
