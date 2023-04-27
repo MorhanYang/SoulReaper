@@ -125,14 +125,14 @@ public class Teleport : MonoBehaviour
 
                     j++;
                 }
-
-                // Mytroop.count can change so we need to control when i should add.
-                if (myTroops.Count != MytroopOriginalLength){
-                    MytroopOriginalLength = myTroops.Count;
-                }
-                else i++; 
-
             }
+
+            // Mytroop.count can change so we need to control when i should add.
+            if (myTroops.Count != MytroopOriginalLength)
+            {
+                MytroopOriginalLength = myTroops.Count;
+            }
+            else i++;
         }
 
         
