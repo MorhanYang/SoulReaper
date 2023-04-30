@@ -28,7 +28,7 @@ public class VinesSingle : MonoBehaviour
     void Start()
     {
         MyStates = States.Neutral;
-        a = Random.Range(2, 7);
+        a = Random.Range(4, 10);
         b = Random.Range(10, 15);
         c = Random.Range(0f, 2f);
         //SpawnVine();
@@ -38,7 +38,7 @@ public class VinesSingle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*
+        
         if (Input.GetKeyDown(KeyCode.Q)) 
         {
             StartSpawnVine();
@@ -48,7 +48,9 @@ public class VinesSingle : MonoBehaviour
         {
             StartKillVine();
         }
-        */
+
+        float Direction = transform.eulerAngles.y;
+        //Debug.Log(Direction);
     }
 
     public void StartSpawnVine() 
@@ -75,14 +77,11 @@ public class VinesSingle : MonoBehaviour
 
             float size = Random.Range(0.2f, 1f);
             gap = 0.12f * size;
-
             x += gap;
             float y = 0.07f * (Mathf.Sin(a * (x + c)) + 0.2f * Mathf.Sin(b * (x + c)));
-            //I assume that all cameras are set at -45 degrees;
-            //sqrt2 is about 1.414
-            //we also want to 
+            float z = 0.07f * (Mathf.Cos(a * (x + c)) + 0.2f * Mathf.Cos(b * (x + c)));
             GameObject NextSegment = Instantiate(Segments, transform);
-            NextSegment.transform.localPosition = new Vector3(x, y / 1.414f, y / 1.414f + -0.001f * (float)i);
+            NextSegment.transform.localPosition = new Vector3(x, y, z);
             NextSegment.transform.eulerAngles = new Vector3(45f,0,0);
             Segments.transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0.3f + ColorModifier, 0.4f + ColorModifier, 0.2f, 1);
             NextSegment.transform.localScale = new Vector3(size, size, size);

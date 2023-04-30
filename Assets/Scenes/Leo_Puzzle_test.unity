@@ -5588,8 +5588,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: {fileID: 0}
-  minionTemple:
-  - {fileID: 2329640087748747304, guid: b7ed528af67ac0e47bacc2885a5712fb, type: 3}
+  minionIconManager: {fileID: 0}
   memberNum: {fileID: 1726079777}
   MaxMember: 6
   selectSprite: {fileID: 0}
@@ -7333,6 +7332,7 @@ MonoBehaviour:
   myCanvas: {fileID: 1674787327}
   text: {fileID: 1064172960}
   maxNum: 0
+  bait: {fileID: 0}
 --- !u!65 &485260789
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11258,6 +11258,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3465218628200377995, guid: 3aa60996c2d354c4ca58a925a2cfcbde, type: 3}
+      propertyPath: m_LocalScale.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3465218628200377995, guid: 3aa60996c2d354c4ca58a925a2cfcbde, type: 3}
       propertyPath: m_LocalPosition.x
       value: -14.031568
       objectReference: {fileID: 0}
@@ -11271,19 +11275,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3465218628200377995, guid: 3aa60996c2d354c4ca58a925a2cfcbde, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.895824
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3465218628200377995, guid: 3aa60996c2d354c4ca58a925a2cfcbde, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.09933408
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3465218628200377995, guid: 3aa60996c2d354c4ca58a925a2cfcbde, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.25318205
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3465218628200377995, guid: 3aa60996c2d354c4ca58a925a2cfcbde, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.35146987
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3465218628200377995, guid: 3aa60996c2d354c4ca58a925a2cfcbde, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -11291,11 +11295,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3465218628200377995, guid: 3aa60996c2d354c4ca58a925a2cfcbde, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -31.563
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3465218628200377995, guid: 3aa60996c2d354c4ca58a925a2cfcbde, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 42.844
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3465218628472384959, guid: 3aa60996c2d354c4ca58a925a2cfcbde, type: 3}
       propertyPath: length
@@ -13338,6 +13342,7 @@ MonoBehaviour:
   myCanvas: {fileID: 2082049929}
   text: {fileID: 511485819}
   maxNum: 0
+  bait: {fileID: 0}
 --- !u!65 &915145683
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16768,6 +16773,7 @@ MonoBehaviour:
   myCanvas: {fileID: 444282150}
   text: {fileID: 106551077}
   maxNum: 0
+  bait: {fileID: 0}
 --- !u!65 &1215861723
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19268,8 +19274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: {fileID: 1323810046}
-  minionTemple:
-  - {fileID: 2329640087748747304, guid: b7ed528af67ac0e47bacc2885a5712fb, type: 3}
+  minionIconManager: {fileID: 0}
   memberNum: {fileID: 920752731}
   MaxMember: 6
   selectSprite: {fileID: 0}
@@ -20358,6 +20363,7 @@ MonoBehaviour:
   myCanvas: {fileID: 561091549}
   text: {fileID: 1980416967}
   maxNum: 0
+  bait: {fileID: 0}
 --- !u!65 &1408722111
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32021,6 +32027,7 @@ MonoBehaviour:
   myCanvas: {fileID: 1711542884}
   text: {fileID: 420336590}
   maxNum: 0
+  bait: {fileID: 0}
 --- !u!65 &2003747492
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34183,7 +34190,7 @@ SpriteRenderer:
   m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &4700196932246563130
