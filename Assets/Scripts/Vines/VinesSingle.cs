@@ -38,6 +38,7 @@ public class VinesSingle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.Q)) 
         {
             StartSpawnVine();
@@ -47,14 +48,15 @@ public class VinesSingle : MonoBehaviour
         {
             StartKillVine();
         }
+        */
     }
 
-    void StartSpawnVine() 
+    public void StartSpawnVine() 
     {
         StartCoroutine(SpawnVine());
     }
 
-    void StartKillVine()
+    public void StartKillVine()
     {
         StartCoroutine(KillVine());
     }
@@ -79,7 +81,9 @@ public class VinesSingle : MonoBehaviour
             //I assume that all cameras are set at -45 degrees;
             //sqrt2 is about 1.414
             //we also want to 
-            GameObject NextSegment = Instantiate(Segments, transform.position + new Vector3(x, y / 1.414f, y / 1.414f + -0.001f * (float)i), Segments.transform.rotation, transform);
+            GameObject NextSegment = Instantiate(Segments, transform);
+            NextSegment.transform.localPosition = new Vector3(x, y / 1.414f, y / 1.414f + -0.001f * (float)i);
+            NextSegment.transform.eulerAngles = new Vector3(45f,0,0);
             Segments.transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0.3f + ColorModifier, 0.4f + ColorModifier, 0.2f, 1);
             NextSegment.transform.localScale = new Vector3(size, size, size);
             MySegs.Add(NextSegment);
