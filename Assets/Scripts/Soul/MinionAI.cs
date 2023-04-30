@@ -266,7 +266,7 @@ public class MinionAI : MonoBehaviour
 
     void SprintFunction()
     {
-        if (sprintTimer > 5.5f){
+        if (sprintTimer > 3f){
             agent.speed = NormalSpeed;
             StartRoam();
             GetRoamingStartPos();
