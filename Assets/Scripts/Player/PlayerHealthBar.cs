@@ -2,9 +2,6 @@ using DG.Tweening;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
-using static MinionAI;
 
 public class PlayerHealthBar : MonoBehaviour
 {
@@ -238,12 +235,13 @@ public class PlayerHealthBar : MonoBehaviour
         {
             // get extra health
             float healthLeft = healingValue + presentHealth - Maxhealth;
+            // player healing value
             healingValue = Maxhealth - presentHealth;
 
             // check troops' health
             for (int i = 0; i < activedTroopList.Count; i++){
                 float remainHealthOfTroop = activedTroopList[i].HealTroop(healthLeft);
-                healthLeft= remainHealthOfTroop;
+                healthLeft = remainHealthOfTroop;
             } 
         }
 

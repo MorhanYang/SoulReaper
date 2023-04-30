@@ -22,7 +22,7 @@ public class Puzzle_Bridge : MonoBehaviour
 
     Vector3 initalPos;
     Vector3 destination;
-    [HideInInspector]public bool isWalkable = false;
+    public bool isWalkable = false;
 
     private void Start()
     {
@@ -102,7 +102,8 @@ public class Puzzle_Bridge : MonoBehaviour
     }
 
     public void OpenBlocker(){
-        Blocker.SetActive(false);
+        if(Blocker !=null) Blocker.SetActive(false);
+        Debug.Log("open Blocker " + gameObject.name);
 
         // transparent control
         if (canTransparent){
@@ -118,5 +119,10 @@ public class Puzzle_Bridge : MonoBehaviour
             Color newColor = new Color(myColor.r, myColor.g, myColor.b, 1f);
             GetComponent<MeshRenderer>().material.color = newColor;
         }
+    }
+
+    public bool GetBridgeState()
+    {
+        return Blocker.activeSelf;
     }
 }

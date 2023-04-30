@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d905b1298ac4c3f4cbb0668af3f2e8c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minionName: Vines
+  minionType: 2
   myAnimator: {fileID: 2836430135377202399}
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
   getDamageRate: 0.8

@@ -180,7 +180,6 @@ public class MinionAI : MonoBehaviour
     public void SetToWait(){
         minionState = MinionSate.Wait;
         agent.SetDestination(transform.position);
-        faintEffect.SetActive(true);
 
         assignIcon.SetActive(false);
     }
@@ -206,18 +205,18 @@ public class MinionAI : MonoBehaviour
 
     public bool CanAssign()
     {
-        if (minionState == MinionSate.Sprint ||
-            minionState == MinionSate.Roam ||
-            minionState == MinionSate.Wait)
+        if (minionState == MinionSate.Follow ||
+            minionState == MinionSate.Roam)
         {
             return true;
         }
         else return false;
     }
 
-    void StartRoam() // it is used for live minion
+    public void StartRoam() // it is used for live minion
     {
-        if(minionState != MinionSate.Dead && minionState != MinionSate.Bait)
+        agent.speed = NormalSpeed;
+        if (minionState != MinionSate.Dead && minionState != MinionSate.Bait)
         {
             minionState = MinionSate.Roam;
             GetRoamingStartPos();
@@ -267,7 +266,7 @@ public class MinionAI : MonoBehaviour
 
     void SprintFunction()
     {
-        if (sprintTimer > 5.5f){
+        if (sprintTimer > 3f){
             agent.speed = NormalSpeed;
             StartRoam();
             GetRoamingStartPos();

@@ -10,6 +10,8 @@ public class Puzzle_WeightTrigger : MonoBehaviour
     [SerializeField] Canvas myCanvas;
     [SerializeField] TMP_Text text;
     [SerializeField] int maxNum;
+    [SerializeField] Bait bait;
+
     int presentNum;
 
     int objectsNeeded = 1;
@@ -52,6 +54,9 @@ public class Puzzle_WeightTrigger : MonoBehaviour
 
                 if (myBridge != null) myBridge.AddObject(addNum);
             }
+            else{
+                bait.gameObject.SetActive(false);// hide bait and stop trap minion if reach max
+            }
 
             // UI display
             if (other.GetComponent<PlayerControl>() != null) objectCount += 1;
@@ -77,28 +82,25 @@ public class Puzzle_WeightTrigger : MonoBehaviour
             if (other.GetComponent<Minion>() != null) objectCount -= other.GetComponent<Minion>().minionSize;// ui don't care about the max
             text.text = objectCount + " / " + objectsNeeded;
 
-            if (objectCount <= presentNum && presentNum > 0) // only when trigger don't have enough minion functrion start to detract
+            if (objectCount < presentNum && presentNum > 0) // only when trigger don't have enough minion functrion start to detract
             {
                 Debug.Log("Detract");
-                if (other.GetComponent<Minion>() != null && other.GetComponent<Minion>().minionSize > 1)
-                {
+                if (other.GetComponent<Minion>() != null && other.GetComponent<Minion>().minionSize > 1){
                     int size = other.GetComponent<Minion>().minionSize;
 
-                    if (size > presentNum)
-                    {
+                    if (size > presentNum){
                         detractNum = presentNum;
                     }
                     else detractNum = size;
 
                     presentNum -= detractNum;
                 }
-                else
-                {
+                else{
                     presentNum -= detractNum;
                 }
 
-
                 if (myBridge != null) myBridge.DetractObject(detractNum);
+                bait.gameObject.SetActive(true);
             }
 
             // Move platform upward

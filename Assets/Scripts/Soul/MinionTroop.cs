@@ -8,10 +8,10 @@ public class MinionTroop : MonoBehaviour
 {
     [SerializeField] Health health; // serializedField to solve reset problem (can get access before end of the frame)
     PlayerHealthBar playerHealthBar;
+    [SerializeField]MinionBarIcon minionIconManager;
 
     List<Minion> TroopMember;
 
-    [SerializeField] GameObject[] minionTemple;
     [SerializeField] TMP_Text memberNum;
     [SerializeField] int MaxMember = 5;
     [SerializeField] GameObject selectSprite;
@@ -116,10 +116,6 @@ public class MinionTroop : MonoBehaviour
     }
 
     // ************************************************* Share property ***************************************
-    public GameObject GetMinionTemple(int TempleNum)
-    {
-        return minionTemple[TempleNum];
-    }
     public int GetTroopEmptySpace()
     {
         return TroopSpaceLeft;
@@ -161,12 +157,8 @@ public class MinionTroop : MonoBehaviour
 
     void UpdateMemberNumText()
     {
-        // special minion
-        if (TroopSpaceLeft <=0 && TroopMember.Count <=1){
-            string name = TroopMember[0].minionName;
-            memberNum.text = name;
-        }
-        else memberNum.text = (MaxMember - TroopSpaceLeft) + "/" + MaxMember;
+        // special & normal 
+        minionIconManager.UpdateMinionIcon(TroopMember[0].minionType, MaxMember - TroopSpaceLeft);
     }
 
     public void AddTroopMember(Minion member) {
@@ -186,6 +178,7 @@ public class MinionTroop : MonoBehaviour
             //if don't have minions left in the troop
             if (TroopMember.Count <= 1)
             {
+                TroopMember.Remove(member);
                 member.SetInactive(false);
                 playerHealthBar.RemoveTroopFromPlayerHealth(this,true);
             }

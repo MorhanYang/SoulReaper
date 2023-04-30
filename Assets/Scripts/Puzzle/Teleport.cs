@@ -95,29 +95,44 @@ public class Teleport : MonoBehaviour
     {
         // get all minions 
         List<MinionTroop> myTroops = player.GetComponent<PlayerHealthBar>().GetActivedTroop();
-        for (int i = 0; i < myTroops.Count; i++)
+        int MytroopOriginalLength = myTroops.Count;
+        for (int i = 0; i < myTroops.Count;) 
         {
+
             // get all minion in each troop
-            List<Minion> myMinions = myTroops[i].GetMinionList();
-            for (int j = 0; j < myMinions.Count; j++)
+            List<Minion> myMinionList = myTroops[i].GetMinionList();
+
+            for (int j = 0; j < myMinionList.Count;) // Removing minions will change myMinionList.Count value.
             {
+                // Removing minions will change myMinionList.Count value. break for loop when there is no items
+
                 // check if the minion is inside the range
-                Debug.Log("Enemy Position" + myMinions[j].transform.position);
-                Debug.Log("Distance " + Vector3.Distance(myMinions[j].transform.position, previousPos));
-                if (Vector3.Distance(myMinions[j].transform.position, previousPos) < RangeToTeleport)
+                if (Vector3.Distance(myMinionList[j].transform.position, previousPos) > RangeToTeleport){
+                    // kill the out range minion and regain hp
+                    MinionTroop myTroop = myMinionList[j].GetComponent<Minion>().GetTroop();
+                    myTroop.RemoveTroopMember(myMinionList[j]);
+                }
+                else 
                 {
-                    
                     // send minions to the position
-                    myMinions[j].GetComponent<NavMeshAgent>().enabled = false;
-                    myMinions[j].transform.position = MinionsNextPos;
-                    myMinions[j].GetComponent<NavMeshAgent>().enabled = true;
+                    MinionAI myAI = myMinionList[j].GetComponent<MinionAI>();
+                    NavMeshAgent myAgent = myMinionList[j].GetComponent<NavMeshAgent>();
+                    myAgent.enabled = false;
+                    myMinionList[j].transform.position = MinionsNextPos;
+                    myAgent.enabled = true;
+                    myAgent.SetDestination(player.transform.position);
+                    myAI.StartRoam();
+
+                    j++;
                 }
-                else // kill the out range minion and regain hp
-                {
-                    myMinions[j].GetComponent<Minion>().GetTroop().RemoveTroopMember(myMinions[j]);
-                }
-                
             }
+
+            // Mytroop.count can change so we need to control when i should add.
+            if (myTroops.Count != MytroopOriginalLength)
+            {
+                MytroopOriginalLength = myTroops.Count;
+            }
+            else i++;
         }
 
         
