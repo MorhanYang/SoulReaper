@@ -326,6 +326,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Shelf 1_10
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 64
+        width: 12
+        height: 10
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 811ab6a14c3abfc4ca0676072a3ed2fe
+      internalID: 17872962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shelf 1_11
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 64
+        width: 12
+        height: 14
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0c085fd5ad5a9447a2217b6bd366089
+      internalID: 1167713838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -340,10 +382,12 @@ TextureImporter:
       Shelf 1_3: 1320143501
       Shelf 1_6: -2011057699
       Shelf 1_7: -2061790925
+      Shelf 1_10: 17872962
       Shelf 1_2: 1270640435
       Shelf 1_1: -274208930
       Shelf 1_9: -1641888781
       Shelf 1_0: 1050800797
+      Shelf 1_11: 1167713838
       Shelf 1_8: -182946441
       Shelf 1_5: 997456153
       Shelf 1_4: -250356137

@@ -91,6 +91,7 @@ public class GameManager : MonoBehaviour
     public void LoadPlayerData()
     {
         // show load cover
+        transportUI.gameObject.SetActive(true);
         transportUI.DOFade(1,0.4f);
         playerControl.SetPlayerToTeleporting();
 
@@ -129,32 +130,32 @@ public class GameManager : MonoBehaviour
             Debug.Log("MinionNum" + minionList.Count);
             for (int j = 0; j < minionList.Count; j++)
             {
-                Destroy(minionList[j].gameObject);
+                minionList[i].SetInactive(false);
             }
             //remove troop bar Ui
             playerHealthBar.RemoveTroopFromPlayerHealth(minionTroops[i], false);
         }
         playerHealthBar.CleanTroopList();
 
-        // add minion
-        List<Minion> allMinion = new List<Minion>();
-        for (int i = 0; i < data.normalMinionNum; i++){
-            GameObject minion = Instantiate(minionTemp[0], position + new Vector3(-0.8f, 0, 0), transform.rotation);
-            allMinion.Add(minion.GetComponent<Minion>());
-        }
-        for (int i = 0; i < data.specialMinionNum; i++){
-            GameObject minion = Instantiate(minionTemp[1], position + new Vector3(-0.8f, 0, 0), transform.rotation);
-            allMinion.Add(minion.GetComponent<Minion>());
-        }
+        //// add minion
+        //List<Minion> allMinion = new List<Minion>();
+        //for (int i = 0; i < data.normalMinionNum; i++){
+        //    GameObject minion = Instantiate(minionTemp[0], position + new Vector3(-0.8f, 0, 0), transform.rotation);
+        //    allMinion.Add(minion.GetComponent<Minion>());
+        //}
+        //for (int i = 0; i < data.specialMinionNum; i++){
+        //    GameObject minion = Instantiate(minionTemp[1], position + new Vector3(-0.8f, 0, 0), transform.rotation);
+        //    allMinion.Add(minion.GetComponent<Minion>());
+        //}
 
-        // Revive Minions
-        playerHealthBar.ReviveTroopLoading(allMinion);
-        allMinion.Clear();
+        //// Revive Minions
+        //playerHealthBar.ReviveTroopLoading(allMinion);
+        //allMinion.Clear();
 
         Invoke("HideTransportUI", 0.5f);
     }
     void HideTransportUI(){
-        transportUI.DOFade(0, 0.4f);
+        transportUI.gameObject.SetActive(false);
         playerControl.inActivateTeleporting();
     }
 
@@ -232,8 +233,7 @@ public class GameManager : MonoBehaviour
             myMarker = Instantiate(AimMarker, subject.position, subject.rotation, subject);
         }
 
-
-        Destroy(myMarker, 0.8f);
+        Destroy(myMarker, 0.5f);
     }
 
 

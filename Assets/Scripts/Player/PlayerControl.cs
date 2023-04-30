@@ -1,4 +1,3 @@
-using DG.Tweening;
 using Fungus;
 using System.Collections;
 using System.Collections.Generic;
@@ -267,11 +266,13 @@ public class PlayerControl : MonoBehaviour
             effect.transform.position = aimPos;
 
             timeCount += Time.deltaTime;
+            ReviveRangeMark marker = effect.GetComponent<ReviveRangeMark>();
 
-            if (timeCount >= 0.7f && radius > 0.3f){
-                effect.transform.DOScale(effect.transform.localScale * 0.6f, 0.2f);
+            if (timeCount >= 1f && radius > 0.4f){
+                marker.ShrinkMarker();
+                //effect.transform.DOScale(effect.transform.localScale * 0.4f, 0.2f);
                 //effect.transform.localScale *= 0.6f;
-                radius *= 0.65f;
+                radius *= 0.45f;
 
                 timeCount = 0;
             }
@@ -345,7 +346,7 @@ public class PlayerControl : MonoBehaviour
 
     IEnumerator ContinueAssignMinion()
     {
-        float holdTime = 0.4f;
+        float holdTime = 0.3f;
         // loop
         while (assignMinionTimer < holdTime && Input.GetMouseButton(0))
         {
