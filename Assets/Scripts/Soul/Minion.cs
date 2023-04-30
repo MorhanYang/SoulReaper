@@ -30,6 +30,7 @@ public class Minion : MonoBehaviour
     public int minionSize = 1; // only can be maxTroopCapacity(PlayerHealthBar) or 1
     [SerializeField] bool isTrigger;
     [SerializeField] Puzzle_Bridge myBridge;
+    [SerializeField] Puzzle_Vine myVines;
 
     private void Awake()
     {
@@ -119,17 +120,21 @@ public class Minion : MonoBehaviour
 
         // trigger
         if (isTrigger && isActive){
-            myBridge.AddObject(1);
+            if(myBridge != null) myBridge.AddObject(1);
+            if(myVines != null) myVines.AddObject(1);
             gameObject.layer = LayerMask.NameToLayer("Default");
         }
     }
     public void SetInactive(bool needRecallEffect)
     {
         // normal minion
-        if(!isTrigger)myAI.InactiveMinion();
+        if(!isTrigger) myAI.InactiveMinion();
 
         // trigger
-        if (isTrigger) myBridge.DetractObject(1);
+        if (isTrigger){
+            if (myBridge != null) myBridge.DetractObject(1);
+            if (myVines) myVines.DetractObject(1); 
+        }
         // set data
         myTroop = null;
         gameObject.layer = LayerMask.NameToLayer("Minion");

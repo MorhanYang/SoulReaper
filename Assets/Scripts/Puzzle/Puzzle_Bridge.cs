@@ -112,7 +112,7 @@ public class Puzzle_Bridge : MonoBehaviour
         }
     }
     public void CloseBlocker(){
-        Blocker.SetActive(true);
+        if (Blocker != null) Blocker.SetActive(true);
 
         // transparent control
         if (canTransparent){
