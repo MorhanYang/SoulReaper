@@ -346,7 +346,7 @@ public class PlayerControl : MonoBehaviour
 
     IEnumerator ContinueAssignMinion()
     {
-        float holdTime = 0.3f;
+        float holdTime = 0.2f;
         // loop
         while (assignMinionTimer < holdTime && Input.GetMouseButton(0))
         {

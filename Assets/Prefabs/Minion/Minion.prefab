@@ -394,9 +394,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1c500967a870f540a090f5bb9c11852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRang: 0.4
-  SprintSpeed: 3
-  NormalSpeed: 1.7
+  attackRang: 0.45
+  SprintSpeed: 3.2
+  NormalSpeed: 1.8
   searchingRange: 2
   minionSprite: {fileID: 2329640088932374848}
   assignIcon: {fileID: 961283761}
@@ -432,6 +432,7 @@ MonoBehaviour:
   minionSize: 1
   isTrigger: 0
   myBridge: {fileID: 0}
+  myVines: {fileID: 0}
 --- !u!54 &1729562323
 Rigidbody:
   m_ObjectHideFlags: 0

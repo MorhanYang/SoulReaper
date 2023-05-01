@@ -104,7 +104,6 @@ public class Puzzle_Bridge : MonoBehaviour
 
     public void OpenBlocker(){
         if(Blocker !=null) Blocker.SetActive(false);
-        Debug.Log("open Blocker " + gameObject.name);
 
         // transparent control
         if (canTransparent){
