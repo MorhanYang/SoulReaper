@@ -47,9 +47,8 @@ public class Minion : MonoBehaviour
         mySoundManager= SoundManager.Instance;
     }
 
-    private void Update()
-    {
-        myAnimator.SetFloat("MovingSpeed", myagent.velocity.magnitude);
+    private void Update(){
+        if(myAnimator != null) myAnimator.SetFloat("MovingSpeed", myagent.velocity.magnitude);
     }
 
     private void OnMouseEnter(){
@@ -106,8 +105,10 @@ public class Minion : MonoBehaviour
             GameObject effect = Instantiate(recallingMinion, PlayerManager.instance.player.transform.position, transform.rotation);
             effect.GetComponent<RecallingMinion>().AimTo(transform);
 
-            myAnimator.SetBool("Rebirth", true);
-            myAnimator.SetBool("Dying", false);
+            if (myAnimator != null){
+                myAnimator.SetBool("Rebirth", true);
+                myAnimator.SetBool("Dying", false);
+            } 
         }
     }
     void ActiveMinion()
@@ -148,8 +149,10 @@ public class Minion : MonoBehaviour
         }
         
         rebirthIcon.SetActive(true);
-        myAnimator.SetBool("Dying", true);
-        myAnimator.SetBool("Rebirth", false);
+        if (myAnimator != null) {
+            myAnimator.SetBool("Dying", true);
+            myAnimator.SetBool("Rebirth", false);
+        }
 
         DeactivateSeleted();
 

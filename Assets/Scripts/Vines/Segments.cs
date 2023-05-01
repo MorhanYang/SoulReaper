@@ -89,7 +89,6 @@ public class Segments : MonoBehaviour
                                             StemRenderer.color.b + ColorDifference.z * Time.deltaTime,
                                             1
                                           );
-            Debug.Log(StemRenderer.color);
             MySpriteObject.transform.position += new Vector3(0,-1f,0) * Time.deltaTime * timer;
         }
         Destroy(gameObject);

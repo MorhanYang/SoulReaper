@@ -10,6 +10,7 @@ public class Puzzle_Bridge : MonoBehaviour
 
     [SerializeField] int objectsNeeded = 1;
     [SerializeField] bool canTransparent = false;
+    [SerializeField] bool comeback = true;
     int objectCounter;
     Color myColor;
     enum ScriptState
@@ -89,7 +90,7 @@ public class Puzzle_Bridge : MonoBehaviour
         if (objectCounter < objectsNeeded) {
             gameObject.SetActive(true);// setActive then script can run
             destination = initalPos;
-            state = ScriptState.Cancel;
+            if(comeback) state = ScriptState.Cancel;
 
             // Close Blocker
             CloseBlocker();
