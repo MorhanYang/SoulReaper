@@ -351,7 +351,7 @@ TextureImporter:
       name: Shelf 1_11
       rect:
         serializedVersion: 2
-        x: 92
+        x: 88
         y: 64
         width: 12
         height: 14
@@ -364,6 +364,69 @@ TextureImporter:
       bones: []
       spriteID: f0c085fd5ad5a9447a2217b6bd366089
       internalID: 1167713838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shelf 1_12
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 64
+        width: 12
+        height: 14
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3cfc641db7e43a14bab7c4e568b374a4
+      internalID: -487920099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shelf 1_13
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 64
+        width: 12
+        height: 15
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9cb647d329d12144b5fe933e9692aaf
+      internalID: 159346005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shelf 1_14
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 64
+        width: 12
+        height: 13
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ef2fad27e12c0a46b667b9237f5db75
+      internalID: 814765818
       vertices: []
       indices: 
       edges: []
@@ -383,6 +446,7 @@ TextureImporter:
       Shelf 1_6: -2011057699
       Shelf 1_7: -2061790925
       Shelf 1_10: 17872962
+      Shelf 1_14: 814765818
       Shelf 1_2: 1270640435
       Shelf 1_1: -274208930
       Shelf 1_9: -1641888781
@@ -390,7 +454,9 @@ TextureImporter:
       Shelf 1_11: 1167713838
       Shelf 1_8: -182946441
       Shelf 1_5: 997456153
+      Shelf 1_12: -487920099
       Shelf 1_4: -250356137
+      Shelf 1_13: 159346005
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
