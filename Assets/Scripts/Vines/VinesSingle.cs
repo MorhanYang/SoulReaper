@@ -10,6 +10,9 @@ public class VinesSingle : MonoBehaviour
     float b;
     [SerializeField]
     float c;
+    float startX;
+    [SerializeField]
+    float RootLength;
 
     float gap;
     [SerializeField]
@@ -17,6 +20,8 @@ public class VinesSingle : MonoBehaviour
     float ColorModifier;
     [SerializeField]
     private GameObject Segments;
+    [SerializeField]
+    private GameObject MyRoot;
 
     [SerializeField]
     private enum States { Spawning, Dying, Neutral }
@@ -30,9 +35,41 @@ public class VinesSingle : MonoBehaviour
         MyStates = States.Neutral;
         a = Random.Range(4, 10);
         b = Random.Range(10, 15);
-        c = Random.Range(0f, 2f);
+        c = Random.Range(0f, 6.28f);
         //SpawnVine();
         ColorModifier = Random.Range(0f,0.1f);
+
+        float x = 0;
+        for (int i = 0; i < RootLength; i++) 
+        {
+
+            float size = Random.Range(0.8f, 1f) - (i * 0.5f/RootLength);
+            gap = 0.12f * size;
+            x += gap;
+            float y = 0.07f * (Mathf.Sin(a * (x + c)) + 0.2f * Mathf.Sin(b * (x + c)));
+            float z = 0.07f * (Mathf.Cos(a * (x + c)) + 0.2f * Mathf.Cos(b * (x + c)));
+
+            if (i == 0)
+            {
+                MyRoot.transform.localPosition = new Vector3(x, y - 0.05f, z + 0.05f);
+                MyRoot.transform.eulerAngles = new Vector3(45f, 0, 0);
+                MyRoot.transform.GetComponent<SpriteRenderer>().color = new Color(0.3f + ColorModifier, 0.4f + ColorModifier, 0.2f, 1);
+            }
+            else
+            {
+                GameObject NextSegment = Instantiate(Segments, transform);
+                NextSegment.transform.localPosition = new Vector3(x, y, z);
+                NextSegment.transform.eulerAngles = new Vector3(45f, 0, 0);
+                Segments.transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0.3f + ColorModifier, 0.4f + ColorModifier, 0.2f, 1);
+                NextSegment.transform.localScale = new Vector3(size, size, size);
+            }
+
+            if (i == RootLength - 1) 
+            {
+                startX = x;
+            }
+        }
+
     }
 
     // Update is called once per frame
@@ -66,7 +103,7 @@ public class VinesSingle : MonoBehaviour
     IEnumerator SpawnVine()
     {
         MyStates = States.Spawning;
-        float x = 0;
+        float x = startX;
         int count = Mathf.FloorToInt(length / gap);
         for (int i = 0; x < length; i++)
         {
@@ -75,7 +112,7 @@ public class VinesSingle : MonoBehaviour
                 break;
             }
 
-            float size = Random.Range(0.2f, 1f);
+            float size = Random.Range(0.4f, 1f);
             gap = 0.12f * size;
             x += gap;
             float y = 0.07f * (Mathf.Sin(a * (x + c)) + 0.2f * Mathf.Sin(b * (x + c)));
