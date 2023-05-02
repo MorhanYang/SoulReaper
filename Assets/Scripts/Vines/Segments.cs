@@ -74,22 +74,31 @@ public class Segments : MonoBehaviour
 
     IEnumerator Die() 
     {
-        Color TargetColor = new Color(0.4f, 0.3f, 0.3f, 1);
+        Color TargetColor = new Color(0.45f, 0.4f, 0.25f, 1);
         Vector3 ColorDifference = new Vector3(TargetColor.r - StemRenderer.color.r, TargetColor.g - StemRenderer.color.g, TargetColor.b - StemRenderer.color.b);
         float timer = 0;
-        while (MySpriteObject.transform.localScale.x > 0)
+        float BrownTime = 0.5f;
+        float OrignalSize = MySpriteObject.transform.localScale.x;
+        while (timer < BrownTime)
         {
-            timer += Time.deltaTime * 2;
-            size -= Time.deltaTime * 2;
-            MySpriteObject.transform.localScale = new Vector3(1, 1, 1) * size;
+            timer += Time.deltaTime;
             yield return new WaitForEndOfFrame();
             StemRenderer.color = new Color(
-                                            StemRenderer.color.r + ColorDifference.x * Time.deltaTime,
-                                            StemRenderer.color.g + ColorDifference.y * Time.deltaTime,
-                                            StemRenderer.color.b + ColorDifference.z * Time.deltaTime,
+                                            StemRenderer.color.r + ColorDifference.x * Time.deltaTime * (1 / BrownTime),
+                                            StemRenderer.color.g + ColorDifference.y * Time.deltaTime * (1 / BrownTime),
+                                            StemRenderer.color.b + ColorDifference.z * Time.deltaTime * (1 / BrownTime),
                                             1
-                                          );
-            MySpriteObject.transform.position += new Vector3(0,-1f,0) * Time.deltaTime * timer;
+                                            );
+        }
+        timer = 0;
+        float Deathtime = 1;
+        while (timer < Deathtime)
+        {
+            timer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+            size = ((Deathtime - timer)/ Deathtime) * OrignalSize;
+            MySpriteObject.transform.localScale = new Vector3(1, 1, 1) * size;
+            MySpriteObject.transform.position += new Vector3(0, -1f, 0) * Time.deltaTime * timer;
         }
         Destroy(gameObject);
     }
