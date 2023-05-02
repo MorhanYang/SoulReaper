@@ -112,6 +112,7 @@ public class Absorbable : MonoBehaviour
 
             mysprite.color = Color.gray;
             particle.SetActive(false);
+            selectEffect.SetActive(false);
             isDead = true;
 
             // stop movement

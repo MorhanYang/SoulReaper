@@ -19,6 +19,14 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     GameObject SoundPlayer;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            PlaySoundAt(transform.position, "Release", false, false, 1, 1, 100, 100);
+        }
+    }
+
     void Awake()
     {
         if (Instance == null)

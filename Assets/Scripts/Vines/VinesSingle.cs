@@ -76,15 +76,15 @@ public class VinesSingle : MonoBehaviour
     void Update()
     {
         
-        if (Input.GetKeyDown(KeyCode.Q)) 
-        {
-            StartSpawnVine();
-        }
+        //if (Input.GetKeyDown(KeyCode.Q)) 
+        //{
+        //    StartSpawnVine();
+        //}
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            StartKillVine();
-        }
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    StartKillVine();
+        //}
 
         float Direction = transform.eulerAngles.y;
         //Debug.Log(Direction);
@@ -133,7 +133,6 @@ public class VinesSingle : MonoBehaviour
         MyStates = States.Dying;
         for (int i = MySegs.Count - 1; i > -1; i--)
         {
-            Debug.Log("aa");
             MySegs[i].GetComponent<Segments>().StartDie();
             MySegs.Remove(MySegs[i]);
             yield return new WaitForSeconds(0.05f);

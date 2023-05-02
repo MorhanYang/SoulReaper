@@ -12,7 +12,6 @@ public class MinionTroop : MonoBehaviour
 
     List<Minion> TroopMember;
 
-    [SerializeField] TMP_Text memberNum;
     [SerializeField] int MaxMember = 5;
     [SerializeField] GameObject selectSprite;
     // reduce Damge

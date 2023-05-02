@@ -30,6 +30,7 @@ public class Minion : MonoBehaviour
     public int minionSize = 1; // only can be maxTroopCapacity(PlayerHealthBar) or 1
     [SerializeField] bool isTrigger;
     [SerializeField] Puzzle_Bridge myBridge;
+    [SerializeField] Puzzle_Vine myVines;
 
     private void Awake()
     {
@@ -46,9 +47,8 @@ public class Minion : MonoBehaviour
         mySoundManager= SoundManager.Instance;
     }
 
-    private void Update()
-    {
-        myAnimator.SetFloat("MovingSpeed", myagent.velocity.magnitude);
+    private void Update(){
+        if(myAnimator != null) myAnimator.SetFloat("MovingSpeed", myagent.velocity.magnitude);
     }
 
     private void OnMouseEnter(){
@@ -105,8 +105,10 @@ public class Minion : MonoBehaviour
             GameObject effect = Instantiate(recallingMinion, PlayerManager.instance.player.transform.position, transform.rotation);
             effect.GetComponent<RecallingMinion>().AimTo(transform);
 
-            myAnimator.SetBool("Rebirth", true);
-            myAnimator.SetBool("Dying", false);
+            if (myAnimator != null){
+                myAnimator.SetBool("Rebirth", true);
+                myAnimator.SetBool("Dying", false);
+            } 
         }
     }
     void ActiveMinion()
@@ -119,17 +121,21 @@ public class Minion : MonoBehaviour
 
         // trigger
         if (isTrigger && isActive){
-            myBridge.AddObject(1);
+            if(myBridge != null) myBridge.AddObject(1);
+            if(myVines != null) myVines.AddObject(1);
             gameObject.layer = LayerMask.NameToLayer("Default");
         }
     }
     public void SetInactive(bool needRecallEffect)
     {
         // normal minion
-        if(!isTrigger)myAI.InactiveMinion();
+        if(!isTrigger) myAI.InactiveMinion();
 
         // trigger
-        if (isTrigger) myBridge.DetractObject(1);
+        if (isTrigger){
+            if (myBridge != null) myBridge.DetractObject(1);
+            if (myVines) myVines.DetractObject(1); 
+        }
         // set data
         myTroop = null;
         gameObject.layer = LayerMask.NameToLayer("Minion");
@@ -143,8 +149,10 @@ public class Minion : MonoBehaviour
         }
         
         rebirthIcon.SetActive(true);
-        myAnimator.SetBool("Dying", true);
-        myAnimator.SetBool("Rebirth", false);
+        if (myAnimator != null) {
+            myAnimator.SetBool("Dying", true);
+            myAnimator.SetBool("Rebirth", false);
+        }
 
         DeactivateSeleted();
 

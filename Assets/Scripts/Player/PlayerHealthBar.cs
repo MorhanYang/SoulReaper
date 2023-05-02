@@ -100,6 +100,12 @@ public class PlayerHealthBar : MonoBehaviour
         {
             AddHealthMax();
         }
+
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            mySoundManager.PlaySoundAt(mySoundManager.transform.position, "Release", false, false, 1, 1, 100, 100);
+        }
     }
     //****************************************************Initialize & property*************************************************************
     public void InitiatePlayerHPBar()
@@ -419,7 +425,7 @@ public class PlayerHealthBar : MonoBehaviour
                 {
                     if (MinionInCircle[i] != null)
                     {
-                        if (MinionInCircle[i].GetComponent<Minion>().minionSize == maxTroopCapacity)// Special minion
+                        if (MinionInCircle[i].GetComponent<Minion>().minionType == 1)// Special minion
                         {
                             // only add special minion
                             if (presentHealth > indiviualMaxValue){
@@ -431,7 +437,22 @@ public class PlayerHealthBar : MonoBehaviour
                             }
                             else GameManager.instance.PopUpUI(new Vector3(0, 24f, 0), "Not engouh Health");
                         }
-                        else minionSet.Add(MinionInCircle[i].GetComponent<Minion>());
+                        else if (MinionInCircle[i].GetComponent<Minion>().minionType == 0){
+                            minionSet.Add(MinionInCircle[i].GetComponent<Minion>());
+
+                            continue;
+                        }
+                        else if (MinionInCircle[i].GetComponent<Minion>().minionType == 2 && MinionInCircle.Length <= 1){
+                            // only add special minion
+                            if (presentHealth > indiviualMaxValue) {
+                                // clean the list and stop loop
+                                minionSet.Clear();
+                                minionSet.Add(MinionInCircle[i].GetComponent<Minion>());
+
+                                break;
+                            }
+                            else GameManager.instance.PopUpUI(new Vector3(0, 24f, 0), "Not engouh Health");
+                        }
                     }
                 }
 

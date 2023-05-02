@@ -63,10 +63,10 @@ public class Puzzle_WeightTrigger : MonoBehaviour
             if (other.GetComponent<Minion>() != null) objectCount += other.GetComponent<Minion>().minionSize;// ui don't care about the max
             text.text = objectCount + " / " + objectsNeeded;
 
-            // Move platform downward
-            if (objectCount < 5){
-                platform.position = new Vector3(platform.position.x, platform.position.y - 0.01f, platform.position.z);
-            }
+            //// Move platform downward
+            //if (objectCount < 5){
+            //    platform.position = new Vector3(platform.position.x, platform.position.y - 0.01f, platform.position.z);
+            //}
         }
         
     }
@@ -103,10 +103,10 @@ public class Puzzle_WeightTrigger : MonoBehaviour
                 bait.gameObject.SetActive(true);
             }
 
-            // Move platform upward
-            if (objectCount >= 0 ){
-                platform.position = new Vector3(platform.position.x, platform.position.y + 0.01f, platform.position.z);
-            }
+            //// Move platform upward
+            //if (objectCount >= 0 ){
+            //    platform.position = new Vector3(platform.position.x, platform.position.y + 0.01f, platform.position.z);
+            //}
 
         }
     }

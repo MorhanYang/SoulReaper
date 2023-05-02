@@ -84,11 +84,6 @@ public class Segments : MonoBehaviour
             timer += Time.deltaTime;
             yield return new WaitForEndOfFrame();
             StemRenderer.color = new Color(
-                                        StemRenderer.color.r + ColorDifference.x * Time.deltaTime * (1 / BrownTime),
-                                        StemRenderer.color.g + ColorDifference.y * Time.deltaTime * (1 / BrownTime),
-                                        StemRenderer.color.b + ColorDifference.z * Time.deltaTime * (1 / BrownTime),
-                                        1
-                                      );
         }
         timer = 0;
         float Deathtime = 1;

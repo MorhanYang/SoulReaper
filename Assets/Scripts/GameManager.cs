@@ -123,17 +123,18 @@ public class GameManager : MonoBehaviour
 
         // remove previous minion
         List<MinionTroop> minionTroops = playerHealthBar.GetActivedTroop();
-        for (int i = 0; i < minionTroops.Count; i++)
+        int loopTimes = minionTroops.Count;
+        for (int i = 0; i < loopTimes; i++)
         {
             //destory Minion
-            List<Minion> minionList = minionTroops[i].GetMinionList();
+            List<Minion> minionList = minionTroops[0].GetMinionList();
             Debug.Log("MinionNum" + minionList.Count);
             for (int j = 0; j < minionList.Count; j++)
             {
-                minionList[i].SetInactive(false);
+                minionList[j].SetInactive(false);
             }
             //remove troop bar Ui
-            playerHealthBar.RemoveTroopFromPlayerHealth(minionTroops[i], false);
+            playerHealthBar.RemoveTroopFromPlayerHealth(minionTroops[0], false);// it will remove the troop, cause minion count change
         }
         playerHealthBar.CleanTroopList();
 
