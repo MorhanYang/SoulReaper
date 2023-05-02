@@ -11,6 +11,7 @@ public class Puzzle_WeightTrigger : MonoBehaviour
     [SerializeField] TMP_Text text;
     [SerializeField] int maxNum;
     [SerializeField] Bait bait;
+    [SerializeField] GameObject glowingCircuit;
 
     int presentNum;
 
@@ -36,6 +37,7 @@ public class Puzzle_WeightTrigger : MonoBehaviour
         {
             if (presentNum < maxNum)
             {
+
                 if (other.GetComponent<Minion>() != null && other.GetComponent<Minion>().minionSize > 1)
                 {
                     int size = other.GetComponent<Minion>().minionSize;
@@ -53,6 +55,9 @@ public class Puzzle_WeightTrigger : MonoBehaviour
 
 
                 if (myBridge != null) myBridge.AddObject(addNum);
+
+                //show light
+                glowingCircuit.SetActive(true);
             }
             else{
                 bait.gameObject.SetActive(false);// hide bait and stop trap minion if reach max
@@ -101,6 +106,9 @@ public class Puzzle_WeightTrigger : MonoBehaviour
 
                 if (myBridge != null) myBridge.DetractObject(detractNum);
                 bait.gameObject.SetActive(true);
+
+                //hide light
+                glowingCircuit.SetActive(false);
             }
 
             //// Move platform upward

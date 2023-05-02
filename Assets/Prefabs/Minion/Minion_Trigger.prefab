@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minionType: 2
-  myAnimator: {fileID: 2836430135377202399}
+  myAnimator: {fileID: 0}
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
   getDamageRate: 0.8
   rebirthIcon: {fileID: 2836430135374120971}
