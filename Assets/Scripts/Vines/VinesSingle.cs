@@ -39,15 +39,15 @@ public class VinesSingle : MonoBehaviour
     void Update()
     {
         
-        if (Input.GetKeyDown(KeyCode.Q)) 
-        {
-            StartSpawnVine();
-        }
+        //if (Input.GetKeyDown(KeyCode.Q)) 
+        //{
+        //    StartSpawnVine();
+        //}
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            StartKillVine();
-        }
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    StartKillVine();
+        //}
 
         float Direction = transform.eulerAngles.y;
         //Debug.Log(Direction);

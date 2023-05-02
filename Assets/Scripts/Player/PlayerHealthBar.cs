@@ -100,6 +100,12 @@ public class PlayerHealthBar : MonoBehaviour
         {
             AddHealthMax();
         }
+
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            mySoundManager.PlaySoundAt(mySoundManager.transform.position, "Release", false, false, 1, 1, 100, 100);
+        }
     }
     //****************************************************Initialize & property*************************************************************
     public void InitiatePlayerHPBar()
