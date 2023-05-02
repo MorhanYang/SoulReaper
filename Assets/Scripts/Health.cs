@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
     [SerializeField] Canvas hpUI;
-    [SerializeField] RectTransform hpBar;
+    [SerializeField] Image hpBar;
     public float Maxhealth;
     public float presentHealth;
 
     // invincible
     float invincibleTimer = 0;
 
-    float initialHPBarWidth;
 
     private void Awake()
     {
@@ -21,8 +21,6 @@ public class Health : MonoBehaviour
 
     private void OnEnable()
     {
-        initialHPBarWidth = hpBar.sizeDelta.x;
-
         HealthUpdate();
     }
     private void Update()
@@ -52,8 +50,7 @@ public class Health : MonoBehaviour
 
     public void HealthUpdate()
     {
-        Vector2 presentHpBarSize = new Vector2((presentHealth / Maxhealth) * initialHPBarWidth, hpBar.sizeDelta.y);
-        hpBar.sizeDelta = presentHpBarSize;
+        hpBar.fillAmount = presentHealth / Maxhealth;
     }
 
     public void Invincible(float delay, float duration) {
