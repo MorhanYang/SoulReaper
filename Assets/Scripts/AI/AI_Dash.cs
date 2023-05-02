@@ -19,11 +19,16 @@ public class AI_Dash : MonoBehaviour
     List<Collider> DamagedTarget = new List<Collider>();
     NavMeshAgent agent;
 
+    SoundManager mySoundManager;
+    bool dashed = false;
+
 
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         presentDashSpeed = dashSpeed;
+
+        mySoundManager = SoundManager.Instance;
     }
 
 
@@ -43,6 +48,8 @@ public class AI_Dash : MonoBehaviour
         float angle = Mathf.Atan2(dashDir.z, dashDir.x) * Mathf.Rad2Deg;
         Quaternion DashRoatation = Quaternion.Euler(new Vector3(0, -angle, 0));
         dashIndicator_Axis.transform.rotation = DashRoatation;
+
+        mySoundManager.PlaySoundAt(mySoundManager.transform.position, "DashPrepare", false, false, 1.5f, 1, 100, 100);
     }
 
     public bool EnemyDashing(float damage)
@@ -55,6 +62,7 @@ public class AI_Dash : MonoBehaviour
         // dash
         if ((Time.time - dashDelayTime) >= prepareTimeDashing)
         {
+
             // display
             dashIndicator_Axis.SetActive(false);
 
@@ -85,6 +93,13 @@ public class AI_Dash : MonoBehaviour
                     damage = (int)(damage * 0.5f) + 1;
                 }
             }
+            // play sound
+            if (hitedObjecct.Length > 0 && !dashed)
+            {
+                mySoundManager.PlaySoundAt(mySoundManager.transform.position, "DashHit", false, false, 1.5f, 1, 100, 100);
+                dashed = true;
+            }
+
 
             // End dashing
             if (presentDashSpeed <= 0.5f)
@@ -94,6 +109,7 @@ public class AI_Dash : MonoBehaviour
                 // reset the property
                 presentDashSpeed = dashSpeed;
                 DamagedTarget.Clear();
+                dashed= false;
 
                 return false; // isn't dashing
             }
@@ -120,13 +136,20 @@ public class AI_Dash : MonoBehaviour
             presentDashSpeed -= dashResistance * Time.deltaTime;
 
             // deal damage
-            Collider[] hitedObjecct = Physics.OverlapSphere((transform.position + dashDir * 0.2f), 0.14f, LayerMask.GetMask("Enemy")); 
+            Collider[] hitedObjecct = Physics.OverlapSphere((transform.position + dashDir * 0.2f), 0.14f, LayerMask.GetMask("Enemy"));
             for (int i = 0; i < hitedObjecct.Length; i++)
             {
                 if (!DamagedTarget.Contains(hitedObjecct[i])){
                     hitedObjecct[i].GetComponent<Enemy>().TakeDamage(damage, transform);
                     DamagedTarget.Add(hitedObjecct[i]);
                 }
+            }
+
+            // play sound
+            if (hitedObjecct.Length > 0 && !dashed)
+            {
+                mySoundManager.PlaySoundAt(mySoundManager.transform.position, "DashHit", false, false, 1.5f, 1, 100, 100);
+                dashed = true;
             }
 
             // End dashing

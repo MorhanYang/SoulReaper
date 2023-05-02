@@ -116,7 +116,13 @@ public class Absorbable : MonoBehaviour
             isDead = true;
 
             // stop movement
-            if (canRoam) agent.SetDestination(transform.position);
+            if (canRoam){
+                agent.SetDestination(transform.position);
+            }
+            else{
+                GetComponent<AudioSource>().enabled = false;
+                mysprite.GetComponent<Animator>().enabled = false;
+            }
 
             // play recall effect;
             GameObject effect = Instantiate(recallingMinion, transform.position, transform.rotation);

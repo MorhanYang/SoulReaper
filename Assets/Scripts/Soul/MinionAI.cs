@@ -343,11 +343,14 @@ public class MinionAI : MonoBehaviour
     //****************************************************Attack*****************************************
     void MeleeAttack()
     {
+        // sound
+        mySoundManagers.PlaySoundAt(mySoundManagers.transform.position, "Hurt", false, false, 1, 1f, 100, 100);
+
         // animation
         if (isFacingRight) Instantiate(attackEffect, transform.position + new Vector3(0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
         else Instantiate(attackEffect, transform.position + new Vector3(-0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
         // play sound
-        mySoundManagers.PlaySoundAt(mySoundManagers.transform.position, "Swing", false, false, 1, 0.5f, 100, 100);
+        mySoundManagers.PlaySoundAt(mySoundManagers.transform.position, "Swing", false, false, 1, 0.7f, 100, 100);
         // aoe
         //Collider[] hitEnemy = Physics.OverlapSphere(attackPoint.position, attackCircle, LayerMask.GetMask("Enemy", "PuzzleTrigger"));
         //for (int i = 0; i < hitEnemy.Length; i++)

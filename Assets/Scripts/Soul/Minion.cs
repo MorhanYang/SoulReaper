@@ -88,8 +88,6 @@ public class Minion : MonoBehaviour
         if (myTroop != null && myTroop.GetPresentHP() > 0){
             shaker.AddImpact(transform.position - damageDealer.position, damage, false);
             myTroop.TakeDamage(damage * getDamageRate);
-
-            mySoundManager.PlaySoundAt(PlayerManager.instance.player.gameObject.transform.position, "Hurt", false, false, 1, 1, 100, 100);
         }
     }
     //*****************************************************Change Minion State******************************************
@@ -144,8 +142,8 @@ public class Minion : MonoBehaviour
         if (needRecallEffect){
             GameObject effect = Instantiate(recallingMinion, transform.position, transform.rotation);
             effect.GetComponent<RecallingMinion>().AimTo(PlayerManager.instance.player.transform);
-            // play sound
-            //mySoundManager.PlaySoundAt(PlayerManager.instance.player.gameObject.transform.position, "Release", false, false, 1, 1, 100, 100);
+
+            mySoundManager.PlaySoundAt(PlayerManager.instance.player.gameObject.transform.position, "Release", false, false, 1.5f, 0.5f, 100, 100);
         }
         
         rebirthIcon.SetActive(true);

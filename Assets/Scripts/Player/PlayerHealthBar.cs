@@ -100,12 +100,6 @@ public class PlayerHealthBar : MonoBehaviour
         {
             AddHealthMax();
         }
-
-
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            mySoundManager.PlaySoundAt(mySoundManager.transform.position, "Release", false, false, 1, 1, 100, 100);
-        }
     }
     //****************************************************Initialize & property*************************************************************
     public void InitiatePlayerHPBar()
@@ -417,7 +411,7 @@ public class PlayerHealthBar : MonoBehaviour
             if (MinionInCircle.Length > 0)
             {
                 // play sound
-                mySoundManager.PlaySoundAt(mySoundManager.transform.position, "Release", false, false, 1, 1, 100, 100);
+                mySoundManager.PlaySoundAt(mySoundManager.transform.position, "Release", false, false, 1.5f, 1, 100, 100);
 
                 // get minion list
                 List<Minion> minionSet = new List<Minion>();
