@@ -7,6 +7,13 @@ public class EnterTutorial : MonoBehaviour
 {
     [SerializeField] PlayableDirector director;
     [SerializeField] GameObject StartUI;
+
+    AudioSource activeSound;
+
+    private void Start()
+    {
+        activeSound= GetComponent<AudioSource>();
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.K))
@@ -24,5 +31,6 @@ public class EnterTutorial : MonoBehaviour
     {
         StartUI.SetActive(false);
         director.Play();
+        activeSound.Play();
     }
 }
