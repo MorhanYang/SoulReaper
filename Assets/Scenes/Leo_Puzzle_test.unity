@@ -3744,6 +3744,7 @@ MonoBehaviour:
   secondBridge: {fileID: 0}
   objectsNeeded: 2
   canTransparent: 0
+  comeback: 1
   isWalkable: 0
 --- !u!65 &199851475
 BoxCollider:
@@ -5589,7 +5590,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: {fileID: 0}
   minionIconManager: {fileID: 0}
-  memberNum: {fileID: 1726079777}
   MaxMember: 6
   selectSprite: {fileID: 0}
 --- !u!114 &377981859
@@ -11174,6 +11174,7 @@ MonoBehaviour:
   secondBridge: {fileID: 0}
   objectsNeeded: 12
   canTransparent: 0
+  comeback: 1
   isWalkable: 0
 --- !u!65 &802499548
 BoxCollider:
@@ -11279,7 +11280,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3465218628200377995, guid: 3aa60996c2d354c4ca58a925a2cfcbde, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.21
+      value: 0.151
       objectReference: {fileID: 0}
     - target: {fileID: 3465218628200377995, guid: 3aa60996c2d354c4ca58a925a2cfcbde, type: 3}
       propertyPath: m_LocalPosition.z
@@ -11287,31 +11288,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3465218628200377995, guid: 3aa60996c2d354c4ca58a925a2cfcbde, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9416438
+      value: 0.671577
       objectReference: {fileID: 0}
     - target: {fileID: 3465218628200377995, guid: 3aa60996c2d354c4ca58a925a2cfcbde, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: -0.18778175
       objectReference: {fileID: 0}
     - target: {fileID: 3465218628200377995, guid: 3aa60996c2d354c4ca58a925a2cfcbde, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.33661103
+      value: -0.6942399
       objectReference: {fileID: 0}
     - target: {fileID: 3465218628200377995, guid: 3aa60996c2d354c4ca58a925a2cfcbde, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0.17819467
       objectReference: {fileID: 0}
     - target: {fileID: 3465218628200377995, guid: 3aa60996c2d354c4ca58a925a2cfcbde, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: -0.275
       objectReference: {fileID: 0}
     - target: {fileID: 3465218628200377995, guid: 3aa60996c2d354c4ca58a925a2cfcbde, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -39.341
+      value: -91.975
       objectReference: {fileID: 0}
     - target: {fileID: 3465218628200377995, guid: 3aa60996c2d354c4ca58a925a2cfcbde, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 30.005
       objectReference: {fileID: 0}
     - target: {fileID: 3465218628472384959, guid: 3aa60996c2d354c4ca58a925a2cfcbde, type: 3}
       propertyPath: length
@@ -16108,6 +16109,7 @@ MonoBehaviour:
   secondBridge: {fileID: 0}
   objectsNeeded: 2
   canTransparent: 0
+  comeback: 1
   isWalkable: 0
 --- !u!65 &1127890182
 BoxCollider:
@@ -19299,7 +19301,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: {fileID: 1323810046}
   minionIconManager: {fileID: 0}
-  memberNum: {fileID: 920752731}
   MaxMember: 6
   selectSprite: {fileID: 0}
 --- !u!1 &1327322543
@@ -24069,6 +24070,7 @@ MonoBehaviour:
   secondBridge: {fileID: 0}
   objectsNeeded: 1
   canTransparent: 0
+  comeback: 1
   isWalkable: 0
 --- !u!65 &1715929925
 BoxCollider:
@@ -24185,6 +24187,7 @@ MonoBehaviour:
   secondBridge: {fileID: 0}
   objectsNeeded: 1
   canTransparent: 0
+  comeback: 1
   isWalkable: 0
 --- !u!65 &1720353656
 BoxCollider:
