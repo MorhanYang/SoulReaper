@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHealthBar : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class PlayerHealthBar : MonoBehaviour
 
     // hp
     [SerializeField] GameObject hpUI;
-    List<RectTransform> hpBarsList = new List<RectTransform>();
+    List<Image> hpBarsList = new List<Image>();
     float initialBarWidth;
     public float Maxhealth = 100;
     public float presentHealth = 100;
@@ -33,7 +34,7 @@ public class PlayerHealthBar : MonoBehaviour
     bool isInvicible = false; // reset the collision state
 
     // HealthBar Switch
-    RectTransform barPresent;
+    Image barPresent;
     int barPresentId;
     float indiviualMaxValue;
     float HpInPresentBar;
@@ -105,7 +106,6 @@ public class PlayerHealthBar : MonoBehaviour
     public void InitiatePlayerHPBar()
     {
         itemHPTemp.gameObject.SetActive(true);
-        initialBarWidth = itemHPTemp.troopHPUI.sizeDelta.x;
 
         // clean previous cell
         if (hpBarsList.Count > 0)
@@ -120,7 +120,7 @@ public class PlayerHealthBar : MonoBehaviour
         for (int i = 0; i < cellNum; i++)
         {
             Item_PlayerHealth hpCell = Instantiate(itemHPTemp, hpUI.transform);
-            hpBarsList.Add(hpCell.troopHPUI);
+            hpBarsList.Add(hpCell.playerHPUI);
         }
 
         itemHPTemp.gameObject.SetActive(false);
@@ -132,9 +132,6 @@ public class PlayerHealthBar : MonoBehaviour
     {
         activedTroopList.Clear();
         troopPresent = null;
-    }
-    Vector3 BarWidthSize(Vector3 previousSize, float Hpinbar){
-        return new Vector3((Hpinbar / indiviualMaxValue * initialBarWidth), previousSize.y, previousSize.z);
     }
 
     // save & load
@@ -151,7 +148,7 @@ public class PlayerHealthBar : MonoBehaviour
     {
         // clean all bars
         for (int i = 0; i < hpBarsList.Count; i++){
-            hpBarsList[i].sizeDelta = BarWidthSize(barPresent.sizeDelta, 0);
+            hpBarsList[i].fillAmount = 0f;
         }
 
         // count full bars
@@ -162,14 +159,14 @@ public class PlayerHealthBar : MonoBehaviour
         // set full bars
         for (int i = 0; i < fullBarNum; i++)
         {
-            hpBarsList[i].sizeDelta = BarWidthSize(barPresent.sizeDelta, indiviualMaxValue);
+            hpBarsList[i].fillAmount = 1f;
         }
 
         // set the half bar
         HpInPresentBar = presentHealth - (indiviualMaxValue * fullBarNum);
         if (HpInPresentBar > 0)
         {
-            hpBarsList[fullBarNum].sizeDelta = BarWidthSize(barPresent.sizeDelta, HpInPresentBar);
+            hpBarsList[fullBarNum].fillAmount = HpInPresentBar/indiviualMaxValue;
         }
 
         // property
@@ -187,7 +184,7 @@ public class PlayerHealthBar : MonoBehaviour
             {
                 presentHealth -= damage;
                 HpInPresentBar -= damage;
-                barPresent.sizeDelta= BarWidthSize(barPresent.sizeDelta,HpInPresentBar);
+                barPresent.fillAmount = HpInPresentBar/indiviualMaxValue;
 
                 // knock back
                 if(damageDealer != null) shacker.AddImpact((transform.position - damageDealer.position), damage, false);
@@ -199,7 +196,7 @@ public class PlayerHealthBar : MonoBehaviour
             else
             {
                 presentHealth -= indiviualMaxValue;
-                barPresent.sizeDelta = BarWidthSize(barPresent.sizeDelta, 0);
+                barPresent.fillAmount = 0;
                 float passedDamage = damage - indiviualMaxValue;
                 // next bar
                 if (barPresentId > 0) barPresentId--;
@@ -249,11 +246,11 @@ public class PlayerHealthBar : MonoBehaviour
         if (healingValue <= BarSpaceLeft){
             presentHealth += healingValue;
             HpInPresentBar += healingValue;
-            if(barPresent!= null) barPresent.sizeDelta =BarWidthSize(barPresent.sizeDelta, HpInPresentBar);
+            if(barPresent!= null) barPresent.fillAmount = HpInPresentBar / indiviualMaxValue;
         }
         else{
             presentHealth += BarSpaceLeft;
-            if(barPresent != null) barPresent.sizeDelta = BarWidthSize(barPresent.sizeDelta, indiviualMaxValue);
+            if(barPresent != null) barPresent.fillAmount = 1f;
             float passedHP = healingValue - BarSpaceLeft;
             // load prevous bar
             if (barPresentId < (cellNum - activedTroopList.Count - 1)) barPresentId++;
@@ -281,7 +278,7 @@ public class PlayerHealthBar : MonoBehaviour
         myItem.GetComponent<CanvasGroup>().DOFade(1, 1f);
 
         // adjust present bar
-        hpBarsList.Insert(0,myItem.troopHPUI);
+        hpBarsList.Insert(0,myItem.playerHPUI);
         barPresentId++;
         barPresent = barPresent = hpBarsList[barPresentId];
 
@@ -362,7 +359,7 @@ public class PlayerHealthBar : MonoBehaviour
                 .Join(myItem.GetComponent<CanvasGroup>().DOFade(1, 1f));
 
             // add it to list
-            hpBarsList.Insert(0, myItem.troopHPUI);
+            hpBarsList.Insert(0, myItem.playerHPUI);
         }
 
         //reset parameter

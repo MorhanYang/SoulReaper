@@ -3,5 +3,5 @@ using UnityEngine.UI;
 
 public class Item_PlayerHealth : MonoBehaviour
 {
-    public RectTransform troopHPUI;
+    public Image playerHPUI;
 }
