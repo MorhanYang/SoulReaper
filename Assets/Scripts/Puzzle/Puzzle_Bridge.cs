@@ -11,6 +11,10 @@ public class Puzzle_Bridge : MonoBehaviour
     [SerializeField] int objectsNeeded = 1;
     [SerializeField] bool canTransparent = false;
     [SerializeField] bool comeback = true;
+    [SerializeField] GameObject glowingIcon;
+
+    [SerializeField] CircuitControl myCircuit;
+
     int objectCounter;
     Color myColor;
     enum ScriptState
@@ -51,7 +55,6 @@ public class Puzzle_Bridge : MonoBehaviour
                     else if (secondBridge.isWalkable){
                         OpenBlocker();
                         secondBridge.OpenBlocker();
-
                     }
                 }
                 break;
@@ -72,7 +75,6 @@ public class Puzzle_Bridge : MonoBehaviour
         return objectsNeeded;
     }
 
-
     public void AddObject(int size)
     {
         objectCounter+= size;
@@ -80,6 +82,9 @@ public class Puzzle_Bridge : MonoBehaviour
             destination = endPos;
             state = ScriptState.Active;
         }
+
+        // change magic circuit
+        if(myCircuit != null) myCircuit.AdjustCircuit(objectCounter, objectsNeeded);
     }
 
     public void DetractObject(int size)
@@ -96,14 +101,16 @@ public class Puzzle_Bridge : MonoBehaviour
             CloseBlocker();
             if (secondBridge != null) secondBridge.CloseBlocker();
 
-
-
             isWalkable = false;// help other script to check if it is walkable
-        } 
+        }
+
+        // change magic circuit
+        if (myCircuit != null) myCircuit.AdjustCircuit(objectCounter, objectsNeeded);
     }
 
     public void OpenBlocker(){
         if(Blocker !=null) Blocker.SetActive(false);
+        if (glowingIcon != null) glowingIcon.SetActive(true);
 
         // transparent control
         if (canTransparent){
@@ -113,6 +120,7 @@ public class Puzzle_Bridge : MonoBehaviour
     }
     public void CloseBlocker(){
         if (Blocker != null) Blocker.SetActive(true);
+        if (glowingIcon != null) glowingIcon.SetActive(false);
 
         // transparent control
         if (canTransparent){

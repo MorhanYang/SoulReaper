@@ -57,7 +57,7 @@ public class Puzzle_WeightTrigger : MonoBehaviour
                 if (myBridge != null) myBridge.AddObject(addNum);
 
                 //show light
-                glowingCircuit.SetActive(true);
+                if(glowingCircuit!= null) glowingCircuit.SetActive(true);
             }
             else{
                 bait.gameObject.SetActive(false);// hide bait and stop trap minion if reach max
@@ -108,7 +108,7 @@ public class Puzzle_WeightTrigger : MonoBehaviour
                 bait.gameObject.SetActive(true);
 
                 //hide light
-                glowingCircuit.SetActive(false);
+                if (glowingCircuit != null) glowingCircuit.SetActive(false);
             }
 
             //// Move platform upward

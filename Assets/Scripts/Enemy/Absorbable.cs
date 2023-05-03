@@ -120,8 +120,8 @@ public class Absorbable : MonoBehaviour
                 agent.SetDestination(transform.position);
             }
             else{
-                GetComponent<AudioSource>().enabled = false;
-                mysprite.GetComponent<Animator>().enabled = false;
+                if (GetComponent<AudioSource>() != null) GetComponent<AudioSource>().enabled = false;
+                if (mysprite.GetComponent<Animator>() != null) mysprite.GetComponent<Animator>().enabled = false;
             }
 
             // play recall effect;
