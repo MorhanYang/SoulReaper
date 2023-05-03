@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using System.Collections;
 
 public class HintUI : MonoBehaviour
 {
@@ -36,10 +37,12 @@ public class HintUI : MonoBehaviour
         Invoke("ShowHintFunction", 1.5f);
     }
 
+
     void ShowHintFunction(){
+        
+        offest.gameObject.SetActive(true);
 
         offest.DOFade(1, 0.3f);
-        //offest.SetActive(true);
         diagram.sprite = diagramList[hintId];
         text.text = textList[hintId];
         if (hintId < (textList.Length - 1) && hintId < (diagramList.Length - 1)) hintId++;
@@ -48,8 +51,21 @@ public class HintUI : MonoBehaviour
     }
     public void HideHint() 
     {
+        StartCoroutine(HideHintFunction());
+    }
+
+    IEnumerator HideHintFunction()
+    {
         offest.DOFade(0, 0.6f);
-        //offest.SetActive(false);
-        Time.timeScale= 1f;
+        Time.timeScale = 1f;
+
+        while (offest.alpha > 0.1f)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+
+        offest.gameObject.SetActive(false);
+        offest.alpha = 0f;
+
     }
 }
