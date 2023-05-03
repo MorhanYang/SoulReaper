@@ -93,11 +93,11 @@ public class PlayerControl : MonoBehaviour
         MouseAimFunction();
 
         //Mouse Control Combo
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)){
-            if (!EventSystem.current.IsPointerOverGameObject())// not hid ui
-            {
-                StartCoroutine("ExecuteMouseControl");
-            }
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()){
+            StartCoroutine(ExecuteMouseControl());
+        }
+        else if (Input.GetMouseButtonDown(1)){
+            StartCoroutine(ExecuteMouseControl());
         }
 
         // rolling
