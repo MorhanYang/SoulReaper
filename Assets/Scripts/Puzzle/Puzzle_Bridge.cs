@@ -53,13 +53,16 @@ public class Puzzle_Bridge : MonoBehaviour
                     isWalkable = true;// help other script to check if it is walkable
 
                     // open blocker
-                    if (secondBridge == null){
-                        OpenBlocker();
+                    if (Blocker.activeSelf){
+                        if (secondBridge == null) {
+                            OpenBlocker();
+                        }
+                        else if (secondBridge.isWalkable){
+                            OpenBlocker();
+                            secondBridge.OpenBlocker();
+                        }
                     }
-                    else if (secondBridge.isWalkable){
-                        OpenBlocker();
-                        secondBridge.OpenBlocker();
-                    }
+                   
                 }
                 break;
 
@@ -85,6 +88,9 @@ public class Puzzle_Bridge : MonoBehaviour
         if (objectCounter >= objectsNeeded){
             destination = endPos;
             state = ScriptState.Active;
+
+            if (glowingIcon != null) glowingIcon.SetActive(true);
+            mySoundManager.PlaySoundAt(transform.position, "StoneMove", false, false, 1.5f, 1f, 100, 100);
         }
 
         // change magic circuit
@@ -99,11 +105,17 @@ public class Puzzle_Bridge : MonoBehaviour
         if (objectCounter < objectsNeeded) {
             gameObject.SetActive(true);// setActive then script can run
             destination = initalPos;
+
             if(comeback) state = ScriptState.Cancel;
 
+            if (glowingIcon != null) glowingIcon.SetActive(false);
+            mySoundManager.PlaySoundAt(transform.position, "StoneMove", false, false, 1.5f, 1f, 100, 100);
             // Close Blocker
-            CloseBlocker();
-            if (secondBridge != null) secondBridge.CloseBlocker();
+            if (!Blocker.activeSelf)
+            {
+                CloseBlocker();
+                if (secondBridge != null) secondBridge.CloseBlocker();
+            }
 
             isWalkable = false;// help other script to check if it is walkable
         }
@@ -114,29 +126,21 @@ public class Puzzle_Bridge : MonoBehaviour
 
     public void OpenBlocker(){
         if(Blocker !=null) Blocker.SetActive(false);
-        if (glowingIcon != null) glowingIcon.SetActive(true);
 
         // transparent control
         if (canTransparent){
             Color newColor = new Color(myColor.r, myColor.g, myColor.b, 0.6f);
             GetComponent<MeshRenderer>().material.color = newColor;
         }
-
-        //play sound:
-        mySoundManager.PlaySoundAt(transform.position, "StoneMove", false, false, 1.5f, 1f, 100, 100);
     }
     public void CloseBlocker(){
         if (Blocker != null) Blocker.SetActive(true);
-        if (glowingIcon != null) glowingIcon.SetActive(false);
 
         // transparent control
         if (canTransparent){
             Color newColor = new Color(myColor.r, myColor.g, myColor.b, 1f);
             GetComponent<MeshRenderer>().material.color = newColor;
         }
-
-        //play sound
-        mySoundManager.PlaySoundAt(transform.position, "StoneMove", false, false, 1.5f, 1f, 100, 100);
     }
 
     public bool GetBridgeState()
