@@ -15,6 +15,8 @@ public class Puzzle_Bridge : MonoBehaviour
 
     [SerializeField] CircuitControl myCircuit;
 
+    SoundManager mySoundManager;
+
     int objectCounter;
     Color myColor;
     enum ScriptState
@@ -33,6 +35,8 @@ public class Puzzle_Bridge : MonoBehaviour
     {
         initalPos = transform.localPosition;
         if (canTransparent) myColor = GetComponent<MeshRenderer>().material.color;
+
+        mySoundManager = SoundManager.Instance;
     }
     private void Update()
     {
@@ -117,6 +121,9 @@ public class Puzzle_Bridge : MonoBehaviour
             Color newColor = new Color(myColor.r, myColor.g, myColor.b, 0.6f);
             GetComponent<MeshRenderer>().material.color = newColor;
         }
+
+        //play sound:
+        mySoundManager.PlaySoundAt(transform.position, "StoneMove", false, false, 1.5f, 1f, 100, 100);
     }
     public void CloseBlocker(){
         if (Blocker != null) Blocker.SetActive(true);
@@ -127,6 +134,9 @@ public class Puzzle_Bridge : MonoBehaviour
             Color newColor = new Color(myColor.r, myColor.g, myColor.b, 1f);
             GetComponent<MeshRenderer>().material.color = newColor;
         }
+
+        //play sound
+        mySoundManager.PlaySoundAt(transform.position, "StoneMove", false, false, 1.5f, 1f, 100, 100);
     }
 
     public bool GetBridgeState()

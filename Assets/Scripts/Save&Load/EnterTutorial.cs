@@ -8,7 +8,8 @@ public class EnterTutorial : MonoBehaviour
     [SerializeField] PlayableDirector director;
     [SerializeField] GameObject StartUI;
 
-    AudioSource activeSound;
+    [SerializeField] AudioSource activeSound;
+    [SerializeField] AudioSource buttonSound;
 
     private void Start()
     {
@@ -29,8 +30,10 @@ public class EnterTutorial : MonoBehaviour
 
     public void PlayCutscene()
     {
+
         StartUI.SetActive(false);
         director.Play();
         activeSound.Play();
+        buttonSound.Play();
     }
 }

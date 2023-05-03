@@ -387,7 +387,11 @@ public class PlayerHealthBar : MonoBehaviour
             // normal
             if (healValue > 0) Healing(healValue);
             // add healthMax
-            if (healValue < 0) AddHealthMax();
+            if (healValue < 0){
+                AddHealthMax();
+                // play sound
+                mySoundManager.PlaySoundAt(transform.position, "Upgrade", false, false, 1.5f, 1f, 100, 100);
+            }
         }
         else GameManager.instance.PopUpUI(new Vector3(0, 24f, 0), "Health is full");
     }

@@ -104,6 +104,9 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (actionTimer >= actionColdDown){
+                // play sound
+                mySoundManagers.PlaySoundAt(transform.position, "PlayerDash", false, false, 1.5f, 1f, 100, 100);
+
                 combateState = CombateState.rolling;
                 actionTimer = 0;
             }
@@ -231,6 +234,7 @@ public class PlayerControl : MonoBehaviour
         // slow down
         presentRollingSpeed -= rollingResistance * Time.fixedDeltaTime;
         if (presentRollingSpeed <= (moveSpeed+ 30f)){
+
             rb.velocity = Vector3.zero;
             presentRollingSpeed = rollingSpeed;
             
@@ -337,6 +341,9 @@ public class PlayerControl : MonoBehaviour
         // excecute assignment
         if (closestMinion != null){
             closestMinion.GetTroop().AssignOneMinionTowards(aimPos,closestMinion);
+
+            // play sound
+            mySoundManagers.PlaySoundAt(transform.position, "AssignMinion", false, false, 1.5f, 1f, 100, 100);
         }
 
         assignMinionTimer = 0;
