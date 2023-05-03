@@ -2,6 +2,7 @@ using Fungus;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -93,7 +94,10 @@ public class PlayerControl : MonoBehaviour
 
         //Mouse Control Combo
         if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)){
-            StartCoroutine("ExecuteMouseControl");
+            if (!EventSystem.current.IsPointerOverGameObject())// not hid ui
+            {
+                StartCoroutine("ExecuteMouseControl");
+            }
         }
 
         // rolling
