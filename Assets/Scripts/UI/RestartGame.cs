@@ -8,7 +8,7 @@ public class RestartGame : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene("Sewer_Tutorial");
+            SceneManager.LoadScene("StartScene");
         }
     }
 }

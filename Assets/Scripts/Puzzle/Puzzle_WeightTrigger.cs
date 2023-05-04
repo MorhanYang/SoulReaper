@@ -19,12 +19,15 @@ public class Puzzle_WeightTrigger : MonoBehaviour
     int objectCount = 0 ;
 
     Puzzle_Bridge myBridge;
+    SoundManager mySoundManager;
     //Puzzle_MagicDoor myDoor;
 
     private void Start()
     {
         if (targetObject.GetComponent<Puzzle_Bridge>() != null) myBridge = targetObject.GetComponent<Puzzle_Bridge>();
         objectsNeeded = myBridge.GetNeedObjectNumber();
+
+        mySoundManager = SoundManager.Instance;
 
         presentNum = 0;
     }
@@ -57,7 +60,9 @@ public class Puzzle_WeightTrigger : MonoBehaviour
                 if (myBridge != null) myBridge.AddObject(addNum);
 
                 //show light
-                glowingCircuit.SetActive(true);
+                if(glowingCircuit!= null) glowingCircuit.SetActive(true);
+                // play sound
+                mySoundManager.PlaySoundAt(transform.position, "MagicTrigger", false, false, 1.5f, 1f, 100, 100);
             }
             else{
                 bait.gameObject.SetActive(false);// hide bait and stop trap minion if reach max
@@ -108,7 +113,7 @@ public class Puzzle_WeightTrigger : MonoBehaviour
                 bait.gameObject.SetActive(true);
 
                 //hide light
-                glowingCircuit.SetActive(false);
+                if (glowingCircuit != null) glowingCircuit.SetActive(false);
             }
 
             //// Move platform upward

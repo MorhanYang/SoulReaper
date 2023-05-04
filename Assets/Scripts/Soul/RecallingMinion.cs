@@ -9,12 +9,15 @@ public class RecallingMinion : MonoBehaviour
     Transform player;
     SoundManager mySoundManager;
 
-    Coroutine recallCoroutine;
-
-    private void Start()
+    private void Awake()
     {
         mySoundManager = SoundManager.Instance;
         player = PlayerManager.instance.player.transform;
+    }
+
+    private void Start()
+    {
+        
     }
     IEnumerator SetTarget(Transform destination)
     {
@@ -40,6 +43,6 @@ public class RecallingMinion : MonoBehaviour
 
     public void AimTo(Transform minion)
     {
-        recallCoroutine = StartCoroutine(SetTarget(minion));
+        StartCoroutine(SetTarget(minion));
     }
 }

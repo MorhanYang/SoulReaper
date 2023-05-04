@@ -11,6 +11,12 @@ public class Puzzle_Bridge : MonoBehaviour
     [SerializeField] int objectsNeeded = 1;
     [SerializeField] bool canTransparent = false;
     [SerializeField] bool comeback = true;
+    [SerializeField] GameObject glowingIcon;
+
+    [SerializeField] CircuitControl myCircuit;
+
+    SoundManager mySoundManager;
+
     int objectCounter;
     Color myColor;
     enum ScriptState
@@ -25,10 +31,14 @@ public class Puzzle_Bridge : MonoBehaviour
     Vector3 destination;
     public bool isWalkable = false;
 
+    bool doorIsOpen;
+
     private void Start()
     {
         initalPos = transform.localPosition;
         if (canTransparent) myColor = GetComponent<MeshRenderer>().material.color;
+
+        mySoundManager = SoundManager.Instance;
     }
     private void Update()
     {
@@ -45,14 +55,16 @@ public class Puzzle_Bridge : MonoBehaviour
                     isWalkable = true;// help other script to check if it is walkable
 
                     // open blocker
-                    if (secondBridge == null){
-                        OpenBlocker();
+                    if (Blocker.activeSelf){
+                        if (secondBridge == null) {
+                            OpenBlocker();
+                        }
+                        else if (secondBridge.isWalkable){
+                            OpenBlocker();
+                            secondBridge.OpenBlocker();
+                        }
                     }
-                    else if (secondBridge.isWalkable){
-                        OpenBlocker();
-                        secondBridge.OpenBlocker();
-
-                    }
+                   
                 }
                 break;
 
@@ -72,14 +84,21 @@ public class Puzzle_Bridge : MonoBehaviour
         return objectsNeeded;
     }
 
-
     public void AddObject(int size)
     {
         objectCounter+= size;
         if (objectCounter >= objectsNeeded){
             destination = endPos;
             state = ScriptState.Active;
+
+            doorIsOpen= true;
+
+            if (glowingIcon != null) glowingIcon.SetActive(true);
+            mySoundManager.PlaySoundAt(transform.position, "StoneMove", false, false, 1.5f, 1f, 100, 100);
         }
+
+        // change magic circuit
+        if(myCircuit != null) myCircuit.AdjustCircuit(objectCounter, objectsNeeded);
     }
 
     public void DetractObject(int size)
@@ -87,19 +106,27 @@ public class Puzzle_Bridge : MonoBehaviour
         objectCounter-= size;// solve multiple trigger problem
         if (objectCounter < 0) objectCounter = 0;// just in case
 
-        if (objectCounter < objectsNeeded) {
+        if (objectCounter < objectsNeeded && doorIsOpen) {
             gameObject.SetActive(true);// setActive then script can run
             destination = initalPos;
             if(comeback) state = ScriptState.Cancel;
 
+            doorIsOpen= false;
+
+            if (glowingIcon != null) glowingIcon.SetActive(false);
+            mySoundManager.PlaySoundAt(transform.position, "StoneMove", false, false, 1.5f, 1f, 100, 100);
             // Close Blocker
-            CloseBlocker();
-            if (secondBridge != null) secondBridge.CloseBlocker();
-
-
+            if (!Blocker.activeSelf)
+            {
+                CloseBlocker();
+                if (secondBridge != null) secondBridge.CloseBlocker();
+            }
 
             isWalkable = false;// help other script to check if it is walkable
-        } 
+        }
+
+        // change magic circuit
+        if (myCircuit != null) myCircuit.AdjustCircuit(objectCounter, objectsNeeded);
     }
 
     public void OpenBlocker(){
