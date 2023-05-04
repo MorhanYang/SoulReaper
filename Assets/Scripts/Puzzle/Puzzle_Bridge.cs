@@ -31,6 +31,8 @@ public class Puzzle_Bridge : MonoBehaviour
     Vector3 destination;
     public bool isWalkable = false;
 
+    bool doorIsOpen;
+
     private void Start()
     {
         initalPos = transform.localPosition;
@@ -89,6 +91,8 @@ public class Puzzle_Bridge : MonoBehaviour
             destination = endPos;
             state = ScriptState.Active;
 
+            doorIsOpen= true;
+
             if (glowingIcon != null) glowingIcon.SetActive(true);
             mySoundManager.PlaySoundAt(transform.position, "StoneMove", false, false, 1.5f, 1f, 100, 100);
         }
@@ -102,11 +106,12 @@ public class Puzzle_Bridge : MonoBehaviour
         objectCounter-= size;// solve multiple trigger problem
         if (objectCounter < 0) objectCounter = 0;// just in case
 
-        if (objectCounter < objectsNeeded) {
+        if (objectCounter < objectsNeeded && doorIsOpen) {
             gameObject.SetActive(true);// setActive then script can run
             destination = initalPos;
-
             if(comeback) state = ScriptState.Cancel;
+
+            doorIsOpen= false;
 
             if (glowingIcon != null) glowingIcon.SetActive(false);
             mySoundManager.PlaySoundAt(transform.position, "StoneMove", false, false, 1.5f, 1f, 100, 100);

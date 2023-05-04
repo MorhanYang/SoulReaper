@@ -96,7 +96,7 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()){
             StartCoroutine(ExecuteMouseControl());
         }
-        else if (Input.GetMouseButtonDown(1)){
+        if (Input.GetMouseButtonDown(1)){
             StartCoroutine(ExecuteMouseControl());
         }
 
@@ -166,7 +166,7 @@ public class PlayerControl : MonoBehaviour
         }
 
         // excute events after delay
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.15f);
 
         if (mouseInputCount != 0){
             // Rebirth Function
