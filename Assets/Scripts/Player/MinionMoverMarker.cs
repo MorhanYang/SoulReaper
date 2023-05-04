@@ -17,11 +17,15 @@ public class MinionMoverMarker : MonoBehaviour
     {
         if (markertimer >= 0) markertimer -= Time.deltaTime;
 
-        if (markertimer <= 0) mysprite.enabled = false;
+        if (markertimer <= 0) {
+            transform.parent = null;
+            mysprite.enabled = false; }
     }
 
     public void relocateMarker(Vector3 pos, Transform subject)
     {
+        float lastTime = 1.5f;
+
         mysprite.enabled = true;
 
         // don't hit object
@@ -37,6 +41,6 @@ public class MinionMoverMarker : MonoBehaviour
             transform.parent = subject;
         }
 
-        markertimer = 3f;
+        markertimer = lastTime;
     }
 }
