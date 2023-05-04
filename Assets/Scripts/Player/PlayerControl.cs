@@ -162,15 +162,15 @@ public class PlayerControl : MonoBehaviour
 
         // Right mouse = 10;
         if (Input.GetMouseButtonDown(1)){
-            mouseInputCount += 10;
+            mouseInputCount += 100;
         }
 
         // excute events after delay
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(0.1f);
 
         if (mouseInputCount != 0){
             // Rebirth Function
-            if (mouseInputCount % 10 > 0 && mouseInputCount / 10 > 0){
+            if (mouseInputCount % 100 > 0 && mouseInputCount / 100 > 0){
                 // Left & Right Click + Hold
                 if (gameManager.IsSpellIsReady(3))
                 {
@@ -182,7 +182,7 @@ public class PlayerControl : MonoBehaviour
                 }
             }
             // Assign Minion
-            else if (mouseInputCount % 10 > 0 && mouseInputCount / 10 == 0){
+            else if (mouseInputCount % 100 > 0 && mouseInputCount / 100 == 0){
                 // left Click
                 if (gameManager.IsSpellIsReady(1)){
                     //Activate CD UI
@@ -192,7 +192,7 @@ public class PlayerControl : MonoBehaviour
                 }
             }
             // Recall Fucntion
-            else if (mouseInputCount % 10 == 0 && mouseInputCount / 10 > 0){
+            else if (mouseInputCount % 100 == 0 && mouseInputCount / 100 > 0){
                 // Right Click
                 if (gameManager.IsSpellIsReady(2))
                 {
