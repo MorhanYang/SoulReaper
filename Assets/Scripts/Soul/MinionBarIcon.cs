@@ -11,6 +11,7 @@ public class MinionBarIcon : MonoBehaviour
     [SerializeField] GameObject minionTriggerIcon;
 
     [SerializeField] GameObject normalListSelected;
+    [SerializeField] GameObject[] normalListIconSelected;
     [SerializeField] GameObject specialMinionIconSelected;
     [SerializeField] GameObject minionTriggerIconSelected;
 
@@ -24,9 +25,15 @@ public class MinionBarIcon : MonoBehaviour
                 for (int i = 0; i < normalListIcon.Length; i++){
                     if (i < number){
                         normalListIcon[i].SetActive(true);
+
+                        // select state sprite change
+                        normalListIconSelected[i].SetActive(true);
                     }
                     else{
                         normalListIcon[i].SetActive(false);
+
+                        // select state sprite change
+                        normalListIconSelected[i].SetActive(false);
                     }
                 }
                 break;

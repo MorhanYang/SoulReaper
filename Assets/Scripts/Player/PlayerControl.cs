@@ -65,6 +65,7 @@ public class PlayerControl : MonoBehaviour
 
     // sound 
     SoundManager mySoundManagers;
+    [SerializeField]AudioSource foodstepSound;
 
     // present Level
     [HideInInspector] public string sceneName;
@@ -226,11 +227,16 @@ public class PlayerControl : MonoBehaviour
 
         //animator control
         characterAnimator.SetBool("IsMoving", move != Vector3.zero);
+        //sound
+        if (move != Vector3.zero && !foodstepSound.isPlaying && Time.timeScale >= 1) { foodstepSound.Play(); }
+        if (move == Vector3.zero && foodstepSound.isPlaying) { foodstepSound.Stop(); }
+        if (Time.timeScale < 1) foodstepSound.Stop();
     }
     void RollFunction() {
         //animation
         characterAnimator.SetBool("IsRolling", true);
 
+        move = Vector3.zero;
         rb.velocity = lastMoveDir * presentRollingSpeed * Time.fixedDeltaTime;
         // invincible time
         hp.Invincible(invincibleDuration);
