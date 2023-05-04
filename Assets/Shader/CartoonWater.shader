@@ -1,9 +1,10 @@
-Shader "Custom/CartoonWater" {
+Shader "Custom/PixelWater" {
     Properties {
-        _Color ("Water Color", Color) = (1, 1, 1, 1)
         _MainTex ("Water Texture", 2D) = "white" {}
-        _WaveSpeed ("Wave Speed", Range(0, 10)) = 1
-        _WaveStrength ("Wave Strength", Range(0, 1)) = 0.5
+        _FoamTex ("Foam Texture", 2D) = "white" {}
+        _FoamColor ("Foam Color", Color) = (1, 1, 1, 1)
+        _FoamThreshold ("Foam Threshold", Range(0, 1)) = 0.5
+        _PixelSize ("Pixel Size", Range(0, 10)) = 1
     }
  
     SubShader {
@@ -26,9 +27,10 @@ Shader "Custom/CartoonWater" {
             };
  
             sampler2D _MainTex;
-            float4 _Color;
-            float _WaveSpeed;
-            float _WaveStrength;
+            sampler2D _FoamTex;
+            float4 _FoamColor;
+            float _FoamThreshold;
+            float _PixelSize;
  
             v2f vert (appdata v) {
                 v2f o;
@@ -38,18 +40,26 @@ Shader "Custom/CartoonWater" {
             }
  
             fixed4 frag (v2f i) : SV_Target {
+                // Sample the water texture
                 float2 uv = i.uv;
+                fixed4 water = tex2D(_MainTex, uv);
  
-                // Add some simple wave distortion to the UV coordinates
-                uv += _Time.y * _WaveSpeed;
-                uv.y += sin(uv.x * 10 + _Time.y * _WaveSpeed) * _WaveStrength;
-                uv.x += sin(uv.y * 10 + _Time.y * _WaveSpeed) * _WaveStrength;
+                // Sample the foam texture
+                fixed4 foam = tex2D(_FoamTex, uv);
  
-                // Sample the texture using the distorted UV coordinates
-                fixed4 tex = tex2D(_MainTex, uv);
+                // Determine if this pixel should be a foam pixel or a water pixel
+                float foamValue = foam.r;
+                float threshold = _FoamThreshold;
+                float isFoam = step(foamValue, threshold);
  
-                // Apply the color and return the final output color
-                return tex * _Color;
+                // Apply the foam color to the foam pixels
+                fixed4 color = lerp(water, _FoamColor, isFoam);
+ 
+                // Round the UV coordinates to the nearest pixel
+                uv = floor(uv / _PixelSize) * _PixelSize;
+ 
+                // Return the final output color
+                return color;
             }
             ENDCG
         }
