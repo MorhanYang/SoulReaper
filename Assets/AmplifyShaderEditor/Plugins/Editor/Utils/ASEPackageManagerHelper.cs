@@ -476,7 +476,7 @@ namespace AmplifyShaderEditor
 			}
 			else
 			{
-				AmplifyShaderEditorWindow.LoadMaterialToASE( m_lateMaterial );
+				//AmplifyShaderEditorWindow.LoadMaterialToASE( m_lateMaterial );
 				m_lateMaterial = null;
 			}
 		}
