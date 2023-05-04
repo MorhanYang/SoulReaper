@@ -14,6 +14,7 @@ public class MinionTroop : MonoBehaviour
 
     [SerializeField] int MaxMember = 5;
     [SerializeField] GameObject selectSprite;
+    [SerializeField] MinionMoverMarker myMarker;
     // reduce Damge
     int ReduceDamageStateCount = 0;
 
@@ -55,7 +56,7 @@ public class MinionTroop : MonoBehaviour
         else target = null;
 
         // show destination marker
-        GameManager.instance.GenerateMarker(destination, target);
+        myMarker.relocateMarker(destination, target);
 
         // Execute sprint action
         if (target == null) // didn't hit any thing
@@ -90,7 +91,7 @@ public class MinionTroop : MonoBehaviour
         else target = null;
 
         // show destination marker
-        GameManager.instance.GenerateMarker(destination, target);
+        myMarker.relocateMarker(destination, target);
 
         // Execute sprint action
         if (target == null) // didn't hit any thing

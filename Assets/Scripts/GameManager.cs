@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using DG.Tweening;
 using Cinemachine.PostFX;
+using System.Threading;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -222,20 +224,4 @@ public class GameManager : MonoBehaviour
         }
     }
     // ****************************************** world UI *********************************************
-    public void GenerateMarker(Vector3 pos, Transform subject)
-    {
-        GameObject myMarker;
-        // don't hit object
-        if (subject == null){
-            myMarker = Instantiate(AimMarker, pos, transform.rotation);
-        }
-        // hit object
-        else{
-            myMarker = Instantiate(AimMarker, subject.position, subject.rotation, subject);
-        }
-
-        Destroy(myMarker, 0.5f);
-    }
-
-
 }
