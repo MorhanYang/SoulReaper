@@ -9,6 +9,12 @@ public class Puzzle_Vine : MonoBehaviour
     [SerializeField] GameObject Blocker;
 
     int objectCounter;
+    SoundManager mySoundManager;
+
+    private void Start()
+    {
+        mySoundManager = SoundManager.Instance;
+    }
 
     // ************************************************Method*************************************************
 
@@ -24,6 +30,7 @@ public class Puzzle_Vine : MonoBehaviour
         if (objectCounter >= objectsNeeded)
         {
             OpenBlocker();
+            mySoundManager.PlaySoundAt(transform.position, "VineGrow", false, false, 1.5f, 1f, 100, 100);
         }
     }
 
