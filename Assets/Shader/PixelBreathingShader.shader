@@ -1,12 +1,13 @@
-Shader "Custom/SpritePixelate" {
+Shader "Custom/FoamWater" {
     Properties {
-        _MainTex ("Sprite Texture", 2D) = "white" {}
-        _PixelSize ("Pixel Size", Range(1, 50)) = 10
+        _MainTex ("Water Texture", 2D) = "white" {}
+        _FoamTex ("Foam Texture", 2D) = "white" {}
+        _FoamColor ("Foam Color", Color) = (1, 1, 1, 1)
+        _FoamThreshold ("Foam Threshold", Range(0, 1)) = 0.5
     }
  
     SubShader {
-        Tags { "RenderType"="Opaque" }
-        LOD 100
+        Tags { "Queue"="Transparent" "RenderType"="Opaque" }
  
         Pass {
             CGPROGRAM
@@ -25,7 +26,9 @@ Shader "Custom/SpritePixelate" {
             };
  
             sampler2D _MainTex;
-            float _PixelSize;
+            sampler2D _FoamTex;
+            float4 _FoamColor;
+            float _FoamThreshold;
  
             v2f vert (appdata v) {
                 v2f o;
@@ -35,75 +38,29 @@ Shader "Custom/SpritePixelate" {
             }
  
             fixed4 frag (v2f i) : SV_Target {
-                float2 pixelUV = floor(i.uv * _PixelSize) / _PixelSize;
-                fixed4 color = tex2D(_MainTex, pixelUV);
+                // Sample the water texture
+                float2 uv = i.uv;
+                fixed4 water = tex2D(_MainTex, uv);
+ 
+                // Sample the foam texture
+                fixed4 foam = tex2D(_FoamTex, uv);
+ 
+                // Determine if this pixel should be a foam pixel or a water pixel
+                float foamValue = foam.r;
+                float threshold = _FoamThreshold;
+                float isFoam = step(foamValue, threshold);
+ 
+                // Apply the foam color to the foam pixels
+                fixed4 color = lerp(water, _FoamColor, isFoam);
+ 
+                // Add some extra white pixels along the edges of the foam
+                float edgeThreshold = 0.5;
+                float edgeValue = max(max(max(foam.r, foam.g), foam.b), foam.a);
+                float isEdge = step(edgeValue, edgeThreshold);
+                color.rgb += isEdge * _FoamColor.rgb;
+ 
+                // Return the final output color
                 return color;
-            }
-            ENDCG
-        }
-    }
- 
-    FallBack "Diffuse"
-    CustomEditor "UnityEditor.ShaderGraph.SurfaceShaderEditor"
-    Dependency "AddPassShader" = "Hidden/Custom/AddPass"
-    Dependency "SampleTexture2D" = "Hidden/Custom/SampleTexture2D"
- 
-    CGINCLUDE
-    #include "UnityCG.cginc"
- 
-    sampler2D _CameraDepthTexture;
-    float4 _MainTex_ST;
- 
-    half4 fragCustom (appdata_full v, sampler2D tex) : SV_Target
-    {
-        half4 color = tex2D(tex, TRANSFORM_TEX(v.uv, _MainTex));
-        float2 pixelUV = floor(v.uv * _PixelSize) / _PixelSize;
-        return tex2D(tex, pixelUV);
-    }
-    ENDCG
- 
-    SubShader {
-        Tags {"Queue"="Transparent" "RenderType"="Transparent"}
-        LOD 100
- 
-        Pass {
-            Name "FORWARD"
-            Tags {"LightMode"="ForwardBase"}
- 
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-            #pragma multi_compile_fwdbase
-            #include "UnityCG.cginc"
- 
-            struct appdata {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
-            };
- 
-            struct v2f {
-                float2 uv : TEXCOORD0;
-                UNITY_FOG_COORDS(1)
-                float4 vertex : SV_POSITION;
-            };
- 
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
-            float4 _Color;
- 
-            v2f vert (appdata v) {
-                v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                UNITY_TRANSFER_FOG(o,o.vertex);
-                return o;
-            }
- 
-            fixed4 frag (v2f i) : SV_Target {
-                fixed4 col = tex2D(_MainTex, i.uv);
-                col *= _Color;
-                UNITY_APPLY_FOG(i.fogCoord, col);
-                return col;
             }
             ENDCG
         }
