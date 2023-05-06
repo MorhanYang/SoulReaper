@@ -1,16 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.ProBuilder.Shapes;
-using UnityEngine.Timeline;
 
 public class MinionMoverMarker : MonoBehaviour
 {
-    float markertimer;
-    [SerializeField] SpriteRenderer mysprite;
+    public float markertimer;
+    public SpriteRenderer mysprite;
 
     private void Start(){
-        mysprite.enabled= false;
+        //mysprite.enabled= false;
     }
 
     private void Update()
@@ -37,8 +33,10 @@ public class MinionMoverMarker : MonoBehaviour
         // hit object
         else
         {
-            transform.position = subject.position;
-            transform.parent = subject;
+            GameObject newMarker = Instantiate(gameObject, subject.position, subject.rotation, subject);
+            newMarker.GetComponent<MinionMoverMarker>().markertimer = lastTime;
+            mysprite.enabled = false;
+            Destroy(newMarker,lastTime);
         }
 
         markertimer = lastTime;
