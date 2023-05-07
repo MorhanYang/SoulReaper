@@ -101,6 +101,18 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -113,7 +125,7 @@ TextureImporter:
         width: 20
         height: 1
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -134,7 +146,7 @@ TextureImporter:
         width: 26
         height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -155,8 +167,8 @@ TextureImporter:
         width: 56
         height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 12, y: 0, z: 12, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -171,12 +183,12 @@ TextureImporter:
       name: LargeHPBar
       rect:
         serializedVersion: 2
-        x: 8
-        y: 0
+        x: 0
+        y: 1
         width: 48
         height: 5
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -184,6 +196,27 @@ TextureImporter:
       bones: []
       spriteID: e3dba08e711bebd45bc16cd3cb1bdb17
       internalID: 1375216404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HealthBars_0
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 1
+        width: 15
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21f5dd9b0434b93419c65255472c10cd
+      internalID: -1415177885
       vertices: []
       indices: 
       edges: []
@@ -199,6 +232,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      HealthBars_0: -1415177885
       SmallHPBar: 2118061122
       SmallHPGauge: -725059315
       LargeHPBar: 1375216404

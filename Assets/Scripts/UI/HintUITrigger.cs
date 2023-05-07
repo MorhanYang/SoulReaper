@@ -8,8 +8,12 @@ public class HintUITrigger : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        myHint.ShowHint();
+        if (other.GetComponent<PlayerControl>() != null)
+        {
+            myHint.ShowHint();
 
-        Destroy(gameObject);
+            Destroy(gameObject);
+        }
+
     }
 }

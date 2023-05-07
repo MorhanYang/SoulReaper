@@ -423,10 +423,6 @@ public class PlayerControl : MonoBehaviour
     {
         hp.TakeDamage(damage, damageDealer);
         hp.Invincible(invincibleDuration);
-
-        if (hp.presentHealth <= 0){
-            Debug.Log("You died");
-        }
     }
     // melee attack
     void MeleeAttack(float scrollData)
