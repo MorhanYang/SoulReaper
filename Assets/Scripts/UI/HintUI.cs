@@ -44,7 +44,11 @@ public class HintUI : MonoBehaviour
 
         offest.DOFade(1, 0.3f);
         diagram.sprite = diagramList[hintId];
-        text.text = textList[hintId];
+        //refresh Text
+        text.enabled = false;
+        text.SetText(textList[hintId]);
+        text.enabled= true;
+
         if (hintId < (textList.Length - 1) && hintId < (diagramList.Length - 1)) hintId++;
 
         needPause = true;

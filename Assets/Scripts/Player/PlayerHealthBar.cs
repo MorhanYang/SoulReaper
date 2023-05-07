@@ -430,7 +430,7 @@ public class PlayerHealthBar : MonoBehaviour
 
                                 break;
                             }
-                            else GameManager.instance.PopUpUI(new Vector3(0, 24f, 0), "Not engouh Health");
+                            else GameManager.instance.PopUpUI(new Vector3(0, 24f, 0), "Not enough Health");
                         }
                         else if (MinionInCircle[i].GetComponent<Minion>().minionType == 0){
                             minionSet.Add(MinionInCircle[i].GetComponent<Minion>());
@@ -443,10 +443,9 @@ public class PlayerHealthBar : MonoBehaviour
                                 // clean the list and stop loop
                                 minionSet.Clear();
                                 minionSet.Add(MinionInCircle[i].GetComponent<Minion>());
-
                                 break;
                             }
-                            else GameManager.instance.PopUpUI(new Vector3(0, 24f, 0), "Not engouh Health");
+                            else GameManager.instance.PopUpUI(new Vector3(0, 24f, 0), "Not enough Health");
                         }
                     }
                 }
@@ -456,7 +455,7 @@ public class PlayerHealthBar : MonoBehaviour
             }
 
         }
-        else GameManager.instance.PopUpUI(new Vector3(0, 24f, 0), "Not engouh Health");        
+        else GameManager.instance.PopUpUI(new Vector3(0, 24f, 0), "Not enough Health");        
     }
 
     void ReviveTroopFunction(List<Minion> minionSet)
