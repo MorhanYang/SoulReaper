@@ -1,6 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class CursorTimer : MonoBehaviour
 {
@@ -47,11 +48,25 @@ public class CursorTimer : MonoBehaviour
         countdown = countdownTime;
         myCanvasGroup.DOFade(1,0.1f);
     }
-    public void HideCursorTimer()
+    public void HideCursorTimer(){
+        StartCoroutine(HideHintFunction());
+    }
+
+
+    IEnumerator HideHintFunction()
     {
-        if(time < countdown) BarCover.SetActive(true);
+        if (time < countdown) BarCover.SetActive(true);
         showingCusorTimer = false;
         time = 0;
         myCanvasGroup.DOFade(0, 0.2f);
+
+        while (myCanvasGroup.alpha > 0.1f)
+        {
+            yield return null;
+        }
+
+        myCanvasGroup.gameObject.SetActive(false);
+        myCanvasGroup.alpha = 0f;
+
     }
 }
