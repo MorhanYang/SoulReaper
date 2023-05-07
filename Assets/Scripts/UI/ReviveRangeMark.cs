@@ -24,8 +24,6 @@ public class ReviveRangeMark : MonoBehaviour
         for (int i = 0; i < minionsInRange.Length; i++){
             minionList.Add(minionsInRange[i].GetComponent<Minion>());
         }
-
-        Debug.Log(minionsInRange.Length);
     }
 
     private void Update()

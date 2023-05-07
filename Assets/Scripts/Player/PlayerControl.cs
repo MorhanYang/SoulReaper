@@ -96,8 +96,7 @@ public class PlayerControl : MonoBehaviour
         //Mouse Control Combo
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()){
             StartCoroutine(ExecuteMouseControl());
-        }
-        if (Input.GetMouseButtonDown(1)){
+        }else if (Input.GetMouseButtonDown(1)){
             StartCoroutine(ExecuteMouseControl());
         }
 
@@ -174,6 +173,8 @@ public class PlayerControl : MonoBehaviour
         // excute events after delay
         yield return new WaitForSeconds(0.15f);
 
+        Debug.Log("MouseData" + mouseInputCount);
+
         if (mouseInputCount != 0){
             // Rebirth Function
             if (mouseInputCount % 100 > 0 && mouseInputCount / 100 > 0){
@@ -181,7 +182,7 @@ public class PlayerControl : MonoBehaviour
                 if (gameManager.IsSpellIsReady(3))
                 {
                     //Activate CD UI
-                    gameManager.ActivateSpellCDUI(3);
+                    //gameManager.ActivateSpellCDUI(3);
                     // Excute Function
                     StartCoroutine("RebirthTroop");
                     //hp.RebirthTroop(aimPos, 1.5f);
@@ -192,7 +193,7 @@ public class PlayerControl : MonoBehaviour
                 // left Click
                 if (gameManager.IsSpellIsReady(1)){
                     //Activate CD UI
-                    gameManager.ActivateSpellCDUI(1);
+                    //gameManager.ActivateSpellCDUI(1);
                     // Excute Function
                     AssignOneMinion();
                 }
@@ -203,7 +204,7 @@ public class PlayerControl : MonoBehaviour
                 if (gameManager.IsSpellIsReady(2))
                 {
                     //Activate CD UI
-                    gameManager.ActivateSpellCDUI(2);
+                    //gameManager.ActivateSpellCDUI(2);
                     // Excute Function
                     RecallTroops();
                 }
@@ -306,12 +307,13 @@ public class PlayerControl : MonoBehaviour
 
     IEnumerator ContinueRecallTroops()
     {
+        Debug.Log("startRecall");
         float holdTime = 0.5f;
         // loop
         while (recallMinionTimer < holdTime && Input.GetMouseButton(1))
         {
             recallMinionTimer += Time.deltaTime;
-            if (recallMinionTimer > 0.15f) cursorTimer.ShowCursorTimer(holdTime-0.15f);
+            //if (recallMinionTimer > 0.15f) cursorTimer.ShowCursorTimer(holdTime-0.15f);
             yield return new WaitForEndOfFrame();
         }
 
