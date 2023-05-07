@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 64
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -108,10 +108,10 @@ TextureImporter:
       name: MainCharacterNew_Idle0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 224
-        width: 25
-        height: 32
+        x: 6
+        y: 448
+        width: 50
+        height: 64
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -129,10 +129,10 @@ TextureImporter:
       name: MainCharacterNew_Idle1
       rect:
         serializedVersion: 2
-        x: 35
-        y: 224
-        width: 25
-        height: 31
+        x: 70
+        y: 448
+        width: 50
+        height: 62
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,10 +150,10 @@ TextureImporter:
       name: MainCharacterNew_Idle2
       rect:
         serializedVersion: 2
-        x: 67
-        y: 224
-        width: 25
-        height: 31
+        x: 134
+        y: 448
+        width: 50
+        height: 62
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,10 +171,10 @@ TextureImporter:
       name: MainCharacterNew_Idle3
       rect:
         serializedVersion: 2
-        x: 99
-        y: 224
-        width: 25
-        height: 32
+        x: 198
+        y: 448
+        width: 50
+        height: 64
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -184,6 +184,195 @@ TextureImporter:
       bones: []
       spriteID: 7fa20cce7cbac7a4a988cda7980cf076
       internalID: 1878602119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainCharacterNew_Run0
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 384
+        width: 52
+        height: 60
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cefa510ce6eed024fa3deb5cb24b26ff
+      internalID: 1450796202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainCharacterNew_Run1
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 384
+        width: 52
+        height: 62
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f578dbd0aecc3574d8ab64eca1a31bf9
+      internalID: 1056285010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainCharacterNew_Run2
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 384
+        width: 52
+        height: 60
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6156979ee52f520408767f29faf32f06
+      internalID: -322618513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainCharacterNew_Run3
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 384
+        width: 52
+        height: 62
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32edacb586193f64c85121b95bef7ad7
+      internalID: -1087807850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainCharacterNew_Run4
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 384
+        width: 54
+        height: 62
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87f8a93ce711e054d8c7939d1e8bea88
+      internalID: 1552192038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainCharacterNew_Run5
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 384
+        width: 56
+        height: 62
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6081602476da01044ae410c400236bbe
+      internalID: 800034557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainCharacterNew_Dash0
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 320
+        width: 38
+        height: 60
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d61e246ab656ecf46bcae88d86d23910
+      internalID: -890346828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainCharacterNew_Dash1
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 320
+        width: 45
+        height: 58
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02dd16c2317164c4fb1897f29c00e56b
+      internalID: 911729089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainCharacterNew_Dash2
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 320
+        width: 39
+        height: 56
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09d32ec4ff9734d4488640a540eb83a3
+      internalID: -1322027969
       vertices: []
       indices: 
       edges: []
@@ -199,10 +388,19 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      MainCharacterNew_Run2: -322618513
       MainCharacterNew_Idle0: 1173208420
+      MainCharacterNew_Dash2: -1322027969
+      MainCharacterNew_Run0: 1450796202
+      MainCharacterNew_Dash1: 911729089
       MainCharacterNew_Idle3: 1878602119
+      MainCharacterNew_Run3: -1087807850
+      MainCharacterNew_Run4: 1552192038
+      MainCharacterNew_Run5: 800034557
       MainCharacterNew_Idle1: -2087283926
+      MainCharacterNew_Dash0: -890346828
       MainCharacterNew_Idle2: 50631288
+      MainCharacterNew_Run1: 1056285010
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 1
