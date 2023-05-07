@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
 
     // ********************************************** Scene Control **************************************************
     public static void Restart(){
-        SceneManager.LoadScene("Sewer_Tutorial");
+        SceneManager.LoadScene("StartScene");
     }
     // Save and Load
     public void LoadPlayerData()

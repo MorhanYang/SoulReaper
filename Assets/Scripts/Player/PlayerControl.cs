@@ -134,6 +134,11 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetAxis("Mouse ScrollWheel") != 0){
             MeleeAttack(Input.GetAxis("Mouse ScrollWheel"));
         }
+
+        // footstep sound
+        if (move != Vector3.zero && !foodstepSound.isPlaying && Time.timeScale >= 1) { foodstepSound.Play(); }
+        if (move == Vector3.zero && foodstepSound.isPlaying) { foodstepSound.Stop(); }
+        if (Time.timeScale < 1) foodstepSound.Stop();
     }
 
     private void FixedUpdate()
@@ -167,7 +172,7 @@ public class PlayerControl : MonoBehaviour
         }
 
         // excute events after delay
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.15f);
 
         if (mouseInputCount != 0){
             // Rebirth Function
@@ -227,10 +232,6 @@ public class PlayerControl : MonoBehaviour
 
         //animator control
         characterAnimator.SetBool("IsMoving", move != Vector3.zero);
-        //sound
-        if (move != Vector3.zero && !foodstepSound.isPlaying && Time.timeScale >= 1) { foodstepSound.Play(); }
-        if (move == Vector3.zero && foodstepSound.isPlaying) { foodstepSound.Stop(); }
-        if (Time.timeScale < 1) foodstepSound.Stop();
     }
     void RollFunction() {
         //animation
@@ -269,7 +270,7 @@ public class PlayerControl : MonoBehaviour
     IEnumerator RebirthTroop()
     {
         float timeCount = 0;
-        float radius = 1.6f;
+        float radius = 1.6f; // ReviveRangeMarker has another radius.
 
         // show range indicator
         GameObject effect = Instantiate(rebirthRangeEffect, aimPos, transform.rotation);
@@ -472,6 +473,7 @@ public class PlayerControl : MonoBehaviour
 
     // ************************************************************* Teleport ***********************************************
     public void SetPlayerToTeleporting(){
+        move = Vector3.zero;
         combateState = CombateState.teleporting;
     }
     public void inActivateTeleporting()

@@ -16,7 +16,9 @@ public class Minion : MonoBehaviour
     [SerializeField] GameObject recallingMinion;
     [SerializeField] float getDamageRate = 0.5f;
     [SerializeField] GameObject rebirthIcon;
+    [SerializeField] GameObject RebirthIcon_Select;
     [SerializeField] GameObject SelectEffect;
+
 
     public bool isActive = false;
 
@@ -28,6 +30,8 @@ public class Minion : MonoBehaviour
 
     // Minion Size
     public int minionSize = 1; // only can be maxTroopCapacity(PlayerHealthBar) or 1
+
+    // extra control
     [SerializeField] bool isTrigger;
     [SerializeField] Puzzle_Bridge myBridge;
     [SerializeField] Puzzle_Vine myVines;
@@ -91,6 +95,11 @@ public class Minion : MonoBehaviour
         }
     }
     //*****************************************************Change Minion State******************************************
+
+    public void SetRebirthSelect(bool state){ 
+        RebirthIcon_Select.SetActive(state);
+    }
+
     public void SetActiveDelay(float delay)
     {
         if (!isActive){
@@ -99,6 +108,7 @@ public class Minion : MonoBehaviour
 
             // play recall animation
             rebirthIcon.SetActive(false);
+            SetRebirthSelect(false);
             // get a recalling minion from player
             GameObject effect = Instantiate(recallingMinion, PlayerManager.instance.player.transform.position, transform.rotation);
             effect.GetComponent<RecallingMinion>().AimTo(transform);

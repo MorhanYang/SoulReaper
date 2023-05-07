@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour
 
     // death trigger
     [SerializeField] SpikeGate blocker;
+    [SerializeField] SoundTrigger previousSoundTrigger;
 
     // sound 
     SoundManager mySoundManager;
@@ -92,7 +93,8 @@ public class Enemy : MonoBehaviour
 
             // decativate blockers
             if (blocker != null) blocker.openDoor();
-
+            // stop triggered sound
+            if(previousSoundTrigger != null) previousSoundTrigger.StopTriggeredSound();
             // change cursor
             GameManager.instance.GetComponent<CursorManager>().ActivateDefaultCursor();
         }
@@ -133,7 +135,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // ***********************************Flip***********************************
+    // *********************************** Stop Combate music ***********************************
 
 
 }
