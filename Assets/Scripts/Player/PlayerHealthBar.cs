@@ -473,11 +473,12 @@ public class PlayerHealthBar : MonoBehaviour
                 GenerateNewTroop();
 
                 // revieve minion
-                minionSet[0].GetComponent<Minion>().SetActiveDelay(rebirthDelay);
-                //add to troop list
-                Debug.Log("maxTroopCapacity" + maxTroopCapacity);
-                troopPresent.AddTroopMember(minionSet[0].GetComponent<Minion>());
-
+                if (minionSet[0].GetComponent<Minion>().SetActiveDelay(rebirthDelay))
+                {
+                    //add to troop list
+                    Debug.Log("maxTroopCapacity" + maxTroopCapacity);
+                    troopPresent.AddTroopMember(minionSet[0].GetComponent<Minion>());
+                }
                 // reset the present troop
                 troopPresent = mytroop;// prevent troop present change trooppresent for small minion;
 

@@ -31,9 +31,18 @@ public class ReviveRangeMark : MonoBehaviour
         for (int i = 0; i < minionList.Count; i++){
             if (Vector3.Distance(minionList[i].transform.position, transform.position) < radius){
                 minionList[i].SetRebirthSelect(true);
-                Debug.Log("Select dead minion");
             }
             else{
+                minionList[i].SetRebirthSelect(false);
+            }
+        }
+    }
+
+    // hide rebirth select
+    private void OnDestroy()
+    {
+        for (int i = 0; i < minionList.Count; i++){
+            if (minionList[i].tag == "Minion"){
                 minionList[i].SetRebirthSelect(false);
             }
         }

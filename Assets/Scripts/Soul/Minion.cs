@@ -100,11 +100,10 @@ public class Minion : MonoBehaviour
         RebirthIcon_Select.SetActive(state);
     }
 
-    public void SetActiveDelay(float delay)
+    public bool SetActiveDelay(float delay)
     {
         if (!isActive){
             Invoke("ActiveMinion", delay);
-            isActive = true;
 
             // play recall animation
             rebirthIcon.SetActive(false);
@@ -116,48 +115,71 @@ public class Minion : MonoBehaviour
             if (myAnimator != null){
                 myAnimator.SetBool("Rebirth", true);
                 myAnimator.SetBool("Dying", false);
-            } 
+            }
+
+            isActive = true;
+
+            return true;
         }
+        return false;
     }
     void ActiveMinion()
     {
-        // normal minion
-        if (!isTrigger && isActive){
-            gameObject.layer = LayerMask.NameToLayer("MovingMinion");
-            myAI.ActivateMinion();
-        }
+        if (isActive){
+            // normal minion
+            if (!isTrigger)
+            {
+                gameObject.layer = LayerMask.NameToLayer("MovingMinion");
+                myAI.ActivateMinion();
+            }
 
-        // trigger
-        if (isTrigger && isActive){
-            if(myBridge != null) myBridge.AddObject(1);
-            if(myVines != null) myVines.AddObject(1);
-            gameObject.layer = LayerMask.NameToLayer("Default");
+            // trigger
+            if (isTrigger)
+            {
+                if (myBridge != null) myBridge.AddObject(1);
+                if (myVines != null) myVines.AddObject(1);
+                gameObject.layer = LayerMask.NameToLayer("Default");
+            }
         }
+        else{
+            if (myAnimator != null)
+            {
+                rebirthIcon.SetActive(true);
+
+                myAnimator.SetBool("Rebirth", false);
+                myAnimator.SetBool("Dying", true);
+            }
+        }
+       
+
     }
     public void SetInactive(bool needRecallEffect)
     {
         // normal minion
-        if(!isTrigger) myAI.InactiveMinion();
+        if (!isTrigger) myAI.InactiveMinion();
 
         // trigger
-        if (isTrigger){
+        if (isTrigger)
+        {
             if (myBridge != null) myBridge.DetractObject(1);
-            if (myVines) myVines.DetractObject(1); 
+            if (myVines) myVines.DetractObject(1);
         }
         // set data
         myTroop = null;
         gameObject.layer = LayerMask.NameToLayer("Minion");
 
         // play recall animation
-        if (needRecallEffect){
+        if (needRecallEffect)
+        {
             GameObject effect = Instantiate(recallingMinion, transform.position, transform.rotation);
             effect.GetComponent<RecallingMinion>().AimTo(PlayerManager.instance.player.transform);
 
             mySoundManager.PlaySoundAt(PlayerManager.instance.player.gameObject.transform.position, "Release", false, false, 1.5f, 0.5f, 100, 100);
         }
-        
+
         rebirthIcon.SetActive(true);
-        if (myAnimator != null) {
+        if (myAnimator != null)
+        {
             myAnimator.SetBool("Dying", true);
             myAnimator.SetBool("Rebirth", false);
         }

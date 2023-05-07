@@ -39,6 +39,7 @@ public class HintUI : MonoBehaviour
 
 
     void ShowHintFunction(){
+        Debug.Log("hintId: " + hintId);
         
         offest.gameObject.SetActive(true);
 

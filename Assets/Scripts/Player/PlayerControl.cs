@@ -173,8 +173,6 @@ public class PlayerControl : MonoBehaviour
         // excute events after delay
         yield return new WaitForSeconds(0.15f);
 
-        Debug.Log("MouseData" + mouseInputCount);
-
         if (mouseInputCount != 0){
             // Rebirth Function
             if (mouseInputCount % 100 > 0 && mouseInputCount / 100 > 0){
