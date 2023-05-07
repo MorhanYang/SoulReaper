@@ -162,7 +162,7 @@ public class MinionTroop : MonoBehaviour
     }
 
     public void AddTroopMember(Minion member) {
-        if (member != null)
+        if (member != null && !TroopMember.Contains(member))
         {
             TroopMember.Add(member);
             member.SetTroop(this);

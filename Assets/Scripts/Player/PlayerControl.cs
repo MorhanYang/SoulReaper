@@ -307,27 +307,29 @@ public class PlayerControl : MonoBehaviour
 
     IEnumerator ContinueRecallTroops()
     {
-        Debug.Log("startRecall");
         float holdTime = 0.5f;
         // loop
         while (recallMinionTimer < holdTime && Input.GetMouseButton(1))
         {
             recallMinionTimer += Time.deltaTime;
-            //if (recallMinionTimer > 0.15f) cursorTimer.ShowCursorTimer(holdTime-0.15f);
+            if (recallMinionTimer > 0.15f){
+                cursorTimer.gameObject.SetActive(true);
+                cursorTimer.ShowCursorTimer(holdTime - 0.15f);
+            }
             yield return new WaitForEndOfFrame();
         }
 
         // recall all
         if (recallMinionTimer >= holdTime)
         {
-            cursorTimer.HideCursorTimer();
+            if (cursorTimer.gameObject.activeSelf) cursorTimer.HideCursorTimer();
             // recall all troops
             List<MinionTroop> allTroop = hp.GetActivedTroop();
             int recallTimes = allTroop.Count; // allTroop.Count will change after the reacall
             for (int i = 0; i < recallTimes; i++){
                 hp.RegainAllTroopHP();
             }
-        }else cursorTimer.HideCursorTimer();
+        }else if(cursorTimer.gameObject.activeSelf) cursorTimer.HideCursorTimer();
     }
     //************************************************** Assign Troop *******************************************
     void AssignOneMinion()
