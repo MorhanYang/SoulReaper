@@ -540,28 +540,31 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Naomi
+  m_text: 'Naomi Clark
 
-    Mattie
+    Mattie Brice
 
-    Danny
+    Danny Hawk
 
+    Lawra Suits Clark
 
     Shawn
+    Pierre
 
+    Jackson Wang
 
-    Yuanfan
+    Yuanfan Yang
 
-    Aris
+    Aris Lv
 
-    Chros
+    Chros Wang
 
     Ian
+    Tang
 
-    Jacob
+    Jacob Zhai
 
-    &
-    More'
+    & More'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3233572a1bc7aa3469ab3b266de7ff6e, type: 2}
   m_sharedMaterial: {fileID: 894082009290984138, guid: 3233572a1bc7aa3469ab3b266de7ff6e, type: 2}
@@ -775,7 +778,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -51.5, y: -816.68}
+  m_AnchoredPosition: {x: -51.5, y: -818}
   m_SizeDelta: {x: 76.8782, y: 77.6426}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &943238842
@@ -1213,27 +1216,29 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Morhan
+  m_text: 'Morhan Yang
 
-    Leo
+    Leo Wang
+
+    Yalin Zhang
+
+    Leo Wang
+
+    Morhan Yang
+
+    Morhan
+    Yang
+
+    Daley Lin
+
+    Morhan Yang
+
+    Leo Wang
+
+    Morhan Yang
 
     Yalin
-
-    Leo
-
-    Morhan
-
-    Morhan
-
-    Daley
-
-    Morhan
-
-    Leo
-
-    Morhan
-
-    Yalin
+    Zhang
 
 
 '
@@ -1513,6 +1518,7 @@ MonoBehaviour:
 
     Faculty Adviser
 
+    Other
 
     Tester'
   m_isRightToLeft: 0
@@ -1994,7 +2000,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 44.4, y: -816.65}
+  m_AnchoredPosition: {x: 44.4, y: -818}
   m_SizeDelta: {x: 77.7062, y: 77.705}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1812991513
