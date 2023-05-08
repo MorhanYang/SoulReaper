@@ -35,12 +35,14 @@ public class MinionTroop : MonoBehaviour
     }
 
     //********************************************Reset Troop Info************************************************************
-    public void ResetTroopHP(float hp, int maxCapacity)
+    public void ResetTroopHP(float presentHP, float MaxHP, int maxCapacity)
     {
-        health.Maxhealth = hp;
-        health.presentHealth = hp;
+        health.Maxhealth = MaxHP;
+        health.presentHealth = presentHP;
         MaxMember = maxCapacity;
         TroopSpaceLeft = maxCapacity;
+
+        health.HealthUpdate();
     }
 
     //************************************************Sprint***************************************************************

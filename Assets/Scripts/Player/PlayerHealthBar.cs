@@ -386,7 +386,7 @@ public class PlayerHealthBar : MonoBehaviour
 
             // display
             Sequence mysequence = DOTween.Sequence();
-            mysequence.Join(troop.transform.DOMoveY(-10, 0.3f))
+            mysequence.Join(troop.transform.DOMoveY(650f, 0.3f))
                 .Join(troop.GetComponent<CanvasGroup>().DOFade(0, 0.3f))
                 .Join(myItem.GetComponent<CanvasGroup>().DOFade(1, 1f));
 
@@ -437,7 +437,7 @@ public class PlayerHealthBar : MonoBehaviour
         else troopHaveSpace = false;
 
         // have health to rebirth troop
-        if (presentExtraHealth >= indiviualMaxValue || troopHaveSpace)
+        if (presentExtraHealth > 0 || troopHaveSpace)
         {
             Collider[] MinionInCircle = Physics.OverlapSphere(pointedPos, radius, LayerMask.GetMask("Minion"));// when rebirth minion, the layer will change
 
@@ -455,7 +455,7 @@ public class PlayerHealthBar : MonoBehaviour
                         if (MinionInCircle[i].GetComponent<Minion>().minionType == 1)// Special minion
                         {
                             // only add special minion
-                            if (presentExtraHealth >= indiviualMaxValue){
+                            if (presentExtraHealth > 0){
                                 // clean the list and stop loop
                                 minionSet.Clear();
                                 minionSet.Add(MinionInCircle[i].GetComponent<Minion>());
@@ -471,7 +471,7 @@ public class PlayerHealthBar : MonoBehaviour
                         }
                         else if (MinionInCircle[i].GetComponent<Minion>().minionType == 2 && MinionInCircle.Length <= 1){
                             // only add special minion
-                            if (presentExtraHealth >= indiviualMaxValue) {
+                            if (presentExtraHealth > 0) {
                                 // clean the list and stop loop
                                 minionSet.Clear();
                                 minionSet.Add(MinionInCircle[i].GetComponent<Minion>());
@@ -499,7 +499,7 @@ public class PlayerHealthBar : MonoBehaviour
         if (minionSet.Count > 0)
         {
             // ********special minion
-            if (minionSet[0].minionSize == maxTroopCapacity && presentExtraHealth >= indiviualMaxValue)
+            if (minionSet[0].minionSize == maxTroopCapacity && presentExtraHealth >0 )
             {
                 MinionTroop mytroop = troopPresent;
                 GenerateNewTroop();
@@ -562,9 +562,20 @@ public class PlayerHealthBar : MonoBehaviour
 
     void GenerateNewTroop()
     {
+        float troopHP;
         // update data
-        presentExtraHealth -= indiviualMaxValue;
+        if (presentExtraHealth < indiviualMaxValue){
+            troopHP = presentExtraHealth;
+            presentExtraHealth = 0;
+            HpInPresentBar = 0;
+        }
+        else{
+            presentExtraHealth -= indiviualMaxValue;
+            troopHP = indiviualMaxValue;
+            
+        }
         extraHealthMax -= indiviualMaxValue;
+
         // initial Player health bar
         if (presentExtraHealth > 0) isUsingPlayerInitialHealthBar = false;
 
@@ -572,17 +583,24 @@ public class PlayerHealthBar : MonoBehaviour
         Transform hpBarRemoving = hpBarsList[0].transform.parent.parent;
         Destroy(hpBarRemoving.gameObject, 0.53f);// delay for display
         hpBarsList.RemoveAt(0);
-        if (barPresentId > 0) barPresentId--;
 
         // Generate Troop Bar
         troopPresent = Instantiate(itemMinionHPTemp, hpUI.transform);
         troopPresent.GetComponent<CanvasGroup>().alpha = 0f;
         troopPresent.gameObject.SetActive(true);
-        troopPresent.GetComponent<MinionTroop>().ResetTroopHP(indiviualMaxValue, maxTroopCapacity);
+        troopPresent.GetComponent<MinionTroop>().ResetTroopHP(troopHP, indiviualMaxValue, maxTroopCapacity);
+        if (barPresentId > 0) { 
+            barPresentId--;
+            barPresent = hpBarsList[barPresentId];
+        }
+        else{
+            barPresentId = -1;
+            barPresent = null;
+        }
 
         // display
         Sequence mysequence = DOTween.Sequence();
-        mysequence.Join(hpBarRemoving.DOMoveY(-10f, 0.5f))
+        mysequence.Join(hpBarRemoving.DOMoveY(650f, 0.5f))
             .Join(hpBarRemoving.GetComponent<CanvasGroup>().DOFade(0, 0.5f))
             .Append(troopPresent.GetComponent<CanvasGroup>().DOFade(1f, 1f));
 
