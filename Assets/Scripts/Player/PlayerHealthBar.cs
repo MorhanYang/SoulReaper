@@ -24,7 +24,6 @@ public class PlayerHealthBar : MonoBehaviour
     [SerializeField] GameObject hpUI;
     List<Image> hpBarsList = new List<Image>();
     [SerializeField] Image playerInitialHealthBar;
-    bool isUsingPlayerInitialHealthBar;
     public float extraHealthMax = 100;
     public float presentExtraHealth = 100;
 
@@ -71,8 +70,6 @@ public class PlayerHealthBar : MonoBehaviour
 
         indiviualMaxValue = 20;
         barPresent = hpBarsList[cellNum - 1];
-        if (presentExtraHealth > 0) isUsingPlayerInitialHealthBar = false;
-        else isUsingPlayerInitialHealthBar = false;
 
         HealthHPReset();
     }
@@ -177,8 +174,6 @@ public class PlayerHealthBar : MonoBehaviour
         barPresentId = fullBarNum;
         barPresent = hpBarsList[fullBarNum];
 
-        // initial Player health bar
-        if (presentExtraHealth > 0) isUsingPlayerInitialHealthBar = false;
     }
 
     //*********************************************************** Damage **********************************************************
@@ -187,8 +182,9 @@ public class PlayerHealthBar : MonoBehaviour
         if (invincibleTimer <= 0)
         {
             // check if the player is using initial player health bar
-            if (presentExtraHealth == 0 && isUsingPlayerInitialHealthBar){
+            if (presentExtraHealth == 0){
                 PlayerInitalHealthBarGetdamage();
+                return;
             }
 
             // real damage
@@ -213,8 +209,6 @@ public class PlayerHealthBar : MonoBehaviour
                     barPresent.fillAmount = 0;
 
                     presentExtraHealth = 0;
-                    isUsingPlayerInitialHealthBar = true;
-                    return;
                 }
                 else // not last health bar
                 {
@@ -227,11 +221,6 @@ public class PlayerHealthBar : MonoBehaviour
                     TakeDamage(passedDamage, null);
                 }
             }
-        }
-
-        // player dead
-        if (presentExtraHealth < 0){
-
         }
     }
 
@@ -288,9 +277,6 @@ public class PlayerHealthBar : MonoBehaviour
 
             Healing(passedHP);
         }
-
-        // initial Player health bar
-        if (presentExtraHealth > 0) isUsingPlayerInitialHealthBar = false;
     }
 
     public void AddHealthMax()
@@ -576,9 +562,6 @@ public class PlayerHealthBar : MonoBehaviour
         }
         extraHealthMax -= indiviualMaxValue;
 
-        // initial Player health bar
-        if (presentExtraHealth > 0) isUsingPlayerInitialHealthBar = false;
-
         //Destory First HP 
         Transform hpBarRemoving = hpBarsList[0].transform.parent.parent;
         Destroy(hpBarRemoving.gameObject, 0.53f);// delay for display
@@ -594,8 +577,15 @@ public class PlayerHealthBar : MonoBehaviour
             barPresent = hpBarsList[barPresentId];
         }
         else{
-            barPresentId = -1;
-            barPresent = null;
+            if (hpBarsList.Count > 0){
+                barPresentId = 0;
+                barPresent = hpBarsList[barPresentId];
+            }
+            else{
+                barPresentId = -1;
+                barPresent = null;
+            }
+
         }
 
         // display
