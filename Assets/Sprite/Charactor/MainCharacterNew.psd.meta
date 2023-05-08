@@ -70,7 +70,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -377,6 +377,153 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: MainCharacterNew_Intro0
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 256
+        width: 52
+        height: 50
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 811479eec14e9914b8ebf2ff0588e809
+      internalID: -316765693
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainCharacterNew_Intro1
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 256
+        width: 52
+        height: 50
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4f0b157f2b0f8b4480f772114caf54d
+      internalID: 582387541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainCharacterNew_Intro2
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 256
+        width: 52
+        height: 60
+      alignment: 9
+      pivot: {x: 0.5179848, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5d63a9bb04d6b54d89a67b4af827074
+      internalID: -429597180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainCharacterNew_Intro3
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 256
+        width: 51
+        height: 62
+      alignment: 9
+      pivot: {x: 0.53, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b0308c3a3a18e3458ddbffbf71b9b93
+      internalID: 1372284556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainCharacterNew_Intro4
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 256
+        width: 52
+        height: 64
+      alignment: 9
+      pivot: {x: 0.525, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e37c7db6630c3224cbc289bfa83695f8
+      internalID: -1068710410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainCharacterNew_Intro5
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 257
+        width: 54
+        height: 64
+      alignment: 9
+      pivot: {x: 0.51, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49d41ab8aedaea449b3e93e6a3cfa998
+      internalID: 650612441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainCharacterNew_Intro6
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 256
+        width: 50
+        height: 64
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49f39565d85ea68408bc102f4684e539
+      internalID: -370461163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -391,8 +538,14 @@ TextureImporter:
       MainCharacterNew_Run2: -322618513
       MainCharacterNew_Idle0: 1173208420
       MainCharacterNew_Dash2: -1322027969
+      MainCharacterNew_Intro6: -370461163
+      MainCharacterNew_Intro3: 1372284556
+      MainCharacterNew_Intro1: 582387541
+      MainCharacterNew_Intro0: -316765693
       MainCharacterNew_Run0: 1450796202
+      MainCharacterNew_Intro5: 650612441
       MainCharacterNew_Dash1: 911729089
+      MainCharacterNew_Intro2: -429597180
       MainCharacterNew_Idle3: 1878602119
       MainCharacterNew_Run3: -1087807850
       MainCharacterNew_Run4: 1552192038
@@ -400,6 +553,7 @@ TextureImporter:
       MainCharacterNew_Idle1: -2087283926
       MainCharacterNew_Dash0: -890346828
       MainCharacterNew_Idle2: 50631288
+      MainCharacterNew_Intro4: -1068710410
       MainCharacterNew_Run1: 1056285010
   spritePackingTag: 
   pSDRemoveMatte: 0

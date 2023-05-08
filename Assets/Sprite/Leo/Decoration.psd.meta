@@ -231,13 +231,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decoration_6
+      name: Moss1
       rect:
         serializedVersion: 2
-        x: 11
-        y: 104
-        width: 16
-        height: 12
+        x: 1
+        y: 124
+        width: 11
+        height: 3
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -252,15 +252,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decoration_7
+      name: MossTip
       rect:
         serializedVersion: 2
-        x: 17
+        x: 49
         y: 82
-        width: 16
-        height: 4
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -273,13 +273,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decoration_8
+      name: VineLoop
       rect:
         serializedVersion: 2
-        x: 59
-        y: 89
+        x: 38
+        y: 112
         width: 6
-        height: 29
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -294,7 +294,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decoration_9
+      name: MushroomSmall
       rect:
         serializedVersion: 2
         x: 75
@@ -315,7 +315,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decoration_10
+      name: MushroomBig
       rect:
         serializedVersion: 2
         x: 89
@@ -336,7 +336,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decoration_11
+      name: MushroomMid
       rect:
         serializedVersion: 2
         x: 112
@@ -357,7 +357,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decoration_12
+      name: Sewer
       rect:
         serializedVersion: 2
         x: 21
@@ -386,7 +386,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -394,6 +394,132 @@ TextureImporter:
       bones: []
       spriteID: 36bd472b470cf05419eb9dac410c6dcb
       internalID: 1187283610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Candle
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 4
+        width: 22
+        height: 24
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 157ae961df70f20498c5188300c16f81
+      internalID: 1898470869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Barrel
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 13
+        width: 32
+        height: 40
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ec48f93dfd371540b108e615735afb5
+      internalID: -1565838481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MossLoop
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 112
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da6d58f46e61e194293d18780b56e7ce
+      internalID: -1627473907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VineEnd
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 81
+        width: 5
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26a72ccc57850714493cd1a4b247ed2c
+      internalID: 1100439488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moss2
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 118
+        width: 18
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9eb326b3ff45cad488b0df62bc008543
+      internalID: -2017265175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moss3
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 112
+        width: 16
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00d9fc4e34b4de8428aad7b25f586c29
+      internalID: -185844140
       vertices: []
       indices: 
       edges: []
@@ -409,20 +535,26 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Decoration_8: -1878123182
+      Candle: 1898470869
       Decoration_2: 2144495504
-      Decoration_11: -558568922
-      Decoration_6: 223837822
-      Decoration_12: 108162719
+      Sewer: 108162719
+      MossTip: -685130160
+      Moss2: -2017265175
+      Moss1: 223837822
+      VineEnd: 1100439488
+      Barrel: -1565838481
       Decoration_13: 1187283610
+      MushroomMid: -558568922
+      Moss3: -185844140
+      VineLoop: -1878123182
       Decoration_4: -456831225
       Decoration_3: 1163886337
-      Decoration_10: -1971271845
+      MushroomSmall: 1590917723
+      MossLoop: -1627473907
       Decoration_0: 1196680422
       Decoration_1: 1421664706
-      Decoration_9: 1590917723
+      MushroomBig: -1971271845
       Decoration_5: -453477876
-      Decoration_7: -685130160
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 1
