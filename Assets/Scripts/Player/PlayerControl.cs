@@ -15,9 +15,9 @@ public class PlayerControl : MonoBehaviour
     Rigidbody rb;
 
     Vector3 aimPos;
-    Transform aim;
-    [SerializeField] Transform[] soulGenerator;
 
+    [SerializeField] Transform[] soulGenerator;
+    [SerializeField] Transform Character;
     [SerializeField] LayerMask groundMask;
 
     // Attack
@@ -400,14 +400,14 @@ public class PlayerControl : MonoBehaviour
     {
         if (move.x < 0 && isFacingRight)
         {
-            transform.Find("Character").GetComponent<SpriteRenderer>().flipX = true;
+            Character.localScale = new Vector3(-Character.localScale.x, Character.localScale.y, Character.localScale.z);
             // Flip Attack Point
             attackFlipAix.Rotate(0f,180f,0f);
             isFacingRight = !isFacingRight;
         }
         if (move.x > 0 && !isFacingRight)
         {
-            transform.Find("Character").GetComponent<SpriteRenderer>().flipX = false;
+            Character.localScale = new Vector3(-Character.localScale.x, Character.localScale.y, Character.localScale.z);
             // Flip Attack Point
             attackFlipAix.Rotate(0f, 180f, 0f);
             isFacingRight = !isFacingRight;
