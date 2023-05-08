@@ -386,7 +386,7 @@ public class PlayerHealthBar : MonoBehaviour
 
             // display
             Sequence mysequence = DOTween.Sequence();
-            mysequence.Join(troop.transform.DOMoveY(650f, 0.3f))
+            mysequence.Join(troop.GetComponent<RectTransform>().DOLocalMoveY(-70f, 0.3f))
                 .Join(troop.GetComponent<CanvasGroup>().DOFade(0, 0.3f))
                 .Join(myItem.GetComponent<CanvasGroup>().DOFade(1, 1f));
 
@@ -600,7 +600,7 @@ public class PlayerHealthBar : MonoBehaviour
 
         // display
         Sequence mysequence = DOTween.Sequence();
-        mysequence.Join(hpBarRemoving.DOMoveY(650f, 0.5f))
+        mysequence.Join(hpBarRemoving.GetComponent<RectTransform>().DOLocalMoveY(-70f, 0.3f))
             .Join(hpBarRemoving.GetComponent<CanvasGroup>().DOFade(0, 0.5f))
             .Append(troopPresent.GetComponent<CanvasGroup>().DOFade(1f, 1f));
 
