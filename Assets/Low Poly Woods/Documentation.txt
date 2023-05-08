@@ -1,0 +1,20 @@
+DOCUMENTATION FOR "Low Poly Woods" 
+
+- The Asset Package contains 2 shaders and 3 materials. The materials are menat for forest foliage, ground foliage and snow all over the scene.
+
+The shader  "ForestShader_Winter" is meant to be used om everything. The parameters are:
+- SnowDirection - wich defines the direction of the snow on the objects
+- SnowNoiseAmount - determines the noise of the snow
+- SnowOpacity - is meant for snow opacity, maybe you want a smooth transition from no Snow, to so much Snow
+- SnowUniformity - is controling the noise generator for uniform snow
+
+
+The shader  "ForestShader" is more difficult to configure. For this shader you will have to use 2 materials, "ForestMaterial"for
+tree foliage, and "GroundMaterial"for terrain. The shader contains the following parameters:
+
+- IsAutumn- control the random seed of the colors, int he shadergraph file you will find a gradient wich can be modified to what colors you desire.
+- AutumnSeed- controls the seed colors of the Autumn
+- Reference color- is the color the shader is meant to change, unfortanetly it doesnt work as intended for now, but it will be fixed in
+			 the next update
+-FoliageColor- if isAutumn is false, this option will change the color of the foliage acording. Also the reference color has to be set right
+ 
