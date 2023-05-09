@@ -94,10 +94,28 @@ public class PlayerControl : MonoBehaviour
         MouseAimFunction();
 
         //Mouse Control Combo
-        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()){
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+        {
             StartCoroutine(ExecuteMouseControl());
-        }else if (Input.GetMouseButtonDown(1)){
-            StartCoroutine(ExecuteMouseControl());
+        }
+        else{
+            //// check what is hited
+            //if (Input.GetMouseButtonDown(0)){
+            //    PointerEventData pointer = new PointerEventData(EventSystem.current);
+            //    pointer.position = Input.mousePosition;
+            //    List<RaycastResult> raycastResults = new List<RaycastResult>();
+            //    EventSystem.current.RaycastAll(pointer, raycastResults);
+            //    if (raycastResults.Count > 0){
+            //        foreach (var go in raycastResults)
+            //        {
+            //            Debug.Log(go.gameObject.name, go.gameObject);
+            //        }
+            //    }
+            //}
+            if (Input.GetMouseButtonDown(1))
+            {
+                StartCoroutine(ExecuteMouseControl());
+            }
         }
 
         // rolling

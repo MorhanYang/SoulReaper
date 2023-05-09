@@ -7,7 +7,6 @@ public class Puzzle_WeightTrigger : MonoBehaviour
 {
     [SerializeField] Transform targetObject;
     [SerializeField] Transform platform;
-    [SerializeField] Canvas myCanvas;
     [SerializeField] TMP_Text text;
     [SerializeField] int maxNum;
     [SerializeField] Bait bait;
@@ -71,7 +70,7 @@ public class Puzzle_WeightTrigger : MonoBehaviour
             // UI display
             if (other.GetComponent<PlayerControl>() != null) objectCount += 1;
             if (other.GetComponent<Minion>() != null) objectCount += other.GetComponent<Minion>().minionSize;// ui don't care about the max
-            text.text = objectCount + " / " + objectsNeeded;
+            if (text != null) text.text = objectCount + " / " + objectsNeeded;
 
             //// Move platform downward
             //if (objectCount < 5){
@@ -90,7 +89,7 @@ public class Puzzle_WeightTrigger : MonoBehaviour
             // UI display
             if (other.GetComponent<PlayerControl>() != null) objectCount -= 1;
             if (other.GetComponent<Minion>() != null) objectCount -= other.GetComponent<Minion>().minionSize;// ui don't care about the max
-            text.text = objectCount + " / " + objectsNeeded;
+            if (text != null) text.text = objectCount + " / " + objectsNeeded;
 
             if (objectCount < presentNum && presentNum > 0) // only when trigger don't have enough minion functrion start to detract
             {
