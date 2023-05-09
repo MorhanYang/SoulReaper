@@ -209,17 +209,10 @@ public class GameManager : MonoBehaviour
     // ****************************************** UI ****************************************
     public void PopUpUI( Vector3 startPosOnScreen, string text)
     {
-        StartCoroutine(PopUpUIFunction (startPosOnScreen, text));
-    }
-
-    IEnumerator PopUpUIFunction(Vector3 startPosOnScreen, string text)
-    {
-        popUpInfo.gameObject.SetActive(true);
         float fadeTime = 1.5f;
         CanvasGroup cg = popUpInfo.GetComponent<CanvasGroup>();
 
-        if (cg.alpha == 0f)
-        {
+        if (cg.alpha == 0f){
             // set up
             cg.alpha = 1.0f;
             popUpInfo.rectTransform.localPosition = startPosOnScreen;
@@ -229,17 +222,6 @@ public class GameManager : MonoBehaviour
             popUpInfo.rectTransform.DOAnchorPos(new Vector2(0, startPosOnScreen.y + 25f), fadeTime);
             cg.DOFade(0, fadeTime);
         }
-
-        while (cg.alpha > 0.1f)
-        {
-            yield return new WaitForEndOfFrame();
-        }
-
-        popUpInfo.gameObject.SetActive(false);
-        cg.alpha = 0f;
-
     }
-
-
     // ****************************************** world UI *********************************************
 }
