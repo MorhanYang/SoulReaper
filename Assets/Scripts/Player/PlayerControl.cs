@@ -171,7 +171,7 @@ public class PlayerControl : MonoBehaviour
         }
 
         // excute events after delay
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(0.2f);
 
         if (mouseInputCount != 0){
             // Rebirth Function
