@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 351643285}
   - component: {fileID: 351643286}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &351643285
 Transform:
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -10
-  m_Sprite: {fileID: 2012820136, guid: 01c07ed78c5c8a9489d2fe7d5a59b6f0, type: 3}
+  m_Sprite: {fileID: -1892071798, guid: 01c07ed78c5c8a9489d2fe7d5a59b6f0, type: 3}
   m_Color: {r: 0.13333334, g: 0.13333334, b: 0.13333334, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 487998409}
   - component: {fileID: 487998410}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,7 +157,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -10
-  m_Sprite: {fileID: 2012820136, guid: 01c07ed78c5c8a9489d2fe7d5a59b6f0, type: 3}
+  m_Sprite: {fileID: -1892071798, guid: 01c07ed78c5c8a9489d2fe7d5a59b6f0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -313,12 +313,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6736689876673403997}
   - component: {fileID: 6736689876673403996}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Circuit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &6736689876673403997
 Transform:
@@ -401,7 +401,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6736689876679154710}
   - component: {fileID: 6736689876679154709}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Circuit__Active
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -489,7 +489,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6736689876901755371}
   - component: {fileID: 6736689876901755370}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GroundWire_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -503,14 +503,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6736689876901755372}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5419998, y: -1.1800004, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.7071057, w: 0.707108}
+  m_LocalPosition: {x: 1.6289978, y: 0.555, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6736689876679154710}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!212 &6736689876901755370
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -557,7 +557,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 0.9, y: 0.09375}
+  m_Size: {x: 0.5, y: 0.09375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -628,7 +628,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetObject: {fileID: 0}
   platform: {fileID: 6736689877795045193}
-  myCanvas: {fileID: 6736689878226351965}
   text: {fileID: 6736689876567388639}
   maxNum: 1
   bait: {fileID: 6736689877208534987}
@@ -798,12 +797,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6736689877805686125}
   - component: {fileID: 6736689877805686124}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GroundWire_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &6736689877805686125
 Transform:
@@ -813,7 +812,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6736689877805686126}
   m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -1.1800004, z: 0}
+  m_LocalPosition: {x: 1.6289978, y: 0.22393754, z: 0.00000008940697}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -882,7 +881,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6736689877970718896}
   - component: {fileID: 6736689877970718911}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GroundWire_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -896,14 +895,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6736689877970718897}
-  m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.9080001, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -1, w: 0.0000014751396}
+  m_LocalPosition: {x: 1.1289978, y: 0.22393754, z: -0.000000089406996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6736689876679154710}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
 --- !u!212 &6736689877970718911
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -950,7 +949,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 0.35, y: 0.09375}
+  m_Size: {x: 0.83, y: 0.09375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -966,12 +965,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6736689878143137823}
   - component: {fileID: 6736689878143137822}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GroundWire_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &6736689878143137823
 Transform:
@@ -980,14 +979,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6736689878143137808}
-  m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.9080001, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -1, w: 0.0000014751396}
+  m_LocalPosition: {x: 1.1289978, y: 0.22393754, z: -0.000000089406996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6736689876673403997}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
 --- !u!212 &6736689878143137822
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1034,7 +1033,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 0.35, y: 0.09375}
+  m_Size: {x: 0.83, y: 0.09375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1087,7 +1086,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6736689878226351953}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -1151,12 +1150,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6736689878325907133}
   - component: {fileID: 6736689878325907132}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GroundWire_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &6736689878325907133
 Transform:
@@ -1165,14 +1164,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6736689878325907134}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5419998, y: -1.1800004, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.7071057, w: 0.707108}
+  m_LocalPosition: {x: 1.6289978, y: 0.555, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6736689876673403997}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!212 &6736689878325907132
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1219,7 +1218,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 0.9, y: 0.09375}
+  m_Size: {x: 0.5, y: 0.09375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1235,7 +1234,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6736689878453334727}
   - component: {fileID: 6736689878453334726}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GroundWire_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1250,7 +1249,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6736689878453334744}
   m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -1.1800004, z: 0}
+  m_LocalPosition: {x: 1.627, y: 0.228, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
