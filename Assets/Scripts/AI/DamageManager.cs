@@ -12,8 +12,11 @@ public class DamageManager : MonoBehaviour
         instance= this;
     }
 
-    //******************************************************************** Function *******************************************************************
-    public void DealSingleDamage(Transform attacker, Vector3 attackerPos, Transform reciever, float damage) // Reciever is for specific attack target. for normal attack recieve is null.
+    //******************************************************************** Single Attack *******************************************************************
+    /* Reciever is for specific attack target. for normal attack recieve is null.
+     * Attacker is used to identify the attaker typle, for example <Player>
+     */
+    public void DealSingleDamage(Transform attacker, Vector3 attackerPos, Transform reciever, float damage) 
     {
         // *****************find reciever
         if (reciever == null){
@@ -23,6 +26,7 @@ public class DamageManager : MonoBehaviour
             // no attacker
             if (attacker == null)
             {
+                Debug.Log("No attacker && reciever");
                 return;
             }
             // attacker is player or minion
@@ -82,15 +86,41 @@ public class DamageManager : MonoBehaviour
         }
     }
 
-    public  void DealRangeDamage(GameObject attacker, Vector3 damagePos, float range, float damage) // if attacker is not a entity, attack everyone
+    //************************************************************************* AOE *************************************************************
+    /* Attacker is used to identify the attaker typle, for example <Player>
+     * If Attacker is null, it will damage every entity including itself.
+    */
+    public void DealAOEDamage(Transform attacker, Vector3 damagePos, float range, float damage) // if attacker is not a entity, attack everyone
     {
         Collider[] hitedEnemy = Physics.OverlapSphere(damagePos, range, attackMask);
-        // indiscriminate attack
-        if (attacker = null)// Placeholder
-        {
-            for (int i = 0; i < hitedEnemy.Length; i++)
-            {
 
+        if (hitedEnemy.Length > 0)
+        {
+            // 1. indiscriminate attack
+            if (attacker == null)// Placeholder
+            {
+                for (int i = 0; i < hitedEnemy.Length; i++)
+                {
+                    DealSingleDamage(null, damagePos, hitedEnemy[i].transform, damage);
+                }
+            }
+
+            // 2. enemy attack
+            if (attacker.GetComponent<Enemy>() != null)
+            {
+                for (int i = 0; i < hitedEnemy.Length; i++)
+                {
+                    DealSingleDamage(attacker, attacker.transform.position, hitedEnemy[i].transform, damage);
+                }
+            }
+
+            //3. Player or minion 
+            if (attacker.GetComponent<Minion>() != null || attacker.GetComponent<PlayerHealthBar>() != null)
+            {
+                for (int i = 0; i < hitedEnemy.Length; i++)
+                {
+                    DealSingleDamage(attacker, attacker.transform.position, hitedEnemy[i].transform, damage);
+                }
             }
         }
     }
