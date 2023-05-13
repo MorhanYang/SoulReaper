@@ -230,10 +230,9 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        while (cg.alpha > 0.1f)
-            {
+        while (cg.alpha > 0.1f){
                 yield return new WaitForEndOfFrame();
-            }
+        }
 
             popUpInfo.gameObject.SetActive(false);
             cg.alpha = 0f;
