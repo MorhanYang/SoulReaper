@@ -65,7 +65,7 @@ public class Enemy : MonoBehaviour
     }
 
     //************************************************************************** Combat **************************************************************
-    public void TakeDamage(float damage , Transform subject) {
+    public void TakeDamage(float damage , Transform subject, Vector3 attackPos) {
         float hideHealthBarDelay = 5f;
 
         health.TakeDamage(damage);
@@ -78,7 +78,7 @@ public class Enemy : MonoBehaviour
             ai.SlowDownEnemy(0.6f);
         }
         //knock back
-        shaker.AddImpact(transform.position - subject.position, damage, false);
+        shaker.AddImpact(transform.position - attackPos, damage, false);
 
         // change target
         if (ai.target == player.transform){

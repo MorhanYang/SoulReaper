@@ -85,7 +85,7 @@ public class AI_Dash : MonoBehaviour
                 else if (!DamagedTarget.Contains(hitedObjecct[i]))
                 {
                     Minion hitedMinion = hitedObjecct[i].GetComponent<Minion>();
-                    hitedMinion.TakeDamage(damage, transform);
+                    hitedMinion.TakeDamage(damage, transform, transform.position);
                     hitedMinion.GetComponent<MinionAI>().SetToFaint();
                     DamagedTarget.Add(hitedObjecct[i]);
                     Debug.Log("Deal Damage: " + damage);
@@ -140,7 +140,7 @@ public class AI_Dash : MonoBehaviour
             for (int i = 0; i < hitedObjecct.Length; i++)
             {
                 if (!DamagedTarget.Contains(hitedObjecct[i])){
-                    hitedObjecct[i].GetComponent<Enemy>().TakeDamage(damage, transform);
+                    hitedObjecct[i].GetComponent<Enemy>().TakeDamage(damage, transform, transform.position);
                     DamagedTarget.Add(hitedObjecct[i]);
                 }
             }
