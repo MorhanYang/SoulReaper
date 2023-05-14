@@ -29,6 +29,7 @@ public class PlayerControl : MonoBehaviour
     float downAttackTimer;
     [SerializeField] GameObject upAttackEffect;
     [SerializeField] GameObject downAttackEffect;
+    DamageManager myDamageManager;
 
     //Movement
     [SerializeField] float moveSpeed;
@@ -77,6 +78,7 @@ public class PlayerControl : MonoBehaviour
         characterAnimator = transform.Find("Character").GetComponent<Animator>();
         hp = GetComponent<PlayerHealthBar>();
         mySoundManagers = SoundManager.Instance;
+        myDamageManager = DamageManager.instance;
 
         combateState = CombateState.normal;
 
@@ -421,7 +423,7 @@ public class PlayerControl : MonoBehaviour
     // ********************************************************************* Combat *********************************************
     public void PlayerTakeDamage(float damage, Transform damageDealer)
     {
-        hp.TakeDamage(damage, damageDealer);
+        hp.TakeDamage(damage, damageDealer,damageDealer.position);
         hp.Invincible(invincibleDuration);
     }
     // melee attack
@@ -431,14 +433,14 @@ public class PlayerControl : MonoBehaviour
             // upward Attack
             if (upAttackTimer >= attackCD && downAttackTimer >= 0.4f)
             {
-                // sound effect
-                mySoundManagers.PlaySoundAt(transform.position, "Swing", false, false, 1.5f, 0.7f, 100, 100);
-
                 if (isFacingRight) Instantiate(upAttackEffect, transform.position + new Vector3(0.3f, 0.35f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
                 else Instantiate(upAttackEffect, transform.position + new Vector3(-0.3f, 0.35f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
 
-                DamageEnemy();
+                myDamageManager.DealSingleDamage(transform, attackPoint.position, null, myDamage);
                 upAttackTimer = 0;
+
+                // sound effect
+                mySoundManagers.PlaySoundAt(transform.position, "Swing", false, false, 1.5f, 0.7f, 100, 100);
             }
         }
 
@@ -449,24 +451,17 @@ public class PlayerControl : MonoBehaviour
                 if (isFacingRight) Instantiate(downAttackEffect, transform.position + new Vector3(0.3f, 0.35f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
                 else Instantiate(downAttackEffect, transform.position + new Vector3(-0.3f, 0.35f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
 
+                myDamageManager.DealSingleDamage(transform, attackPoint.position, null, myDamage);
+                downAttackTimer = 0;
+
                 // sound effect
                 mySoundManagers.PlaySoundAt(transform.position, "Swing", false, false, 1.5f, 0.7f, 100, 100);
-
-                DamageEnemy();
-                downAttackTimer = 0;
             }
         }
     }
     void DamageEnemy()
     {
-        Collider[] HitedEnemy = Physics.OverlapSphere(attackPoint.position, 0.5f, LayerMask.GetMask("Enemy"));
-        if (HitedEnemy.Length > 0){
-            // deal damage to enemies
-            for (int i = 0; i < HitedEnemy.Length; i++)
-            {
-                HitedEnemy[i].GetComponent<Enemy>().TakeDamage(myDamage, transform);
-            }
-        }
+        
     }
 
     // ************************************************************* Teleport ***********************************************

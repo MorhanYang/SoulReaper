@@ -177,7 +177,7 @@ public class PlayerHealthBar : MonoBehaviour
     }
 
     //*********************************************************** Damage **********************************************************
-    public void TakeDamage(float damage, Transform damageDealer)
+    public void TakeDamage(float damage, Transform damageDealer, Vector3 attackPos)
     {
         if (invincibleTimer <= 0)
         {
@@ -194,7 +194,7 @@ public class PlayerHealthBar : MonoBehaviour
                 barPresent.fillAmount = HpInPresentBar/indiviualMaxValue;
 
                 // knock back
-                if(damageDealer != null) shacker.AddImpact((transform.position - damageDealer.position), damage, false);
+                if(damageDealer != null) shacker.AddImpact((transform.position - attackPos), damage, false);
 
                 // become invincible
                 Invincible(0.2f);
@@ -218,7 +218,7 @@ public class PlayerHealthBar : MonoBehaviour
                     // next bar
                     barPresentId--;
                     barPresent = hpBarsList[barPresentId];
-                    TakeDamage(passedDamage, null);
+                    TakeDamage(passedDamage, null, Vector3.zero);
                 }
             }
         }

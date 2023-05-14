@@ -88,9 +88,9 @@ public class Minion : MonoBehaviour
         myAI.SprintToEnemy(enemy);
     }
 
-    public void TakeDamage(float damage, Transform damageDealer){
+    public void TakeDamage(float damage, Transform damageDealer, Vector3 attackPos){
         if (myTroop != null && myTroop.GetPresentHP() > 0){
-            shaker.AddImpact(transform.position - damageDealer.position, damage, false);
+            shaker.AddImpact(transform.position - attackPos, damage, false);
             myTroop.TakeDamage(damage * getDamageRate);
         }
     }

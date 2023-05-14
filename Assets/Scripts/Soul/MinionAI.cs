@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -23,6 +24,7 @@ public class MinionAI : MonoBehaviour
     float sprintTimer;
 
     //Melee Attack
+    DamageManager myDamageManager;
     public float attackDamage = 0.4f;
     [SerializeField] float attackCD;
     [SerializeField] Transform attackPoint;
@@ -69,6 +71,7 @@ public class MinionAI : MonoBehaviour
         player = PlayerManager.instance.player;
         if (canDash) dashScript = GetComponent<AI_Dash>();
         mySoundManagers = SoundManager.Instance;
+        myDamageManager = DamageManager.instance;
 
         SetUpRoamingPoints();
 
@@ -227,6 +230,8 @@ public class MinionAI : MonoBehaviour
     public void SprinteToPos(Vector3 aimPos){
         if (minionState != MinionSate.Dead && minionState != MinionSate.Faint)
         {
+            if (dashScript != null) dashScript.CancelDashing();
+
             target = null; // ignore prevous target
             // set destination
             if (aimPos == Vector3.zero) sprintPos = transform.position;
@@ -248,6 +253,8 @@ public class MinionAI : MonoBehaviour
     public void SprintToEnemy(Transform aim){
         if (minionState != MinionSate.Dead && minionState != MinionSate.Faint)
         {
+            if (dashScript != null) dashScript.CancelDashing();
+
             // set destination
             target = aim;
 
@@ -309,6 +316,11 @@ public class MinionAI : MonoBehaviour
 
     void FollowEnemy()
     {
+        if (target.IsDestroyed())
+        {
+            target = null;
+        }
+
         // follow
         if (target != null)
         {
@@ -344,51 +356,29 @@ public class MinionAI : MonoBehaviour
     void MeleeAttack()
     {
         // sound
-        mySoundManagers.PlaySoundAt(mySoundManagers.transform.position, "Hurt", false, false, 1, 1f, 100, 100);
+        mySoundManagers.PlaySoundAt(mySoundManagers.transform.position, "Hurt", false, false, 1, 0.5f, 100, 100);
+        mySoundManagers.PlaySoundAt(mySoundManagers.transform.position, "Swing", false, false, 1, 0.5f, 100, 100);
 
         // animation
         if (isFacingRight) Instantiate(attackEffect, transform.position + new Vector3(0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
         else Instantiate(attackEffect, transform.position + new Vector3(-0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
-        // play sound
-        mySoundManagers.PlaySoundAt(mySoundManagers.transform.position, "Swing", false, false, 1, 0.7f, 100, 100);
-        // aoe
-        //Collider[] hitEnemy = Physics.OverlapSphere(attackPoint.position, attackCircle, LayerMask.GetMask("Enemy", "PuzzleTrigger"));
-        //for (int i = 0; i < hitEnemy.Length; i++)
-        //{
-        //    // enemy
-        //    if (hitEnemy[i].GetComponent<Enemy>() != null){
-        //        hitEnemy[i].GetComponent<Enemy>().TakeDamage(attackDamage, transform);
-        //    }
-        //    //puzzle trigger
-        //    if (hitEnemy[i].GetComponent<PuzzleTrigger>() != null){
-        //        hitEnemy[i].GetComponent<PuzzleTrigger>().TakeDamage(attackDamage, gameObject);
-        //    }
-        //}
+
         if (Vector3.Distance(transform.position,target.position)<= attackRang + 0.2f)
         {
-            //enemy
-                if (target.GetComponent<Enemy>() != null)
-            {
-                target.GetComponent<Enemy>().TakeDamage(attackDamage, transform);
-            }
-            //puzzle trigger
-            if (target.GetComponent<PuzzleTrigger>() != null)
-            {
-                target.GetComponent<PuzzleTrigger>().TakeDamage(attackDamage, gameObject);
-            }
+            myDamageManager.DealSingleDamage(transform,transform.position,target, attackDamage);
         }
 
-        // if kill the enemy
-        if (target.GetComponent<Health>() != null)
-        {
-            if (target.GetComponent<Health>().presentHealth < 0)
-            {
-                GetRoamingStartPos();
-                minionState = MinionSate.Roam;
-                // trigger ontrigger stay to see if there is enemy inside the cllider
-                target = null;
-            }
-        }
+        //// if kill the enemy
+        //if (target.GetComponent<Health>() != null)
+        //{
+        //    if (target.GetComponent<Health>().presentHealth < 0)
+        //    {
+        //        GetRoamingStartPos();
+        //        minionState = MinionSate.Roam;
+        //        // trigger ontrigger stay to see if there is enemy inside the cllider
+        //        target = null;
+        //    }
+        //}
     }
 
     //**************************************************Radom Roaming***************************************

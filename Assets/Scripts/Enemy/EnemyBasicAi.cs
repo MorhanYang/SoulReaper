@@ -18,6 +18,7 @@ public class EnemyBasicAi : MonoBehaviour
 
 
     // damage
+    DamageManager myDamageManager;
     [SerializeField] float attackInterval = 3f;
     float damageTimer;
     [SerializeField] float myDamage = 5;
@@ -58,6 +59,7 @@ public class EnemyBasicAi : MonoBehaviour
         dashScript = GetComponent<AI_Dash>();
         enemySpriteRender = enemySprite.GetComponent<SpriteRenderer>();
         mySoundManagers = SoundManager.Instance;
+        myDamageManager = DamageManager.instance;
 
         action = EnemyAction.idle;
 
@@ -102,7 +104,6 @@ public class EnemyBasicAi : MonoBehaviour
                         action = EnemyAction.dashing;
                     }
                 }
-
                
                 // Dash CD timer counting
                 if (dashCDTimer <= dashCD) dashCDTimer += Time.deltaTime;
@@ -152,15 +153,17 @@ public class EnemyBasicAi : MonoBehaviour
     void FlipMinion()
     {
         //Enemies face right when moving right
-        if (agent.velocity.x < 0)
+        if (agent.velocity.x < 0 && isFacingRight)
         {
             enemySpriteRender.flipX = true;
+            isFacingRight = !isFacingRight;
 
         }
         //face left when facing left
-        else if (agent.velocity.x > 0)
+        else if (agent.velocity.x > 0 && !isFacingRight)
         {
             enemySpriteRender.flipX = false;
+            isFacingRight = !isFacingRight;
         }
         //or remain its direction when static
     }
@@ -175,8 +178,7 @@ public class EnemyBasicAi : MonoBehaviour
             if (isFacingRight) Instantiate(attackEffect, transform.position + new Vector3(0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
             else Instantiate(attackEffect, transform.position + new Vector3(-0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
             // deal damage
-            if (prey.transform.GetComponent<Minion>() != null && !prey.IsDestroyed()) prey.transform.GetComponent<Minion>().TakeDamage(myDamage, transform);
-            if (prey.transform.GetComponent<PlayerControl>() != null) prey.transform.GetComponent<PlayerControl>().PlayerTakeDamage(myDamage, transform);
+            myDamageManager.DealSingleDamage(transform,transform.position,prey.transform,myDamage);
             damageTimer = 0f;
         }
         else damageTimer += Time.deltaTime;
