@@ -131,6 +131,9 @@ public class Minion : MonoBehaviour
             {
                 gameObject.layer = LayerMask.NameToLayer("MovingMinion");
                 myAI.ActivateMinion();
+
+                // move minion to cant destory set
+                transform.parent = UsefulItems.instance.minionSet;
             }
 
             // trigger
@@ -156,8 +159,12 @@ public class Minion : MonoBehaviour
     public void SetInactive(bool needRecallEffect)
     {
         // normal minion
-        if (!isTrigger) myAI.InactiveMinion();
-
+        if (!isTrigger)
+        {
+            myAI.InactiveMinion();
+            // remove minion from can't destroy set
+            transform.parent = null;
+        }
         // trigger
         if (isTrigger)
         {

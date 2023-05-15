@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    [SerializeField] GameObject target;
+    GameObject target;
     [SerializeField] float camSpeed;
 
     [SerializeField] Vector3 camOffset;
+
+    private void Start()
+    {
+        target = PlayerManager.instance.player;
+        transform.position = target.transform.position + camOffset;
+    }
     private void FixedUpdate()
     {
         Vector3 nextPos = target.transform.position + camOffset;

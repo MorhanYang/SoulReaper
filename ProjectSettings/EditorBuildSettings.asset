@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Sewer_Tutorial.unity
     guid: 6b957ede18ed2a745a40be6089caaa56
   - enabled: 1
+    path: Assets/Scenes/BossFight_Dragon.unity
+    guid: d851adf9adcd85d48807db0f1b79f268
+  - enabled: 1
     path: Assets/Scenes/CreditScene.unity
     guid: 8a4089843bfd32d4fb32b02e66c75a77
   m_configObjects: {}
