@@ -16,10 +16,11 @@ public class NextScene : MonoBehaviour
         if (other.GetComponent<PlayerControl>() != null){
             myAnim.SetBool("FadeOut", true);
             cover.gameObject.SetActive(true);
-            cover.alpha = 0f;
+            cover.alpha = 0.1f;// prevent gamemanager from hiding the cover
             cover.DOFade(1, 1f);
 
             StartCoroutine(GoToNextScene());
+
         }
     }
 
@@ -39,13 +40,8 @@ public class NextScene : MonoBehaviour
         }
         SceneManager.LoadScene(nextSceneName);
 
-        cover.DOFade(0,1f);
-        Invoke("EnterSceneFadeout", 1.2f);
+        cover.DOFade(0, 1f);
     }
 
-    void EnterSceneFadeout()
-    {
-        cover.gameObject.SetActive(false);
-    }
 }
 
