@@ -459,10 +459,6 @@ public class PlayerControl : MonoBehaviour
             }
         }
     }
-    void DamageEnemy()
-    {
-        
-    }
 
     // ************************************************************* Teleport ***********************************************
     public void SetPlayerToTeleporting(){

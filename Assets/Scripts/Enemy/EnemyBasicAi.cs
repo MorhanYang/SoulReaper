@@ -39,7 +39,7 @@ public class EnemyBasicAi : MonoBehaviour
     float slowDownSpeedOffset;
 
     // flip
-    bool isFacingRight;
+    bool isFacingRight = true;
     // sound
     SoundManager mySoundManagers;
 

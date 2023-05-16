@@ -37,6 +37,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] Transform landset;
     List<Transform> landList;
 
+    // load scene
+    public GameObject[] dontDestoryList;
+
     private void Awake(){
         instance= this;
     }
@@ -67,13 +70,22 @@ public class GameManager : MonoBehaviour
         cover.alpha = 1f;
 
         cover.DOFade(0, 3f);
+
+
+        // don't destory list
+        if(dontDestoryList.Length > 0)
+        {
+            for (int i = 0; i < dontDestoryList.Length; i++)
+            {
+                DontDestroyOnLoad(dontDestoryList[i]);
+            }
+        }
     }
 
     private void Update(){
 
-        if (cover.gameObject.activeSelf == true && cover.alpha <= 0.2f){
+        if (cover.gameObject.activeSelf == true && cover.alpha <= 0f){
             cover.gameObject.SetActive(false);
-            cover.alpha = 0f;
         }
 
         if (Input.GetKeyDown(KeyCode.R)){
