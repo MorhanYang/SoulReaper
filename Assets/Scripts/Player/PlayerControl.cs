@@ -421,6 +421,8 @@ public class PlayerControl : MonoBehaviour
     // ********************************************************************* Combat *********************************************
     public void PlayerTakeDamage(float damage, Transform damageDealer)
     {
+        CameraShaker.instance.AddCamShake(new Vector2(transform.position.x - damageDealer.position.x, transform.position.z - damageDealer.position.z), damage * 0.1f);
+        VignetteBreather.instance.VignetteSpike(damage * 0.1f, damage * 0.2f);
         hp.TakeDamage(damage, damageDealer);
         hp.Invincible(invincibleDuration);
     }
@@ -460,8 +462,10 @@ public class PlayerControl : MonoBehaviour
     void DamageEnemy()
     {
         Collider[] HitedEnemy = Physics.OverlapSphere(attackPoint.position, 0.5f, LayerMask.GetMask("Enemy"));
-        if (HitedEnemy.Length > 0){
+        if (HitedEnemy.Length > 0) {
             // deal damage to enemies
+            TimeSlower.instance.SlowTime(0.1f, 0.01f);
+            CameraShaker.instance.AddCamShake(new Vector2(HitedEnemy[0].transform.position.x - transform.position.x, HitedEnemy[0].transform.position.z - transform.position.z),0.1f);
             for (int i = 0; i < HitedEnemy.Length; i++)
             {
                 HitedEnemy[i].GetComponent<Enemy>().TakeDamage(myDamage, transform);

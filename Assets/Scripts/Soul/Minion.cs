@@ -36,6 +36,9 @@ public class Minion : MonoBehaviour
     [SerializeField] Puzzle_Bridge myBridge;
     [SerializeField] Puzzle_Vine myVines;
 
+    //Rigid body
+    private Rigidbody MyRigidbody;
+
     private void Awake()
     {
         myAI = GetComponent<MinionAI>();
@@ -49,9 +52,20 @@ public class Minion : MonoBehaviour
         playerHealthBar = PlayerManager.instance.player.GetComponent<PlayerHealthBar>();
         shaker = GetComponent<Shaker>();
         mySoundManager= SoundManager.Instance;
+        MyRigidbody = GetComponent<Rigidbody>();
+
     }
 
     private void Update(){
+        if (MyRigidbody != null && MyRigidbody.isKinematic == false) 
+        {
+            if (isActive || (MyRigidbody.velocity.magnitude <= 0.1f))
+            {
+                MyRigidbody.useGravity = false;
+                MyRigidbody.isKinematic = true;
+            }
+        }
+
         if(myAnimator != null) myAnimator.SetFloat("MovingSpeed", myagent.velocity.magnitude);
     }
 

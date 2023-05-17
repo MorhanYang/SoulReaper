@@ -208,6 +208,7 @@ public class MinionTroop : MonoBehaviour
                     if (item != null){
                         item.SetInactive(false);
                         health.presentHealth = 0;
+
                     }
                 }
 

@@ -130,6 +130,14 @@ public class Enemy : MonoBehaviour
     public void BecomeMinion(){
         if (haveSoul){
             GameObject minion = Instantiate(enemySoul, transform.position, transform.rotation);
+            Rigidbody SoulRigidBody = minion.GetComponent<Rigidbody>();
+            if (SoulRigidBody != null) 
+            {
+                Vector3 StrikeDirection = new Vector3(transform.position.x - PlayerManager.instance.transform.position.x,1f, transform.position.z - PlayerManager.instance.transform.position.z);
+                SoulRigidBody.isKinematic = false;
+                SoulRigidBody.useGravity = true;
+                SoulRigidBody.AddForce(Vector3.Normalize(StrikeDirection) * Random.Range(3f,5f), ForceMode.Impulse);
+            }
             haveSoul = false;
             Destroy(gameObject);
         }
