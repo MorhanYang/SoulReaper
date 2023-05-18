@@ -13,11 +13,13 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
-        //float xValue = Mathf.Abs((Input.mousePosition.x - Screen.width / 2) - Screen.width / 4) / Screen.width * 8;
-        //float xMax = (Screen.width * 0.1f) / (Screen.height * 0.2f) *Mathf.Sign(Input.mousePosition.x - Screen.width / 2);
-
-        //MouseOffset.x = Mathf.Clamp(xValue, 0 , xMax);
-        //MouseOffset.z = Mathf.Clamp((Mathf.Abs(Input.mousePosition.y - Screen.height / 2) - Screen.height / 4) / Screen.height * 8, 0 , (Screen.height * 0.1f) / (Screen.width * 0.1f)) * Mathf.Sign(Input.mousePosition.y - Screen.height / 2);
+        /*
+        float xValue = Mathf.Abs((Input.mousePosition.x - Screen.width / 2) - Screen.width / 3) / Screen.width * 8;
+        float xMax = (Screen.width * 0.1f) / (Screen.height * 0.2f) * Mathf.Sign(Input.mousePosition.x - Screen.width / 2);
+        MouseOffset.x = Mathf.Clamp(xValue, 0 , xMax);
+        MouseOffset.x = Mathf.Clamp((Mathf.Abs(Input.mousePosition.x - Screen.width / 2) - Screen.width / 3) / Screen.width * 8, 0, (Screen.width * 0.1f) / (Screen.height * 0.1f)) * Mathf.Sign(Input.mousePosition.y - Screen.height / 2);
+        MouseOffset.z = Mathf.Clamp((Mathf.Abs(Input.mousePosition.y - Screen.height / 2) - Screen.height / 3) / Screen.height * 8, 0 , (Screen.height * 0.1f) / (Screen.width * 0.1f)) * Mathf.Sign(Input.mousePosition.y - Screen.height / 2);
+        */    
     }
 
     private void FixedUpdate()
