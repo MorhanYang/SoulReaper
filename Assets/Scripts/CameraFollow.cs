@@ -13,18 +13,17 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
-        MouseOffset.x = Mathf.Clamp((Mathf.Abs(Input.mousePosition.x - Screen.width / 2) - Screen.width / 4) / Screen.width * 8, 0 , (Screen.width * 0.1f) / (Screen.height * 0.2f)) * Mathf.Sign(Input.mousePosition.x - Screen.width / 2);
-        MouseOffset.z = Mathf.Clamp((Mathf.Abs(Input.mousePosition.y - Screen.height / 2) - Screen.height / 4) / Screen.height * 8, 0 , (Screen.height * 0.1f) / (Screen.width * 0.1f)) * Mathf.Sign(Input.mousePosition.y - Screen.height / 2);
+        //float xValue = Mathf.Abs((Input.mousePosition.x - Screen.width / 2) - Screen.width / 4) / Screen.width * 8;
+        //float xMax = (Screen.width * 0.1f) / (Screen.height * 0.2f) *Mathf.Sign(Input.mousePosition.x - Screen.width / 2);
 
-        Debug.Log("Width " + Screen.width);
-        Debug.Log("Height " + Screen.height);
-        Debug.Log(Screen.width / Screen.height);
-
+        //MouseOffset.x = Mathf.Clamp(xValue, 0 , xMax);
+        //MouseOffset.z = Mathf.Clamp((Mathf.Abs(Input.mousePosition.y - Screen.height / 2) - Screen.height / 4) / Screen.height * 8, 0 , (Screen.height * 0.1f) / (Screen.width * 0.1f)) * Mathf.Sign(Input.mousePosition.y - Screen.height / 2);
     }
 
     private void FixedUpdate()
     {
-        Vector3 nextPos = target.transform.position + camOffset + MouseOffset;
+        //Vector3 nextPos = target.transform.position + camOffset + MouseOffset;
+        Vector3 nextPos = target.transform.position + camOffset;
         transform.position = Vector3.Lerp(transform.position, nextPos, camSpeed * Time.fixedDeltaTime);
     }
     public Vector3 GetCamOffset()
