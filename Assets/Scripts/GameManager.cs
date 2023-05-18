@@ -215,6 +215,7 @@ public class GameManager : MonoBehaviour
     IEnumerator PopUpUIFunction(Vector3 startPosOnScreen, string text)
     {
         popUpInfo.gameObject.SetActive(true);
+        popUpInfo.text = text;
         float fadeTime = 1.5f;
         CanvasGroup cg = popUpInfo.GetComponent<CanvasGroup>();
 
