@@ -432,12 +432,12 @@ MonoBehaviour:
   RebirthIcon_Select: {fileID: 3864172933725838789}
   SelectEffect: {fileID: 7245311238218668977}
   isActive: 0
+  MaxHp: 30
+  presentHp: 30
   minionSize: 1
   isTrigger: 0
   myBridge: {fileID: 0}
   myVines: {fileID: 0}
-  MaxHp: 30
-  presentHp: 30
 --- !u!54 &1729562323
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -499,7 +499,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myAbsorbType: 2
-  reoverAmount: 10
+  recoverAmount: 10
   recallingPartical: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
 --- !u!1 &2329640088932374850
 GameObject:

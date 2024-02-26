@@ -94,14 +94,18 @@ public class BranchTreeUI : MonoBehaviour
                         // change node HpBar display
                         troopUI.TroopHpBarDisplay(troopDataList[i].troopHp, troopDataList[i].maxTroopHp);
 
+                        MinionHpUI targetMinionUI = troopUI.minionHpList[j];
                         // show minion
+                        targetMinionUI.ShowMinionUIBg(true);
                         if (j < TroopDataList[i].minionList.Count)
                         {
-                            troopUI.minionHpList[j].SwitchThisMinionSlot( true );
+                            targetMinionUI.SwitchThisMinionSlot(true);
+                            targetMinionUI.FreshMinionHpBar(TroopDataList[i].GetMinionList()[j].GetHealthPercentage());
+
                         }
                         else
                         {
-                            troopUI.minionHpList[j].SwitchThisMinionSlot( false );
+                            targetMinionUI.SwitchThisMinionSlot(false);
                         }
                     }
                     break;
@@ -111,8 +115,10 @@ public class BranchTreeUI : MonoBehaviour
                     troopUI.TroopHpBarDisplay(TroopDataList[i].troopHp, TroopDataList[i].maxTroopHp);
 
                     // hide minion
+                    
                     for (int j = 0; j < troopUI.minionHpList.Count; j++)
                     {
+                        troopUI.minionHpList[j].ShowMinionUIBg(false);
                         troopUI.minionHpList[j].SwitchThisMinionSlot( false );
                     }
                     break;
@@ -121,8 +127,10 @@ public class BranchTreeUI : MonoBehaviour
                     troopUI.TroopHpBarDisplay(0, TroopDataList[i].maxTroopHp);// prevent node health bar from lefting health.
                     
                     // hide minion
+
                     for (int j = 0; j < troopUI.minionHpList.Count; j++)
                     {
+                        troopUI.minionHpList[j].ShowMinionUIBg(false);
                         troopUI.minionHpList[j].SwitchThisMinionSlot(false);
                     }
                     break;
@@ -134,6 +142,7 @@ public class BranchTreeUI : MonoBehaviour
 
     public void FreshOneMinion(int[] minonPos)
     {
+        Debug.Log(minonPos);
         int x = minonPos[0];
         int y = minonPos[1];
         // get target UI

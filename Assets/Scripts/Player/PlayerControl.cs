@@ -381,11 +381,14 @@ public class PlayerControl : MonoBehaviour
     }
 
     // ********************************************************************* Combat *********************************************
+
+    //----------------Temp for Dash
     public void PlayerTakeDamage(float damage, Transform damageDealer)
     {
-        hp.TakeDamage(damage, damageDealer,damageDealer.position);
-        hp.Invincible(invincibleDuration);
+        playerHealth.TakeDamage(damage, damageDealer,damageDealer.position);
+        playerHealth.Invincible(invincibleDuration);
     }
+
     // melee attack
     void MeleeAttack(float scrollData)
     {

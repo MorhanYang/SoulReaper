@@ -148,14 +148,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f5ff36bf5fb159499759dec08a03ecb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectEffect: {fileID: 5728332609312317931}
-  mysprite: {fileID: 5728332608510709634}
-  particle: {fileID: 7725141086287639043}
   hp: 5
   addHealthMax: 0
   canRoam: 1
   roamInterval: 5
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
+  selectEffect: {fileID: 5728332609312317931}
+  mysprite: {fileID: 5728332608510709634}
+  particle: {fileID: 7725141086287639043}
 --- !u!114 &7593896259788541855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,7 +169,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myAbsorbType: 0
-  reoverAmount: 10
+  recoverAmount: 10
+  recallingPartical: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
 --- !u!195 &5728332607794676250
 NavMeshAgent:
   m_ObjectHideFlags: 0

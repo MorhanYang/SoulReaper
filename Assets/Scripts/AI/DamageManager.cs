@@ -78,9 +78,9 @@ public class DamageManager : MonoBehaviour
             }
 
             //3. player
-            if (reciever.GetComponent<PlayerHealthBar>() != null)
+            if (reciever.GetComponent<PlayerHealth>() != null)
             {
-                PlayerHealthBar playerHealth = reciever.GetComponent<PlayerHealthBar>();
+                PlayerHealth playerHealth = reciever.GetComponent<PlayerHealth>();
                 playerHealth.TakeDamage(damage, attacker, attackerPos);
             }
         }

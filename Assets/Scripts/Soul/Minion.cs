@@ -33,6 +33,7 @@ public class Minion : MonoBehaviour
     // Position on Troop and Minion list
     int[] minionDataPos;
     public int[] GetMinionDataPos() { return minionDataPos; }
+    public void SetMinionDataPos( int x, int y ) { minionDataPos[0] = x; minionDataPos[1] = y; }
 
     // Minion Size
     public int minionSize = 1; // only can be maxTroopCapacity(PlayerHealthBar) or 1
@@ -233,5 +234,9 @@ public class Minion : MonoBehaviour
     //******************************************* Health *********************************************************
     public float GetHealthPercentage(){
         return presentHp / MaxHp;
+    }
+    public void SetHealthPercentage( float Percentage )
+    {
+        presentHp = Percentage * MaxHp;
     }
 }

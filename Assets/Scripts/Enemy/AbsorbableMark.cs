@@ -15,7 +15,6 @@ public class AbsorbableMark : MonoBehaviour
     }
     public AbsorbType myAbsorbType;
     public float recoverAmount;
-    float realRecoverAmount;
 
 
     //effect
@@ -31,12 +30,11 @@ public class AbsorbableMark : MonoBehaviour
             this.enabled = false;
         }
         mySoundManager = SoundManager.Instance;
-
-        realRecoverAmount = recoverAmount;
     }
 
-    public void EatThis(bool isAbsorb)
+    public float EatThisToRecover(bool isAbsorb)
     {
+        float realRecoverAmount = recoverAmount; ;
         // play effect
         if (isAbsorb){
             // play recall effect;
@@ -52,23 +50,25 @@ public class AbsorbableMark : MonoBehaviour
         {
             case AbsorbType.Normal:
                 GetComponent<BasicEnemy>().TakeLife();
+
                 break;
             case AbsorbType.Enemy:
                 break;
             case AbsorbType.Minion:
                 Minion targetMinion = GetComponent<Minion>();
-                troopManager.EnemyKillOneMinion(targetMinion);
+                // change recover rate
                 realRecoverAmount = recoverAmount * targetMinion.GetHealthPercentage();
+                troopManager.EnemyKillOneMinion(targetMinion);
                 break;
             case AbsorbType.Troop:
                 break;
             default:
                 break;
         }
-
         // stop use this component
-        realRecoverAmount = recoverAmount;
         this.enabled = false;
+
+        return realRecoverAmount;
     }
 
     public void ChangeAbsorbType(AbsorbType type)
@@ -76,8 +76,4 @@ public class AbsorbableMark : MonoBehaviour
         myAbsorbType = type;
     }
 
-    public float GetRecoverAmount()
-    {
-        return realRecoverAmount;
-    }
 }

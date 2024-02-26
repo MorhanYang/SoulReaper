@@ -57,7 +57,7 @@ public class PlayerHealth : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.I))
         {
-            TakeDamage(10, this.transform, Vector3.one);
+            TakeDamage(15, this.transform, Vector3.one);
         }
     }
 
@@ -174,15 +174,13 @@ public class PlayerHealth : MonoBehaviour
                 switch (myTargetType)
                 {
                     case AbsorbableMark.AbsorbType.Normal:
-                        myTaget.EatThis(true);
-                        recoverAmount = myTaget.GetRecoverAmount();
+                        recoverAmount = myTaget.EatThisToRecover(true); 
                         RecoverHpInOrder(recoverAmount);
                         break;
                     case AbsorbableMark.AbsorbType.Enemy:
                         break;
                     case AbsorbableMark.AbsorbType.Minion:
-                        myTaget.EatThis(true);
-                        recoverAmount = myTaget.GetRecoverAmount();
+                        recoverAmount = myTaget.EatThisToRecover(true);
                         RecoverHpInOrder(recoverAmount);
                         break;
                     case AbsorbableMark.AbsorbType.Troop:
@@ -194,32 +192,51 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    void RecoverHpInOrder( float recvoerAmount )
+    /// <summary>
+    /// recover health is consistent, but take damage is by unity;
+    /// </summary>
+    void RecoverHpInOrder( float recoverAmount )
     {
-        float recoverUnit = 10; // smallest health unity 
-        int recoverTimes = (int)(recvoerAmount / recoverUnit);
-        for (int i = 0; i < recoverTimes; i++)
+        float neededHp;
+        // recover Player HP first
+        if (presentPlayerHp < playerMaxHp)
         {
-            // recover Player HP first
-            if (presentPlayerHp < playerMaxHp)
-            {
-                presentPlayerHp += recoverUnit;
-                if (presentPlayerHp > playerMaxHp) presentPlayerHp = playerMaxHp;
+            neededHp = playerMaxHp - presentPlayerHp;
+            // recoverAmount doesn't cover need
+            if (neededHp >= recoverAmount){
+                presentPlayerHp += recoverAmount;
             }
-            // recover troopNode HP
-            else if (troopDataList.Count > 0)
+            // more recoverAmount, reload this function again
+            else if (neededHp < recoverAmount){
+                float newRecoverAmt = recoverAmount - neededHp;
+                presentPlayerHp += neededHp;
+                RecoverHpInOrder(newRecoverAmt);
+                return;
+            }
+        }
+        // recover troopNode HP
+        else if (troopDataList.Count > 0)
+        {
+            for (int j = 0; j < troopDataList.Count; j++)
             {
-                for (int j = 0; j < troopDataList.Count; j++)
+                // need recover
+                if (troopDataList[j].troopHp < troopDataList[j].maxTroopHp)
                 {
-                    if (troopDataList[j].troopHp < troopDataList[j].maxTroopHp)
-                    {
+                    neededHp = troopDataList[j].maxTroopHp - troopDataList[j].troopHp;
+                    if (neededHp >= recoverAmount){
                         // add hp
-                        float hp = troopDataList[j].troopHp + recoverUnit;
-                        if (hp > troopDataList[j].maxTroopHp) hp = troopDataList[j].maxTroopHp;
-
+                        float hp = troopDataList[j].troopHp + recoverAmount;
                         troopDataList[j].SetNodeHp(hp, troopDataList[j].maxTroopHp);
                         break;
-                    } 
+                    }
+                    else if (neededHp < recoverAmount){
+                        float newRecoverAmt = recoverAmount - neededHp;
+                        // add hp
+                        float hp = troopDataList[j].troopHp + neededHp;
+                        troopDataList[j].SetNodeHp(hp, troopDataList[j].maxTroopHp);
+                        RecoverHpInOrder(newRecoverAmt);
+                        return;
+                    }
                 }
             }
         }
