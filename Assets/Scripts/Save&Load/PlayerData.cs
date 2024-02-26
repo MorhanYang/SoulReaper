@@ -16,11 +16,10 @@ public class PlayerData
 
     public PlayerData(PlayerControl player) {
 
-        PlayerHealthBar playerHealthBar = player.GetComponent<PlayerHealthBar>();
+        PlayerHealth playerHealthBar = player.GetComponent<PlayerHealth>();
 
         scene = player.sceneName;
         landID = player.landID;
-        hpCellNum = playerHealthBar.cellNum;
         healthMax = hpCellNum * 20;// Set 20 as a unit in unity
         health = healthMax;
 
@@ -31,19 +30,18 @@ public class PlayerData
         position[2] = player.transform.position.z;
 
         // Troop data
-        List<MinionTroop> troopList = playerHealthBar.GetActivedTroop();
-        normalMinionNum = 0;
-        specialMinionNum= 0;
-        for (int i = 0; i < troopList.Count; i++)
-        {
-            // check special minion
-            if (troopList[i].GetTroopEmptySpace() == 0 && troopList[i].GetMinionList().Count <= 1){
-                specialMinionNum++;
-            }
-            // normal minions
-            else{
-                normalMinionNum += troopList[i].GetMinionList().Count;
-            }
-        }
+        //normalMinionNum = 0;
+        //specialMinionNum= 0;
+        //for (int i = 0; i < troopList.Count; i++)
+        //{
+        //    // check special minion
+        //    if (troopList[i].GetTroopEmptySpace() == 0 && troopList[i].GetMinionList().Count <= 1){
+        //        specialMinionNum++;
+        //    }
+        //    // normal minions
+        //    else{
+        //        normalMinionNum += troopList[i].GetMinionList().Count;
+        //    }
+        //}
     }
 }

@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
 
     public static GameObject[] EnemyList;
     PlayerControl playerControl;
-    PlayerHealthBar playerHealthBar;
     [SerializeField] CameraFollow camMain;
 
     // spell
@@ -47,7 +46,6 @@ public class GameManager : MonoBehaviour
     private void Start(){
         EnemyList = GameObject.FindGameObjectsWithTag("Enemy");
         playerControl = PlayerManager.instance.player.GetComponent<PlayerControl>();
-        playerHealthBar = PlayerManager.instance.player.GetComponent<PlayerHealthBar>();
 
         // setup land List
         landList = new List<Transform>();
@@ -131,41 +129,11 @@ public class GameManager : MonoBehaviour
         camMain.transform.position = position + camMain.GetCamOffset();
 
         // set health
-        playerHealthBar.cellNum = data.hpCellNum;
-        playerHealthBar.InitiatePlayerHPBar();
-        playerHealthBar.SetPlayerHealth(data.hpCellNum, data.healthMax, data.health);
+
+
 
         // remove previous minion
-        List<MinionTroop> minionTroops = playerHealthBar.GetActivedTroop();
-        int loopTimes = minionTroops.Count;
-        for (int i = 0; i < loopTimes; i++)
-        {
-            //destory Minion
-            List<Minion> minionList = minionTroops[0].GetMinionList();
-            Debug.Log("MinionNum" + minionList.Count);
-            for (int j = 0; j < minionList.Count; j++)
-            {
-                minionList[j].SetInactive();
-            }
-            //remove troop bar Ui
-            playerHealthBar.RemoveTroopFromPlayerHealth(minionTroops[0], false);// it will remove the troop, cause minion count change
-        }
-        playerHealthBar.CleanTroopList();
 
-        //// add minion
-        //List<Minion> allMinion = new List<Minion>();
-        //for (int i = 0; i < data.normalMinionNum; i++){
-        //    GameObject minion = Instantiate(minionTemp[0], position + new Vector3(-0.8f, 0, 0), transform.rotation);
-        //    allMinion.Add(minion.GetComponent<Minion>());
-        //}
-        //for (int i = 0; i < data.specialMinionNum; i++){
-        //    GameObject minion = Instantiate(minionTemp[1], position + new Vector3(-0.8f, 0, 0), transform.rotation);
-        //    allMinion.Add(minion.GetComponent<Minion>());
-        //}
-
-        //// Revive Minions
-        //playerHealthBar.ReviveTroopLoading(allMinion);
-        //allMinion.Clear();
 
         Invoke("HideTransportUI", 0.5f);
     }

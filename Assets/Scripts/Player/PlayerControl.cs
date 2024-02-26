@@ -6,8 +6,6 @@ using UnityEngine.EventSystems;
 
 public class PlayerControl : MonoBehaviour
 {
-
-    PlayerHealthBar hp;
     PlayerHealth playerHealth;
     TroopManager troopManager;
     [SerializeField] GameManager gameManager;
@@ -78,7 +76,6 @@ public class PlayerControl : MonoBehaviour
     {
         rb= GetComponent<Rigidbody>();
         characterAnimator = transform.Find("Character").GetComponent<Animator>();
-        hp = GetComponent<PlayerHealthBar>();
         playerHealth = GetComponent<PlayerHealth>();
         troopManager = GetComponent<TroopManager>();
         mySoundManagers = SoundManager.Instance;
@@ -119,17 +116,6 @@ public class PlayerControl : MonoBehaviour
 
                 combateState = CombateState.rolling;
                 actionTimer = 0;
-            }
-        }
-       
-        // Recover
-        if (Input.GetKeyDown(KeyCode.Alpha1)){
-            // check Spell CD
-            if (gameManager.IsItemIsReady(1)){
-                //Activate CD UI
-                gameManager.UseItem(1);
-                // Excute Function
-                hp.ActivateRecover();
             }
         }
 
@@ -247,7 +233,7 @@ public class PlayerControl : MonoBehaviour
         move = Vector3.zero;
         rb.velocity = lastMoveDir * presentRollingSpeed * Time.fixedDeltaTime;
         // invincible time
-        hp.Invincible(invincibleDuration);
+        playerHealth.Invincible(invincibleDuration);
 
         // slow down
         presentRollingSpeed -= rollingResistance * Time.fixedDeltaTime;
@@ -309,8 +295,8 @@ public class PlayerControl : MonoBehaviour
     {
         playerHealth.AbsorbOthers();
         //hp.RegainHP();
-        //recallMinionTimer = 0;
-        //StartCoroutine("ContinueRecallTroops");
+        recallMinionTimer = 0;
+        StartCoroutine("ContinueRecallTroops");
     }
 
     IEnumerator ContinueRecallTroops()
@@ -332,12 +318,9 @@ public class PlayerControl : MonoBehaviour
         {
             if (cursorTimer.gameObject.activeSelf) cursorTimer.HideCursorTimer();
             // recall all troops
-            List<MinionTroop> allTroop = hp.GetActivedTroop();
-            int recallTimes = allTroop.Count; // allTroop.Count will change after the reacall
-            for (int i = 0; i < recallTimes; i++){
-                hp.RegainAllTroopHP();
-            }
-        }else if(cursorTimer.gameObject.activeSelf) cursorTimer.HideCursorTimer();
+            troopManager.EatTroopToRecover();
+        }
+        else if(cursorTimer.gameObject.activeSelf) cursorTimer.HideCursorTimer();
     }
     //************************************************** Assign Troop *******************************************
 

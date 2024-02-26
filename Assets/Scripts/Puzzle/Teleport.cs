@@ -50,7 +50,7 @@ public class Teleport : MonoBehaviour
 
                     player.transform.position = PlayerNextPos;
                     camMain.transform.position = PlayerNextPos + camMain.GetCamOffset();
-                    TeleportAllMinions();
+                    //TeleportAllMinions();
                     // save data
                     player.landID = nextLandID - 1;// ID start from 1
                     SavingSystem.SavePlayer(player);
@@ -91,6 +91,8 @@ public class Teleport : MonoBehaviour
         }
     }
 
+    // -----------------------------------------------------didn't bupdate the this function after change the healthbar
+    /*
     void TeleportAllMinions()
     {
         // get all minions 
@@ -134,7 +136,6 @@ public class Teleport : MonoBehaviour
             }
             else i++;
         }
-
-        
     }
+    */
 }

@@ -26,6 +26,11 @@ public class TroopNode
         troopHp = maxTroopHp;
     }
 
+    public void ChangeTroopHp( float myHp)
+    {
+        troopHp = myHp;
+    }
+
     public void AddMinion(Minion myMinion)
     {
         if (type == NodeType.Troop)

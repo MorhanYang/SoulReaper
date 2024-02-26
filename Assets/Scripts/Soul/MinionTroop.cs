@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class MinionTroop : MonoBehaviour
 {
     [SerializeField] Health health; // serializedField to solve reset problem (can get access before end of the frame)
-    PlayerHealthBar playerHealthBar;
+    //PlayerHealthBar playerHealthBar;
     [SerializeField]MinionBarIcon minionIconManager;
 
     List<Minion> TroopMember;
@@ -24,7 +24,6 @@ public class MinionTroop : MonoBehaviour
     private void Awake()
     {
         TroopMember = new List<Minion>();
-        playerHealthBar = PlayerManager.instance.player.GetComponent<PlayerHealthBar>();
     }
 
     private void Start()
@@ -111,7 +110,7 @@ public class MinionTroop : MonoBehaviour
             {
                 TroopMember.Remove(member);
                 //member.SetInactive(false);
-                playerHealthBar.RemoveTroopFromPlayerHealth(this,true);
+                //playerHealthBar.RemoveTroopFromPlayerHealth(this,true);
             }
             else
             {
@@ -140,7 +139,7 @@ public class MinionTroop : MonoBehaviour
                     }
                 }
 
-                playerHealthBar.RemoveTroopFromPlayerHealth(this, true);
+                //playerHealthBar.RemoveTroopFromPlayerHealth(this, true);
 
                 TroopMember.Clear();
                 // reset health

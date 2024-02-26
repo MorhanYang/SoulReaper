@@ -29,8 +29,7 @@ public class TroopHpUI : MonoBehaviour
 
     public void SendSelectedMinionToBranchTree(MinionHpUI presentMinion) {
 
-        // need set troops first and then minions
-        branchTree.SwitchPresentTroopTo(this);
+        // set select minion
         branchTree.SwitchSelectedMinionTo(presentMinion);
     }
 

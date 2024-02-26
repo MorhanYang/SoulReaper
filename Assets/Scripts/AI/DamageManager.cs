@@ -32,7 +32,7 @@ public class DamageManager : MonoBehaviour
             // attacker is player or minion
             else
             {
-                if (attacker.GetComponent<PlayerHealthBar>() != null || attacker.GetComponent<Minion>() != null)
+                if (attacker.GetComponent<PlayerHealth>() != null || attacker.GetComponent<Minion>() != null)
                 {
                     for (int i = 0; i < hitedEnemy.Length; i++)
                     {
@@ -48,7 +48,7 @@ public class DamageManager : MonoBehaviour
                 {
                     for (int i = 0; i < hitedEnemy.Length; i++)
                     {
-                        if (hitedEnemy[i].GetComponent<PlayerHealthBar>() != null || hitedEnemy[i].GetComponent<Minion>() != null)
+                        if (hitedEnemy[i].GetComponent<PlayerHealth>() != null || hitedEnemy[i].GetComponent<Minion>() != null)
                         {
                             reciever = hitedEnemy[i].transform;
                             continue;
@@ -115,7 +115,7 @@ public class DamageManager : MonoBehaviour
             }
 
             //3. Player or minion 
-            if (attacker.GetComponent<Minion>() != null || attacker.GetComponent<PlayerHealthBar>() != null)
+            if (attacker.GetComponent<Minion>() != null || attacker.GetComponent<PlayerHealth>() != null)
             {
                 for (int i = 0; i < hitedEnemy.Length; i++)
                 {
