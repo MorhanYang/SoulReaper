@@ -202,7 +202,6 @@ public class TroopManager : MonoBehaviour
         // change node type
         troop.ChangeTroopNodeType(TroopNode.NodeType.ExtraHp);
         troop.ChangeTroopHp(presentTroopHp);
-
     }
     
     
@@ -238,57 +237,6 @@ public class TroopManager : MonoBehaviour
     //**************************************************************** Assign Troop *****************************************************
     public void AssignOneMinion(Vector3 aimPos)
     {
-
-        Minion myMinion = GetClosedMinion(aimPos);
-
-        // excecute assignment
-        if (myMinion != null)
-        {
-            // use collider to detect enemies
-            Transform target = null;
-            Collider[] hitedEnemy = Physics.OverlapSphere(aimPos, 0.3f, LayerMask.GetMask("Enemy", "PuzzleTrigger"));
-
-
-            // hit enemies. find closed one
-            if (hitedEnemy.Length > 0) target = GetClosestEnemyTransform(hitedEnemy, aimPos);
-            // if didn't hit a enemy
-            else target = null;
-
-            // show destination marker
-            assignMarker.relocateMarker(aimPos, target);
-
-            // ************* Execute sprint action
-            // didn't hit any thing
-            if (target == null) 
-            {
-                // find pos at the navmesh
-                NavMeshHit hit;
-                Vector3 sprintPos = Vector3.zero;
-                if (NavMesh.SamplePosition(aimPos, out hit, 2.5f, NavMesh.AllAreas))
-                {
-                    sprintPos = hit.position;
-                }
-
-                // assign minions
-                myMinion.SprintToPos(sprintPos);
-
-            }
-            // Hit something
-            if (target != null) 
-            {
-                // assign minion to attack
-                myMinion.SprintToEnemy(target);
-            }
-
-            // play sound
-            // mySoundManagers.PlaySoundAt(transform.position, "AssignMinion", false, false, 1.5f, 1f, 100, 100);
-        }
-    }
-
-    public void AssignAllMinions(Vector3 aimPos)
-    {
-        List<TroopNode> myTroopList = TroopDataList;
-
         // use collider to detect enemies
         Transform target = null;
         Collider[] hitedEnemy = Physics.OverlapSphere(aimPos, 0.3f, LayerMask.GetMask("Enemy", "PuzzleTrigger"));
@@ -301,46 +249,156 @@ public class TroopManager : MonoBehaviour
         // show destination marker
         assignMarker.relocateMarker(aimPos, target);
 
-        // ***********Execute sprint action
-        // didn't hit any enemy
-        if (target == null)
+
+        // ********************** excecute assignment
+        // find pos at the navmesh
+        NavMeshHit hit;
+        Vector3 sprintPos = Vector3.zero;
+        if (NavMesh.SamplePosition(aimPos, out hit, 2.5f, NavMesh.AllAreas))
         {
-
-            // find pos at the navmesh
-            NavMeshHit hit;
-            Vector3 sprintPos = Vector3.zero;
-            if (NavMesh.SamplePosition(aimPos, out hit, 2.5f, NavMesh.AllAreas))
-            {
-                sprintPos = hit.position;
-            }
-            // assign minions
-
-            // 3 conditions:
-            //1 player select player icon - > assign all minion
-            if (SelectedTroop != null) // controll specific troop
-            {
-
-            }
-
-            for (int i = 0; i < myTroopList.Count; i++)
-            {
-                for (int j = 0; j < myTroopList[i].GetMinionList().Count; j++)
-                {
-                    myTroopList[i].GetMinionList()[j].SprintToPos(sprintPos);
-                }
-            }
+            sprintPos = hit.position;
         }
 
-        // Hit something
-        if (target != null)
+        // excute different action depending on type
+        BranchTreeUI.SelectType myType = branchTreeUI.GetSelectType();
+        Minion myMinion = GetClosedMinion(aimPos);
+
+        switch (myType)
         {
-            for (int i = 0; i < myTroopList.Count; i++)
-            {
-                for (int j = 0; j < myTroopList[i].GetMinionList().Count; j++)
+            case BranchTreeUI.SelectType.SelectMinion:
+                // assign single minion
+                myMinion = SelectedMinion;
+                if (target == null)// didn't hit anything
                 {
-                    myTroopList[i].GetMinionList()[j].SprintToEnemy(target);
+                    myMinion.SprintToPos(sprintPos);
                 }
-            }
+                else // Hit something
+                {
+                    myMinion.SprintToEnemy(target);
+                }
+
+                break;
+            case BranchTreeUI.SelectType.SelectTroop:
+                //assign whole troop
+                TroopNode mytroop = SelectedTroop;
+                for (int i = 0; i < mytroop.GetMinionList().Count; i++)
+                {
+                    if (target == null) // don't have enemy target
+                    {
+                        mytroop.GetMinionList()[i].SprintToPos(sprintPos);
+                    }
+                    else // have enemy target
+                    {
+                        mytroop.GetMinionList()[i].SprintToEnemy(target);
+                    }
+                }
+                break;
+            case BranchTreeUI.SelectType.SelectPlayer:
+                // assign random minion
+                if (myMinion != null)
+                {
+                    if (target == null)// didn't hit anything
+                    {
+                        myMinion.SprintToPos(sprintPos);
+                    }
+                    else // Hit something
+                    {
+                        myMinion.SprintToEnemy(target);
+                    }
+                }
+                break;
+                
+
+            default:
+                break;
+        }
+
+        // play sound
+        // mySoundManagers.PlaySoundAt(transform.position, "AssignMinion", false, false, 1.5f, 1f, 100, 100);
+    }
+
+    public void AssignAllMinions(Vector3 aimPos)
+    {
+        // use collider to detect enemies
+        Transform target = null;
+        Collider[] hitedEnemy = Physics.OverlapSphere(aimPos, 0.3f, LayerMask.GetMask("Enemy", "PuzzleTrigger"));
+
+        // hit enemies. find closed one
+        if (hitedEnemy.Length > 0) target = GetClosestEnemyTransform(hitedEnemy, aimPos);
+        // if didn't hit a enemy
+        else target = null;
+
+        // show destination marker
+        assignMarker.relocateMarker(aimPos, target);
+
+        // ************************* Execute sprint action
+        // find pos at the navmesh
+        NavMeshHit hit;
+        Vector3 sprintPos = Vector3.zero;
+        if (NavMesh.SamplePosition(aimPos, out hit, 2.5f, NavMesh.AllAreas))
+        {
+            sprintPos = hit.position;
+        }
+
+        // assign minions there are 3 conditions: 
+        BranchTreeUI.SelectType myType = branchTreeUI.GetSelectType();
+        switch (myType)
+        {
+            case BranchTreeUI.SelectType.SelectMinion:
+                //assign whole troop
+                TroopNode mytroop = SelectedTroop;
+                for (int i = 0; i < mytroop.GetMinionList().Count; i++)
+                {
+                    if (target == null) // don't have enemy target
+                    {
+                        mytroop.GetMinionList()[i].SprintToPos(sprintPos);
+                    }
+                    else // have enemy target
+                    {
+                        mytroop.GetMinionList()[i].SprintToEnemy(target);
+                    }    
+                }
+                break;
+
+
+            case BranchTreeUI.SelectType.SelectTroop:
+                // Assign All troop
+                for (int i = 0; i < TroopDataList.Count; i++)
+                {
+                    for (int j = 0; j < TroopDataList[i].GetMinionList().Count; j++)
+                    {
+                        if (target == null)// don't have enemy target
+                        {
+                            TroopDataList[i].GetMinionList()[j].SprintToPos(sprintPos);
+                        }
+                        else // have enemy target
+                        {
+                            TroopDataList[i].GetMinionList()[j].SprintToEnemy(target);
+                        }
+                    }
+                }
+                break;
+
+
+            case BranchTreeUI.SelectType.SelectPlayer:
+                // Assign All troop
+                for (int i = 0; i < TroopDataList.Count; i++)
+                {
+                    for (int j = 0; j < TroopDataList[i].GetMinionList().Count; j++)
+                    {
+                        if (target == null) // don't have enemy target
+                        {
+                            TroopDataList[i].GetMinionList()[j].SprintToPos(sprintPos);
+                        }
+                        else // have enemy target
+                        {
+                            TroopDataList[i].GetMinionList()[j].SprintToEnemy(target);
+                        }
+                    }
+                }
+                break;
+            default:
+                break;
         }
     }
 
