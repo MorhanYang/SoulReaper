@@ -4,16 +4,9 @@ using UnityEngine;
 
 public class CursorManager : MonoBehaviour
 {
-    public static CursorManager instance;
-
     public Texture2D combatCursor;  
     public Texture2D InvestigateCursor;
     public Texture2D recallCursor;
-
-    private void Awake()
-    {
-        instance = this;
-    }
 
     public void ActivateDefaultCursor()
     {

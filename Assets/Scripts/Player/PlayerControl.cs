@@ -8,6 +8,8 @@ public class PlayerControl : MonoBehaviour
 {
 
     PlayerHealthBar hp;
+    PlayerHealth playerHealth;
+    TroopManager troopManager;
     [SerializeField] GameManager gameManager;
     [SerializeField] CursorTimer cursorTimer;
 
@@ -77,6 +79,8 @@ public class PlayerControl : MonoBehaviour
         rb= GetComponent<Rigidbody>();
         characterAnimator = transform.Find("Character").GetComponent<Animator>();
         hp = GetComponent<PlayerHealthBar>();
+        playerHealth = GetComponent<PlayerHealth>();
+        troopManager = GetComponent<TroopManager>();
         mySoundManagers = SoundManager.Instance;
         myDamageManager = DamageManager.instance;
 
@@ -192,10 +196,14 @@ public class PlayerControl : MonoBehaviour
             else if (mouseInputCount % 100 > 0 && mouseInputCount / 100 == 0){
                 // left Click
                 if (gameManager.IsSpellIsReady(1)){
-                    //Activate CD UI
-                    //gameManager.ActivateSpellCDUI(1);
+
                     // Excute Function
-                    AssignOneMinion();
+                    troopManager.AssignOneMinion( aimPos );
+                    
+                    // Count time to trigger all Minion Assignment
+                    assignMinionTimer = 0;
+                    StartCoroutine("ContinueAssignMinion");
+
                 }
             }
             // Recall Fucntion
@@ -203,8 +211,6 @@ public class PlayerControl : MonoBehaviour
                 // Right Click
                 if (gameManager.IsSpellIsReady(2))
                 {
-                    //Activate CD UI
-                    //gameManager.ActivateSpellCDUI(2);
                     // Excute Function
                     RecallTroops();
                 }
@@ -271,7 +277,7 @@ public class PlayerControl : MonoBehaviour
     IEnumerator RebirthTroop()
     {
         float timeCount = 0;
-        float radius = 1.6f; // ReviveRangeMarker has another radius.
+        float radius = 2f; // ReviveRangeMarker has another radius.
 
         // show range indicator
         GameObject effect = Instantiate(rebirthRangeEffect, aimPos, transform.rotation);
@@ -294,15 +300,17 @@ public class PlayerControl : MonoBehaviour
             }
         }
         //activate rebirth
-        hp.ReviveTroopNormal(aimPos, radius);
+        //------------------------------hp.ReviveTroopNormal(aimPos, radius);
+        troopManager.ReviveTroopNormal(aimPos, radius);
         Destroy(effect);
     }
     // ************************************************** recall *********************************************
     void RecallTroops()
     {
-        hp.RegainHP();
-        recallMinionTimer = 0;
-        StartCoroutine("ContinueRecallTroops");
+        playerHealth.AbsorbOthers();
+        //hp.RegainHP();
+        //recallMinionTimer = 0;
+        //StartCoroutine("ContinueRecallTroops");
     }
 
     IEnumerator ContinueRecallTroops()
@@ -332,39 +340,6 @@ public class PlayerControl : MonoBehaviour
         }else if(cursorTimer.gameObject.activeSelf) cursorTimer.HideCursorTimer();
     }
     //************************************************** Assign Troop *******************************************
-    void AssignOneMinion()
-    {
-        // assign single minion
-        List<MinionTroop> Mytroop = hp.GetActivedTroop();
-
-        // Find closest Minin to the Target
-        Minion closestMinion = null;
-        for (int i = 0; i < Mytroop.Count; i++){
-            List<Minion> minionList = Mytroop[i].GetMinionList();
-            for (int j = 0; j < minionList.Count; j++)
-            {
-                if (closestMinion == null){
-                    if (minionList[j].CanAssign()) closestMinion = minionList[j];     
-                    
-                }else if (Vector3.Distance(minionList[j].transform.position,aimPos) < Vector3.Distance(closestMinion.transform.position, aimPos) && minionList[j].CanAssign())
-                {
-                    closestMinion = minionList[j];
-                }
-            }
-        }
-
-        // excecute assignment
-        if (closestMinion != null){
-            closestMinion.GetTroop().AssignOneMinionTowards(aimPos,closestMinion);
-
-            // play sound
-            mySoundManagers.PlaySoundAt(transform.position, "AssignMinion", false, false, 1.5f, 1f, 100, 100);
-        }
-
-        assignMinionTimer = 0;
-        StartCoroutine("ContinueAssignMinion");
-
-    }
 
     IEnumerator ContinueAssignMinion()
     {
@@ -379,23 +354,8 @@ public class PlayerControl : MonoBehaviour
         // recall all
         if (assignMinionTimer >= holdTime)
         {
-            AssignAllMinions(aimPos);
+            troopManager.AssignAllMinions(aimPos);
         }
-    }
-
-    void AssignAllMinions(Vector3 destination)
-    {
-        Debug.Log("Assign All Minions");
-        List<MinionTroop> Mytroop = hp.GetActivedTroop();
-        if (Mytroop.Count > 0)
-        {
-            // find every active troops
-            for (int i = 0; i < Mytroop.Count; i++)
-            {
-                Mytroop[i].AssignTroopTowards(destination);
-            }
-        }
-        else Debug.Log("There is no troop");
     }
     //*************************************************** Flip the character *********************************
     void FlipPlayer()

@@ -124,7 +124,7 @@ public class Enemy : MonoBehaviour
             }
             BecomeMinion();
         }
-            
+   
     }
 
     public void BecomeMinion(){

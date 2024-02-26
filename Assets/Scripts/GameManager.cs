@@ -10,6 +10,10 @@ using System.Collections;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    void Awake()
+    {
+        instance = this;
+    }
 
     public static GameObject[] EnemyList;
     PlayerControl playerControl;
@@ -39,10 +43,6 @@ public class GameManager : MonoBehaviour
 
     // load scene
     public GameObject[] dontDestoryList;
-
-    private void Awake(){
-        instance= this;
-    }
 
     private void Start(){
         EnemyList = GameObject.FindGameObjectsWithTag("Enemy");
@@ -145,7 +145,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("MinionNum" + minionList.Count);
             for (int j = 0; j < minionList.Count; j++)
             {
-                minionList[j].SetInactive(false);
+                minionList[j].SetInactive();
             }
             //remove troop bar Ui
             playerHealthBar.RemoveTroopFromPlayerHealth(minionTroops[0], false);// it will remove the troop, cause minion count change

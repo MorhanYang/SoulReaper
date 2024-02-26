@@ -1,4 +1,5 @@
 using Cinemachine.Utility;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,10 +7,12 @@ using UnityEngine.AI;
 
 public class Minion : MonoBehaviour
 {
-    MinionTroop myTroop;
     MinionAI myAI;
     NavMeshAgent myagent;
-    SoundManager mySoundManager;
+    AbsorbableMark absorbableMark;
+    CursorManager cursorManager;
+    PlayerHealth playerHealth;
+    TroopManager troopManager;
 
     public int minionType = 0; // normal 0, special 1, vines 2; 
     [SerializeField] Animator myAnimator;
@@ -22,11 +25,14 @@ public class Minion : MonoBehaviour
 
     public bool isActive = false;
 
+    // Combat
     float initaldamage;
+    public float MaxHp = 30;
+    public float presentHp = 30f;
 
-    CursorManager cursorManager;
-    PlayerHealthBar playerHealthBar;
-    Shaker shaker;
+    // Position on Troop and Minion list
+    int[] minionDataPos;
+    public int[] GetMinionDataPos() { return minionDataPos; }
 
     // Minion Size
     public int minionSize = 1; // only can be maxTroopCapacity(PlayerHealthBar) or 1
@@ -35,6 +41,10 @@ public class Minion : MonoBehaviour
     [SerializeField] bool isTrigger;
     [SerializeField] Puzzle_Bridge myBridge;
     [SerializeField] Puzzle_Vine myVines;
+
+    //effect 
+    Shaker shaker;
+    SoundManager mySoundManager;
 
     private void Awake()
     {
@@ -46,34 +56,27 @@ public class Minion : MonoBehaviour
     private void Start()
     {
         cursorManager = GameManager.instance.GetComponent<CursorManager>();
-        playerHealthBar = PlayerManager.instance.player.GetComponent<PlayerHealthBar>();
+        playerHealth = PlayerManager.instance.player.GetComponent<PlayerHealth>();
+        absorbableMark = GetComponent<AbsorbableMark>();
+        troopManager = PlayerManager.instance.player.GetComponent<TroopManager>();
         shaker = GetComponent<Shaker>();
-        mySoundManager= SoundManager.Instance;
+        mySoundManager = SoundManager.Instance.GetComponent<SoundManager>();
     }
 
     private void Update(){
         if(myAnimator != null) myAnimator.SetFloat("MovingSpeed", myagent.velocity.magnitude);
     }
 
-    private void OnMouseEnter(){
-        if (myTroop != null){
-            myTroop.SellectAllMember();
-        }
+
+    private void OnMouseEnter()
+    {
+        ActivateSelected();
     }
-    private void OnMouseExit(){
-        if (myTroop != null){
-            myTroop.UnsellectAllMember();
-        }
+    private void OnMouseExit()
+    {
+        DeactivateSeleted();
     }
 
-    //*********************************************************Set Troop & Get Troop*******************************************************
-    public void SetTroop(MinionTroop Troop)
-    {
-        myTroop = Troop;
-    }
-    public MinionTroop GetTroop(){
-        return myTroop;
-    }
     //******************************************************combate*********************************************************
     public void SetDealDamageRate(float rate){
         if (!isTrigger) myAI.attackDamage = initaldamage * rate;
@@ -89,19 +92,35 @@ public class Minion : MonoBehaviour
     }
 
     public void TakeDamage(float damage, Transform damageDealer, Vector3 attackPos){
-        if (myTroop != null && myTroop.GetPresentHP() > 0){
-            shaker.AddImpact(transform.position - attackPos, damage, false);
-            myTroop.TakeDamage(damage * getDamageRate);
+
+        presentHp -= damage;
+
+        // dead
+        if (presentHp < 0){
+            presentHp = 0;
+            troopManager.EnemyKillOneMinion(this);
         }
+        // alive
+        else
+        {
+            troopManager.RefreshOneMinionInfo(this);
+        }
+
+        //knock back
+        shaker.AddImpact((transform.position - attackPos), damage, false);
+
+        // play sound 
+        mySoundManager.PlaySoundAt(PlayerManager.instance.player.gameObject.transform.position, "Hurt", false, false, 1, 0.5f, 100, 100);
     }
-    //*****************************************************Change Minion State******************************************
+    //*****************************************************Revieve or recall Minion******************************************
 
     public void SetRebirthSelect(bool state){ 
         RebirthIcon_Select.SetActive(state);
     }
 
-    public bool SetActiveDelay(float delay)
+    public bool SetActiveDelay(float delay, int[] myMinionDataPos)
     {
+        minionDataPos = myMinionDataPos;
         if (!isActive){
             Invoke("ActiveMinion", delay);
 
@@ -131,6 +150,7 @@ public class Minion : MonoBehaviour
             {
                 gameObject.layer = LayerMask.NameToLayer("MovingMinion");
                 myAI.ActivateMinion();
+                absorbableMark.enabled = true;
 
                 // move minion to cant destory set
                 transform.parent = UsefulItems.instance.minionSet;
@@ -153,10 +173,14 @@ public class Minion : MonoBehaviour
                 myAnimator.SetBool("Dying", true);
             }
         }
-       
-
     }
-    public void SetInactive(bool needRecallEffect)
+
+    internal bool SetActiveDelay(object rebirthDelay)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void SetInactive()
     {
         // normal minion
         if (!isTrigger)
@@ -172,17 +196,7 @@ public class Minion : MonoBehaviour
             if (myVines) myVines.DetractObject(1);
         }
         // set data
-        myTroop = null;
         gameObject.layer = LayerMask.NameToLayer("Minion");
-
-        // play recall animation
-        if (needRecallEffect)
-        {
-            GameObject effect = Instantiate(recallingMinion, transform.position, transform.rotation);
-            effect.GetComponent<RecallingMinion>().AimTo(PlayerManager.instance.player.transform);
-
-            mySoundManager.PlaySoundAt(PlayerManager.instance.player.gameObject.transform.position, "Release", false, false, 1.5f, 0.5f, 100, 100);
-        }
 
         rebirthIcon.SetActive(true);
         if (myAnimator != null)
@@ -206,14 +220,18 @@ public class Minion : MonoBehaviour
         cursorManager.ActivateRecallCursor();
         SelectEffect.SetActive(true);
         // mark recall troop
-        playerHealthBar.MarkRegainTarget(transform);
+        playerHealth.MarkRegainTarget(transform);
     }
 
     public void DeactivateSeleted(){
         cursorManager.ActivateDefaultCursor();
         SelectEffect.SetActive(false);
         // unmark recall troop
-        playerHealthBar.MarkRegainTarget(null);
+        playerHealth.MarkRegainTarget(null);
     }
 
+    //******************************************* Health *********************************************************
+    public float GetHealthPercentage(){
+        return presentHp / MaxHp;
+    }
 }

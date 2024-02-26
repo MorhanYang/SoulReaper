@@ -2,7 +2,6 @@ using DG.Tweening;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerHealthBar : MonoBehaviour
@@ -312,7 +311,7 @@ public class PlayerHealthBar : MonoBehaviour
     public void RegainHP()
     {
         // marked a absorbable object 
-        if (MarkedSubject != null && MarkedSubject.GetComponent<Absorbable>() != null){
+        if (MarkedSubject != null && MarkedSubject.GetComponent<BasicEnemy>() != null){
             RegainAbsorbableHP();
         }
         // marked a troop or don't mark anything
@@ -327,7 +326,7 @@ public class PlayerHealthBar : MonoBehaviour
         // player select a troop
         if (MarkedSubject != null)
         {
-            TargetTroop = MarkedSubject.GetComponent<Minion>().GetTroop();
+            //TargetTroop = MarkedSubject.GetComponent<Minion>().GetTroop();
             // play recall effect
             TargetTroop.ExecuteMinionRecall();
 
@@ -385,7 +384,7 @@ public class PlayerHealthBar : MonoBehaviour
     }
     void RegainAbsorbableHP()
     {
-        Absorbable myAbsorbabl = MarkedSubject.GetComponent<Absorbable>();
+        BasicEnemy myAbsorbabl = MarkedSubject.GetComponent<BasicEnemy>();
 
         // check troop hp state
         bool troopNeedhealth = false;
@@ -399,8 +398,8 @@ public class PlayerHealthBar : MonoBehaviour
         // if health is not full
         if (presentExtraHealth < extraHealthMax || myAbsorbabl.addHealthMax || troopNeedhealth)
         {
-            float healValue;
-            healValue = myAbsorbabl.TakeLife();
+            float healValue = 10f;
+            //healValue = myAbsorbabl.TakeLife();
             // recovering
             // normal
             if (healValue > 0) Healing(healValue);
@@ -414,6 +413,7 @@ public class PlayerHealthBar : MonoBehaviour
         else GameManager.instance.PopUpUI(new Vector3(0, 24f, 0), "Health is full");
     }
     //*************************************************************** Rebirth Troop ***************************************************
+    
     public void ReviveTroopNormal( Vector3 pointedPos , float radius)
     {
         // check if present troop have spacea and have a troop
@@ -546,6 +546,7 @@ public class PlayerHealthBar : MonoBehaviour
         ReviveTroopFunction(reviveMinions);
     }
 
+
     void GenerateNewTroop()
     {
         float troopHP;
@@ -598,6 +599,8 @@ public class PlayerHealthBar : MonoBehaviour
         activedTroopList.Add(troopPresent);
 
     }
+     
+    
 
     //****************************************************** Invincible ******************************************************
     public void Invincible(float duration)

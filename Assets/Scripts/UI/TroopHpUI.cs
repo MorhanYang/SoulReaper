@@ -1,0 +1,69 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class TroopHpUI : MonoBehaviour
+{
+
+    public Image troopHpBar;
+
+    [SerializeField] Image selectedImage;
+    [SerializeField] BranchTreeUI branchTree;
+    [SerializeField] Image healthBar;
+
+    public List<MinionHpUI> minionHpList;
+    public TroopNode.NodeType myNodeType;
+
+    private void Start()
+    {
+        myNodeType = TroopNode.NodeType.ExtraHp;
+    }
+
+
+    //**************************************** Troop Fucntion **************************************************
+    public void ChangeTroopSelectState(bool State)
+    {
+        selectedImage.gameObject.SetActive(State); 
+    }
+
+    public void SendSelectedMinionToBranchTree(MinionHpUI presentMinion) {
+
+        // need set troops first and then minions
+        branchTree.SwitchPresentTroopTo(this);
+        branchTree.SwitchSelectedMinionTo(presentMinion);
+    }
+
+    public void ChangeNodeType(TroopNode.NodeType type)
+    {
+        myNodeType = type;
+        switch (myNodeType)
+        {
+            case TroopNode.NodeType.Troop:
+                // Shrink Troop Sprite
+                this.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                break;
+
+            case TroopNode.NodeType.ExtraHp:
+                // Recover Troop Sprite
+                this.transform.localScale = new Vector3(1f, 1f, 1f);
+                break;
+
+            case TroopNode.NodeType.Empty:
+                this.transform.localScale = new Vector3(1f, 1f, 1f);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    //**************************************** HP Fucntion **************************************************
+
+    public void TroopHpBarDisplay( float presentHp, float MaxHp )
+    {
+        if (MaxHp != 0) healthBar.fillAmount = presentHp / MaxHp;
+        else Debug.Log("Troop's MaxHp shouldn't be 0");
+        
+    }
+}

@@ -116,11 +116,13 @@ GameObject:
   - component: {fileID: 781885203487099883}
   - component: {fileID: 781885203487099885}
   - component: {fileID: 781885203487099888}
-  - component: {fileID: 781885203487099890}
+  - component: {fileID: 4307806656225489285}
+  - component: {fileID: 4307806656225489280}
+  - component: {fileID: 1372646856189540981}
   - component: {fileID: 781885203487099891}
+  - component: {fileID: 7390852331763614465}
   - component: {fileID: 802363182}
   - component: {fileID: 802363183}
-  - component: {fileID: 7390852331763614465}
   m_Layer: 9
   m_Name: Enemy_Normal
   m_TagString: Enemy
@@ -136,7 +138,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 781885203487099882}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.88, y: 0, z: -4.11}
+  m_LocalPosition: {x: -17.74, y: 0, z: -26.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -176,7 +178,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 781885203487099882}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cddb079cf86b32e409ac29a680231e20, type: 3}
   m_Name: 
@@ -191,7 +193,7 @@ MonoBehaviour:
   distanceForDash: 2.5
   dashPrepareTime: 0.8
   dashCD: 2
---- !u!114 &781885203487099890
+--- !u!114 &4307806656225489285
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,14 +202,49 @@ MonoBehaviour:
   m_GameObject: {fileID: 781885203487099882}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 425ba483e6f7df74fbd1a2fff53e52dc, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f5ff36bf5fb159499759dec08a03ecb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDead: 0
+  hp: 5
+  addHealthMax: 0
+  canRoam: 0
+  roamInterval: 5
+  recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
+  selectEffect: {fileID: 0}
+  mysprite: {fileID: 781885203998012034}
+  particle: {fileID: 0}
+--- !u!114 &4307806656225489280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781885203487099882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fed51adfb1945447b280b2bf671dcbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   enemySprite: {fileID: 781885203998012032}
   enemySoul: {fileID: 2329640087748747304, guid: b7ed528af67ac0e47bacc2885a5712fb, type: 3}
   attackEffect: {fileID: 8295354949021519652, guid: 310bf40f820e6464bb41e0a1bae2cab7, type: 3}
   blocker: {fileID: 0}
+  previousSoundTrigger: {fileID: 0}
+--- !u!114 &1372646856189540981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781885203487099882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd971106a7655e34ebc42ddc10eb57e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAbsorbType: 1
+  reoverAmount: 10
+  recallingPartical: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
 --- !u!114 &781885203487099891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,6 +261,24 @@ MonoBehaviour:
   hpBar: {fileID: 3336758933373748333}
   Maxhealth: 15
   presentHealth: 15
+--- !u!114 &7390852331763614465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781885203487099882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8981f99061849a498aba9cfaba86eb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mySprite: {fileID: 781885203998012033}
+  returnStrengh: 2
+  mass: 1
+  knockBack: 2
+  fleshColor: {r: 1, g: 0.5058824, b: 0.5058824, a: 1}
+  bloodEffect: {fileID: 203682428094779240, guid: 5f649d31b83378d44b5fb47ab8614d7f, type: 3}
 --- !u!54 &802363182
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -253,24 +308,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.4
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7390852331763614465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 781885203487099882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8981f99061849a498aba9cfaba86eb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mySprite: {fileID: 781885203998012033}
-  returnStrengh: 2
-  mass: 1
-  knockBack: 2
-  fleshColor: {r: 1, g: 0.5058824, b: 0.5058824, a: 1}
-  bloodEffect: {fileID: 203682428094779240, guid: 5f649d31b83378d44b5fb47ab8614d7f, type: 3}
 --- !u!1 &781885203998012032
 GameObject:
   m_ObjectHideFlags: 0

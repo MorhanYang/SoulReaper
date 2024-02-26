@@ -109,8 +109,8 @@ public class Teleport : MonoBehaviour
                 // check if the minion is inside the range
                 if (Vector3.Distance(myMinionList[j].transform.position, previousPos) > RangeToTeleport){
                     // kill the out range minion and regain hp
-                    MinionTroop myTroop = myMinionList[j].GetComponent<Minion>().GetTroop();
-                    myTroop.RemoveTroopMember(myMinionList[j]);
+                    //-------------------------------------MinionTroop myTroop = myMinionList[j].GetComponent<Minion>().GetTroop();
+                    //-----------------------------------myTroop.RemoveTroopMember(myMinionList[j]);
                 }
                 else 
                 {

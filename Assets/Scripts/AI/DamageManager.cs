@@ -36,7 +36,7 @@ public class DamageManager : MonoBehaviour
                 {
                     for (int i = 0; i < hitedEnemy.Length; i++)
                     {
-                        if (hitedEnemy[i].GetComponent<Enemy>() != null)
+                        if (hitedEnemy[i].GetComponent<EnemyScript>() != null)
                         {
                             reciever = hitedEnemy[i].transform;
                             continue;
@@ -44,7 +44,7 @@ public class DamageManager : MonoBehaviour
                     }
                 }
                 // Attacker is enemy
-                else if (attacker.GetComponent<Enemy>() != null)
+                else if (attacker.GetComponent<EnemyScript>() != null)
                 {
                     for (int i = 0; i < hitedEnemy.Length; i++)
                     {
@@ -70,9 +70,9 @@ public class DamageManager : MonoBehaviour
             }
 
             //2. Enemy
-            if (reciever.GetComponent<Enemy>() != null)
+            if (reciever.GetComponent<EnemyScript>() != null)
             {
-                Enemy myEnemy = reciever.GetComponent<Enemy>();
+                EnemyScript myEnemy = reciever.GetComponent<EnemyScript>();
                 myEnemy.TakeDamage(damage, attacker, attackerPos);
 
             }

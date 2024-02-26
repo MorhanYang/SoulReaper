@@ -45,78 +45,6 @@ public class MinionTroop : MonoBehaviour
         health.HealthUpdate();
     }
 
-    //************************************************Sprint***************************************************************
-    public void AssignOneMinionTowards(Vector3 destination, Minion assignedMinion)
-    {
-        // find target
-        Collider[] hitedEnemy = Physics.OverlapSphere(destination, 0.3f, LayerMask.GetMask("Enemy", "PuzzleTrigger"));
-        Transform target = null;
-
-        // hit enemies. find closed one
-        if (hitedEnemy.Length > 0) target = GetClosestEnemyTransform(hitedEnemy, destination);
-        // if didn't hit a enemy
-        else target = null;
-
-        // show destination marker
-        myMarker.relocateMarker(destination, target);
-
-        // Execute sprint action
-        if (target == null) // didn't hit any thing
-        {
-            // find pos at the navmesh
-            NavMeshHit hit;
-            Vector3 sprintPos = Vector3.zero;
-            if (NavMesh.SamplePosition(destination, out hit, 2.5f, NavMesh.AllAreas))
-            {
-                sprintPos = hit.position;
-            }
-
-            // assign minions
-            assignedMinion.SprintToPos(sprintPos);
-
-        }
-        if (target != null) // Hit something
-        {
-            // assign minion to attack
-            assignedMinion.SprintToEnemy(target);
-        }
-    }
-    public void AssignTroopTowards(Vector3 destination)
-    {
-        // find target
-        Collider[] hitedEnemy = Physics.OverlapSphere(destination, 0.3f, LayerMask.GetMask("Enemy","PuzzleTrigger"));
-        Transform target = null;
-
-        // hit enemies. find closed one
-        if (hitedEnemy.Length > 0) target = GetClosestEnemyTransform(hitedEnemy, destination);
-        // if didn't hit a enemy
-        else target = null;
-
-        // show destination marker
-        myMarker.relocateMarker(destination, target);
-
-        // Execute sprint action
-        if (target == null) // didn't hit any thing
-        {
-            // find pos at the navmesh
-            NavMeshHit hit;
-            Vector3 sprintPos = Vector3.zero;
-            if (NavMesh.SamplePosition(destination, out hit, 2.5f, NavMesh.AllAreas)){
-                sprintPos = hit.position;
-            }
-            // assign minions
-            for (int i = 0; i < TroopMember.Count; i++){
-                TroopMember[i].SprintToPos(sprintPos);
-            }
-        }
-        if(target != null) // Hit something
-        {
-            for (int i = 0; i < TroopMember.Count; i++){
-                TroopMember[i].SprintToEnemy(target);
-            }
-        }
-    }
-
     // ************************************************* Share property ***************************************
     public int GetTroopEmptySpace()
     {
@@ -167,12 +95,13 @@ public class MinionTroop : MonoBehaviour
         if (member != null && !TroopMember.Contains(member))
         {
             TroopMember.Add(member);
-            member.SetTroop(this);
+            //member.SetTroop(this);
             TroopSpaceLeft -= member.minionSize;
 
             UpdateMemberNumText();
         }
     }
+
     public void RemoveTroopMember(Minion member)
     {
         if (member != null)
@@ -181,14 +110,14 @@ public class MinionTroop : MonoBehaviour
             if (TroopMember.Count <= 1)
             {
                 TroopMember.Remove(member);
-                member.SetInactive(false);
+                //member.SetInactive(false);
                 playerHealthBar.RemoveTroopFromPlayerHealth(this,true);
             }
             else
             {
                 TroopMember.Remove(member);
                 TroopSpaceLeft += member.minionSize;
-                member.SetInactive(false);
+                //member.SetInactive(false);
 
                 UpdateMemberNumText();
             }
@@ -206,7 +135,7 @@ public class MinionTroop : MonoBehaviour
             {
                 foreach (Minion item in TroopMember){
                     if (item != null){
-                        item.SetInactive(false);
+                        //item.SetInactive(false);
                         health.presentHealth = 0;
                     }
                 }
@@ -285,7 +214,7 @@ public class MinionTroop : MonoBehaviour
     {
         for (int i = 0; i < TroopMember.Count; i++)
         {
-            TroopMember[i].SetInactive(true); 
+            //TroopMember[i].SetInactive(true); 
         }
         // change cursor
         GameManager.instance.GetComponent<CursorManager>().ActivateDefaultCursor();
