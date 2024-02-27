@@ -223,7 +223,7 @@ MonoBehaviour:
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 2
+  m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!1 &408704710065144840
@@ -268,7 +268,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -150}
-  m_SizeDelta: {x: 95, y: 95}
+  m_SizeDelta: {x: 86, y: 86}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &408704710065144843
 CanvasRenderer:
@@ -584,11 +584,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12e765476d9651346ae618285e77f344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  troopHpList:
+  troopHpUIList:
   - {fileID: 2994571906914890344}
   - {fileID: 6199168704642941199}
   - {fileID: 6199168704304379761}
   playerHealthUI: {fileID: 1587561332898635213}
+  mySelectType: 2
 --- !u!1 &3180343483956777996
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,6 +602,7 @@ GameObject:
   - component: {fileID: 3180343483956777999}
   - component: {fileID: 3180343483956777998}
   - component: {fileID: 1401430637}
+  - component: {fileID: 2138470141}
   m_Layer: 0
   m_Name: Img_Troop_hp_bg
   m_TagString: Untagged
@@ -724,6 +726,51 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2138470141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3180343483956777996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2317848288061266057}
+          m_TargetAssemblyTypeName: BranchTreeUI, Assembly-CSharp
+          m_MethodName: SelectAllMember
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 2994571906914890344}
+            m_ObjectArgumentAssemblyTypeName: TroopHpUI, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2317848288061266057}
+          m_TargetAssemblyTypeName: BranchTreeUI, Assembly-CSharp
+          m_MethodName: UnselectAllMember
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 2994571906914890344}
+            m_ObjectArgumentAssemblyTypeName: TroopHpUI, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &6199168704157216576
 GameObject:
   m_ObjectHideFlags: 0
@@ -1039,6 +1086,7 @@ GameObject:
   - component: {fileID: 6199168704177195180}
   - component: {fileID: 6199168704177195181}
   - component: {fileID: 6199168704177195170}
+  - component: {fileID: 1018000410}
   m_Layer: 0
   m_Name: Img_Troop_hp_bg
   m_TagString: Untagged
@@ -1146,7 +1194,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 6199168704642941198}
+  m_TargetGraphic: {fileID: 6199168704177195181}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -1162,6 +1210,51 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1018000410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6199168704177195168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2317848288061266057}
+          m_TargetAssemblyTypeName: BranchTreeUI, Assembly-CSharp
+          m_MethodName: SelectAllMember
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 6199168704642941199}
+            m_ObjectArgumentAssemblyTypeName: TroopHpUI, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2317848288061266057}
+          m_TargetAssemblyTypeName: BranchTreeUI, Assembly-CSharp
+          m_MethodName: UnselectAllMember
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 6199168704642941199}
+            m_ObjectArgumentAssemblyTypeName: TroopHpUI, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &6199168704183906645
 GameObject:
   m_ObjectHideFlags: 0
@@ -2121,7 +2214,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6199168704304379766}
   - component: {fileID: 6199168704304379763}
-  - component: {fileID: 6199168704304379760}
   - component: {fileID: 6199168704304379761}
   m_Layer: 0
   m_Name: Img_Troop_hp_3
@@ -2146,15 +2238,15 @@ RectTransform:
   - {fileID: 6199168704407100851}
   - {fileID: 6199168705071199138}
   - {fileID: 6199168704281341851}
-  - {fileID: 6199168704505362398}
   - {fileID: 6199168706210936943}
+  - {fileID: 6199168704505362398}
   m_Father: {fileID: 1182742118314051706}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -140, y: -180}
-  m_SizeDelta: {x: 95, y: 95}
+  m_SizeDelta: {x: 86, y: 86}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168704304379763
 CanvasRenderer:
@@ -2164,36 +2256,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6199168704304379767}
   m_CullTransparentMesh: 1
---- !u!114 &6199168704304379760
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6199168704304379767}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: -2037670695, guid: e31b9dc8cabe3394481f609720f8fcf6, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &6199168704304379761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2633,7 +2695,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168704375605321
 CanvasRenderer:
@@ -3697,7 +3759,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168704467956311
 CanvasRenderer:
@@ -4074,7 +4136,7 @@ RectTransform:
   m_Children:
   - {fileID: 6199168705792064879}
   m_Father: {fileID: 6199168704304379766}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4737,7 +4799,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6199168704642941196}
   - component: {fileID: 6199168704642941193}
-  - component: {fileID: 6199168704642941198}
   - component: {fileID: 6199168704642941199}
   m_Layer: 0
   m_Name: Img_Troop_hp_1
@@ -4770,7 +4831,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 140, y: -180}
-  m_SizeDelta: {x: 95, y: 95}
+  m_SizeDelta: {x: 86, y: 86}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168704642941193
 CanvasRenderer:
@@ -4780,36 +4841,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6199168704642941197}
   m_CullTransparentMesh: 1
---- !u!114 &6199168704642941198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6199168704642941197}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: -2037670695, guid: e31b9dc8cabe3394481f609720f8fcf6, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &6199168704642941199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5212,7 +5243,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168704706654602
 CanvasRenderer:
@@ -5610,7 +5641,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6199168704821135309}
   - component: {fileID: 6199168704821135310}
-  - component: {fileID: 6199168704821135311}
   - component: {fileID: 6199168704821135308}
   m_Layer: 0
   m_Name: Img_Troop_hp_4
@@ -5643,7 +5673,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -260, y: -220}
-  m_SizeDelta: {x: 95, y: 95}
+  m_SizeDelta: {x: 86, y: 86}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168704821135310
 CanvasRenderer:
@@ -5653,36 +5683,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6199168704821135298}
   m_CullTransparentMesh: 1
---- !u!114 &6199168704821135311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6199168704821135298}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: -2037670695, guid: e31b9dc8cabe3394481f609720f8fcf6, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &6199168704821135308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5933,7 +5933,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168704858010717
 CanvasRenderer:
@@ -6392,7 +6392,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168704992757272
 CanvasRenderer:
@@ -6468,7 +6468,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168705009944070
 CanvasRenderer:
@@ -7757,7 +7757,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168705164131968
 CanvasRenderer:
@@ -8633,7 +8633,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168705254206065
 CanvasRenderer:
@@ -8977,7 +8977,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168705309764987
 CanvasRenderer:
@@ -9067,7 +9067,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6199168705323034842}
   - component: {fileID: 6199168705323034823}
-  - component: {fileID: 6199168705323034820}
   - component: {fileID: 6199168705323034821}
   m_Layer: 0
   m_Name: Img_Troop_hp_2
@@ -9100,7 +9099,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 260, y: -220}
-  m_SizeDelta: {x: 95, y: 95}
+  m_SizeDelta: {x: 86, y: 86}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168705323034823
 CanvasRenderer:
@@ -9110,36 +9109,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6199168705323034843}
   m_CullTransparentMesh: 1
---- !u!114 &6199168705323034820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6199168705323034843}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: -2037670695, guid: e31b9dc8cabe3394481f609720f8fcf6, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &6199168705323034821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9351,7 +9320,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168705361332805
 CanvasRenderer:
@@ -9503,7 +9472,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168705373787521
 CanvasRenderer:
@@ -9922,7 +9891,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168705422940676
 CanvasRenderer:
@@ -10265,7 +10234,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168705446440877
 CanvasRenderer:
@@ -10357,6 +10326,7 @@ GameObject:
   - component: {fileID: 6199168705449648705}
   - component: {fileID: 6199168705449648710}
   - component: {fileID: 6199168705449648711}
+  - component: {fileID: 1888837365}
   m_Layer: 0
   m_Name: Img_Troop_hp_bg
   m_TagString: Untagged
@@ -10464,7 +10434,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 6199168704304379760}
+  m_TargetGraphic: {fileID: 6199168705449648710}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -10480,6 +10450,51 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1888837365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6199168705449648709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2317848288061266057}
+          m_TargetAssemblyTypeName: BranchTreeUI, Assembly-CSharp
+          m_MethodName: SelectAllMember
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 6199168704304379761}
+            m_ObjectArgumentAssemblyTypeName: TroopHpUI, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2317848288061266057}
+          m_TargetAssemblyTypeName: BranchTreeUI, Assembly-CSharp
+          m_MethodName: UnselectAllMember
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 6199168704304379761}
+            m_ObjectArgumentAssemblyTypeName: TroopHpUI, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &6199168705468305410
 GameObject:
   m_ObjectHideFlags: 0
@@ -10492,6 +10507,7 @@ GameObject:
   - component: {fileID: 6199168705468305422}
   - component: {fileID: 6199168705468305423}
   - component: {fileID: 6199168705468305420}
+  - component: {fileID: 1874209980}
   m_Layer: 0
   m_Name: Img_Troop_hp_bg
   m_TagString: Untagged
@@ -10566,7 +10582,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6199168705468305410}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -10599,7 +10615,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 6199168704821135311}
+  m_TargetGraphic: {fileID: 6199168705468305423}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -10615,6 +10631,51 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1874209980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6199168705468305410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2317848288061266057}
+          m_TargetAssemblyTypeName: BranchTreeUI, Assembly-CSharp
+          m_MethodName: SelectAllMember
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 6199168704821135308}
+            m_ObjectArgumentAssemblyTypeName: TroopHpUI, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2317848288061266057}
+          m_TargetAssemblyTypeName: BranchTreeUI, Assembly-CSharp
+          m_MethodName: UnselectAllMember
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 6199168704821135308}
+            m_ObjectArgumentAssemblyTypeName: TroopHpUI, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &6199168705480232057
 GameObject:
   m_ObjectHideFlags: 0
@@ -10994,7 +11055,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168705556637405
 CanvasRenderer:
@@ -11600,7 +11661,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168705677089923
 CanvasRenderer:
@@ -11676,7 +11737,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168705686280110
 CanvasRenderer:
@@ -11828,7 +11889,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168705705645424
 CanvasRenderer:
@@ -11944,7 +12005,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168705770634700
 CanvasRenderer:
@@ -12304,6 +12365,7 @@ GameObject:
   - component: {fileID: 6199168705813575752}
   - component: {fileID: 6199168705813575753}
   - component: {fileID: 6199168705813575758}
+  - component: {fileID: 1528972542}
   m_Layer: 0
   m_Name: Img_Troop_hp_bg
   m_TagString: Untagged
@@ -12378,7 +12440,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6199168705813575756}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -12411,7 +12473,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 6199168705323034820}
+  m_TargetGraphic: {fileID: 6199168705813575753}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -12427,6 +12489,51 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1528972542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6199168705813575756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2317848288061266057}
+          m_TargetAssemblyTypeName: BranchTreeUI, Assembly-CSharp
+          m_MethodName: SelectAllMember
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 6199168705323034821}
+            m_ObjectArgumentAssemblyTypeName: TroopHpUI, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2317848288061266057}
+          m_TargetAssemblyTypeName: BranchTreeUI, Assembly-CSharp
+          m_MethodName: UnselectAllMember
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 6199168705323034821}
+            m_ObjectArgumentAssemblyTypeName: TroopHpUI, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &6199168705835120107
 GameObject:
   m_ObjectHideFlags: 0
@@ -12998,7 +13105,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168705941133405
 CanvasRenderer:
@@ -13074,7 +13181,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168705980977689
 CanvasRenderer:
@@ -13832,7 +13939,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168706204843787
 CanvasRenderer:
@@ -13906,7 +14013,7 @@ RectTransform:
   m_Children:
   - {fileID: 6199168704429898570}
   m_Father: {fileID: 6199168704304379766}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -14059,7 +14166,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168706230077761
 CanvasRenderer:
@@ -14287,7 +14394,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168706240127710
 CanvasRenderer:
@@ -14363,7 +14470,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6199168706240367159
 CanvasRenderer:
@@ -14515,7 +14622,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 7.8053, y: 7.8053}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9189881320699542383
 CanvasRenderer:

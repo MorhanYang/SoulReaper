@@ -33,7 +33,7 @@ public class MinionTroop : MonoBehaviour
         ReduceMinionsDamge();
     }
 
-    //********************************************Reset Troop Info************************************************************
+    //******************************************** Reset Troop Info ************************************************************
     public void ResetTroopHP(float presentHP, float MaxHP, int maxCapacity)
     {
         health.Maxhealth = MaxHP;

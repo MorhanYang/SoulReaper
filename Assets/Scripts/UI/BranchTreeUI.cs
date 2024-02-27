@@ -12,6 +12,8 @@ public class BranchTreeUI : MonoBehaviour
     [SerializeField] PlayerHealthUI playerHealthUI;
     TroopHpUI SelectedTroopUI;
     MinionHpUI SelectedMinionUI;
+
+    int[] tempMinionPos;
     public enum SelectType
     {
         SelectMinion,
@@ -103,7 +105,7 @@ public class BranchTreeUI : MonoBehaviour
         // find selectedMinion place and cast to troop data
         int troopUiId = 0;
         for (int i = 0; i < troopHpUIList.Count; i++){
-            if (troopHpUIList[i].minionHpList.Contains(SelectedMinionUI)){
+            if (troopHpUIList[i].minionHpList.Contains(presentMinionUI)){
                 troopUiId = i;
                 break;
             }  
@@ -214,6 +216,85 @@ public class BranchTreeUI : MonoBehaviour
     {
         if (maxHp != 0) playerHealthUI.FreshHpInfo(presentHp, maxHp);
         else Debug.Log("Player's MaxHp shouldn't be 0");
+    }
+
+    //********************************************************************* Hovering select **********************************************************
+
+    public void SelectAllMember( TroopHpUI troopUI )
+    {
+        // find troop and minions
+        int troopId = troopHpUIList.IndexOf(troopUI);
+        // availible ID
+        if (troopId < troopDataList.Count)
+        {
+            for (int i = 0; i < troopDataList[troopId].GetMinionList().Count; i++)
+            {
+                troopDataList[troopId].GetMinionList()[i].ActivateSelected();
+            }
+        }
+
+    }
+    public void UnselectAllMember(TroopHpUI troopUI)
+    {
+        // find troop and minions
+        int troopId = troopHpUIList.IndexOf(troopUI);
+        // availible ID
+        if (troopId < troopDataList.Count)
+        {
+            for (int i = 0; i < troopDataList[troopId].GetMinionList().Count; i++)
+            {
+                troopDataList[troopId].GetMinionList()[i].DeactivateSeleted();
+            }
+        }
+    }
+
+    public void SelectOneMember( MinionHpUI minionUI )
+    {
+        Debug.Log("selected");
+        // find minion
+        int troopId = -1;
+        int minionId = -1;
+        for (int i = 0; i < troopHpUIList.Count; i++)
+        {
+            if (troopHpUIList[i].minionHpList.Contains(minionUI))
+            {
+                troopId = i;
+                minionId = troopHpUIList[i].minionHpList.IndexOf(minionUI);
+                break;
+            }  
+        }
+        tempMinionPos = new int[]{troopId, minionId};
+
+        //activate if available 
+        if (troopId < troopDataList.Count && minionId < troopDataList[troopId].GetMinionList().Count)
+        {
+            troopDataList[troopId].GetMinionList()[minionId].ActivateSelected();
+        }
+        
+    }
+
+    public void UnselectOneMember( MinionHpUI minionUI )
+    {
+        Debug.Log("unselected");
+        // check if TempMinionPos is the right minionUI
+        int x = tempMinionPos[0];
+        int y = tempMinionPos[1];
+        if (troopHpUIList[x].minionHpList[y] == minionUI){
+            // available?
+            if (x < troopDataList.Count && y < troopDataList[x].GetMinionList().Count)
+            {
+                troopDataList[x].GetMinionList()[y].DeactivateSeleted();
+            }
+        }
+        // not the right temp
+        else
+        {
+            Debug.LogWarning("wrong tempMinionPos");
+        }
+
+        // reset TempMinionPos
+        tempMinionPos[0] = -1;
+        tempMinionPos[1] = -1;
     }
 
 }
