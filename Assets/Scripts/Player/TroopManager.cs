@@ -56,10 +56,18 @@ public class TroopManager : MonoBehaviour
 
         SelectedTroop = troopNode; 
     }
+    public TroopNode GetPresentTroop()
+    {
+        return SelectedTroop;
+    }
 
     public void SetPresentMinion( Minion minion){
 
         SelectedMinion = minion; 
+    }
+    public Minion GetPresentMinion()
+    {
+        return SelectedMinion;
     }
 
     private void SetUpTroopNodeList()

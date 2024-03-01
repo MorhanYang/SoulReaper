@@ -248,7 +248,10 @@ public class PlayerControl : MonoBehaviour
 
         // realse -> check if this is hold
         if (Input.GetMouseButtonUp(1) && clickTimer < holdTime && !EventSystem.current.IsPointerOverGameObject())// it is a click
-        { }
+        {
+            // eat a minion
+            playerHealth.AbsorbOthers();
+        }
 
         if (Input.GetMouseButtonUp(1) && clickTimer >= holdTime)// it is a hold
         {
@@ -270,6 +273,14 @@ public class PlayerControl : MonoBehaviour
                     //    //Activate CD UI
                     //    //gameManager.ActivateSpellCDUI(3);
                     //}
+                    break;
+
+                case MouseControlUI.Action.RightClickSpecial3:
+                    playerHealth.AbsorbOthers();
+                    break;
+
+                case MouseControlUI.Action.RightClickSpecial4:
+                    troopManager.EatTroopToRecover();
                     break;
 
                 default:
