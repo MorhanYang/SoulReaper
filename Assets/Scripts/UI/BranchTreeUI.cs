@@ -231,7 +231,7 @@ public class BranchTreeUI : MonoBehaviour
             {
                 for (int i = 0; i < troopDataList[troopId].GetMinionList().Count; i++)
                 {
-                    troopDataList[troopId].GetMinionList()[i].ActivateSelected();
+                    troopDataList[troopId].GetMinionList()[i].ActivateEatMarker();
                 }
             }
         }
@@ -249,7 +249,7 @@ public class BranchTreeUI : MonoBehaviour
             {
                 for (int i = 0; i < troopDataList[troopId].GetMinionList().Count; i++)
                 {
-                    troopDataList[troopId].GetMinionList()[i].DeactivateSeleted();
+                    troopDataList[troopId].GetMinionList()[i].DeactivateEatSeleted();
                 }
             }
         }
@@ -275,7 +275,7 @@ public class BranchTreeUI : MonoBehaviour
         //activate if available 
         if (troopId < troopDataList.Count && minionId < troopDataList[troopId].GetMinionList().Count)
         {
-            troopDataList[troopId].GetMinionList()[minionId].ActivateSelected();
+            troopDataList[troopId].GetMinionList()[minionId].ActivateEatMarker();
         }
         
     }
@@ -292,7 +292,7 @@ public class BranchTreeUI : MonoBehaviour
                 // available?
                 if (x < troopDataList.Count && y < troopDataList[x].GetMinionList().Count)
                 {
-                    troopDataList[x].GetMinionList()[y].DeactivateSeleted();
+                    troopDataList[x].GetMinionList()[y].DeactivateEatSeleted();
                 }
             }
             // not the right temp

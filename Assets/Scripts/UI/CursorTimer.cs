@@ -6,9 +6,8 @@ using System.Collections;
 public class CursorTimer : MonoBehaviour
 {
     [SerializeField] Image timerBar;
-    [SerializeField] Canvas canvas;
+    public Canvas canvas;
     [SerializeField] GameObject BarCover;
-    [SerializeField] Vector2 offset;
 
     RectTransform recttransform;
     CanvasGroup myCanvasGroup;
@@ -17,7 +16,7 @@ public class CursorTimer : MonoBehaviour
     float time;
     bool showingCusorTimer;
 
-    private void Start()
+    private void OnEnable()
     {
         recttransform = GetComponent<RectTransform>();
         myCanvasGroup = GetComponent<CanvasGroup>();
@@ -30,7 +29,7 @@ public class CursorTimer : MonoBehaviour
         if (showingCusorTimer)
         {
             RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, Input.mousePosition, canvas.worldCamera, out pos);
-            recttransform.localPosition = pos + offset;
+            recttransform.localPosition = pos;
             if (countdown != 0) timerBar.fillAmount = time / countdown;
             if (time >= countdown && timerBar.fillAmount == 1){
                 HideCursorTimer();
@@ -66,7 +65,6 @@ public class CursorTimer : MonoBehaviour
         }
 
         myCanvasGroup.gameObject.SetActive(false);
-        myCanvasGroup.alpha = 0f;
-
+        myCanvasGroup.alpha = 0;
     }
 }

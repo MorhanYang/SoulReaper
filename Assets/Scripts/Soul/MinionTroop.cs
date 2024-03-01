@@ -225,7 +225,7 @@ public class MinionTroop : MonoBehaviour
         selectSprite.SetActive(true);
         for (int i = 0; i < TroopMember.Count ; i++)
         {
-            TroopMember[i].ActivateSelected();
+            TroopMember[i].ActivateEatMarker();
         }
 
     }
@@ -234,7 +234,7 @@ public class MinionTroop : MonoBehaviour
         selectSprite.SetActive(false);
         for (int i = 0; i < TroopMember.Count; i++)
         {
-            TroopMember[i].DeactivateSeleted();
+            TroopMember[i].DeactivateEatSeleted();
         }
     }
 }

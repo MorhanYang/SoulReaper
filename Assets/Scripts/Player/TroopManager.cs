@@ -16,11 +16,11 @@ public class TroopManager : MonoBehaviour
     [SerializeField] BranchTreeUI branchTreeUI;
     TroopNode SelectedTroop;
     Minion SelectedMinion;
-   
 
     public List<TroopNode> TroopDataList;
 
-    private int presentExtraHealth;
+    // revieve
+    Transform MarkedRevievSubject;
     float rebirthDelay = 0.6f;
 
     float assignMinionTimer;
@@ -72,6 +72,24 @@ public class TroopManager : MonoBehaviour
     }
 
     //*************************************************************** Revieve Troop ***************************************************
+    public void MarkedReviveMinion( Transform target )
+    {
+        MarkedRevievSubject = target;
+    }
+    
+    public void ReviveSingleMinion()
+    {
+        if (MarkedRevievSubject != null)
+        {
+            Debug.Log("revive target");
+            List<Minion> myMinionList = new List<Minion>();
+            myMinionList.Add(MarkedRevievSubject.GetComponent<Minion>());
+
+            // revive
+            ReviveMinionsFunction(myMinionList);
+        }
+    }
+
     public void ReviveTroopNormal(Vector3 pointedPos, float radius)
     {
         Collider[] MinionInCircle = Physics.OverlapSphere(pointedPos, radius, LayerMask.GetMask("Minion"));// when rebirth minion, the layer will change
