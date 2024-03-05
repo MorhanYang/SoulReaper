@@ -10,7 +10,7 @@ public class TroopManager : MonoBehaviour
 
     public int maxTroopCapacity = 5; // it equal to the number of Minion's bar UI in Branch tree
     private int troopSlotNum = 3; // it equal to the number of Troop UI in Branch tree
-    int hpUnit = 10;
+    public int hpUnit = 10;
 
 
     [SerializeField] BranchTreeUI branchTreeUI;

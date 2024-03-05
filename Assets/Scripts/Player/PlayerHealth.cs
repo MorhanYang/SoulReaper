@@ -193,66 +193,98 @@ public class PlayerHealth : MonoBehaviour
     }
 
     /// <summary>
-    /// recover health is consistent, but take damage is by unity;
+    /// recover health is consistent, but take damage is by unit;
     /// </summary>
     void RecoverHpInOrder( float recoverAmount )
     {
-        float neededHp;
-        // recover Player HP first
-        if (presentPlayerHp < playerMaxHp)
+        if (recoverAmount > 0)
         {
-            neededHp = playerMaxHp - presentPlayerHp;
-            // recoverAmount doesn't cover need
-            if (neededHp >= recoverAmount){
-                presentPlayerHp += recoverAmount;
-            }
-            // more recoverAmount, reload this function again
-            else if (neededHp < recoverAmount){
-                float newRecoverAmt = recoverAmount - neededHp;
-                presentPlayerHp += neededHp;
-                RecoverHpInOrder(newRecoverAmt);
-                return;
-            }
-        }
-        // recover troopNode HP
-        else if (troopDataList.Count > 0)
-        {
-            for (int j = 0; j < troopDataList.Count; j++)
+            float neededHp;
+            // 1. recover Player HP first
+            if (presentPlayerHp < playerMaxHp)
             {
-                // need recover
-                if (troopDataList[j].troopHp < troopDataList[j].maxTroopHp)
+                neededHp = playerMaxHp - presentPlayerHp;
+                // recoverAmount doesn't cover need
+                if (neededHp >= recoverAmount)
                 {
-                    neededHp = troopDataList[j].maxTroopHp - troopDataList[j].troopHp;
-                    if (neededHp >= recoverAmount){
-                        // add hp
-                        float hp = troopDataList[j].troopHp + recoverAmount;
-                        troopDataList[j].SetNodeHp(hp, troopDataList[j].maxTroopHp);
-                        break;
-                    }
-                    else if (neededHp < recoverAmount){
-                        float newRecoverAmt = recoverAmount - neededHp;
-                        // add hp
-                        float hp = troopDataList[j].troopHp + neededHp;
-                        troopDataList[j].SetNodeHp(hp, troopDataList[j].maxTroopHp);
-                        RecoverHpInOrder(newRecoverAmt);
-                        return;
-                    }
+                    presentPlayerHp += recoverAmount;
+                    RecoverHpInOrder(0);// refresh HP bar
+                    return;
+                }
+                // more recoverAmount, reload this function again
+                else if (neededHp < recoverAmount)
+                {
+                    float newRecoverAmt = recoverAmount - neededHp;
+                    presentPlayerHp += neededHp;
+                    RecoverHpInOrder(newRecoverAmt);
+                    return;
                 }
             }
+            else if (troopDataList.Count > 0)
+            {
+                // 2. recover troopNode HP
+                for (int j = 0; j < troopDataList.Count; j++)
+                {
+                    // need recover
+                    if (troopDataList[j].troopHp < troopDataList[j].maxTroopHp)
+                    {
+                        neededHp = troopDataList[j].maxTroopHp - troopDataList[j].troopHp;
+                        if (neededHp >= recoverAmount)
+                        {
+                            // add hp
+                            float hp = troopDataList[j].troopHp + recoverAmount;
+                            troopDataList[j].SetNodeHp(hp, troopDataList[j].maxTroopHp);
+                            RecoverHpInOrder(0);// refresh HP bar
+                            return;
+                        }
+                        else if (neededHp < recoverAmount)
+                        {
+                            float newRecoverAmt = recoverAmount - neededHp;
+                            // add hp
+                            float hp = troopDataList[j].troopHp + neededHp;
+                            troopDataList[j].SetNodeHp(hp, troopDataList[j].maxTroopHp);
+                            RecoverHpInOrder(newRecoverAmt);
+                            return;
+                        }
+                    }
+                }
+
+                // 3. recover minion HP recoverAmount is still availible -> recover minion HP
+                for (int i = 0; i < troopDataList.Count; i++)
+                {
+                    for (int j = 0; j < troopDataList[i].GetMinionList().Count; j++)
+                    {
+                        Minion targetMinion = troopDataList[i].GetMinionList()[j];
+                        if (targetMinion.presentHp < targetMinion.MaxHp)
+                        {
+                            neededHp = targetMinion.MaxHp - targetMinion.presentHp;
+                            // minion will revcover more health than player
+                            float multiplier = targetMinion.MaxHp / troopManager.hpUnit;
+                            // doesn't cover the hp shortage
+                            if (recoverAmount * multiplier < neededHp)
+                            {
+                                targetMinion.SetHealthPercentage((recoverAmount * multiplier + targetMinion.presentHp) / targetMinion.MaxHp);
+                                RecoverHpInOrder(0);
+                                return;
+                            }
+                            // recoverAmount left
+                            else if (recoverAmount * multiplier >= neededHp)
+                            {
+                                targetMinion.SetHealthPercentage(1);
+                                float newRecoverAmt = recoverAmount - (neededHp / multiplier);
+                                RecoverHpInOrder(newRecoverAmt);
+                                return;
+                            }
+                        }
+                    }
+                }
+
+            }
         }
+        
 
         // Update UI
         branchTree.ChangePlayerHpDisplay(presentPlayerHp, playerMaxHp);
         branchTree.RefreshNodeUI(troopDataList);
-    }
-
-    void KillMinions(List<Minion> killList)
-    {
-        for (int i = 0; i < killList.Count; i++)
-        {
-            //killList[i].SetInactive(true);
-        }
-        // change cursor
-        GameManager.instance.GetComponent<CursorManager>().ActivateDefaultCursor();
     }
 }
