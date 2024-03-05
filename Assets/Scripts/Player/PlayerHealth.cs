@@ -10,8 +10,7 @@ public class PlayerHealth : MonoBehaviour
 
     // Hp management
     [SerializeField] float playerMaxHp = 20;
-    float presentPlayerHp;
-    float extraPlayerHp;
+    public float presentPlayerHp;
     List<TroopNode> ExtraHealthNodeList;
     List<TroopNode> troopDataList;
     public float ExtraHpNodeMaxHp = 50;
@@ -37,7 +36,7 @@ public class PlayerHealth : MonoBehaviour
         shacker = GetComponent<Shaker>();
         mySoundManager = SoundManager.Instance;
 
-        troopDataList = troopManager.TroopDataList;
+        troopDataList = troopManager.troopDataList;
 
         InitiallizeHp();
     }
@@ -66,8 +65,6 @@ public class PlayerHealth : MonoBehaviour
     private void InitiallizeHp()
     {
         // *****************************Data setup
-        // Player HP
-        presentPlayerHp = playerMaxHp;
 
         // Extra Health
         ExtraHealthNodeList = new List<TroopNode>();

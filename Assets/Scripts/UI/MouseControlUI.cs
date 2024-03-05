@@ -139,11 +139,11 @@ public class MouseControlUI : MonoBehaviour
                 if (troopManager.GetPresentTroop() == null && troopManager.GetPresentMinion() == null)
                 {
                     presentMinionList = new List<Minion>();
-                    for (int i = 0; i < troopManager.TroopDataList.Count; i++)
+                    for (int i = 0; i < troopManager.troopDataList.Count; i++)
                     {
-                        for (int j = 0; j < troopManager.TroopDataList[i].GetMinionList().Count; j++)
+                        for (int j = 0; j < troopManager.troopDataList[i].GetMinionList().Count; j++)
                         {
-                            Minion tempMinion = troopManager.TroopDataList[i].GetMinionList()[j];
+                            Minion tempMinion = troopManager.troopDataList[i].GetMinionList()[j];
                             tempMinion.ActivateEatMarker();
                             presentMinionList.Add(tempMinion);
                         }

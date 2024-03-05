@@ -9,6 +9,7 @@ public class TroopNode
         Troop,
         ExtraHp,
         Empty,
+        Locked,
     }
 
     public int troopId;
