@@ -12,6 +12,7 @@ public class PlayerControl : MonoBehaviour
 
     Vector3 move;
     Rigidbody rb;
+    bool isFacingRight = true;
 
     Vector3 aimPos;
 
@@ -64,8 +65,8 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] float rollingResistance = 600f;
     [SerializeField] float invincibleDuration = 0.4f;
 
-    //soul list ( new )
-    bool isFacingRight = true;
+
+
 
     //Animation
     Animator characterAnimator;
@@ -77,6 +78,13 @@ public class PlayerControl : MonoBehaviour
     // present Level
     [HideInInspector] public string sceneName;
     [HideInInspector] public int landID;
+
+    // Ability Unlock
+    public bool canMove = true;
+    public bool canMeleeAttack = true;
+    public bool canRightSpecialAction = true;
+    public bool canLeftSpecialAction = true;
+
 
     void Start()
     {
@@ -125,7 +133,10 @@ public class PlayerControl : MonoBehaviour
         // Melee Combat
         if (attackTimer < attackCD) attackTimer += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Space)){
-            MeleeAttack();
+            if (canMeleeAttack)
+            {
+                MeleeAttack();
+            } 
         }
 
         // footstep sound
@@ -139,7 +150,10 @@ public class PlayerControl : MonoBehaviour
         switch (combateState)
         {
             case CombateState.normal:
-                MoveFunction(1f);
+                if (canMove)
+                {
+                    MoveFunction(1f);
+                } 
                 characterAnimator.SetBool("IsRolling", false);// prevent rolling all the time.
                 break;
             case CombateState.rolling:

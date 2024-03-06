@@ -9,7 +9,7 @@ public class PlayerHealth : MonoBehaviour
     TroopManager troopManager;
 
     // Hp management
-    [SerializeField] float playerMaxHp = 20;
+    public float playerMaxHp = 20;
     public float presentPlayerHp;
     List<TroopNode> ExtraHealthNodeList;
     List<TroopNode> troopDataList;
