@@ -253,32 +253,35 @@ public class TroopManager : MonoBehaviour
     
     public void KillTroopOfMinions( TroopNode troop )
     {
-        // get hp left in the troop node
-        float presentTroopHp;
-        if (troop.troopHp > troop.minionList.Count * hpUnit) // Left hp in troop
+        if (troop.type != TroopNode.NodeType.Locked)
         {
-            presentTroopHp = troop.troopHp - troop.minionList.Count * hpUnit;
-        }
-        else // no hp left (troop.troopHp <= troop.minionList.Count * hpUnit) 
-        {
-            presentTroopHp = 0;
-        }
+            // get hp left in the troop node
+            float presentTroopHp;
+            if (troop.troopHp > troop.minionList.Count * hpUnit) // Left hp in troop
+            {
+                presentTroopHp = troop.troopHp - troop.minionList.Count * hpUnit;
+            }
+            else // no hp left (troop.troopHp <= troop.minionList.Count * hpUnit) 
+            {
+                presentTroopHp = 0;
+            }
 
-        // remove minion
-        for (int i = 0; i < troop.minionList.Count; i++)
-        {
-            troop.minionList[i].SetInactive();
-            // clean minion dataPos info
-            troop.minionList[i].SetMinionDataPos(-1,-1);
-            // count hp
-            float hpFromMinion = hpUnit * troop.minionList[i].GetHealthPercentage();
-            presentTroopHp += hpFromMinion;
-        }
-        troop.minionList.Clear();
+            // remove minion
+            for (int i = 0; i < troop.minionList.Count; i++)
+            {
+                troop.minionList[i].SetInactive();
+                // clean minion dataPos info
+                troop.minionList[i].SetMinionDataPos(-1, -1);
+                // count hp
+                float hpFromMinion = hpUnit * troop.minionList[i].GetHealthPercentage();
+                presentTroopHp += hpFromMinion;
+            }
+            troop.minionList.Clear();
 
-        // change node type
-        troop.ChangeTroopNodeType(TroopNode.NodeType.ExtraHp);
-        troop.ChangeTroopHp(presentTroopHp);
+            // change node type
+            troop.ChangeTroopNodeType(TroopNode.NodeType.ExtraHp);
+            troop.ChangeTroopHp(presentTroopHp);
+        }
     }
     
     

@@ -14,7 +14,6 @@ public class BasicEnemy : MonoBehaviour
     CursorManager cursorManager;
 
     [SerializeField] float hp = 10;
-    public bool addHealthMax;
     [SerializeField] bool canRoam = false;
     [SerializeField] float roamInterval = 3f;
 

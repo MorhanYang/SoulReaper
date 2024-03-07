@@ -182,7 +182,7 @@ public class PlayerControl : MonoBehaviour
         }
 
         // create menu if hold enough time
-        if (!isShowingMouseMenu)
+        if (!isShowingMouseMenu && canLeftSpecialAction)
         {
             // show menu
             if (Input.GetMouseButton(0) && clickTimer >= holdTime)
@@ -201,32 +201,35 @@ public class PlayerControl : MonoBehaviour
             troopManager.AssignOneMinion(aimPos);
         }
 
-        if (Input.GetMouseButtonUp(0) && clickTimer >= holdTime)// it is a hold
+        if (GeneratedMenu != null)
         {
-            // execute different fucntion depending on type
-            MouseControlUI.Action actionType = GeneratedMenu.GetComponent<MouseControlUI>().GetControlUIAction();
-            switch (actionType)
+            if (Input.GetMouseButtonUp(0) && clickTimer >= holdTime)// it is a hold
             {
-                case MouseControlUI.Action.LeftClickSpecial1:
-                    // assign one minion
-                    troopManager.AssignOneMinion(aimPos);
-                    break;
+                // execute different fucntion depending on type
+                MouseControlUI.Action actionType = GeneratedMenu.GetComponent<MouseControlUI>().GetControlUIAction();
+                switch (actionType)
+                {
+                    case MouseControlUI.Action.LeftClickSpecial1:
+                        // assign one minion
+                        troopManager.AssignOneMinion(aimPos);
+                        break;
 
-                case MouseControlUI.Action.LeftClickSpecial2:
-                    //assign all minion
-                    Debug.Log("assign all minion");
-                    troopManager.AssignAllMinions(aimPos);
-                    break;
+                    case MouseControlUI.Action.LeftClickSpecial2:
+                        //assign all minion
+                        Debug.Log("assign all minion");
+                        troopManager.AssignAllMinions(aimPos);
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
+                }
+
+                // remove Indicator
+                GeneratedMenu.GetComponent<MouseControlUI>().CleanIndicator();
+                // delet menue
+                if (GeneratedMenu != null) Destroy(GeneratedMenu);
+                isShowingMouseMenu = false;
             }
-
-            // remove Indicator
-            GeneratedMenu.GetComponent<MouseControlUI>().CleanIndicator();
-            // delet menue
-            if (GeneratedMenu != null) Destroy(GeneratedMenu);
-            isShowingMouseMenu = false;
         }
     }
 
@@ -248,7 +251,7 @@ public class PlayerControl : MonoBehaviour
         }
 
         // create menu if hold enough time
-        if (!isShowingMouseMenu)
+        if (!isShowingMouseMenu && canRightSpecialAction)
         {
             if (Input.GetMouseButton(1) && clickTimer >= holdTime)
             {
@@ -267,45 +270,48 @@ public class PlayerControl : MonoBehaviour
             playerHealth.AbsorbOthers();
         }
 
-        if (Input.GetMouseButtonUp(1) && clickTimer >= holdTime)// it is a hold
+        if (GeneratedMenu != null)
         {
-            // execute different fucntion depending on type
-            MouseControlUI.Action actionType = GeneratedMenu.GetComponent<MouseControlUI>().GetControlUIAction();
-            switch (actionType)
+            if (Input.GetMouseButtonUp(1) && clickTimer >= holdTime)// it is a hold
             {
-                case MouseControlUI.Action.RightClickSpecial1:
-                    troopManager.ReviveSingleMinion();
-                    break;
+                // execute different fucntion depending on type
+                MouseControlUI.Action actionType = GeneratedMenu.GetComponent<MouseControlUI>().GetControlUIAction();
+                switch (actionType)
+                {
+                    case MouseControlUI.Action.RightClickSpecial1:
+                        troopManager.ReviveSingleMinion();
+                        break;
 
-                case MouseControlUI.Action.RightClickSpecial2:
-                    //execute function
-                    troopManager.ReviveTroopNormal(aimPos, radius);
+                    case MouseControlUI.Action.RightClickSpecial2:
+                        //execute function
+                        troopManager.ReviveTroopNormal(aimPos, radius);
 
-                    ////check CD
-                    //if (gameManager.IsSpellIsReady(3))
-                    //{
-                    //    //Activate CD UI
-                    //    //gameManager.ActivateSpellCDUI(3);
-                    //}
-                    break;
+                        ////check CD
+                        //if (gameManager.IsSpellIsReady(3))
+                        //{
+                        //    //Activate CD UI
+                        //    //gameManager.ActivateSpellCDUI(3);
+                        //}
+                        break;
 
-                case MouseControlUI.Action.RightClickSpecial3:
-                    playerHealth.AbsorbOthers();
-                    break;
+                    case MouseControlUI.Action.RightClickSpecial3:
+                        playerHealth.AbsorbOthers();
+                        break;
 
-                case MouseControlUI.Action.RightClickSpecial4:
-                    troopManager.EatTroopToRecover();
-                    break;
+                    case MouseControlUI.Action.RightClickSpecial4:
+                        troopManager.EatTroopToRecover();
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
+                }
+
+                // remove Indicator
+                GeneratedMenu.GetComponent<MouseControlUI>().CleanIndicator();
+                // delet menue
+                if (GeneratedMenu != null) Destroy(GeneratedMenu);
+                isShowingMouseMenu = false;
             }
-
-            // remove Indicator
-            GeneratedMenu.GetComponent<MouseControlUI>().CleanIndicator();
-            // delet menue
-            if (GeneratedMenu != null) Destroy(GeneratedMenu);
-            isShowingMouseMenu = false;
         }
     }
 
@@ -360,32 +366,6 @@ public class PlayerControl : MonoBehaviour
         if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, groundMask))
         {
             aimPos = hitInfo.point;
-        }
-    }
-    // ************************************************** recall *********************************************
-    void RecallTroops()
-    {
-        playerHealth.AbsorbOthers();
-        //hp.RegainHP();
-        recallMinionTimer = 0;
-        StartCoroutine("ContinueRecallTroops");
-    }
-
-    IEnumerator ContinueRecallTroops()
-    {
-        float holdTime = 0.5f;
-        // loop
-        while (recallMinionTimer < holdTime && Input.GetMouseButton(1))
-        {
-            recallMinionTimer += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-        }
-
-        // recall all
-        if (recallMinionTimer >= holdTime)
-        {
-            // recall all troops
-            troopManager.EatTroopToRecover();
         }
     }
     //*************************************************** Flip the character *********************************

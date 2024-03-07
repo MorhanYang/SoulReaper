@@ -168,23 +168,8 @@ public class PlayerHealth : MonoBehaviour
             {
                 // different types excute different function
                 AbsorbableMark.AbsorbType myTargetType = myTaget.myAbsorbType;
-                switch (myTargetType)
-                {
-                    case AbsorbableMark.AbsorbType.Normal:
-                        recoverAmount = myTaget.EatThisToRecover(true); 
-                        RecoverHpInOrder(recoverAmount);
-                        break;
-                    case AbsorbableMark.AbsorbType.Enemy:
-                        break;
-                    case AbsorbableMark.AbsorbType.Minion:
-                        recoverAmount = myTaget.EatThisToRecover(true);
-                        RecoverHpInOrder(recoverAmount);
-                        break;
-                    case AbsorbableMark.AbsorbType.Troop:
-                        break;
-                    default:
-                        break;
-                }
+                recoverAmount = myTaget.EatThisToRecover(true);
+                RecoverHpInOrder(recoverAmount);
             } 
         }
     }

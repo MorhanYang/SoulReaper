@@ -7,12 +7,14 @@ public class Level_Test : MonoBehaviour
     PlayerControl playerControl;
     PlayerDialogue playerDialogue;
     PlayerHealth playerhealth;
+    TroopManager troopManager;
 
     private void Start()
     {
         playerControl = PlayerManager.instance.player.GetComponent<PlayerControl>();
         playerDialogue = PlayerManager.instance.player.GetComponent<PlayerDialogue>();
         playerhealth = PlayerManager.instance.player.GetComponent<PlayerHealth>();
+        troopManager = PlayerManager.instance.player.GetComponent<TroopManager>();
         DisableAllAbility();
     }
 
@@ -34,6 +36,17 @@ public class Level_Test : MonoBehaviour
             {
                 playerControl.canMove = true;
             }
+        }
+
+        // unlock right hold action if player get a troopnode
+        if (!playerControl.canRightSpecialAction && troopManager.troopDataList[0].type != TroopNode.NodeType.Locked)
+        {
+            playerControl.canRightSpecialAction = true;
+        }
+        // unlock Group Assign if player have many nodes
+        if (!playerControl.canLeftSpecialAction && troopManager.troopDataList[1].type != TroopNode.NodeType.Locked)
+        {
+            playerControl.canLeftSpecialAction = true;
         }
     }
 

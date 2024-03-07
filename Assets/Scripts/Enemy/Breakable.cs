@@ -17,6 +17,10 @@ public class Breakable : MonoBehaviour
     {
         GameManager.instance.GetComponent<CursorManager>().ActivateCombatCursor();
     }
+    private void OnMouseExit()
+    {
+        GameManager.instance.GetComponent<CursorManager>().ActivateDefaultCursor();
+    }
 
     private void Update()
     {
