@@ -209,7 +209,8 @@ public class MinionAI : MonoBehaviour
     public bool CanAssign()
     {
         if (minionState == MinionSate.Follow ||
-            minionState == MinionSate.Roam)
+            minionState == MinionSate.Roam ||
+            minionState == MinionSate.Bait)
         {
             return true;
         }

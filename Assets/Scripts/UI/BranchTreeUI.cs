@@ -96,12 +96,6 @@ public class BranchTreeUI : MonoBehaviour
 
     public void SwitchSelectedMinionTo(MinionHpUI presentMinionUI)
     {
-        // clean info first
-        CleanInfoDependingOnType();
-
-        // type is Minion
-        mySelectType = SelectType.SelectMinion;
-
         // find selectedMinion place and cast to troop data
         int troopUiId = 0;
         for (int i = 0; i < troopHpUIList.Count; i++){
@@ -110,19 +104,30 @@ public class BranchTreeUI : MonoBehaviour
                 break;
             }  
         }
+ 
         int minionUiId = troopHpUIList[troopUiId].minionHpList.IndexOf(presentMinionUI);
         TroopNode selTroop = troopDataList[troopUiId];
-        Minion selMinion = selTroop.GetMinionList()[minionUiId];
+        if (minionUiId < selTroop.GetMinionList().Count)
+        {
+            // clean info first
+            CleanInfoDependingOnType();
 
-        // set Data
-        SelectedMinionUI = presentMinionUI;
-        SelectedTroopUI = troopHpUIList[troopUiId];
-        troopManager.SetPresentTroop(selTroop);
-        troopManager.SetPresentMinion(selMinion);
+            // type is Minion
+            mySelectType = SelectType.SelectMinion;
 
-        // Change UI
-        SelectedTroopUI.ChangeTroopSelectState(true);
-        SelectedMinionUI.SelectThisMinion(true);
+            Minion selMinion = selTroop.GetMinionList()[minionUiId];
+
+            // set Data
+            SelectedMinionUI = presentMinionUI;
+            SelectedTroopUI = troopHpUIList[troopUiId];
+            troopManager.SetPresentTroop(selTroop);
+            troopManager.SetPresentMinion(selMinion);
+
+            // Change UI
+            Debug.Log(troopHpUIList[troopUiId].name);
+            SelectedTroopUI.ChangeTroopSelectState(true);
+            SelectedMinionUI.SelectThisMinion(true);
+        }
     }
 
     public SelectType GetSelectType()

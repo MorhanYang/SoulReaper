@@ -9,6 +9,8 @@ public class Level_Test : MonoBehaviour
     PlayerHealth playerhealth;
     TroopManager troopManager;
 
+    bool isInitial = true;
+
     private void Start()
     {
         playerControl = PlayerManager.instance.player.GetComponent<PlayerControl>();
@@ -21,20 +23,21 @@ public class Level_Test : MonoBehaviour
     private void Update()
     {
         // hint player how to unlock the movement
-        if (!playerControl.canMove)
+        if (!playerControl.canMove && isInitial)
         {
             if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0){
                 float rm = Random.Range(-1, 1);
                 if (rm < 0){
-                    playerDialogue.ShowPlayerCall("Er...I need energy.");
+                    playerDialogue.ShowPlayerCall("Er...I need energy.",1.5f);
                 }
                 else{
-                    playerDialogue.ShowPlayerCall("I cant move my Leg, Use right click to grab life.");
+                    playerDialogue.ShowPlayerCall("I cant move my Leg, Use right click to grab life.",1.5f);
                 }
             }
             if (playerhealth.presentPlayerHp >= playerhealth.playerMaxHp)
             {
                 playerControl.canMove = true;
+                isInitial = false;
             }
         }
 

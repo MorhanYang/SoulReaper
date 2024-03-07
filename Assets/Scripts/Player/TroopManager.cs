@@ -176,36 +176,40 @@ public class TroopManager : MonoBehaviour
             {
                 for (int j = 0; j < troopDataList.Count; j++)
                 {
-                    TroopNode TargetTroop = troopDataList[j];
-                    // change it to Troop
-                    if (TargetTroop.type == TroopNode.NodeType.ExtraHp){
-
-                        TargetTroop.ChangeTroopNodeType(TroopNode.NodeType.Troop);
-                    }
-
-                    //Check if troop have a space
-                    float space = TargetTroop.troopHp - (TargetTroop.minionList.Count * hpUnit);
-                    // enough space -> Add a health Minion 
-                    if (space >= hpUnit) 
+                    if (troopDataList[j].type != TroopNode.NodeType.Locked)
                     {
-                        // get data position in datalist
-                        int[] dataPos = { j, TargetTroop.minionList.Count };
+                        TroopNode TargetTroop = troopDataList[j];
+                        // change it to Troop
+                        if (TargetTroop.type == TroopNode.NodeType.ExtraHp)
+                        {
 
-                        item.SetActiveDelay(rebirthDelay, dataPos);
-                        item.SetHealthPercentage(1);// set minion a full hp
-                        TargetTroop.AddMinion(item);
-                        break;
-                    }
-                    // not enough space -> Add a injured Minion
-                    else if (space < hpUnit && space > 0)
-                    {
-                        // get data position in datalist
-                        int[] dataPos = { j, TargetTroop.minionList.Count };
+                            TargetTroop.ChangeTroopNodeType(TroopNode.NodeType.Troop);
+                        }
 
-                        item.SetActiveDelay(rebirthDelay, dataPos);
-                        item.SetHealthPercentage(space / hpUnit);// set minion injured hp
-                        TargetTroop.AddMinion(item);
-                        break;
+                        //Check if troop have a space
+                        float space = TargetTroop.troopHp - (TargetTroop.minionList.Count * hpUnit);
+                        // enough space -> Add a health Minion 
+                        if (space >= hpUnit)
+                        {
+                            // get data position in datalist
+                            int[] dataPos = { j, TargetTroop.minionList.Count };
+
+                            item.SetActiveDelay(rebirthDelay, dataPos);
+                            item.SetHealthPercentage(1);// set minion a full hp
+                            TargetTroop.AddMinion(item);
+                            break;
+                        }
+                        // not enough space -> Add a injured Minion
+                        else if (space < hpUnit && space > 0)
+                        {
+                            // get data position in datalist
+                            int[] dataPos = { j, TargetTroop.minionList.Count };
+
+                            item.SetActiveDelay(rebirthDelay, dataPos);
+                            item.SetHealthPercentage(space / hpUnit);// set minion injured hp
+                            TargetTroop.AddMinion(item);
+                            break;
+                        }
                     }
                 }
             }

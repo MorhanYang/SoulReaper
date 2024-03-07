@@ -13,7 +13,6 @@ public class BasicEnemy : MonoBehaviour
     NavMeshAgent agent;
     CursorManager cursorManager;
 
-    [SerializeField] float hp = 10;
     [SerializeField] bool canRoam = false;
     [SerializeField] float roamInterval = 3f;
 

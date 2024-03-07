@@ -150,10 +150,7 @@ public class PlayerControl : MonoBehaviour
         switch (combateState)
         {
             case CombateState.normal:
-                if (canMove)
-                {
-                    MoveFunction(1f);
-                } 
+                MoveFunction(1f);
                 characterAnimator.SetBool("IsRolling", false);// prevent rolling all the time.
                 break;
             case CombateState.rolling:
@@ -321,10 +318,17 @@ public class PlayerControl : MonoBehaviour
     void MoveFunction(float speedMultiplyer){
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
-        move = new Vector3(x, rb.velocity.y, z);
-        rb.velocity = new Vector3(x * moveSpeed * speedMultiplyer * Time.fixedDeltaTime, 
-                                    rb.velocity.y, 
+
+        if (canMove){
+            move = new Vector3(x, rb.velocity.y, z);
+            rb.velocity = new Vector3(x * moveSpeed * speedMultiplyer * Time.fixedDeltaTime,
+                                    rb.velocity.y,
                                     z * moveSpeed * speedMultiplyer * Time.fixedDeltaTime);
+        }
+        else{
+            move = Vector3.zero;
+        }
+        
 
         FlipPlayer();
         // last direction for rolling
