@@ -23,6 +23,8 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] SoundTrigger previousSoundTrigger;
 
     float showHealthBarTimer = 0f;
+    bool isDying = false;
+    
 
     private void Start()
     {
@@ -80,7 +82,15 @@ public class EnemyScript : MonoBehaviour
         //{
         //    ai.target = subject;
         //}
-
+        //dying
+        if (health.presentHealth <= 0 && !isDying)
+        {
+            StartCoroutine(DyingCoroutine());
+        }
+        else if (isDying){
+            Die();
+        }
+        /*
         //died
         if (health.presentHealth <= 0)
         {
@@ -94,9 +104,37 @@ public class EnemyScript : MonoBehaviour
             // change cursor
             GameManager.instance.GetComponent<CursorManager>().ActivateDefaultCursor();
         }
-
+        */
         // play sound 
         mySoundManager.PlaySoundAt(PlayerManager.instance.player.gameObject.transform.position, "Hurt", false, false, 1, 0.5f, 100, 100);
+    }
+
+    IEnumerator DyingCoroutine()
+    {
+        //******************************
+        //dying animation/sound effect to be implemented
+        //******************************
+        isDying = true;
+        yield return new WaitForSeconds(5); // Wait for 5 seconds
+        isDying = false;
+        Die();
+    }
+    void Die()
+    {
+        // Your death logic here: Destroy the enemy, play death animation, etc.
+        if (haveSoul)
+        {
+            basicEnemy.SetDeadState(true);
+            if (enemySprite.GetComponent<Animator>() != null)
+            {
+                enemySprite.GetComponent<Animator>().SetBool("isDead", true);
+            }
+            BecomeMinion();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void CheckIfHaveSoul()
