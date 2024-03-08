@@ -9,7 +9,9 @@ public class MouseControlUI : MonoBehaviour
     TroopManager troopManager;
     [HideInInspector] public Canvas canvas;
     [SerializeField] GameObject leftList;
+    [SerializeField] List<GameObject> LeftListContent;
     [SerializeField] GameObject RightList;
+    [SerializeField] List<GameObject> RightListContent;
     GameObject tempIndicator;
 
 
@@ -64,6 +66,12 @@ public class MouseControlUI : MonoBehaviour
         {
             leftList.SetActive(false);
             RightList.SetActive(true);
+        }
+
+        // aim to a Minion?
+        if (troopManager.GetMarkedReviveMinion() == null) // Nope
+        {
+            RightListContent[0].SetActive(false);
         }
     }
 

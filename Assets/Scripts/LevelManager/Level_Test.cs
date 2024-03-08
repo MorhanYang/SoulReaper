@@ -8,6 +8,7 @@ public class Level_Test : MonoBehaviour
     PlayerDialogue playerDialogue;
     PlayerHealth playerhealth;
     TroopManager troopManager;
+    Animator playerAnimator;
 
     bool isInitial = true;
 
@@ -17,6 +18,8 @@ public class Level_Test : MonoBehaviour
         playerDialogue = PlayerManager.instance.player.GetComponent<PlayerDialogue>();
         playerhealth = PlayerManager.instance.player.GetComponent<PlayerHealth>();
         troopManager = PlayerManager.instance.player.GetComponent<TroopManager>();
+        playerAnimator = PlayerManager.instance.player.transform.Find("Character").GetComponent<Animator>(); ;
+        playerAnimator.Play("Player_Lying");
         DisableAllAbility();
     }
 
@@ -27,6 +30,10 @@ public class Level_Test : MonoBehaviour
         {
             if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0){
                 float rm = Random.Range(-1, 2);
+                // slow move
+                playerControl.MoveFunction(0.2f);
+                playerAnimator.SetBool("Crawl", true);
+
                 if (rm < 0){
                     playerDialogue.ShowPlayerCall("Right...Mouse....Click...", 1.5f);
                 }
@@ -39,11 +46,22 @@ public class Level_Test : MonoBehaviour
                     playerDialogue.ShowPlayerCall("Rats...Delicious...Absorb...", 1.5f);
                 }
             }
+            else
+            {
+                playerAnimator.SetBool("Crawl", false);
+            }
+
             if (playerhealth.presentPlayerHp >= playerhealth.playerMaxHp)
             {
-                playerControl.moveSpeed = 100f;
+                playerControl.canMove = true;
+                playerAnimator.Play("Player_Idle");
                 isInitial = false;
             }
+        }
+
+        if (!playerControl.canLeftClick && troopManager.troopDataList[0].type == TroopNode.NodeType.Troop)
+        {
+            playerControl.canLeftClick = true;
         }
 
         // unlock right hold action if player get a troopnode
@@ -60,8 +78,9 @@ public class Level_Test : MonoBehaviour
 
     void DisableAllAbility()
     {
-        playerControl.moveSpeed = 20f;
+        playerControl.canMove = false;
         playerControl.canMeleeAttack = false;
+        playerControl.canLeftClick = false;
         playerControl.canRightSpecialAction = false;
         playerControl.canLeftSpecialAction = false;
     }
