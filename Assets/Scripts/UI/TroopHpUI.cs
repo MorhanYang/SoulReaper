@@ -11,6 +11,7 @@ public class TroopHpUI : MonoBehaviour
     [SerializeField] Image selectedImage;
     [SerializeField] BranchTreeUI branchTree;
     [SerializeField] Image healthBar;
+    [SerializeField] Image lockIcon;
 
     public List<MinionHpUI> minionHpList;
     public TroopNode.NodeType myNodeType;
@@ -33,11 +34,20 @@ public class TroopHpUI : MonoBehaviour
         branchTree.SwitchSelectedMinionTo(presentMinion);
     }
 
+    public void ChangeLockIconState(bool state)
+    {
+        lockIcon.gameObject.SetActive(state);
+    }
+
     public void ChangeNodeType(TroopNode.NodeType type)
     {
         myNodeType = type;
         switch (myNodeType)
         {
+            case TroopNode.NodeType.Locked:
+                this.transform.localScale = new Vector3(1f, 1f, 1f);
+                break;
+
             case TroopNode.NodeType.Troop:
                 // Shrink Troop Sprite
                 this.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);

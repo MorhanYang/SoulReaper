@@ -36,7 +36,7 @@ public class DamageManager : MonoBehaviour
                 {
                     for (int i = 0; i < hitedEnemy.Length; i++)
                     {
-                        if (hitedEnemy[i].GetComponent<EnemyScript>() != null)
+                        if (hitedEnemy[i].GetComponent<EnemyScript>() != null || hitedEnemy[i].GetComponent<Breakable>() != null)
                         {
                             reciever = hitedEnemy[i].transform;
                             continue;
@@ -56,8 +56,7 @@ public class DamageManager : MonoBehaviour
                     }
                 }
             }
-        }   
-
+        }
 
         // **************identify damage reciever
         if (reciever != null)
@@ -82,6 +81,13 @@ public class DamageManager : MonoBehaviour
             {
                 PlayerHealth playerHealth = reciever.GetComponent<PlayerHealth>();
                 playerHealth.TakeDamage(damage, attacker, attackerPos);
+            }
+
+            //4. breakable things
+            if (reciever.GetComponent<Breakable>() != null)
+            {
+                Breakable myBreakable = reciever.GetComponent<Breakable>();
+                myBreakable.TakeDamage(damage, attacker, attackerPos);
             }
         }
     }

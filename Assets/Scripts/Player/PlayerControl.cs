@@ -9,10 +9,10 @@ public class PlayerControl : MonoBehaviour
     PlayerHealth playerHealth;
     TroopManager troopManager;
     [SerializeField] GameManager gameManager;
-    [SerializeField] CursorTimer cursorTimer;
 
     Vector3 move;
     Rigidbody rb;
+    bool isFacingRight = true;
 
     Vector3 aimPos;
 
@@ -25,23 +25,25 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] float myDamage = 5;
     [SerializeField] float attackCD = 1f;
     Transform attackPoint;
-    float upAttackTimer;
-    float downAttackTimer;
+    float attackTimer;
     [SerializeField] GameObject upAttackEffect;
     [SerializeField] GameObject downAttackEffect;
     DamageManager myDamageManager;
 
     //Movement
-    [SerializeField] float moveSpeed;
+    public float moveSpeed;
     [SerializeField] float actionColdDown = 0.5f;
     float actionTimer = 0;
 
     // Mouse control
-    int mouseInputCount = 0;
-    // recall Minion
-    float recallMinionTimer = 0;
-    // Assign Minion
-    float assignMinionTimer = 0;
+    [SerializeField] GameObject mouseMenu;
+    [SerializeField] Canvas followMouseCanvas;
+    GameObject GeneratedMenu = null;
+    float clickTimer = 0;
+    bool isShowingMouseMenu = false;
+
+    float holdTime = 0.15f;
+    float radius = 2f;
     // rebirth
     [SerializeField] GameObject rebirthRangeEffect;
 
@@ -58,8 +60,8 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] float rollingResistance = 600f;
     [SerializeField] float invincibleDuration = 0.4f;
 
-    //soul list ( new )
-    bool isFacingRight = true;
+
+
 
     //Animation
     Animator characterAnimator;
@@ -71,6 +73,13 @@ public class PlayerControl : MonoBehaviour
     // present Level
     [HideInInspector] public string sceneName;
     [HideInInspector] public int landID;
+
+    // Ability Unlock
+    public bool canMove = true;
+    public bool canMeleeAttack = true;
+    public bool canRightSpecialAction = true;
+    public bool canLeftSpecialAction = true;
+
 
     void Start()
     {
@@ -96,34 +105,33 @@ public class PlayerControl : MonoBehaviour
         // aim
         MouseAimFunction();
 
-        //Mouse Control Combo
-        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()){
-            StartCoroutine(ExecuteMouseControl());
-        }else if (Input.GetMouseButtonDown(1)){
-            StartCoroutine(ExecuteMouseControl());
-        }
+        //Mouse Control
+        CheckLeftMouseControl();
+        CheckRightMouseControl();
 
-        // rolling
-        if (actionTimer < actionColdDown){
-            actionTimer += Time.deltaTime;
-        }
+        //// rolling
+        //if (actionTimer < actionColdDown){
+        //    actionTimer += Time.deltaTime;
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (actionTimer >= actionColdDown){
-                // play sound
-                mySoundManagers.PlaySoundAt(transform.position, "PlayerDash", false, false, 1.5f, 1f, 100, 100);
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    if (actionTimer >= actionColdDown){
+        //        // play sound
+        //        mySoundManagers.PlaySoundAt(transform.position, "PlayerDash", false, false, 1.5f, 1f, 100, 100);
 
-                combateState = CombateState.rolling;
-                actionTimer = 0;
-            }
-        }
+        //        combateState = CombateState.rolling;
+        //        actionTimer = 0;
+        //    }
+        //}
 
         // Melee Combat
-        if (upAttackTimer < attackCD) upAttackTimer += Time.deltaTime;
-        if (downAttackTimer < attackCD) downAttackTimer+= Time.deltaTime;
-        if (Input.GetAxis("Mouse ScrollWheel") != 0){
-            MeleeAttack(Input.GetAxis("Mouse ScrollWheel"));
+        if (attackTimer < attackCD) attackTimer += Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.Space)){
+            if (canMeleeAttack)
+            {
+                MeleeAttack();
+            } 
         }
 
         // footstep sound
@@ -141,7 +149,7 @@ public class PlayerControl : MonoBehaviour
                 characterAnimator.SetBool("IsRolling", false);// prevent rolling all the time.
                 break;
             case CombateState.rolling:
-                RollFunction();
+                //RollFunction();
                 break;
             case CombateState.teleporting:
                 break;
@@ -150,72 +158,172 @@ public class PlayerControl : MonoBehaviour
     }
 
     // ******************************************************* Mouse Button Control Function ******************************************************************
-    IEnumerator ExecuteMouseControl()
+    public void CheckLeftMouseControl()
     {
-        // left mouse = 1; 
-        if (Input.GetMouseButtonDown(0)){
-            mouseInputCount += 1;
+        if (Input.GetMouseButtonDown(0))
+        {
+            clickTimer = 0;
+        }
+        // only count timer as it didn't hit a UI
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            if (Input.GetMouseButton(0))
+            {
+                clickTimer += Time.deltaTime;
+            }
         }
 
-        // Right mouse = 10;
-        if (Input.GetMouseButtonDown(1)){
-            mouseInputCount += 100;
+        // create menu if hold enough time
+        if (!isShowingMouseMenu && canLeftSpecialAction)
+        {
+            // show menu
+            if (Input.GetMouseButton(0) && clickTimer >= holdTime)
+            {
+                // create a menu
+                GeneratedMenu = Instantiate(mouseMenu, followMouseCanvas.transform);
+                GeneratedMenu.GetComponent<MouseControlUI>().InitializeMouseUI(followMouseCanvas);
+
+                isShowingMouseMenu = true;
+            }
         }
 
-        // excute events after delay
-        yield return new WaitForSeconds(0.2f);
+        // realse -> check if this is hold
+        if (Input.GetMouseButtonUp(0) && clickTimer < holdTime & !EventSystem.current.IsPointerOverGameObject())// it is a click
+        {   // assign one minion
+            troopManager.AssignOneMinion(aimPos);
+        }
 
-        if (mouseInputCount != 0){
-            // Rebirth Function
-            if (mouseInputCount % 100 > 0 && mouseInputCount / 100 > 0){
-                // Left & Right Click + Hold
-                if (gameManager.IsSpellIsReady(3))
+        if (GeneratedMenu != null)
+        {
+            if (Input.GetMouseButtonUp(0) && clickTimer >= holdTime)// it is a hold
+            {
+                // execute different fucntion depending on type
+                MouseControlUI.Action actionType = GeneratedMenu.GetComponent<MouseControlUI>().GetControlUIAction();
+                switch (actionType)
                 {
-                    //Activate CD UI
-                    //gameManager.ActivateSpellCDUI(3);
-                    // Excute Function
-                    StartCoroutine("RebirthTroop");
-                    //hp.RebirthTroop(aimPos, 1.5f);
-                }
-            }
-            // Assign Minion
-            else if (mouseInputCount % 100 > 0 && mouseInputCount / 100 == 0){
-                // left Click
-                if (gameManager.IsSpellIsReady(1)){
+                    case MouseControlUI.Action.LeftClickSpecial1:
+                        // assign one minion
+                        troopManager.AssignOneMinion(aimPos);
+                        break;
 
-                    // Excute Function
-                    troopManager.AssignOneMinion( aimPos );
-                    
-                    // Count time to trigger all Minion Assignment
-                    assignMinionTimer = 0;
-                    StartCoroutine("ContinueAssignMinion");
+                    case MouseControlUI.Action.LeftClickSpecial2:
+                        //assign all minion
+                        Debug.Log("assign all minion");
+                        troopManager.AssignAllMinions(aimPos);
+                        break;
 
+                    default:
+                        break;
                 }
-            }
-            // Recall Fucntion
-            else if (mouseInputCount % 100 == 0 && mouseInputCount / 100 > 0){
-                // Right Click
-                if (gameManager.IsSpellIsReady(2))
-                {
-                    // Excute Function
-                    RecallTroops();
-                }
-            }
 
-            mouseInputCount = 0;
+                // remove Indicator
+                GeneratedMenu.GetComponent<MouseControlUI>().CleanIndicator();
+                // delet menue
+                if (GeneratedMenu != null) Destroy(GeneratedMenu);
+                isShowingMouseMenu = false;
+            }
         }
-       
     }
+
+    public void CheckRightMouseControl()
+    {
+        float holdTime = 0.15f;
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            clickTimer = 0;
+        }
+        // only count timer as it didn't hit a UI
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            if (Input.GetMouseButton(1))
+            {
+                clickTimer += Time.deltaTime;
+            }
+        }
+
+        // create menu if hold enough time
+        if (!isShowingMouseMenu && canRightSpecialAction)
+        {
+            if (Input.GetMouseButton(1) && clickTimer >= holdTime)
+            {
+                // create a menu
+                GeneratedMenu = Instantiate(mouseMenu, followMouseCanvas.transform);
+                GeneratedMenu.GetComponent<MouseControlUI>().InitializeMouseUI(followMouseCanvas);
+
+                isShowingMouseMenu = true;
+            }
+        }
+
+        // realse -> check if this is hold
+        if (Input.GetMouseButtonUp(1) && clickTimer < holdTime && !EventSystem.current.IsPointerOverGameObject())// it is a click
+        {
+            // eat a minion
+            playerHealth.AbsorbOthers();
+        }
+
+        if (GeneratedMenu != null)
+        {
+            if (Input.GetMouseButtonUp(1) && clickTimer >= holdTime)// it is a hold
+            {
+                // execute different fucntion depending on type
+                MouseControlUI.Action actionType = GeneratedMenu.GetComponent<MouseControlUI>().GetControlUIAction();
+                switch (actionType)
+                {
+                    case MouseControlUI.Action.RightClickSpecial1:
+                        troopManager.ReviveSingleMinion();
+                        break;
+
+                    case MouseControlUI.Action.RightClickSpecial2:
+                        //execute function
+                        troopManager.ReviveTroopNormal(aimPos, radius);
+
+                        ////check CD
+                        //if (gameManager.IsSpellIsReady(3))
+                        //{
+                        //    //Activate CD UI
+                        //    //gameManager.ActivateSpellCDUI(3);
+                        //}
+                        break;
+
+                    case MouseControlUI.Action.RightClickSpecial3:
+                        playerHealth.AbsorbOthers();
+                        break;
+
+                    case MouseControlUI.Action.RightClickSpecial4:
+                        troopManager.EatTroopToRecover();
+                        break;
+
+                    default:
+                        break;
+                }
+
+                // remove Indicator
+                GeneratedMenu.GetComponent<MouseControlUI>().CleanIndicator();
+                // delet menue
+                if (GeneratedMenu != null) Destroy(GeneratedMenu);
+                isShowingMouseMenu = false;
+            }
+        }
+    }
+
 
     //********************************************************** Moving Function ***************************************************************************
     // Use speedMultiplyer to change speed.
     void MoveFunction(float speedMultiplyer){
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
-        move = new Vector3(x, rb.velocity.y, z);
-        rb.velocity = new Vector3(x * moveSpeed * speedMultiplyer * Time.fixedDeltaTime, 
-                                    rb.velocity.y, 
+
+        if (canMove){
+            move = new Vector3(x, rb.velocity.y, z);
+            rb.velocity = new Vector3(x * moveSpeed * speedMultiplyer * Time.fixedDeltaTime,
+                                    rb.velocity.y,
                                     z * moveSpeed * speedMultiplyer * Time.fixedDeltaTime);
+        }
+        else{
+            move = Vector3.zero;
+        }
+        
 
         FlipPlayer();
         // last direction for rolling
@@ -226,28 +334,28 @@ public class PlayerControl : MonoBehaviour
         //animator control
         characterAnimator.SetBool("IsMoving", move != Vector3.zero);
     }
-    void RollFunction() {
-        //animation
-        characterAnimator.SetBool("IsRolling", true);
+    //void RollFunction() {
+    //    //animation
+    //    characterAnimator.SetBool("IsRolling", true);
 
-        move = Vector3.zero;
-        rb.velocity = lastMoveDir * presentRollingSpeed * Time.fixedDeltaTime;
-        // invincible time
-        playerHealth.Invincible(invincibleDuration);
+    //    move = Vector3.zero;
+    //    rb.velocity = lastMoveDir * presentRollingSpeed * Time.fixedDeltaTime;
+    //    // invincible time
+    //    playerHealth.Invincible(invincibleDuration);
 
-        // slow down
-        presentRollingSpeed -= rollingResistance * Time.fixedDeltaTime;
-        if (presentRollingSpeed <= (moveSpeed+ 30f)){
+    //    // slow down
+    //    presentRollingSpeed -= rollingResistance * Time.fixedDeltaTime;
+    //    if (presentRollingSpeed <= (moveSpeed+ 30f)){
 
-            rb.velocity = Vector3.zero;
-            presentRollingSpeed = rollingSpeed;
+    //        rb.velocity = Vector3.zero;
+    //        presentRollingSpeed = rollingSpeed;
             
-            //Animation
-            characterAnimator.SetBool("IsRolling", false);
+    //        //Animation
+    //        characterAnimator.SetBool("IsRolling", false);
 
-            combateState = CombateState.normal;
-        }
-    }
+    //        combateState = CombateState.normal;
+    //    }
+    //}
 
     //********************************************************************** Aiming Function ****************************************************
     void MouseAimFunction()
@@ -257,87 +365,6 @@ public class PlayerControl : MonoBehaviour
         if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, groundMask))
         {
             aimPos = hitInfo.point;
-        }
-    }
-    // ******************************************************************* Rebirth ********************************************************
-    IEnumerator RebirthTroop()
-    {
-        float timeCount = 0;
-        float radius = 2f; // ReviveRangeMarker has another radius.
-
-        // show range indicator
-        GameObject effect = Instantiate(rebirthRangeEffect, aimPos, transform.rotation);
-        // control range place
-        while (Input.GetMouseButton(0) && Input.GetMouseButton(1))
-        {
-            yield return new WaitForEndOfFrame();
-            effect.transform.position = aimPos;
-
-            timeCount += Time.deltaTime;
-            ReviveRangeMark marker = effect.GetComponent<ReviveRangeMark>();
-
-            if (timeCount >= 1f && radius > 0.4f){
-                marker.ShrinkMarker();
-                //effect.transform.DOScale(effect.transform.localScale * 0.4f, 0.2f);
-                //effect.transform.localScale *= 0.6f;
-                radius *= 0.45f;
-
-                timeCount = 0;
-            }
-        }
-        //activate rebirth
-        //------------------------------hp.ReviveTroopNormal(aimPos, radius);
-        troopManager.ReviveTroopNormal(aimPos, radius);
-        Destroy(effect);
-    }
-    // ************************************************** recall *********************************************
-    void RecallTroops()
-    {
-        playerHealth.AbsorbOthers();
-        //hp.RegainHP();
-        recallMinionTimer = 0;
-        StartCoroutine("ContinueRecallTroops");
-    }
-
-    IEnumerator ContinueRecallTroops()
-    {
-        float holdTime = 0.5f;
-        // loop
-        while (recallMinionTimer < holdTime && Input.GetMouseButton(1))
-        {
-            recallMinionTimer += Time.deltaTime;
-            if (recallMinionTimer > 0.15f){
-                cursorTimer.gameObject.SetActive(true);
-                cursorTimer.ShowCursorTimer(holdTime - 0.15f);
-            }
-            yield return new WaitForEndOfFrame();
-        }
-
-        // recall all
-        if (recallMinionTimer >= holdTime)
-        {
-            if (cursorTimer.gameObject.activeSelf) cursorTimer.HideCursorTimer();
-            // recall all troops
-            troopManager.EatTroopToRecover();
-        }
-        else if(cursorTimer.gameObject.activeSelf) cursorTimer.HideCursorTimer();
-    }
-    //************************************************** Assign Troop *******************************************
-
-    IEnumerator ContinueAssignMinion()
-    {
-        float holdTime = 0.2f;
-        // loop
-        while (assignMinionTimer < holdTime && Input.GetMouseButton(0))
-        {
-            assignMinionTimer += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-        }
-
-        // recall all
-        if (assignMinionTimer >= holdTime)
-        {
-            troopManager.AssignAllMinions(aimPos);
         }
     }
     //*************************************************** Flip the character *********************************
@@ -358,10 +385,6 @@ public class PlayerControl : MonoBehaviour
             isFacingRight = !isFacingRight;
         }
     }
-    public void AddSoulList(int SoulType)
-    {
-        //soulList.AddSoul(SoulType);
-    }
 
     // ********************************************************************* Combat *********************************************
 
@@ -373,36 +396,18 @@ public class PlayerControl : MonoBehaviour
     }
 
     // melee attack
-    void MeleeAttack(float scrollData)
+    void MeleeAttack()
     {
-        if (scrollData > 0) {
-            // upward Attack
-            if (upAttackTimer >= attackCD && downAttackTimer >= 0.4f)
-            {
-                if (isFacingRight) Instantiate(upAttackEffect, transform.position + new Vector3(0.3f, 0.35f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
-                else Instantiate(upAttackEffect, transform.position + new Vector3(-0.3f, 0.35f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
+        if (attackTimer >= attackCD)
+        {
+            if (isFacingRight) Instantiate(upAttackEffect, transform.position + new Vector3(0.3f, 0.35f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
+            else Instantiate(upAttackEffect, transform.position + new Vector3(-0.3f, 0.35f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
 
-                myDamageManager.DealSingleDamage(transform, attackPoint.position, null, myDamage);
-                upAttackTimer = 0;
+            myDamageManager.DealSingleDamage(transform, attackPoint.position, null, myDamage);
+            attackTimer = 0;
 
-                // sound effect
-                mySoundManagers.PlaySoundAt(transform.position, "Swing", false, false, 1.5f, 0.7f, 100, 100);
-            }
-        }
-
-        if (scrollData < 0){
-            // Downward Attack
-            if (downAttackTimer >= attackCD && upAttackTimer >= 0.4f)
-            {
-                if (isFacingRight) Instantiate(downAttackEffect, transform.position + new Vector3(0.3f, 0.35f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
-                else Instantiate(downAttackEffect, transform.position + new Vector3(-0.3f, 0.35f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
-
-                myDamageManager.DealSingleDamage(transform, attackPoint.position, null, myDamage);
-                downAttackTimer = 0;
-
-                // sound effect
-                mySoundManagers.PlaySoundAt(transform.position, "Swing", false, false, 1.5f, 0.7f, 100, 100);
-            }
+            // sound effect
+            mySoundManagers.PlaySoundAt(transform.position, "Swing", false, false, 1.5f, 0.7f, 100, 100);
         }
     }
 

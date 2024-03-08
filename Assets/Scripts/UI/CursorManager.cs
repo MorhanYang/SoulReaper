@@ -18,7 +18,7 @@ public class CursorManager : MonoBehaviour
         Cursor.SetCursor(combatCursor, new Vector2(0, 1), CursorMode.Auto);
     }
 
-    public void ActivateInvestigateCursor()
+    public void ActivateRevieveCursor()
     {
         Cursor.SetCursor(InvestigateCursor, new Vector2(0, 1), CursorMode.Auto);
     }

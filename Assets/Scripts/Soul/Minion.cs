@@ -71,13 +71,75 @@ public class Minion : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        ActivateSelected();
+        ActiveMarker();
     }
     private void OnMouseExit()
     {
-        DeactivateSeleted();
+        StartCoroutine(WaitforMouseReleasetoDeactivateMarker());
     }
 
+
+
+    //****************************************************** Marker Control ***********************************************************
+    void ActiveMarker()
+    {
+        // prevent that player is holding mouse but also select the minion
+        if (!Input.GetMouseButton(0) && !Input.GetMouseButton(1))
+        {
+            if (isActive)// mark as ate Target
+            {
+                ActivateEatMarker();
+            }
+            else// Mark as revive Target
+            {
+                ActivateReviveMarker();
+            }
+        }
+    }
+    
+    IEnumerator WaitforMouseReleasetoDeactivateMarker()
+    {
+        while (Input.GetMouseButton(0) || Input.GetMouseButton(1))
+        {
+            yield return new WaitForSeconds(0.5f);
+
+        }
+
+        if (isActive)// mark as ate Target
+        {
+            DeactivateEatSeleted();
+        }
+        else// Mark as revive Target
+        {
+            DeactivateReviveMarker();
+        }
+    }
+    //************************** Revive Marker
+    public void ActivateReviveMarker()
+    {
+        cursorManager.ActivateRevieveCursor();
+        RebirthIcon_Select.SetActive(true);
+        // mark revieve Minion
+        troopManager.MarkedReviveMinion(transform);
+    }
+
+    public void DeactivateReviveMarker()
+    {
+        cursorManager.ActivateDefaultCursor();
+        RebirthIcon_Select.SetActive(false);
+        // unmark recall troop
+        troopManager.MarkedReviveMinion(null);
+    }
+
+    //************************** Health Marker
+    public float GetHealthPercentage()
+    {
+        return presentHp / MaxHp;
+    }
+    public void SetHealthPercentage(float Percentage)
+    {
+        presentHp = Percentage * MaxHp;
+    }
     //******************************************************combate*********************************************************
     public void SetDealDamageRate(float rate){
         if (!isTrigger) myAI.attackDamage = initaldamage * rate;
@@ -206,7 +268,7 @@ public class Minion : MonoBehaviour
             myAnimator.SetBool("Rebirth", false);
         }
 
-        DeactivateSeleted();
+        DeactivateEatSeleted();
 
         isActive = false;
     }
@@ -216,7 +278,7 @@ public class Minion : MonoBehaviour
     }
 
     // ************************************************ Select Phase ***********************************************
-    public void ActivateSelected()
+    public void ActivateEatMarker()
     {
         cursorManager.ActivateRecallCursor();
         SelectEffect.SetActive(true);
@@ -224,19 +286,12 @@ public class Minion : MonoBehaviour
         playerHealth.MarkRegainTarget(transform);
     }
 
-    public void DeactivateSeleted(){
+    public void DeactivateEatSeleted(){
         cursorManager.ActivateDefaultCursor();
         SelectEffect.SetActive(false);
         // unmark recall troop
         playerHealth.MarkRegainTarget(null);
     }
 
-    //******************************************* Health *********************************************************
-    public float GetHealthPercentage(){
-        return presentHp / MaxHp;
-    }
-    public void SetHealthPercentage( float Percentage )
-    {
-        presentHp = Percentage * MaxHp;
-    }
+
 }

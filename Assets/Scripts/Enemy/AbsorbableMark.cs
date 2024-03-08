@@ -12,6 +12,7 @@ public class AbsorbableMark : MonoBehaviour
         Enemy,
         Minion,
         Troop,
+        UnlockNode,
     }
     public AbsorbType myAbsorbType;
     public float recoverAmount;
@@ -32,11 +33,11 @@ public class AbsorbableMark : MonoBehaviour
         mySoundManager = SoundManager.Instance;
     }
 
-    public float EatThisToRecover(bool isAbsorb)
+    public float EatThisToRecover(bool playAbsorbEffect)
     {
         float realRecoverAmount = recoverAmount; ;
         // play effect
-        if (isAbsorb){
+        if (playAbsorbEffect){
             // play recall effect;
             GameObject effect = Instantiate(recallingPartical, transform.position, transform.rotation);
             effect.GetComponent<RecallingMinion>().AimTo(PlayerManager.instance.player.transform);
@@ -49,18 +50,25 @@ public class AbsorbableMark : MonoBehaviour
         switch (myAbsorbType)
         {
             case AbsorbType.Normal:
-                GetComponent<BasicEnemy>().TakeLife();
 
+                GetComponent<BasicEnemy>().TakeLife();
                 break;
             case AbsorbType.Enemy:
                 break;
+
             case AbsorbType.Minion:
                 Minion targetMinion = GetComponent<Minion>();
                 // change recover rate
                 realRecoverAmount = recoverAmount * targetMinion.GetHealthPercentage();
                 troopManager.EnemyKillOneMinion(targetMinion);
                 break;
+
             case AbsorbType.Troop:
+                break;
+
+            case AbsorbType.UnlockNode:
+                GetComponent<BasicEnemy>().TakeLife();
+                troopManager.UnlockTroopNode(1);
                 break;
             default:
                 break;

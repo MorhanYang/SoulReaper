@@ -25,7 +25,7 @@ public class BranchTreeUI : MonoBehaviour
     private void Start()
     {
         troopManager = PlayerManager.instance.player.GetComponent<TroopManager>();
-        troopDataList = troopManager.TroopDataList;
+        troopDataList = troopManager.troopDataList;
 
         //setup inital selected Troop
         SwitchPlayerAsTroop();
@@ -96,12 +96,6 @@ public class BranchTreeUI : MonoBehaviour
 
     public void SwitchSelectedMinionTo(MinionHpUI presentMinionUI)
     {
-        // clean info first
-        CleanInfoDependingOnType();
-
-        // type is Minion
-        mySelectType = SelectType.SelectMinion;
-
         // find selectedMinion place and cast to troop data
         int troopUiId = 0;
         for (int i = 0; i < troopHpUIList.Count; i++){
@@ -110,19 +104,30 @@ public class BranchTreeUI : MonoBehaviour
                 break;
             }  
         }
+ 
         int minionUiId = troopHpUIList[troopUiId].minionHpList.IndexOf(presentMinionUI);
         TroopNode selTroop = troopDataList[troopUiId];
-        Minion selMinion = selTroop.GetMinionList()[minionUiId];
+        if (minionUiId < selTroop.GetMinionList().Count)
+        {
+            // clean info first
+            CleanInfoDependingOnType();
 
-        // set Data
-        SelectedMinionUI = presentMinionUI;
-        SelectedTroopUI = troopHpUIList[troopUiId];
-        troopManager.SetPresentTroop(selTroop);
-        troopManager.SetPresentMinion(selMinion);
+            // type is Minion
+            mySelectType = SelectType.SelectMinion;
 
-        // Change UI
-        SelectedTroopUI.ChangeTroopSelectState(true);
-        SelectedMinionUI.SelectThisMinion(true);
+            Minion selMinion = selTroop.GetMinionList()[minionUiId];
+
+            // set Data
+            SelectedMinionUI = presentMinionUI;
+            SelectedTroopUI = troopHpUIList[troopUiId];
+            troopManager.SetPresentTroop(selTroop);
+            troopManager.SetPresentMinion(selMinion);
+
+            // Change UI
+            Debug.Log(troopHpUIList[troopUiId].name);
+            SelectedTroopUI.ChangeTroopSelectState(true);
+            SelectedMinionUI.SelectThisMinion(true);
+        }
     }
 
     public SelectType GetSelectType()
@@ -131,30 +136,43 @@ public class BranchTreeUI : MonoBehaviour
     }
 
     // ******************************************************************** Fresh UI ************************************************
-    public void RefreshNodeUI( List<TroopNode> TroopDataList )
+    public void RefreshNodeUI( List<TroopNode> DataList )
     {
         // reset troop & Minion 
         for (int i = 0; i < troopHpUIList.Count; i++)
         {
             TroopHpUI troopUI = troopHpUIList[i];
 
-            troopUI.ChangeNodeType(TroopDataList[i].type);
+            troopUI.ChangeNodeType(DataList[i].type);
             // Check Node Type
             switch (troopHpUIList[i].myNodeType)
             {
+                case TroopNode.NodeType.Locked:
+                    // change node HpBar display
+                    troopUI.TroopHpBarDisplay(0, DataList[i].maxTroopHp);
+                    troopUI.ChangeLockIconState(true);
+                    // hide minion
+                    for (int j = 0; j < troopUI.minionHpList.Count; j++)
+                    {
+                        troopUI.minionHpList[j].ShowMinionUIBg(false);
+                        troopUI.minionHpList[j].SwitchThisMinionSlot(false);
+                    }
+                    break;
+
                 case TroopNode.NodeType.Troop:
+                    // change node HpBar display
+                    troopUI.TroopHpBarDisplay(troopDataList[i].troopHp, troopDataList[i].maxTroopHp);
+                    troopUI.ChangeLockIconState(false);
+
+                    // show minion
                     for (int j = 0; j < troopHpUIList[i].minionHpList.Count; j++)
                     {
-                        // change node HpBar display
-                        troopUI.TroopHpBarDisplay(troopDataList[i].troopHp, troopDataList[i].maxTroopHp);
-
                         MinionHpUI targetMinionUI = troopUI.minionHpList[j];
-                        // show minion
                         targetMinionUI.ShowMinionUIBg(true);
-                        if (j < TroopDataList[i].minionList.Count)
+                        if (j < DataList[i].minionList.Count)
                         {
                             targetMinionUI.SwitchThisMinionSlot(true);
-                            targetMinionUI.FreshMinionHpBar(TroopDataList[i].GetMinionList()[j].GetHealthPercentage());
+                            targetMinionUI.FreshMinionHpBar(DataList[i].GetMinionList()[j].GetHealthPercentage());
 
                         }
                         else
@@ -166,10 +184,10 @@ public class BranchTreeUI : MonoBehaviour
                 
                 case TroopNode.NodeType.ExtraHp:
                     // change node HpBar display
-                    troopUI.TroopHpBarDisplay(TroopDataList[i].troopHp, TroopDataList[i].maxTroopHp);
+                    troopUI.TroopHpBarDisplay(DataList[i].troopHp, DataList[i].maxTroopHp);
+                    troopUI.ChangeLockIconState(false);
 
                     // hide minion
-                    
                     for (int j = 0; j < troopUI.minionHpList.Count; j++)
                     {
                         troopUI.minionHpList[j].ShowMinionUIBg(false);
@@ -178,10 +196,10 @@ public class BranchTreeUI : MonoBehaviour
                     break;
 
                 case TroopNode.NodeType.Empty:
-                    troopUI.TroopHpBarDisplay(0, TroopDataList[i].maxTroopHp);// prevent node health bar from lefting health.
-                    
-                    // hide minion
+                    troopUI.TroopHpBarDisplay(0, DataList[i].maxTroopHp);// prevent node health bar from lefting health.
+                    troopUI.ChangeLockIconState(false);
 
+                    // hide minion
                     for (int j = 0; j < troopUI.minionHpList.Count; j++)
                     {
                         troopUI.minionHpList[j].ShowMinionUIBg(false);
@@ -231,7 +249,7 @@ public class BranchTreeUI : MonoBehaviour
             {
                 for (int i = 0; i < troopDataList[troopId].GetMinionList().Count; i++)
                 {
-                    troopDataList[troopId].GetMinionList()[i].ActivateSelected();
+                    troopDataList[troopId].GetMinionList()[i].ActivateEatMarker();
                 }
             }
         }
@@ -249,7 +267,7 @@ public class BranchTreeUI : MonoBehaviour
             {
                 for (int i = 0; i < troopDataList[troopId].GetMinionList().Count; i++)
                 {
-                    troopDataList[troopId].GetMinionList()[i].DeactivateSeleted();
+                    troopDataList[troopId].GetMinionList()[i].DeactivateEatSeleted();
                 }
             }
         }
@@ -275,7 +293,7 @@ public class BranchTreeUI : MonoBehaviour
         //activate if available 
         if (troopId < troopDataList.Count && minionId < troopDataList[troopId].GetMinionList().Count)
         {
-            troopDataList[troopId].GetMinionList()[minionId].ActivateSelected();
+            troopDataList[troopId].GetMinionList()[minionId].ActivateEatMarker();
         }
         
     }
@@ -292,7 +310,7 @@ public class BranchTreeUI : MonoBehaviour
                 // available?
                 if (x < troopDataList.Count && y < troopDataList[x].GetMinionList().Count)
                 {
-                    troopDataList[x].GetMinionList()[y].DeactivateSeleted();
+                    troopDataList[x].GetMinionList()[y].DeactivateEatSeleted();
                 }
             }
             // not the right temp
