@@ -78,6 +78,7 @@ public class PlayerControl : MonoBehaviour
     public bool canMove = true;
     public bool canMeleeAttack = true;
     public bool canRightSpecialAction = true;
+    public bool canLeftClick = true;
     public bool canLeftSpecialAction = true;
 
 
@@ -145,8 +146,15 @@ public class PlayerControl : MonoBehaviour
         switch (combateState)
         {
             case CombateState.normal:
-                MoveFunction(1f);
-                characterAnimator.SetBool("IsRolling", false);// prevent rolling all the time.
+                if (canMove)
+                {
+                    MoveFunction(1f);
+                    //animator control
+                    characterAnimator.SetBool("IsMoving", move != Vector3.zero);
+                }
+                else characterAnimator.SetBool("IsMoving", false); // prevent from playing runing animation when player can't move;
+
+                //characterAnimator.SetBool("IsRolling", false);// prevent rolling all the time.
                 break;
             case CombateState.rolling:
                 //RollFunction();
@@ -188,9 +196,12 @@ public class PlayerControl : MonoBehaviour
         }
 
         // realse -> check if this is hold
-        if (Input.GetMouseButtonUp(0) && clickTimer < holdTime & !EventSystem.current.IsPointerOverGameObject())// it is a click
-        {   // assign one minion
-            troopManager.AssignOneMinion(aimPos);
+        if (canLeftClick)
+        {
+            if (Input.GetMouseButtonUp(0) && clickTimer < holdTime & !EventSystem.current.IsPointerOverGameObject())// it is a click
+            {   // assign one minion
+                troopManager.AssignOneMinion(aimPos);
+            }
         }
 
         if (GeneratedMenu != null)
@@ -310,29 +321,20 @@ public class PlayerControl : MonoBehaviour
 
     //********************************************************** Moving Function ***************************************************************************
     // Use speedMultiplyer to change speed.
-    void MoveFunction(float speedMultiplyer){
+    public void MoveFunction(float speedMultiplyer){
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
 
-        if (canMove){
-            move = new Vector3(x, rb.velocity.y, z);
-            rb.velocity = new Vector3(x * moveSpeed * speedMultiplyer * Time.fixedDeltaTime,
-                                    rb.velocity.y,
-                                    z * moveSpeed * speedMultiplyer * Time.fixedDeltaTime);
-        }
-        else{
-            move = Vector3.zero;
-        }
-        
+        move = new Vector3(x, rb.velocity.y, z);
+        rb.velocity = new Vector3(x * moveSpeed * speedMultiplyer * Time.fixedDeltaTime,
+                                rb.velocity.y,
+                                z * moveSpeed * speedMultiplyer * Time.fixedDeltaTime);   
 
         FlipPlayer();
         // last direction for rolling
         if (move != Vector3.zero){
             lastMoveDir = move.normalized;
         }
-
-        //animator control
-        characterAnimator.SetBool("IsMoving", move != Vector3.zero);
     }
     //void RollFunction() {
     //    //animation

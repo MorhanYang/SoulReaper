@@ -135,6 +135,10 @@ public class TroopManager : MonoBehaviour
     {
         MarkedRevievSubject = target;
     }
+    public Transform GetMarkedReviveMinion()
+    {
+        return MarkedRevievSubject;
+    }
     
     public void ReviveSingleMinion()
     {
@@ -174,6 +178,7 @@ public class TroopManager : MonoBehaviour
             // find a space for new minions
             foreach (Minion item in minionSet)
             {
+                Minion thisMinion = item;
                 for (int j = 0; j < troopDataList.Count; j++)
                 {
                     if (troopDataList[j].type != TroopNode.NodeType.Locked)
@@ -197,6 +202,7 @@ public class TroopManager : MonoBehaviour
                             item.SetActiveDelay(rebirthDelay, dataPos);
                             item.SetHealthPercentage(1);// set minion a full hp
                             TargetTroop.AddMinion(item);
+                            thisMinion = null; // success Add minion
                             break;
                         }
                         // not enough space -> Add a injured Minion
@@ -208,9 +214,14 @@ public class TroopManager : MonoBehaviour
                             item.SetActiveDelay(rebirthDelay, dataPos);
                             item.SetHealthPercentage(space / hpUnit);// set minion injured hp
                             TargetTroop.AddMinion(item);
+                            thisMinion = null; // success Add minion
                             break;
                         }
                     }
+                }
+                if (thisMinion != null) // didn't success add minion
+                {
+                    GetComponent<PlayerDialogue>().ShowPlayerCall("I need more health to revive", 2f);
                 }
             }
 
@@ -331,6 +342,7 @@ public class TroopManager : MonoBehaviour
         else target = null;
 
         // show destination marker
+        Debug.Log(hitedEnemy.Length);
         assignMarker.relocateMarker(aimPos, target);
 
 
@@ -499,7 +511,7 @@ public class TroopManager : MonoBehaviour
                 return closedEnemy;
             }
             // get enemy
-            else if (enemyList[i].GetComponent<Enemy>())
+            else if (enemyList[i].GetComponent<EnemyScript>())
             {
                 Collider testEnemy = enemyList[i];
                 if (closedEnemy == null)
@@ -518,7 +530,6 @@ public class TroopManager : MonoBehaviour
 
     private Minion GetClosedMinion(Vector3 pos)
     {
-
         // Find closest Minin to the Target
         Minion closestMinion = null;
         // assign single minion

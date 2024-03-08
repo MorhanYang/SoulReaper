@@ -794,7 +794,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 0}
   leftList: {fileID: 6886786015649578997}
+  LeftListContent:
+  - {fileID: 6886786015575794213}
+  - {fileID: 5779649666896730833}
   RightList: {fileID: 6886786015584874637}
+  RightListContent:
+  - {fileID: 6886786015447324504}
+  - {fileID: 9142188937396094022}
+  - {fileID: 1415644433}
+  - {fileID: 682344956}
   RevieveRangIndicater: {fileID: 5919993194319152528, guid: 70fdc8bf5b9803c4bb1424a478948321, type: 3}
   groundMask:
     serializedVersion: 2
@@ -1191,7 +1199,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6886786015584874637}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
