@@ -31,7 +31,7 @@ public class PlayerControl : MonoBehaviour
     DamageManager myDamageManager;
 
     //Movement
-    [SerializeField] float moveSpeed;
+    public float moveSpeed;
     [SerializeField] float actionColdDown = 0.5f;
     float actionTimer = 0;
 
@@ -39,16 +39,11 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] GameObject mouseMenu;
     [SerializeField] Canvas followMouseCanvas;
     GameObject GeneratedMenu = null;
-    int mouseInputCount = 0;
     float clickTimer = 0;
     bool isShowingMouseMenu = false;
 
     float holdTime = 0.15f;
     float radius = 2f;
-    // recall Minion
-    float recallMinionTimer = 0;
-    // Assign Minion
-    float assignMinionTimer = 0;
     // rebirth
     [SerializeField] GameObject rebirthRangeEffect;
 

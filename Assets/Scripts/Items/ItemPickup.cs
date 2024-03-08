@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ItemPickup : MonoBehaviour
 {
-    
+
     public enum ItemType
     {
         weapon,
@@ -16,6 +16,22 @@ public class ItemPickup : MonoBehaviour
     [SerializeField] Canvas UICanvas;
     [SerializeField] string title;
     [SerializeField] string content;
+    MessageUIScript myMessage;
+    bool isShowingMessage;
+
+    [SerializeField] string playerDialgoueAfterPickup;
+
+    private void Update()
+    {
+        if (isShowingMessage)
+        {
+            if (myMessage == null)
+            {
+                PlayerManager.instance.player.GetComponent<PlayerDialogue>().ShowPlayerCall(playerDialgoueAfterPickup, 8f);
+                Destroy(gameObject);
+            }
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -26,6 +42,7 @@ public class ItemPickup : MonoBehaviour
                 {
                     PlayerControl myPlayercontrol = other.GetComponent<PlayerControl>();
                     myPlayercontrol.canMeleeAttack = true;
+                    other.GetComponent<PlayerDialogue>().ShowPlayerCall(playerDialgoueAfterPickup, 7f);
                     Destroy(gameObject);
                 }
                 break;
@@ -33,9 +50,9 @@ public class ItemPickup : MonoBehaviour
             case ItemType.message:
                 if (other.GetComponent<PlayerControl>() != null)
                 {
-                    MessageUIScript myMessage = Instantiate(messageUI, UICanvas.transform);
+                    myMessage = Instantiate(messageUI, UICanvas.transform);
                     myMessage.ChangeMessageUIText(title, content);
-                    Destroy(gameObject);
+                    isShowingMessage = true;
                 }
                 break;
 

@@ -23,20 +23,25 @@ public class Level_Test : MonoBehaviour
     private void Update()
     {
         // hint player how to unlock the movement
-        if (!playerControl.canMove && isInitial)
+        if (isInitial)
         {
             if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0){
-                float rm = Random.Range(-1, 1);
+                float rm = Random.Range(-1, 2);
                 if (rm < 0){
-                    playerDialogue.ShowPlayerCall("Er...I need energy.",1.5f);
+                    playerDialogue.ShowPlayerCall("Right...Mouse....Click...", 1.5f);
                 }
-                else{
-                    playerDialogue.ShowPlayerCall("I cant move my Leg, Use right click to grab life.",1.5f);
+                else if(rm <1)
+                {
+                    playerDialogue.ShowPlayerCall("Can't move my Legs. Unless...",1.5f);
+                }
+                else
+                {
+                    playerDialogue.ShowPlayerCall("Rats...Delicious...Absorb...", 1.5f);
                 }
             }
             if (playerhealth.presentPlayerHp >= playerhealth.playerMaxHp)
             {
-                playerControl.canMove = true;
+                playerControl.moveSpeed = 100f;
                 isInitial = false;
             }
         }
@@ -55,7 +60,7 @@ public class Level_Test : MonoBehaviour
 
     void DisableAllAbility()
     {
-        playerControl.canMove = false;
+        playerControl.moveSpeed = 20f;
         playerControl.canMeleeAttack = false;
         playerControl.canRightSpecialAction = false;
         playerControl.canLeftSpecialAction = false;

@@ -365,7 +365,7 @@ Transform:
   m_GameObject: {fileID: 8440647239809610835}
   m_LocalRotation: {x: 0.38268343, y: -0, z: -0, w: 0.92387956}
   m_LocalPosition: {x: 0.02, y: 0.048, z: -0.07}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: -0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8440647240236617016}
@@ -517,7 +517,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8440647240236617017}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cddb079cf86b32e409ac29a680231e20, type: 3}
   m_Name: 
@@ -525,8 +525,8 @@ MonoBehaviour:
   target: {fileID: 0}
   enemySprite: {fileID: 8440647239809610834}
   followDistance: 4
-  attackInterval: 1.25
-  myDamage: 5
+  attackInterval: 2
+  myDamage: 0.001
   attackEffect: {fileID: 8295354949021519652, guid: 310bf40f820e6464bb41e0a1bae2cab7, type: 3}
   canDash: 0
   distanceForDash: 2.5
@@ -596,8 +596,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpUI: {fileID: 8901401934886663233}
   hpBar: {fileID: 5887452730889224894}
-  Maxhealth: 2.5
-  presentHealth: 2.5
+  Maxhealth: 5
+  presentHealth: 5
 --- !u!114 &1831688014749205970
 MonoBehaviour:
   m_ObjectHideFlags: 0
