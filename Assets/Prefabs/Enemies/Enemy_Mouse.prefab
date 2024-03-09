@@ -626,8 +626,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemySprite: {fileID: 8440647239809610834}
   enemySoul: {fileID: 6956608498121384144, guid: 33318afcfd93a7a4e97afc2ce735b887, type: 3}
-  target: {fileID: 0}
   followDistance: 4
+  attackRange: 0.4
   attackInterval: 2
   myDamage: 0.001
   UnsafeDistance: 1

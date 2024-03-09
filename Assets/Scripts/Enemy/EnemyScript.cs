@@ -9,8 +9,8 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] GameObject enemySoul;
 
     // AI
-    public Transform target;
-    NavMeshAgent agent;
+    protected Transform target;
+    protected NavMeshAgent agent;
     GameObject player;
     enum EnemyAction
     {
@@ -21,7 +21,7 @@ public class EnemyScript : MonoBehaviour
     }
     EnemyAction action;
     //player distance
-    float targetDistance;
+    protected float targetDistance;
     [SerializeField] float followDistance = 4.5f;
 
     // flip
@@ -35,6 +35,7 @@ public class EnemyScript : MonoBehaviour
 
     // attack
     DamageManager myDamageManager;
+    public float attackRange = 0.5f;
     [SerializeField] float attackInterval = 3f;
     float damageTimer;
     [SerializeField] float myDamage = 5;
@@ -118,9 +119,14 @@ public class EnemyScript : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         // colide with target
-        if (other.transform == target && action == EnemyAction.following)
+        if (targetDistance <= attackRange)
         {
-            AttackMethod(target);
+            if (damageTimer >= attackInterval)
+            {
+                AttackMethod(target);
+                damageTimer = 0;
+            }
+            else damageTimer += Time.deltaTime;
         }
     }
 
@@ -208,20 +214,15 @@ public class EnemyScript : MonoBehaviour
         }
     }
     // **************************************************** Attack ************************************************************
-    void AttackMethod(Transform prey)
+    protected virtual void AttackMethod(Transform prey)
     {
-        if (damageTimer >= attackInterval)
-        {
-            // sound
-            mySoundManager.PlaySoundAt(mySoundManager.transform.position, "Hurt", false, false, 1, 1f, 100, 100);
-            // animation
-            if (isFacingRight) Instantiate(attackEffect, transform.position + new Vector3(0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
-            else Instantiate(attackEffect, transform.position + new Vector3(-0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
-            // deal damage
-            myDamageManager.DealSingleDamage(transform, transform.position, prey.transform, myDamage);
-            damageTimer = 0f;
-        }
-        else damageTimer += Time.deltaTime;
+        // sound
+        mySoundManager.PlaySoundAt(mySoundManager.transform.position, "Hurt", false, false, 1, 1f, 100, 100);
+        // animation
+        if (isFacingRight) Instantiate(attackEffect, transform.position + new Vector3(0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
+        else Instantiate(attackEffect, transform.position + new Vector3(-0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
+        // deal damage
+        myDamageManager.DealSingleDamage(transform, transform.position, prey.transform, myDamage);
 
     }
 
@@ -265,9 +266,9 @@ public class EnemyScript : MonoBehaviour
                 {
                     playerInRangeTimer -= Time.deltaTime;
                 }
-                
-                // follow enemy
-                agent.SetDestination(target.position);
+
+                // follow target
+                FollowTarget();
 
                 //// can dash enemy
                 //if (canDash)
@@ -298,6 +299,11 @@ public class EnemyScript : MonoBehaviour
                 //    }
                 //break;
         }
+    }
+
+    protected virtual void FollowTarget()
+    {
+        agent.SetDestination(target.position);
     }
 
     // *********************Flip

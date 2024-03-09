@@ -44,7 +44,7 @@ public class DamageManager : MonoBehaviour
                     }
                 }
                 // Attacker is enemy
-                else if (attacker.GetComponent<EnemyScript>() != null)
+                else if (attacker.tag == "Enemy" || attacker.tag == "EnemyTrajectory")
                 {
                     for (int i = 0; i < hitedEnemy.Length; i++)
                     {
