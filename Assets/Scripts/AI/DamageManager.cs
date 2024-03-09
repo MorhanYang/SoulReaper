@@ -32,11 +32,11 @@ public class DamageManager : MonoBehaviour
             // attacker is player or minion
             else
             {
-                if (attacker.GetComponent<PlayerHealth>() != null || attacker.GetComponent<Minion>() != null)
+                if (attacker.tag == "Player" || attacker.tag == "Minion" || attacker.tag == "MinionAmmo")
                 {
                     for (int i = 0; i < hitedEnemy.Length; i++)
                     {
-                        if (hitedEnemy[i].GetComponent<EnemyScript>() != null || hitedEnemy[i].GetComponent<Breakable>() != null)
+                        if (hitedEnemy[i].GetComponent<EnemyScript>() != null || hitedEnemy[i].GetComponent<Breakable>() != null || hitedEnemy[i].GetComponent<RangeEnemy>() != null)
                         {
                             reciever = hitedEnemy[i].transform;
                             continue;
@@ -44,7 +44,7 @@ public class DamageManager : MonoBehaviour
                     }
                 }
                 // Attacker is enemy
-                else if (attacker.tag == "Enemy" || attacker.tag == "EnemyTrajectory")
+                else if (attacker.tag == "Enemy" || attacker.tag == "EnemyAmmo")
                 {
                     for (int i = 0; i < hitedEnemy.Length; i++)
                     {
@@ -62,7 +62,7 @@ public class DamageManager : MonoBehaviour
         if (reciever != null)
         {
             //1. Minion
-            if (reciever.GetComponent<Minion>() != null && reciever.gameObject.IsDestroyed())
+            if (reciever.GetComponent<Minion>() != null && !reciever.gameObject.IsDestroyed())
             {
                 Minion myMinion = reciever.GetComponent<Minion>();
                 if (myMinion.isActive) myMinion.TakeDamage(damage, attacker, attackerPos);
@@ -72,6 +72,12 @@ public class DamageManager : MonoBehaviour
             if (reciever.GetComponent<EnemyScript>() != null)
             {
                 EnemyScript myEnemy = reciever.GetComponent<EnemyScript>();
+                myEnemy.TakeDamage(damage, attacker, attackerPos);
+
+            }
+            if (reciever.GetComponent<RangeEnemy>() != null)
+            {
+                EnemyScript myEnemy = reciever.GetComponent<RangeEnemy>();
                 myEnemy.TakeDamage(damage, attacker, attackerPos);
 
             }

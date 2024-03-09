@@ -5,22 +5,24 @@ using UnityEngine.AI;
 
 public class MinionAI : MonoBehaviour
 {
-    NavMeshAgent agent;
-    Transform target;
+    protected NavMeshAgent agent;
+    protected Transform target;
     Vector3 sprintPos;
     GameObject player;
 
     float minionStopDistance = 0.5f;
     [SerializeField] float SprintSpeed = 2f;
-    [SerializeField] float NormalSpeed = 1.2f;
+    [SerializeField] protected float NormalSpeed = 1.2f;
 
     // find enemy & movement
     [SerializeField] float searchingRange = 2f;
     [SerializeField]SpriteRenderer minionSprite;
     bool isFacingRight = true;
+    protected float targetDistance;
+    [SerializeField] float maxPlayerDistance;
 
     //Assign
-    [SerializeField] GameObject assignIcon;
+    [SerializeField] protected GameObject assignIcon;
     float sprintTimer;
 
     //Melee Attack
@@ -84,10 +86,11 @@ public class MinionAI : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
+        if (target != null)
         {
-            SetToFaint();
+            targetDistance = Vector3.Distance(transform.position, target.position);
         }
+
         switch (minionState)
         {
             case MinionSate.Dead:
@@ -98,18 +101,17 @@ public class MinionAI : MonoBehaviour
                 attackTimer += Time.deltaTime;
                 if (attackTimer >= attackCD && target != null) {
                     // dash attack 
-                    if (canDash && (Time.time - dashCD) > IntervalDashing && Vector3.Distance(transform.position, target.position) <= dashDistance){
+                    if (canDash && (Time.time - dashCD) > IntervalDashing && targetDistance <= dashDistance){
                         //dash
                         Debug.Log("Minion_Dash");
                         dashScript.PrepareDash(target);
                         minionState = MinionSate.Dash;
                     }
                     // normal Attack
-                    if (Vector3.Distance(transform.position, target.position) <= minionStopDistance){
-                        Attack();
-                    }
+                    Attack();
                     attackTimer = 0;
                 }
+
                 break;
 
             case MinionSate.Sprint:
@@ -284,40 +286,55 @@ public class MinionAI : MonoBehaviour
         // Don't hit enemy
         if (target == null)
         {
-            agent.SetDestination(sprintPos);
-            // reach Target:
-            if (Vector3.Distance(transform.position, sprintPos) < agent.stoppingDistance)
-            {
-                agent.speed = NormalSpeed;
-                minionState = MinionSate.Wait;
-                if (minionState != MinionSate.Faint) Invoke("StartRoam", 1.2f); // prevent if from coming back from the platform trigger
-                GetRoamingStartPos();
-
-                //hide AssignIcon
-                assignIcon.SetActive(false);
-            }
+            SprintFunctionForPos();
         }
         // Hit enemy
         else
         {
-            agent.SetDestination(target.position);
-            // reach Target:
-            if (Vector3.Distance(transform.position, target.position) < agent.stoppingDistance)
-            {
-                agent.speed = NormalSpeed;
-                minionState = MinionSate.Follow;
+            SprintFunctionForEnemy();
+        }
+    }
 
-                //hide AssignIcon
-                assignIcon.SetActive(false);
-            }
+    protected virtual void SprintFunctionForEnemy()
+    {
+        agent.SetDestination(target.position);
+        // reach Target:
+        if (targetDistance < agent.stoppingDistance)
+        {
+            agent.speed = NormalSpeed;
+            minionState = MinionSate.Follow;
+
+            //hide AssignIcon
+            assignIcon.SetActive(false);
+        }
+    }
+
+    protected virtual void SprintFunctionForPos()
+    {
+        agent.SetDestination(sprintPos);
+        // reach Target:
+        if (Vector3.Distance(transform.position, sprintPos) < agent.stoppingDistance)
+        {
+            agent.speed = NormalSpeed;
+            minionState = MinionSate.Wait;
+            if (minionState != MinionSate.Faint) Invoke("StartRoam", 1.2f); // prevent if from coming back from the platform trigger
+            GetRoamingStartPos();
+
+            //hide AssignIcon
+            assignIcon.SetActive(false);
         }
     }
 
     // *******************************************************Automatically find enemy & move *****************************************************
-
     void FollowEnemy()
     {
+        // killed enemy
         if (target.IsDestroyed())
+        {
+            target = null;
+        }
+        // follow player if it run too far
+        if (Vector3.Distance(transform.position, player.transform.position) > maxPlayerDistance)
         {
             target = null;
         }
@@ -325,16 +342,24 @@ public class MinionAI : MonoBehaviour
         // follow
         if (target != null)
         {
-            agent.SetDestination(target.position);
-            // when roaming the strop distance become 0.1f;
-            if (agent.stoppingDistance != minionStopDistance) agent.stoppingDistance = minionStopDistance;
+            FollowFunction();
         }
         // roaming
         else if (target == null)
         {
             minionState = MinionSate.Roam;
         }
+
+
     }
+
+    protected virtual void FollowFunction()
+    {
+        agent.SetDestination(target.position);
+        // when roaming the strop distance become 0.1f;
+        if (agent.stoppingDistance != minionStopDistance) agent.stoppingDistance = minionStopDistance;
+    }
+
 
     void FlipMinion()
     {
@@ -354,31 +379,18 @@ public class MinionAI : MonoBehaviour
         }
     }
     //****************************************************Attack*****************************************
-    void Attack()
+    protected virtual void Attack()
     {
+        if (targetDistance <= minionStopDistance + 0.2f)
+        {
+            myDamageManager.DealSingleDamage(transform, transform.position, target, attackDamage);
+        }
         // sound
         mySoundManagers.PlaySoundAt(mySoundManagers.transform.position, "Hurt", false, false, 1, 0.5f, 100, 100);
 
         // Attack effect
         if (isFacingRight) Instantiate(attackEffect, transform.position + new Vector3(0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
         else Instantiate(attackEffect, transform.position + new Vector3(-0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
-
-        if (Vector3.Distance(transform.position,target.position)<= minionStopDistance + 0.2f)
-        {
-            myDamageManager.DealSingleDamage(transform,transform.position,target, attackDamage);
-        }
-
-        //// if kill the enemy
-        //if (target.GetComponent<Health>() != null)
-        //{
-        //    if (target.GetComponent<Health>().presentHealth < 0)
-        //    {
-        //        GetRoamingStartPos();
-        //        minionState = MinionSate.Roam;
-        //        // trigger ontrigger stay to see if there is enemy inside the cllider
-        //        target = null;
-        //    }
-        //}
     }
 
     //**************************************************Radom Roaming***************************************

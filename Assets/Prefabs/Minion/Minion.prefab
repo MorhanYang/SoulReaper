@@ -338,7 +338,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2329640087748747305
 Transform:
   m_ObjectHideFlags: 0
@@ -396,11 +396,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1c500967a870f540a090f5bb9c11852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRang: 0.45
   SprintSpeed: 3.2
   NormalSpeed: 1.8
   searchingRange: 2
   minionSprite: {fileID: 2329640088932374848}
+  maxPlayerDistance: 4.5
   assignIcon: {fileID: 961283761}
   attackDamage: 3
   attackCD: 1
@@ -427,7 +427,6 @@ MonoBehaviour:
   minionType: 0
   myAnimator: {fileID: 314891880}
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
-  getDamageRate: 0.8
   rebirthIcon: {fileID: 313252540}
   RebirthIcon_Select: {fileID: 3864172933725838789}
   SelectEffect: {fileID: 7245311238218668977}

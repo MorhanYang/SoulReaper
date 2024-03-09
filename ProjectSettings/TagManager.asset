@@ -10,7 +10,8 @@ TagManager:
   - Ground
   - Enemy
   - Minion
-  - EnemyTrajectory
+  - EnemyAmmo
+  - MinionAmmo
   layers:
   - Default
   - TransparentFX

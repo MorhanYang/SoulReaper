@@ -9,10 +9,6 @@ public class RangeEnemy : EnemyScript
     bool canLeave = false;
     float runTimer = 0;
     float runInterval = 2f;
-    protected override void Start()
-    {
-        base.Start();
-    }
 
     protected override void FollowTarget()
     {
@@ -64,7 +60,7 @@ public class RangeEnemy : EnemyScript
         if (!isLeaving)
         {
             FireBall myFireBall = Instantiate(fireBall.gameObject, transform.position, transform.rotation).GetComponent<FireBall>();
-            myFireBall.HeadTotargetPos(prey.position);
+            myFireBall.HeadTotargetPos( prey.position, transform, myDamage);
         }
     }
 }

@@ -39,7 +39,7 @@ public class EnemyScript : MonoBehaviour
     public float attackRange = 0.5f;
     [SerializeField] float attackInterval = 3f;
     float damageTimer;
-    [SerializeField] float myDamage = 5;
+    public float myDamage = 5;
     float playerInRangeTimer = 0;
     [SerializeField] float UnsafeDistance = 1f;
     [SerializeField] GameObject alertnessIcon;
@@ -115,14 +115,9 @@ public class EnemyScript : MonoBehaviour
 
         // Behavior Tree
         BehaviorFunction();
-    }
 
-    // Attack Trigger
-    private void OnTriggerStay(Collider other)
-    {
-        // colide with target
-        if (targetDistance <= attackRange)
-        {
+        // Attack Trigger
+        if (targetDistance <= attackRange){
             if (damageTimer >= attackInterval)
             {
                 AttackMethod(target);
