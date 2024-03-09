@@ -1,17 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyScript : MonoBehaviour
 {
-    [SerializeField] GameObject enemySprite;
+    [SerializeField] Transform enemySprite;
     [SerializeField] GameObject enemySoul;
+
+    // AI
+    public Transform target;
+    NavMeshAgent agent;
     GameObject player;
+    enum EnemyAction
+    {
+        idle,
+        following,
+        dashing,
+        shooting,
+    }
+    EnemyAction action;
+    //player distance
+    float targetDistance;
+    [SerializeField] float followDistance = 4.5f;
 
-
+    // flip
+    SpriteRenderer enemySpriteRender;
+    bool isFacingRight = true;
+    
+    // health
     Health health;
     BasicEnemy basicEnemy;
     bool haveSoul;
+
+    // attack
+    DamageManager myDamageManager;
+    [SerializeField] float attackInterval = 3f;
+    float damageTimer;
+    [SerializeField] float myDamage = 5;
+    float playerInRangeTimer = 0;
+    [SerializeField] float UnsafeDistance = 1f;
+    [SerializeField] GameObject alertnessIcon;
+
 
     // effect & Sound
     Shaker shaker;
@@ -28,16 +58,20 @@ public class EnemyScript : MonoBehaviour
 
     private void Start()
     {
+        player = PlayerManager.instance.player;
         health = GetComponent<Health>();
         basicEnemy = GetComponent<BasicEnemy>();
-        health.HideHPUI();
+        enemySpriteRender = enemySprite.GetComponent<SpriteRenderer>();
+        agent = GetComponent<NavMeshAgent>();
+        myDamageManager = DamageManager.instance;
 
-        player = PlayerManager.instance.player;
         shaker = GetComponent<Shaker>();
         mySoundManager = SoundManager.Instance;
 
+        // initialize
+        action = EnemyAction.idle;
+        health.HideHPUI();
 
-        // Initiate the havesoul 
         if (enemySoul != null)
         {
             haveSoul = true;
@@ -56,9 +90,41 @@ public class EnemyScript : MonoBehaviour
                 health.HideHPUI();
             }
         }
+
+        // flip Enemy
+        FlipMinion();
+
+        // Choose Target
+        if (target == null)
+        {
+            StartCoroutine(ShowAlertnessIcon());
+            target = player.transform;
+        }
+        else if (target.GetComponent<Minion>() != null && !target.GetComponent<Minion>().isActive)
+        {
+            StartCoroutine(ShowAlertnessIcon());
+            target = player.transform;
+        }
+
+        // player distance
+        targetDistance = Vector3.Distance(transform.position, target.position);
+
+
+        // Behavior Tree
+        BehaviorFunction();
     }
 
-    // kill
+    // Attack Trigger
+    private void OnTriggerStay(Collider other)
+    {
+        // colide with target
+        if (other.transform == target && action == EnemyAction.following)
+        {
+            AttackMethod(target);
+        }
+    }
+
+    // ******************************************************* Take Damage *****************************************************
     public void TakeDamage(float damage, Transform subject, Vector3 attackPos)
     {
         float hideHealthBarDelay = 5f;
@@ -68,20 +134,15 @@ public class EnemyScript : MonoBehaviour
         health.ShowHPUI();
         showHealthBarTimer = hideHealthBarDelay;
 
-        //// slow down enemy
-        //if (ai != null)
-        //{
-        //    ai.SlowDownEnemy(0.6f);
-        //}
-
         //knock back
         shaker.AddImpact((transform.position - attackPos), damage, false);
 
-        //// change target
-        //if (ai.target == player.transform)
-        //{
-        //    ai.target = subject;
-        //}
+        // change target if player is far away
+        if (target == player.transform && playerInRangeTimer <=0) //playerInRangeTimer is use to count time when player inside the unsafe area.
+        {
+            target = subject;
+        }
+
         //dying
         if (health.presentHealth <= 0 && !isDying)
         {
@@ -137,28 +198,6 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    void CheckIfHaveSoul()
-    {
-        if (!haveSoul)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            basicEnemy.SetDeadState(true);
-            //if (ai != null) ai.enabled = false;
-
-            health.HideHPUI();
-
-            // play dead animation
-            if (enemySprite.GetComponent<Animator>() != null)
-            {
-                enemySprite.GetComponent<Animator>().SetBool("isDead", true);
-            }
-            BecomeMinion();
-        }
-    }
-
     public void BecomeMinion()
     {
         if (haveSoul)
@@ -167,5 +206,123 @@ public class EnemyScript : MonoBehaviour
             haveSoul = false;
             Destroy(gameObject);
         }
+    }
+    // **************************************************** Attack ************************************************************
+    void AttackMethod(Transform prey)
+    {
+        if (damageTimer >= attackInterval)
+        {
+            // sound
+            mySoundManager.PlaySoundAt(mySoundManager.transform.position, "Hurt", false, false, 1, 1f, 100, 100);
+            // animation
+            if (isFacingRight) Instantiate(attackEffect, transform.position + new Vector3(0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
+            else Instantiate(attackEffect, transform.position + new Vector3(-0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
+            // deal damage
+            myDamageManager.DealSingleDamage(transform, transform.position, prey.transform, myDamage);
+            damageTimer = 0f;
+        }
+        else damageTimer += Time.deltaTime;
+
+    }
+
+
+    //******************************************************* AI Related ********************************************************
+    void BehaviorFunction()
+    {
+        switch (action)
+        {
+            // idle
+            case EnemyAction.idle:
+                agent.SetDestination(transform.position);
+
+                if (targetDistance < followDistance)
+                {
+                    StartCoroutine(ShowAlertnessIcon());
+                    action = EnemyAction.following;
+                }
+                break;
+
+            // following
+            case EnemyAction.following:
+
+                if (targetDistance > followDistance)
+                {
+                    // stop following
+                    action = EnemyAction.idle;
+                }
+
+                // change Target to player
+                if ( target != player.transform && Vector3.Distance(transform.position, player.transform.position) < UnsafeDistance)
+                {
+                    playerInRangeTimer += Time.deltaTime;
+                    if (playerInRangeTimer > 3f)
+                    {
+                        StartCoroutine(ShowAlertnessIcon());
+                        target = player.transform;
+                    }
+                }
+                else if (playerInRangeTimer > 0)
+                {
+                    playerInRangeTimer -= Time.deltaTime;
+                }
+                
+                // follow enemy
+                agent.SetDestination(target.position);
+
+                //// can dash enemy
+                //if (canDash)
+                //{
+                //    if (dashCDTimer >= dashCD && targetDistance <= distanceForDash)
+                //    {
+                //        dashScript.PrepareDash(target);
+                //        action = EnemyAction.dashing;
+                //    }
+                //}
+
+                //// Dash CD timer counting
+                //if (dashCDTimer <= dashCD) dashCDTimer += Time.deltaTime;
+                break;
+
+                //// dasing
+                //case EnemyAction.dashing:
+                //    // start timer
+                //    dashTimer += Time.deltaTime;
+                //    // start Dashing, when it ends reset property
+                //    if (!dashScript.EnemyDashing(myDamage))
+                //    {
+                //        action = EnemyAction.following;
+                //        target = player.transform;
+                //        dashTimer = 0;
+                //        dashCDTimer = 0;
+                //        damageTimer = 1f;// prevent deal 2 times
+                //    }
+                //break;
+        }
+    }
+
+    // *********************Flip
+    void FlipMinion()
+    {
+        //Enemies face right when moving right
+        if (agent.velocity.x < 0 && isFacingRight)
+        {
+            enemySpriteRender.flipX = true;
+            isFacingRight = !isFacingRight;
+
+        }
+        //face left when facing left
+        else if (agent.velocity.x > 0 && !isFacingRight)
+        {
+            enemySpriteRender.flipX = false;
+            isFacingRight = !isFacingRight;
+        }
+        //or remain its direction when static
+    }
+    // Alertness Icon
+    IEnumerator ShowAlertnessIcon()
+    {
+        alertnessIcon.SetActive(true);
+        yield return new WaitForSeconds(1.5f);
+        alertnessIcon.SetActive(false);
     }
 }

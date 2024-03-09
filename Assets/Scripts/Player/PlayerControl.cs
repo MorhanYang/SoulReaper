@@ -32,8 +32,8 @@ public class PlayerControl : MonoBehaviour
 
     //Movement
     public float moveSpeed;
-    [SerializeField] float actionColdDown = 0.5f;
-    float actionTimer = 0;
+    //[SerializeField] float actionColdDown = 0.5f;
+    //float actionTimer = 0;
 
     // Mouse control
     [SerializeField] GameObject mouseMenu;

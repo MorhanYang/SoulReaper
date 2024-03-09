@@ -342,7 +342,6 @@ public class TroopManager : MonoBehaviour
         else target = null;
 
         // show destination marker
-        Debug.Log(hitedEnemy.Length);
         assignMarker.relocateMarker(aimPos, target);
 
 

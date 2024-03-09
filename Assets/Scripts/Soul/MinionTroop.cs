@@ -67,7 +67,7 @@ public class MinionTroop : MonoBehaviour
                 return closedEnemy;
             }
             // get enemy
-            else if (enemyList[i].GetComponent<Enemy>())
+            else if (enemyList[i].GetComponent<EnemyScript>())
             {
                 Collider testEnemy = enemyList[i];
                 if (closedEnemy == null)

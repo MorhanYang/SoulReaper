@@ -140,7 +140,7 @@ public class AI_Dash : MonoBehaviour
             for (int i = 0; i < hitedObjecct.Length; i++)
             {
                 if (!DamagedTarget.Contains(hitedObjecct[i])){
-                    hitedObjecct[i].GetComponent<Enemy>().TakeDamage(damage, transform, transform.position);
+                    hitedObjecct[i].GetComponent<EnemyScript>().TakeDamage(damage, transform, transform.position);
                     DamagedTarget.Add(hitedObjecct[i]);
                 }
             }

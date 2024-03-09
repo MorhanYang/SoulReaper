@@ -17,7 +17,6 @@ public class Minion : MonoBehaviour
     public int minionType = 0; // normal 0, special 1, vines 2; 
     [SerializeField] Animator myAnimator;
     [SerializeField] GameObject recallingMinion;
-    [SerializeField] float getDamageRate = 0.5f;
     [SerializeField] GameObject rebirthIcon;
     [SerializeField] GameObject RebirthIcon_Select;
     [SerializeField] GameObject SelectEffect;

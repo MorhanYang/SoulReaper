@@ -25,16 +25,11 @@ public class PlayerHealth : MonoBehaviour
     bool isInvicible = false; // reset the collision state
 
 
-    // Effect & sound
-    float rebirthDelay = 0.6f;
-    SoundManager mySoundManager;
-
     private void Start()
     {
         gameManager = GameManager.instance;
         troopManager = GetComponent<TroopManager>();
         shacker = GetComponent<Shaker>();
-        mySoundManager = SoundManager.Instance;
 
         troopDataList = troopManager.troopDataList;
 

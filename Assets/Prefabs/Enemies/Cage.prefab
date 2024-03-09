@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3860679008605848261}
   - component: {fileID: 3860679008605848264}
   - component: {fileID: 3860679008605848260}
-  - component: {fileID: 3860679008605848263}
   - component: {fileID: 1446960760}
   - component: {fileID: 140374512648970470}
   m_Layer: 0
@@ -64,36 +63,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f5ff36bf5fb159499759dec08a03ecb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 20
-  addHealthMax: 0
   canRoam: 0
   roamInterval: 5
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
   selectEffect: {fileID: 3860679010094227766}
   mysprite: {fileID: 3860679010366295903}
   particle: {fileID: 3433768307635132671}
---- !u!195 &3860679008605848263
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3860679008605848265}
-  m_Enabled: 0
-  m_AgentTypeID: 0
-  m_Radius: 0.1
-  m_Speed: 0.4
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 0
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 2
 --- !u!82 &1446960760
 AudioSource:
   m_ObjectHideFlags: 0

@@ -112,7 +112,7 @@ public class DamageManager : MonoBehaviour
             }
 
             // 2. enemy attack
-            if (attacker.GetComponent<Enemy>() != null)
+            if (attacker.GetComponent<EnemyScript>() != null)
             {
                 for (int i = 0; i < hitedEnemy.Length; i++)
                 {
