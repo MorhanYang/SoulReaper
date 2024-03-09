@@ -23,9 +23,10 @@ public class EnemyScript : MonoBehaviour
     //player distance
     protected float targetDistance;
     [SerializeField] float followDistance = 4.5f;
+    public float moveSpeed = 0.6f;
 
     // flip
-    SpriteRenderer enemySpriteRender;
+    protected SpriteRenderer enemySpriteRender;
     bool isFacingRight = true;
     
     // health
@@ -57,7 +58,7 @@ public class EnemyScript : MonoBehaviour
     bool isDying = false;
     
 
-    private void Start()
+    protected virtual void Start()
     {
         player = PlayerManager.instance.player;
         health = GetComponent<Health>();
@@ -72,6 +73,7 @@ public class EnemyScript : MonoBehaviour
         // initialize
         action = EnemyAction.idle;
         health.HideHPUI();
+        agent.speed = moveSpeed;
 
         if (enemySoul != null)
         {
@@ -93,7 +95,7 @@ public class EnemyScript : MonoBehaviour
         }
 
         // flip Enemy
-        FlipMinion();
+        Flip();
 
         // Choose Target
         if (target == null)
@@ -307,7 +309,7 @@ public class EnemyScript : MonoBehaviour
     }
 
     // *********************Flip
-    void FlipMinion()
+    void Flip()
     {
         //Enemies face right when moving right
         if (agent.velocity.x < 0 && isFacingRight)
@@ -323,6 +325,11 @@ public class EnemyScript : MonoBehaviour
             isFacingRight = !isFacingRight;
         }
         //or remain its direction when static
+    }
+    public void ManualFlip()
+    {
+        enemySpriteRender.flipX = !enemySpriteRender.flipX;
+        isFacingRight = !isFacingRight;
     }
     // Alertness Icon
     IEnumerator ShowAlertnessIcon()

@@ -5,7 +5,14 @@ using UnityEngine;
 public class RangeEnemy : EnemyScript
 {
     [SerializeField] FireBall fireBall;
-    bool isCloseToTarget = false;
+    bool isLeaving = false;
+    bool canLeave = false;
+    float runTimer = 0;
+    float runInterval = 2f;
+    protected override void Start()
+    {
+        base.Start();
+    }
 
     protected override void FollowTarget()
     {
@@ -20,18 +27,41 @@ public class RangeEnemy : EnemyScript
         // player is too close
         if (targetDistance <= (attackRange / 3))
         {
-            Vector3 dir = (transform.position - target.position).normalized;
-            Vector3 destination = dir * attackRange + target.position;
-            agent.SetDestination(destination);
-            isCloseToTarget = true;
+            // start counting time
+            if (!canLeave && runTimer < runInterval)
+            {
+                runTimer += Time.deltaTime;
+                if (runTimer >= runInterval){
+                    canLeave = true;
+                }
+            }
+
+            // can leave
+            if (canLeave)
+            {
+                Vector3 dir = (transform.position - target.position).normalized;
+                Vector3 destination = dir * attackRange + target.position;
+                agent.speed = moveSpeed * 1.5f;
+                agent.SetDestination(destination);
+                isLeaving = true;
+
+                runTimer -= Time.deltaTime;
+                if (runTimer <= 0){
+                    canLeave = false;
+                    agent.speed = moveSpeed;
+                    agent.SetDestination(transform.position);
+                    ManualFlip();// change sprite face dir
+                }
+            }
+            else isLeaving = false;
         }
-        else isCloseToTarget = false;
+        else isLeaving = false;
 
     }
 
     protected override void AttackMethod(Transform prey)
     {
-        if (!isCloseToTarget)
+        if (!isLeaving)
         {
             FireBall myFireBall = Instantiate(fireBall.gameObject, transform.position, transform.rotation).GetComponent<FireBall>();
             myFireBall.HeadTotargetPos(prey.position);
