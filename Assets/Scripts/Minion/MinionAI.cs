@@ -180,7 +180,6 @@ public class MinionAI : MonoBehaviour
             return true;
         }
         else return false;
-
     }
     public void SetToWait(){
         minionState = MinionSate.Wait;
@@ -462,7 +461,7 @@ public class MinionAI : MonoBehaviour
             // find minion not is at recovering state
             for (int i = 0; i < EnemyFound.Length; i++)
             {
-                if (EnemyFound[i].GetComponent<EnemyScript>().action != EnemyScript.EnemyAction.Recovering)
+                if (EnemyFound[i].GetComponent<EnemyScript>() != null || EnemyFound[i].GetComponent<EnemyScript>().action != EnemyScript.EnemyAction.Recovering)
                 {
                     target = EnemyFound[i].transform;
                     minionState = MinionSate.Follow;

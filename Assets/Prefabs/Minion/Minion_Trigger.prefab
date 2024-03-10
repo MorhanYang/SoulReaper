@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2836430136772711524}
   - component: {fileID: 2836430136101012026}
   - component: {fileID: 2836430136619499370}
+  - component: {fileID: 1640200053}
   m_Layer: 8
   m_Name: Minion_Trigger
   m_TagString: Minion
@@ -79,11 +80,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1c500967a870f540a090f5bb9c11852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRang: 0.4
   SprintSpeed: 2.5
   NormalSpeed: 1.5
   searchingRange: 2
   minionSprite: {fileID: 507092011414260727}
+  maxPlayerDistance: 0
   assignIcon: {fileID: 2836430135804548102}
   attackDamage: 3
   attackCD: 1
@@ -110,11 +111,10 @@ MonoBehaviour:
   minionType: 2
   myAnimator: {fileID: 0}
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
-  getDamageRate: 0.8
-  rebirthIcon: {fileID: 2836430135374120971}
-  RebirthIcon_Select: {fileID: 6585057851024733054}
-  SelectEffect: {fileID: 4886830011928054022}
+  headIcon: {fileID: 4471010106371726033}
   isActive: 0
+  MaxHp: 30
+  presentHp: 30
   minionSize: 5
   isTrigger: 1
   myBridge: {fileID: 0}
@@ -167,6 +167,21 @@ MonoBehaviour:
   knockBack: 2
   fleshColor: {r: 1, g: 0.5058824, b: 0.5058824, a: 1}
   bloodEffect: {fileID: 203682428094779240, guid: 5f649d31b83378d44b5fb47ab8614d7f, type: 3}
+--- !u!114 &1640200053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 507092010048287391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd971106a7655e34ebc42ddc10eb57e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAbsorbType: 0
+  recoverAmount: 10
+  recallingPartical: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
 --- !u!1 &507092010567782732
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,7 +536,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2836430135374120970
 Transform:
   m_ObjectHideFlags: 0
@@ -837,7 +852,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1011251922766118501
 Transform:
   m_ObjectHideFlags: 0
@@ -847,7 +862,7 @@ Transform:
   m_GameObject: {fileID: 4886830011928054022}
   m_LocalRotation: {x: 0.38268343, y: -0, z: -0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0.7499995, z: 0.57794636}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 507092010048287390}
@@ -894,7 +909,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: -1373046681, guid: 415b8e2f799434b4dbff5aae5a607380, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -902,7 +917,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &6585057851024733054

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.ProBuilder.Shapes;
 
 public class BasicEnemy : MonoBehaviour
 {
@@ -47,7 +46,7 @@ public class BasicEnemy : MonoBehaviour
     // effect & Sound
     Shaker shaker;
     SoundManager mySoundManager;
-    [SerializeField] GameObject selectEffect;
+    [SerializeField] SpriteRenderer headIcon = null;
     [SerializeField] SpriteRenderer mysprite;
     [SerializeField] GameObject particle;
 
@@ -80,15 +79,16 @@ public class BasicEnemy : MonoBehaviour
             case EnemyType.StaticEnemy:
                 if (fightingRounds >=0) // didn't die
                 {
-                    selectEffect.SetActive(true);
+                    headIcon.sprite = Resources.Load<Sprite>("HeadIcon/HeadIcon_Sel");
                     playerHP.MarkRegainTarget(transform);
                     cursorManager.ActivateRecallCursor();
                 }
                 break;
 
             case EnemyType.MovingEnemy:
-                if (myEnemyScript.action == EnemyScript.EnemyAction.Recovering){
-                    selectEffect.SetActive(true);
+                if (myEnemyScript.action == EnemyScript.EnemyAction.Recovering)
+                {
+                    headIcon.sprite = HeadIconManager.GetSprite("Select");
                     playerHP.MarkRegainTarget(transform);
                     cursorManager.ActivateRecallCursor();
                 }
@@ -101,9 +101,27 @@ public class BasicEnemy : MonoBehaviour
     }
     private void OnMouseExit()
     {
-        selectEffect.SetActive(false);
-        playerHP.MarkRegainTarget(null);
-        cursorManager.ActivateDefaultCursor();
+        switch (myEnemyType)
+        {
+            case EnemyType.StaticEnemy:
+                headIcon.sprite = null;
+                playerHP.MarkRegainTarget(null);
+                cursorManager.ActivateDefaultCursor();
+                break;
+
+            case EnemyType.MovingEnemy:
+                if (myEnemyScript.action == EnemyScript.EnemyAction.Recovering)
+                {
+                    headIcon.sprite = HeadIconManager.GetSprite("Absorb");
+                }
+                else { headIcon.sprite = null; }
+                playerHP.MarkRegainTarget(null);
+                cursorManager.ActivateDefaultCursor();
+                break;
+            default:
+                break;
+        }
+
     }
 
     private void Update()
@@ -129,7 +147,7 @@ public class BasicEnemy : MonoBehaviour
     // ********************************************* take Damage *****************************************
     public void TakeDamage(float damage, Transform subject, Vector3 attackPos)
     {
-        if (Time.time - invincibleTime > 1.5f) // 1.5 seconds invincible
+        if (Time.time - invincibleTime > 2f) // 1.5 seconds invincible
         {
             float hideHealthBarDelay = 5f;
 
@@ -154,10 +172,12 @@ public class BasicEnemy : MonoBehaviour
                     {
                         myAbsorbableMark.enabled = true;
                         myEnemyScript.SetEnemyAction(EnemyScript.EnemyAction.Recovering);
+                        health.HideHPUI();
+                        headIcon.sprite = HeadIconManager.GetSprite("Absorb");
                         invincibleTime = Time.time; // set invicible timer
 
-                        // automatic execute recovering enemy after 3s 
-                        Invoke("TakeLifeButRecover", 3);
+                        // automatic execute recovering enemy after 6s 
+                        Invoke("TakeLifeButRecover", 6);
                     }
                 }
             }
@@ -183,7 +203,7 @@ public class BasicEnemy : MonoBehaviour
                 {
                     mysprite.color = Color.gray;
                     particle.SetActive(false);
-                    selectEffect.SetActive(false);
+                    headIcon.sprite = null;
                     fightingRounds = -1;
                 }
                 break;
@@ -214,7 +234,7 @@ public class BasicEnemy : MonoBehaviour
             }
 
             // reset cursor and health marker
-            selectEffect.SetActive(false);
+            headIcon.sprite = null;
             playerHP.MarkRegainTarget(null);
             cursorManager.ActivateDefaultCursor();
 

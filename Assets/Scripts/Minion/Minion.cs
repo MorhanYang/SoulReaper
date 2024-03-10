@@ -14,13 +14,19 @@ public class Minion : MonoBehaviour
     PlayerHealth playerHealth;
     TroopManager troopManager;
 
-    public int minionType = 0; // normal 0, special 1, vines 2; 
+
+    public enum MinionStyle
+    {
+        Rats,
+        Normal,
+        Range,
+        Dash,
+        Vine,
+    }
+    public MinionStyle minionStyle = 0; // normal 0, special 1, vines 2; 
     [SerializeField] Animator myAnimator;
     [SerializeField] GameObject recallingMinion;
-    [SerializeField] GameObject rebirthIcon;
-    [SerializeField] GameObject RebirthIcon_Select;
-    [SerializeField] GameObject SelectEffect;
-
+    [SerializeField] SpriteRenderer headIcon;
 
     public bool isActive = false;
 
@@ -61,6 +67,8 @@ public class Minion : MonoBehaviour
         troopManager = PlayerManager.instance.player.GetComponent<TroopManager>();
         shaker = GetComponent<Shaker>();
         mySoundManager = SoundManager.Instance.GetComponent<SoundManager>();
+
+        headIcon.sprite = HeadIconManager.GetSprite("Revive");
     }
 
     private void Update(){
@@ -117,7 +125,7 @@ public class Minion : MonoBehaviour
     public void ActivateReviveMarker()
     {
         cursorManager.ActivateRevieveCursor();
-        RebirthIcon_Select.SetActive(true);
+        headIcon.sprite = HeadIconManager.GetSprite("ReviveSel");
         // mark revieve Minion
         troopManager.MarkedReviveMinion(transform);
     }
@@ -125,7 +133,7 @@ public class Minion : MonoBehaviour
     public void DeactivateReviveMarker()
     {
         cursorManager.ActivateDefaultCursor();
-        RebirthIcon_Select.SetActive(false);
+        headIcon.sprite = HeadIconManager.GetSprite("Revive");
         // unmark recall troop
         troopManager.MarkedReviveMinion(null);
     }
@@ -161,6 +169,8 @@ public class Minion : MonoBehaviour
         if (presentHp < 0){
             presentHp = 0;
             troopManager.EnemyKillOneMinion(this);
+
+            headIcon.sprite = HeadIconManager.GetSprite("Revive");
         }
         // alive
         else
@@ -176,8 +186,12 @@ public class Minion : MonoBehaviour
     }
     //*****************************************************Revieve or recall Minion******************************************
 
-    public void SetRebirthSelect(bool state){ 
-        RebirthIcon_Select.SetActive(state);
+    public void SetRebirthSelect(bool state){
+        if (state)
+        {
+            headIcon.sprite = HeadIconManager.GetSprite("ReviveSel");
+        }
+        else headIcon.sprite = HeadIconManager.GetSprite("Revive");
     }
 
     public bool SetActiveDelay(float delay, int[] myMinionDataPos)
@@ -187,7 +201,7 @@ public class Minion : MonoBehaviour
             Invoke("ActiveMinion", delay);
 
             // play recall animation
-            rebirthIcon.SetActive(false);
+            headIcon.sprite = null;
             SetRebirthSelect(false);
             // get a recalling minion from player
             GameObject effect = Instantiate(recallingMinion, PlayerManager.instance.player.transform.position, transform.rotation);
@@ -204,6 +218,7 @@ public class Minion : MonoBehaviour
         }
         return false;
     }
+
     void ActiveMinion()
     {
         if (isActive){
@@ -212,6 +227,7 @@ public class Minion : MonoBehaviour
             {
                 gameObject.layer = LayerMask.NameToLayer("MovingMinion");
                 myAI.ActivateMinion();
+                headIcon.sprite = null;
                 absorbableMark.enabled = true;
 
                 // move minion to cant destory set
@@ -229,8 +245,7 @@ public class Minion : MonoBehaviour
         else{
             if (myAnimator != null)
             {
-                rebirthIcon.SetActive(true);
-
+                headIcon.sprite = HeadIconManager.GetSprite("Revive");
                 myAnimator.SetBool("Rebirth", false);
                 myAnimator.SetBool("Dying", true);
             }
@@ -260,7 +275,7 @@ public class Minion : MonoBehaviour
         // set data
         gameObject.layer = LayerMask.NameToLayer("Minion");
 
-        rebirthIcon.SetActive(true);
+        headIcon.sprite = HeadIconManager.GetSprite("Revive");
         if (myAnimator != null)
         {
             myAnimator.SetBool("Dying", true);
@@ -280,14 +295,14 @@ public class Minion : MonoBehaviour
     public void ActivateEatMarker()
     {
         cursorManager.ActivateRecallCursor();
-        SelectEffect.SetActive(true);
+        headIcon.sprite = HeadIconManager.GetSprite("Select");
         // mark recall troop
         playerHealth.MarkRegainTarget(transform);
     }
 
     public void DeactivateEatSeleted(){
         cursorManager.ActivateDefaultCursor();
-        SelectEffect.SetActive(false);
+        headIcon.sprite = null;
         // unmark recall troop
         playerHealth.MarkRegainTarget(null);
     }

@@ -41,7 +41,7 @@ public class EnemyScript : MonoBehaviour
     public float myDamage = 5;
     float playerInRangeTimer = 0;
     [SerializeField] float UnsafeDistance = 1f;
-    [SerializeField] GameObject alertnessIcon;
+    [SerializeField] SpriteRenderer headIcon;
 
 
     // effect & Sound
@@ -54,7 +54,6 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] SoundTrigger previousSoundTrigger;
 
     float showHealthBarTimer = 0f;
-    bool isDying = false;
     
 
     protected virtual void Start()
@@ -254,8 +253,8 @@ public class EnemyScript : MonoBehaviour
     // Alertness Icon
     IEnumerator ShowAlertnessIcon()
     {
-        alertnessIcon.SetActive(true);
+        headIcon.sprite = HeadIconManager.GetSprite("Alert");
         yield return new WaitForSeconds(1.5f);
-        alertnessIcon.SetActive(false);
+        headIcon.sprite = null;
     }
 }

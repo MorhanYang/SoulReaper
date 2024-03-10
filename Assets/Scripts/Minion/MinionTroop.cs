@@ -28,7 +28,7 @@ public class MinionTroop : MonoBehaviour
 
     private void Start()
     {
-        UpdateMemberNumText();
+        //UpdateMemberNumText();
         // adjust damage rate
         ReduceMinionsDamge();
     }
@@ -84,11 +84,11 @@ public class MinionTroop : MonoBehaviour
         return closedEnemy;
     }
 
-    void UpdateMemberNumText()
-    {
-        // special & normal 
-        minionIconManager.UpdateMinionIcon(TroopMember[0].minionType, MaxMember - TroopSpaceLeft);
-    }
+    //void UpdateMemberNumText()
+    //{
+    //    // special & normal 
+    //    minionIconManager.UpdateMinionIcon(TroopMember[0].minionType, MaxMember - TroopSpaceLeft);
+    //}
 
     public void AddTroopMember(Minion member) {
         if (member != null && !TroopMember.Contains(member))
@@ -97,7 +97,7 @@ public class MinionTroop : MonoBehaviour
             //member.SetTroop(this);
             TroopSpaceLeft -= member.minionSize;
 
-            UpdateMemberNumText();
+            //UpdateMemberNumText();
         }
     }
 
@@ -118,7 +118,7 @@ public class MinionTroop : MonoBehaviour
                 TroopSpaceLeft += member.minionSize;
                 //member.SetInactive(false);
 
-                UpdateMemberNumText();
+                //UpdateMemberNumText();
             }
         }
     }

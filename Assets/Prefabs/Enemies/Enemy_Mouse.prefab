@@ -607,11 +607,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myEnemyType: 1
+  fightingRounds: 0
   canRoam: 0
   roamInterval: 5
   isFacingRight: 1
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
-  selectEffect: {fileID: 9221933337631467730}
+  headIcon: {fileID: 9221933337631467728}
   mysprite: {fileID: 8440647239809610833}
   particle: {fileID: 0}
 --- !u!114 &4914136200173254483
@@ -628,13 +629,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemySprite: {fileID: 8440647239809610834}
   enemySoul: {fileID: 6956608498121384144, guid: 33318afcfd93a7a4e97afc2ce735b887, type: 3}
+  action: 0
   followDistance: 4
   moveSpeed: 0.6
   attackRange: 0.4
   attackInterval: 2
   myDamage: 0.001
   UnsafeDistance: 1
-  alertnessIcon: {fileID: 7814939081167132858}
+  headIcon: {fileID: 9221933337631467728}
   attackEffect: {fileID: 8295354949021519652, guid: 310bf40f820e6464bb41e0a1bae2cab7, type: 3}
   blocker: {fileID: 0}
   previousSoundTrigger: {fileID: 0}
@@ -837,7 +839,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &9221933337631467729
 Transform:
   m_ObjectHideFlags: 0
@@ -847,7 +849,7 @@ Transform:
   m_GameObject: {fileID: 9221933337631467730}
   m_LocalRotation: {x: 0.38268343, y: -0, z: -0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0.5, z: 0.37}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8440647240236617016}
@@ -894,7 +896,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: -1373046681, guid: 415b8e2f799434b4dbff5aae5a607380, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -902,6 +904,6 @@ SpriteRenderer:
   m_Size: {x: 1, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
