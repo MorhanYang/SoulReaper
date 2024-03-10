@@ -246,6 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f5ff36bf5fb159499759dec08a03ecb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myEnemyType: 1
   canRoam: 0
   roamInterval: 5
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
@@ -267,6 +268,7 @@ MonoBehaviour:
   enemySprite: {fileID: 781885203998012033}
   enemySoul: {fileID: 2329640087748747304, guid: b7ed528af67ac0e47bacc2885a5712fb, type: 3}
   followDistance: 4
+  moveSpeed: 0.6
   attackRange: 0.4
   attackInterval: 1.5
   myDamage: 5
@@ -304,8 +306,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpUI: {fileID: 320532271531569810}
   hpBar: {fileID: 3336758933373748333}
-  Maxhealth: 20
-  presentHealth: 20
+  Maxhealth: 15
+  presentHealth: 15
 --- !u!114 &7390852331763614465
 MonoBehaviour:
   m_ObjectHideFlags: 0

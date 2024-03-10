@@ -12,14 +12,14 @@ public class EnemyScript : MonoBehaviour
     protected Transform target;
     protected NavMeshAgent agent;
     GameObject player;
-    enum EnemyAction
+    public enum EnemyAction
     {
         idle,
         following,
         dashing,
-        shooting,
+        Recovering,
     }
-    EnemyAction action;
+    [HideInInspector] public EnemyAction action;
     //player distance
     protected float targetDistance;
     [SerializeField] float followDistance = 4.5f;
@@ -27,7 +27,6 @@ public class EnemyScript : MonoBehaviour
 
     // flip
     protected SpriteRenderer enemySpriteRender;
-    bool isFacingRight = true;
     
     // health
     Health health;
@@ -94,9 +93,6 @@ public class EnemyScript : MonoBehaviour
             }
         }
 
-        // flip Enemy
-        Flip();
-
         // Choose Target
         if (target == null)
         {
@@ -115,92 +111,18 @@ public class EnemyScript : MonoBehaviour
 
         // Behavior Tree
         BehaviorFunction();
-
-        // Attack Trigger
-        if (targetDistance <= attackRange){
-            if (damageTimer >= attackInterval)
-            {
-                AttackMethod(target);
-                damageTimer = 0;
-            }
-            else damageTimer += Time.deltaTime;
-        }
     }
 
     // ******************************************************* Take Damage *****************************************************
-    public void TakeDamage(float damage, Transform subject, Vector3 attackPos)
+
+    public void ChangeTargetToAttacker(Transform subject)
     {
-        float hideHealthBarDelay = 5f;
-
-        health.TakeDamage(damage);
-
-        health.ShowHPUI();
-        showHealthBarTimer = hideHealthBarDelay;
-
-        //knock back
-        shaker.AddImpact((transform.position - attackPos), damage, false);
-
         // change target if player is far away
-        if (target == player.transform && playerInRangeTimer <=0) //playerInRangeTimer is use to count time when player inside the unsafe area.
+        if (target == player.transform && playerInRangeTimer <= 0) //playerInRangeTimer is use to count time when player inside the unsafe area.
         {
             target = subject;
         }
-
-        //dying
-        if (health.presentHealth <= 0 && !isDying)
-        {
-            StartCoroutine(DyingCoroutine());
-        }
-        else if (isDying){
-            Die();
-        }
-        /*
-        //died
-        if (health.presentHealth <= 0)
-        {
-            // generate minion
-            CheckIfHaveSoul();
-
-            // decativate blockers
-            if (blocker != null) blocker.openDoor();
-            // stop triggered sound
-            if (previousSoundTrigger != null) previousSoundTrigger.StopTriggeredSound();
-            // change cursor
-            GameManager.instance.GetComponent<CursorManager>().ActivateDefaultCursor();
-        }
-        */
-        // play sound 
-        mySoundManager.PlaySoundAt(PlayerManager.instance.player.gameObject.transform.position, "Hurt", false, false, 1, 0.5f, 100, 100);
     }
-
-    IEnumerator DyingCoroutine()
-    {
-        //******************************
-        //dying animation/sound effect to be implemented
-        //******************************
-        isDying = true;
-        yield return new WaitForSeconds(5); // Wait for 5 seconds
-        isDying = false;
-        Die();
-    }
-    void Die()
-    {
-        // Your death logic here: Destroy the enemy, play death animation, etc.
-        if (haveSoul)
-        {
-            basicEnemy.SetDeadState(true);
-            if (enemySprite.GetComponent<Animator>() != null)
-            {
-                enemySprite.GetComponent<Animator>().SetBool("isDead", true);
-            }
-            BecomeMinion();
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
     public void BecomeMinion()
     {
         if (haveSoul)
@@ -216,15 +138,17 @@ public class EnemyScript : MonoBehaviour
         // sound
         mySoundManager.PlaySoundAt(mySoundManager.transform.position, "Hurt", false, false, 1, 1f, 100, 100);
         // animation
-        if (isFacingRight) Instantiate(attackEffect, transform.position + new Vector3(0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
+        if (basicEnemy.isFacingRight) Instantiate(attackEffect, transform.position + new Vector3(0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(45f, 0, 0)), transform);
         else Instantiate(attackEffect, transform.position + new Vector3(-0.125f, 0.125f, 0), Quaternion.Euler(new Vector3(-45f, -180f, 0)), transform);
         // deal damage
         myDamageManager.DealSingleDamage(transform, transform.position, prey.transform, myDamage);
-
+    }
+    //******************************************************* AI Related ********************************************************
+    public void SetEnemyAction(EnemyAction newAction)
+    {
+        action = newAction;
     }
 
-
-    //******************************************************* AI Related ********************************************************
     void BehaviorFunction()
     {
         switch (action)
@@ -267,6 +191,16 @@ public class EnemyScript : MonoBehaviour
                 // follow target
                 FollowTarget();
 
+                // Attack Trigger
+                if (targetDistance <= attackRange){
+                    if (damageTimer >= attackInterval)
+                    {
+                        AttackMethod(target);
+                        damageTimer = 0;
+                    }
+                    else damageTimer += Time.deltaTime;
+                }
+
                 //// can dash enemy
                 //if (canDash)
                 //{
@@ -295,6 +229,13 @@ public class EnemyScript : MonoBehaviour
                 //        damageTimer = 1f;// prevent deal 2 times
                 //    }
                 //break;
+
+                case EnemyAction.Recovering:
+                // stop move and wait for reocver
+                agent.SetDestination(transform.position);
+                // show Abosorb Icon
+                break;
+                
         }
     }
 
@@ -304,27 +245,11 @@ public class EnemyScript : MonoBehaviour
     }
 
     // *********************Flip
-    void Flip()
-    {
-        //Enemies face right when moving right
-        if (agent.velocity.x < 0 && isFacingRight)
-        {
-            enemySpriteRender.flipX = true;
-            isFacingRight = !isFacingRight;
-
-        }
-        //face left when facing left
-        else if (agent.velocity.x > 0 && !isFacingRight)
-        {
-            enemySpriteRender.flipX = false;
-            isFacingRight = !isFacingRight;
-        }
-        //or remain its direction when static
-    }
+   
     public void ManualFlip()
     {
         enemySpriteRender.flipX = !enemySpriteRender.flipX;
-        isFacingRight = !isFacingRight;
+        basicEnemy.isFacingRight = !basicEnemy.isFacingRight;
     }
     // Alertness Icon
     IEnumerator ShowAlertnessIcon()

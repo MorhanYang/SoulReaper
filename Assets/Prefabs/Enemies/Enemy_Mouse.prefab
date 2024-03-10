@@ -606,8 +606,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f5ff36bf5fb159499759dec08a03ecb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myEnemyType: 1
   canRoam: 0
   roamInterval: 5
+  isFacingRight: 1
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
   selectEffect: {fileID: 9221933337631467730}
   mysprite: {fileID: 8440647239809610833}
@@ -627,6 +629,7 @@ MonoBehaviour:
   enemySprite: {fileID: 8440647239809610834}
   enemySoul: {fileID: 6956608498121384144, guid: 33318afcfd93a7a4e97afc2ce735b887, type: 3}
   followDistance: 4
+  moveSpeed: 0.6
   attackRange: 0.4
   attackInterval: 2
   myDamage: 0.001

@@ -50,10 +50,12 @@ public class AbsorbableMark : MonoBehaviour
         switch (myAbsorbType)
         {
             case AbsorbType.Normal:
-
                 GetComponent<BasicEnemy>().TakeLife();
                 break;
+
             case AbsorbType.Enemy:
+                BasicEnemy basicEnemy = GetComponent<BasicEnemy>();
+                basicEnemy.TakeLifeButRecover();
                 break;
 
             case AbsorbType.Minion:

@@ -69,15 +69,9 @@ public class DamageManager : MonoBehaviour
             }
 
             //2. Enemy
-            if (reciever.GetComponent<EnemyScript>() != null)
+            if (reciever.GetComponent<BasicEnemy>() != null)
             {
-                EnemyScript myEnemy = reciever.GetComponent<EnemyScript>();
-                myEnemy.TakeDamage(damage, attacker, attackerPos);
-
-            }
-            if (reciever.GetComponent<RangeEnemy>() != null)
-            {
-                EnemyScript myEnemy = reciever.GetComponent<RangeEnemy>();
+                BasicEnemy myEnemy = reciever.GetComponent<BasicEnemy>();
                 myEnemy.TakeDamage(damage, attacker, attackerPos);
 
             }

@@ -328,8 +328,8 @@ public class MinionAI : MonoBehaviour
     // *******************************************************Automatically find enemy & move *****************************************************
     void FollowEnemy()
     {
-        // killed enemy
-        if (target.IsDestroyed())
+        // killed enemy or enemy is recovering 
+        if (target.IsDestroyed() || target.GetComponent<EnemyScript>().action == EnemyScript.EnemyAction.Recovering)
         {
             target = null;
         }
@@ -459,8 +459,17 @@ public class MinionAI : MonoBehaviour
         Collider[] EnemyFound = Physics.OverlapSphere(transform.position, searchingRange, LayerMask.GetMask("Enemy"));
 
         if (EnemyFound.Length > 0){
-            target = EnemyFound[0].transform;
-            minionState = MinionSate.Follow;
+            // find minion not is at recovering state
+            for (int i = 0; i < EnemyFound.Length; i++)
+            {
+                if (EnemyFound[i].GetComponent<EnemyScript>().action != EnemyScript.EnemyAction.Recovering)
+                {
+                    target = EnemyFound[i].transform;
+                    minionState = MinionSate.Follow;
+                    break;
+                }
+            }
+            
         }
     }
 

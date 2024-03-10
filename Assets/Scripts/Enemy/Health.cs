@@ -47,6 +47,11 @@ public class Health : MonoBehaviour
             HealthUpdate();
         }
     }
+    public void SetHealThPercentage( float percentage)
+    {
+        presentHealth = Maxhealth * percentage;
+        HealthUpdate();
+    }
 
     public void HealthUpdate()
     {

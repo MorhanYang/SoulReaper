@@ -689,8 +689,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f5ff36bf5fb159499759dec08a03ecb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myEnemyType: 1
+  fightingRounds: 2
   canRoam: 0
   roamInterval: 5
+  isFacingRight: 1
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
   selectEffect: {fileID: 7069906593274220055}
   mysprite: {fileID: 7549311594345124500}
@@ -708,7 +711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myAbsorbType: 1
-  recoverAmount: 0
+  recoverAmount: 10
   recallingPartical: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
 --- !u!114 &7549311595159563237
 MonoBehaviour:
@@ -787,6 +790,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemySprite: {fileID: 7549311594345124503}
   enemySoul: {fileID: 1464773399545569864, guid: 8ca82c1a88f15e149b1e634b339a3664, type: 3}
+  action: 0
   followDistance: 4.5
   moveSpeed: 0.6
   attackRange: 3

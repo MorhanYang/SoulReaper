@@ -7,32 +7,46 @@ using UnityEngine.ProBuilder.Shapes;
 
 public class BasicEnemy : MonoBehaviour
 {
+    public enum EnemyType
+    {
+        StaticEnemy,
+        MovingEnemy,
+    }
+    public EnemyType myEnemyType;
+    [SerializeField] int fightingRounds; // how many rounds will it take to really die(1 = aborbe once, 2 = twice, -1 = die)
 
     // set up
     PlayerHealth playerHP;
     NavMeshAgent agent;
     CursorManager cursorManager;
+    EnemyScript myEnemyScript;
+    AbsorbableMark myAbsorbableMark;
 
     [SerializeField] bool canRoam = false;
     [SerializeField] float roamInterval = 3f;
 
-    //IsDead
-    bool isDead = false;
-    [HideInInspector]
-    public bool GetDeadState() { return isDead; }
-    public void SetDeadState( bool state ) { isDead = state; }
+    //health
+    Health health;
+    float showHealthBarTimer;
 
+    //roam
     float startRoamTime;
     Vector3 destination;
     Vector3 initialPos;
 
+    //damage
+    float invincibleTime = 0;
+
     // flip
-    bool isFacingRight = true;
+    public bool isFacingRight = true;
 
     // recall effect
     [SerializeField] GameObject recallingMinion;
 
     // effect 
+    // effect & Sound
+    Shaker shaker;
+    SoundManager mySoundManager;
     [SerializeField] GameObject selectEffect;
     [SerializeField] SpriteRenderer mysprite;
     [SerializeField] GameObject particle;
@@ -41,23 +55,48 @@ public class BasicEnemy : MonoBehaviour
     private void Start()
     {
         playerHP= PlayerManager.instance.player.GetComponent<PlayerHealth>();
-        if(canRoam) agent = GetComponent<NavMeshAgent>();
         cursorManager = GameManager.instance.GetComponent<CursorManager>();
+        myAbsorbableMark = GetComponent<AbsorbableMark>();
 
         startRoamTime = Time.time;
         destination = transform.position;
+
+        if (myEnemyType == EnemyType.MovingEnemy) {
+            agent = GetComponent<NavMeshAgent>();
+            health = GetComponent<Health>();
+            shaker = GetComponent<Shaker>();
+            mySoundManager = SoundManager.Instance;
+            myEnemyScript = GetComponent<EnemyScript>();
+
+            health.HideHPUI();
+        }
+           
     }
 
     private void OnMouseEnter()
     {
-        if (!isDead){
-            selectEffect.SetActive(true);
-            playerHP.MarkRegainTarget(transform);
+        switch (myEnemyType)
+        {
+            case EnemyType.StaticEnemy:
+                if (fightingRounds >=0) // didn't die
+                {
+                    selectEffect.SetActive(true);
+                    playerHP.MarkRegainTarget(transform);
+                    cursorManager.ActivateRecallCursor();
+                }
+                break;
 
-            if (this.GetComponent<EnemyScript>() != false){
-                cursorManager.ActivateCombatCursor();
-            }
-            else cursorManager.ActivateRecallCursor();
+            case EnemyType.MovingEnemy:
+                if (myEnemyScript.action == EnemyScript.EnemyAction.Recovering){
+                    selectEffect.SetActive(true);
+                    playerHP.MarkRegainTarget(transform);
+                    cursorManager.ActivateRecallCursor();
+                }
+                else cursorManager.ActivateCombatCursor();
+                break;
+
+            default:
+                break;
         }
     }
     private void OnMouseExit()
@@ -69,73 +108,177 @@ public class BasicEnemy : MonoBehaviour
 
     private void Update()
     {
-
-        if (canRoam && !isDead && (Time.time - startRoamTime) > roamInterval)
+        if (myEnemyType == EnemyType.MovingEnemy)
         {
-            Vector3 rdmDir;
-            if (destination == initialPos)
+            // health bar
+            if (showHealthBarTimer >= 0)
             {
-                // random a destination
-                rdmDir = new Vector3(Random.Range(-1, 1f), 0, Random.Range(-1, 1f));
-                rdmDir.Normalize();
-                destination = transform.position + rdmDir * Random.Range(0.4f, 1.5f);
+                showHealthBarTimer -= Time.deltaTime;
+                if (showHealthBarTimer < 0f)
+                {
+                    health.HideHPUI();
+                }
             }
-            else
+            // flip sprite when move
+            Flip();
+        }
+        
+    }
+
+
+    // ********************************************* take Damage *****************************************
+    public void TakeDamage(float damage, Transform subject, Vector3 attackPos)
+    {
+        if (Time.time - invincibleTime > 1.5f) // 1.5 seconds invincible
+        {
+            float hideHealthBarDelay = 5f;
+
+            // normal state takes damage
+            if (myEnemyScript.action != EnemyScript.EnemyAction.Recovering)
             {
-                // return to initial pos
-                destination = initialPos;
-                rdmDir = (destination = transform.position).normalized;
+                health.TakeDamage(damage);
+
+                health.ShowHPUI();
+                showHealthBarTimer = hideHealthBarDelay;
+
+                // try to change target
+                myEnemyScript.ChangeTargetToAttacker(subject);
+                //die
+                if (health.presentHealth <= 0)
+                {
+                    if (fightingRounds <= 0) // should die right now
+                    {
+                        myEnemyScript.BecomeMinion();
+                    }
+                    else if (fightingRounds > 0) // wait for absorb and keep fight
+                    {
+                        myAbsorbableMark.enabled = true;
+                        myEnemyScript.SetEnemyAction(EnemyScript.EnemyAction.Recovering);
+                        invincibleTime = Time.time; // set invicible timer
+
+                        // automatic execute recovering enemy after 3s 
+                        Invoke("TakeLifeButRecover", 3);
+                    }
+                }
+            }
+            // recovering state
+            else if (myEnemyScript.action == EnemyScript.EnemyAction.Recovering)
+            {
+                myAbsorbableMark.enabled = false;
+                TakeLifeButRecover();
             }
 
-            // flip charactor
-            if (rdmDir.x > 0 && isFacingRight)
-            {
-                mysprite.flipX = true;
-                isFacingRight = !isFacingRight;
-            }
-            if (rdmDir.x < 0 && !isFacingRight)
-            {
-                mysprite.flipX = false;
-                isFacingRight = !isFacingRight;
-            }
-
-            // find nearest point on the navmesh
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(destination, out hit, 2.5f, NavMesh.AllAreas))
-            {
-                destination = hit.position;
-            }
-            else destination = transform.position;
-
-            if (canRoam)
-            {
-                // set destination
-                agent.SetDestination(destination);
-
-                // reset timer
-                startRoamTime = Time.time + Random.Range(0, 8f);
-            }
-
+            // play sound 
+            mySoundManager.PlaySoundAt(PlayerManager.instance.player.gameObject.transform.position, "Hurt", false, false, 1, 0.5f, 100, 100);
         }
     }
 
+    // ********************************************* Eat Enemy *****************************************
     public void TakeLife()
     {
-        if (!isDead){
+        switch (myEnemyType)
+        {
+            case EnemyType.StaticEnemy:
+                if (fightingRounds >= 0)
+                {
+                    mysprite.color = Color.gray;
+                    particle.SetActive(false);
+                    selectEffect.SetActive(false);
+                    fightingRounds = -1;
+                }
+                break;
 
-            mysprite.color = Color.gray;
-            particle.SetActive(false);
-            selectEffect.SetActive(false);
-            isDead = true;
-
-            // stop movement
-            if (canRoam){
-                agent.SetDestination(transform.position);
-            }
-            else{
-                if (GetComponent<AudioSource>() != null) GetComponent<AudioSource>().enabled = false;
-                if (mysprite.GetComponent<Animator>() != null) mysprite.GetComponent<Animator>().enabled = false;
-            }
+            case EnemyType.MovingEnemy:
+                break;
+            default:
+                break;
         }
+    }
+
+    // ************************** Fight Next Round 
+    public void TakeLifeButRecover()
+    {
+        if (myEnemyScript.action == EnemyScript.EnemyAction.Recovering) // for delay function, if this enemy is not at recovering state just ignore the dealy function.
+        {
+            // fightingRounds > 1 -> keep fighting
+            if (fightingRounds > 1)
+            {
+                health.SetHealThPercentage(1);
+                myEnemyScript.SetEnemyAction(EnemyScript.EnemyAction.idle);
+            }
+
+            // fightRounds == 1 -> absorb and die
+            if (fightingRounds <= 1)
+            {
+                myEnemyScript.BecomeMinion();
+            }
+
+            // reset cursor and health marker
+            selectEffect.SetActive(false);
+            playerHP.MarkRegainTarget(null);
+            cursorManager.ActivateDefaultCursor();
+
+            // next round
+            fightingRounds--;
+        }
+        
+    }
+    //************************************************ Flip *******************************************
+    void Flip()
+    {
+        //Enemies face right when moving right
+        if (agent.velocity.x < 0 && isFacingRight)
+        {
+            mysprite.flipX = true;
+            isFacingRight = !isFacingRight;
+
+        }
+        //face left when facing left
+        else if (agent.velocity.x > 0 && !isFacingRight)
+        {
+            mysprite.flipX = false;
+            isFacingRight = !isFacingRight;
+        }
+        //or remain its direction when static
+    }
+
+    // ****************************************** Roam *************************************************
+    void Roam()
+    {
+        //if (canRoam && !isDead && (Time.time - startRoamTime) > roamInterval)
+        //{
+        //    Vector3 rdmDir;
+        //    if (destination == initialPos)
+        //    {
+        //        // random a destination
+        //        rdmDir = new Vector3(Random.Range(-1, 1f), 0, Random.Range(-1, 1f));
+        //        rdmDir.Normalize();
+        //        destination = transform.position + rdmDir * Random.Range(0.4f, 1.5f);
+        //    }
+        //    else
+        //    {
+        //        // return to initial pos
+        //        destination = initialPos;
+        //        rdmDir = (destination = transform.position).normalized;
+        //    }
+
+        //    // find nearest point on the navmesh
+        //    NavMeshHit hit;
+        //    if (NavMesh.SamplePosition(destination, out hit, 2.5f, NavMesh.AllAreas))
+        //    {
+        //        destination = hit.position;
+        //    }
+        //    else destination = transform.position;
+
+        //    if (canRoam)
+        //    {
+        //        // set destination
+        //        agent.SetDestination(destination);
+
+        //        // reset timer
+        //        startRoamTime = Time.time + Random.Range(0, 8f);
+        //    }
+
+        //}
     }
 }
