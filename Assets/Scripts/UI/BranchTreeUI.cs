@@ -155,7 +155,7 @@ public class BranchTreeUI : MonoBehaviour
                     for (int j = 0; j < troopUI.minionHpList.Count; j++)
                     {
                         troopUI.minionHpList[j].ShowMinionUIBg(false);
-                        troopUI.minionHpList[j].SwitchThisMinionSlot(false);
+                        troopUI.minionHpList[j].SwitchThisMinionSlot(false, Minion.MinionStyle.defualt);
                     }
                     break;
 
@@ -171,13 +171,13 @@ public class BranchTreeUI : MonoBehaviour
                         targetMinionUI.ShowMinionUIBg(true);
                         if (j < DataList[i].minionList.Count)
                         {
-                            targetMinionUI.SwitchThisMinionSlot(true);
+                            targetMinionUI.SwitchThisMinionSlot(true, DataList[i].GetMinionList()[j].minionStyle);
                             targetMinionUI.FreshMinionHpBar(DataList[i].GetMinionList()[j].GetHealthPercentage());
 
                         }
                         else
                         {
-                            targetMinionUI.SwitchThisMinionSlot(false);
+                            targetMinionUI.SwitchThisMinionSlot(false , Minion.MinionStyle.defualt);
                         }
                     }
                     break;
@@ -191,7 +191,7 @@ public class BranchTreeUI : MonoBehaviour
                     for (int j = 0; j < troopUI.minionHpList.Count; j++)
                     {
                         troopUI.minionHpList[j].ShowMinionUIBg(false);
-                        troopUI.minionHpList[j].SwitchThisMinionSlot( false );
+                        troopUI.minionHpList[j].SwitchThisMinionSlot(false, Minion.MinionStyle.defualt);
                     }
                     break;
 
@@ -203,7 +203,7 @@ public class BranchTreeUI : MonoBehaviour
                     for (int j = 0; j < troopUI.minionHpList.Count; j++)
                     {
                         troopUI.minionHpList[j].ShowMinionUIBg(false);
-                        troopUI.minionHpList[j].SwitchThisMinionSlot(false);
+                        troopUI.minionHpList[j].SwitchThisMinionSlot(false, Minion.MinionStyle.defualt);
                     }
                     break;
                 default:

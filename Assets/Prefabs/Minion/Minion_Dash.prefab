@@ -881,11 +881,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1c500967a870f540a090f5bb9c11852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRang: 0.4
   SprintSpeed: 3.2
   NormalSpeed: 1.8
   searchingRange: 2
   minionSprite: {fileID: 8820282584266638191}
+  maxPlayerDistance: 0
   assignIcon: {fileID: 816675358}
   attackDamage: 4.5
   attackCD: 1
@@ -926,14 +926,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d905b1298ac4c3f4cbb0668af3f2e8c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minionType: 1
+  minionStyle: 4
   myAnimator: {fileID: 6499674022657197127}
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
-  getDamageRate: 0.2
-  rebirthIcon: {fileID: 6499674022655950995}
-  RebirthIcon_Select: {fileID: 5226894200273568819}
-  SelectEffect: {fileID: 4521613172250935710}
+  headIcon: {fileID: 0}
   isActive: 0
+  MaxHp: 30
+  presentHp: 30
   minionSize: 5
   isTrigger: 0
   myBridge: {fileID: 0}

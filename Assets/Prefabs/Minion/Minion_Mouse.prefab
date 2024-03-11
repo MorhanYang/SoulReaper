@@ -697,7 +697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d905b1298ac4c3f4cbb0668af3f2e8c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minionType: 0
+  minionStyle: 1
   myAnimator: {fileID: 4674276556665773712}
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
   headIcon: {fileID: 6453486662983288990}

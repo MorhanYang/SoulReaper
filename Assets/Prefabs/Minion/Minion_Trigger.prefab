@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d905b1298ac4c3f4cbb0668af3f2e8c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minionType: 2
+  minionStyle: 5
   myAnimator: {fileID: 0}
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
   headIcon: {fileID: 4471010106371726033}

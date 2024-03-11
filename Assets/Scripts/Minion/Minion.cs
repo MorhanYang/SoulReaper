@@ -17,13 +17,14 @@ public class Minion : MonoBehaviour
 
     public enum MinionStyle
     {
+        defualt,
         Rats,
         Normal,
         Range,
         Dash,
         Vine,
     }
-    public MinionStyle minionStyle = 0; // normal 0, special 1, vines 2; 
+    public MinionStyle minionStyle; 
     [SerializeField] Animator myAnimator;
     [SerializeField] GameObject recallingMinion;
     [SerializeField] SpriteRenderer headIcon;

@@ -25,9 +25,33 @@ public class MinionHpUI : MonoBehaviour
         Bg.enabled = state;
     }
 
-    public void SwitchThisMinionSlot( bool state )
+    public void SwitchThisMinionSlot( bool state , Minion.MinionStyle style )
     {
         offset.SetActive(state);
+        // Set Pic
+        switch (style)
+        {
+            case Minion.MinionStyle.defualt:
+                minionIcon.sprite = null;
+                break;
+            case Minion.MinionStyle.Rats:
+                minionIcon.sprite = MinionProfileManager.GetSprite("Rat");
+                break;
+            case Minion.MinionStyle.Normal:
+                minionIcon.sprite = MinionProfileManager.GetSprite("Normal");
+                break;
+            case Minion.MinionStyle.Range:
+                minionIcon.sprite = MinionProfileManager.GetSprite("Range");
+                break;
+            case Minion.MinionStyle.Dash:
+                minionIcon.sprite = MinionProfileManager.GetSprite("Dash");
+                break;
+            case Minion.MinionStyle.Vine:
+                minionIcon.sprite = MinionProfileManager.GetSprite("Vine");
+                break;
+            default:
+                break;
+        }
     }
 
     public void FreshMinionHpBar( float hpPercentage )
