@@ -36,7 +36,7 @@ public class RangeMinionAI : MinionAI
             minionState = MinionSate.Follow;
 
             //hide AssignIcon
-            assignIcon.SetActive(false);
+            headIcon.sprite = null;
         }
     }
 

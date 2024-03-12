@@ -21,9 +21,6 @@ public class BasicEnemy : MonoBehaviour
     EnemyScript myEnemyScript;
     AbsorbableMark myAbsorbableMark;
 
-    [SerializeField] bool canRoam = false;
-    [SerializeField] float roamInterval = 3f;
-
     //health
     Health health;
     float showHealthBarTimer;
@@ -60,16 +57,23 @@ public class BasicEnemy : MonoBehaviour
         startRoamTime = Time.time;
         destination = transform.position;
 
-        if (myEnemyType == EnemyType.MovingEnemy) {
-            agent = GetComponent<NavMeshAgent>();
-            health = GetComponent<Health>();
-            shaker = GetComponent<Shaker>();
-            mySoundManager = SoundManager.Instance;
-            myEnemyScript = GetComponent<EnemyScript>();
+        switch (myEnemyType)
+        {
+            case EnemyType.StaticEnemy:
+                headIcon.sprite = HeadIconManager.GetSprite("Absorb");
+                break;
+            case EnemyType.MovingEnemy:
+                agent = GetComponent<NavMeshAgent>();
+                health = GetComponent<Health>();
+                shaker = GetComponent<Shaker>();
+                mySoundManager = SoundManager.Instance;
+                myEnemyScript = GetComponent<EnemyScript>();
+                health.HideHPUI();
+                break;
 
-            health.HideHPUI();
+            default:
+                break;
         }
-           
     }
 
     private void OnMouseEnter()
@@ -79,7 +83,7 @@ public class BasicEnemy : MonoBehaviour
             case EnemyType.StaticEnemy:
                 if (fightingRounds >=0) // didn't die
                 {
-                    headIcon.sprite = Resources.Load<Sprite>("HeadIcon/HeadIcon_Sel");
+                    headIcon.sprite = HeadIconManager.GetSprite("Select");
                     playerHP.MarkRegainTarget(transform);
                     cursorManager.ActivateRecallCursor();
                 }
@@ -107,6 +111,12 @@ public class BasicEnemy : MonoBehaviour
                 headIcon.sprite = null;
                 playerHP.MarkRegainTarget(null);
                 cursorManager.ActivateDefaultCursor();
+                if (fightingRounds >=0)
+                {
+                    headIcon.sprite = HeadIconManager.GetSprite("Absorb");
+                }
+                else headIcon.sprite = null;
+
                 break;
 
             case EnemyType.MovingEnemy:

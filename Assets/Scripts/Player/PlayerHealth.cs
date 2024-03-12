@@ -16,7 +16,7 @@ public class PlayerHealth : MonoBehaviour
     public float ExtraHpNodeMaxHp = 50;
 
     // recover health
-    [HideInInspector] public Transform MarkedEatSubject;
+    [HideInInspector] public Transform markedAbsorbSubject;
 
     // Damge
     Shaker shacker;//knock back
@@ -150,14 +150,14 @@ public class PlayerHealth : MonoBehaviour
     //******************************************************* Recover health **************************************************
     public void MarkRegainTarget(Transform target)
     {
-        MarkedEatSubject = target;
+        markedAbsorbSubject = target;
     }
     public void AbsorbOthers()
     {
         float recoverAmount;
-        if (MarkedEatSubject != null && MarkedEatSubject.GetComponent<AbsorbableMark>() != null)
+        if (markedAbsorbSubject != null && markedAbsorbSubject.GetComponent<AbsorbableMark>() != null)
         {
-            AbsorbableMark myTaget = MarkedEatSubject.GetComponent<AbsorbableMark>();
+            AbsorbableMark myTaget = markedAbsorbSubject.GetComponent<AbsorbableMark>();
             // is enabled Mark?
             if (myTaget.isActiveAndEnabled)
             {
@@ -167,6 +167,9 @@ public class PlayerHealth : MonoBehaviour
                 RecoverHpInOrder(recoverAmount);
             } 
         }
+
+        // reset
+        MarkRegainTarget(null);
     }
 
     /// <summary>

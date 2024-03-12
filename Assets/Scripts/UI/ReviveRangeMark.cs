@@ -38,16 +38,6 @@ public class ReviveRangeMark : MonoBehaviour
         }
     }
 
-    // hide rebirth select
-    private void OnDestroy()
-    {
-        for (int i = 0; i < minionList.Count; i++){
-            if (minionList[i].tag == "Minion"){
-                minionList[i].SetRebirthSelect(false);
-            }
-        }
-    }
-
     public void ShrinkMarker()
     {
         float multiplyer = 0.4f;

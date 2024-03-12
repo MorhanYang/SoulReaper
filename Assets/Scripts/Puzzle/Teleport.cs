@@ -12,7 +12,7 @@ public class Teleport : MonoBehaviour
     [SerializeField] int nextLandID;
     [SerializeField] CanvasGroup transportUI;
     [SerializeField] CameraFollow camMain;
-    [SerializeField] string sceneName = null; // only use to change scene
+    //[SerializeField] string sceneName = null; // only use to change scene
     [SerializeField] float RangeToTeleport;
     PlayerControl player;
     bool isTransiting = false;

@@ -27,7 +27,7 @@ public class ItemPickup : MonoBehaviour
         {
             if (myMessage == null)
             {
-                PlayerManager.instance.player.GetComponent<PlayerDialogue>().ShowPlayerCall(playerDialgoueAfterPickup, 8f);
+                if (playerDialgoueAfterPickup.Length > 0) PlayerManager.instance.player.GetComponent<PlayerDialogue>().ShowPlayerCall(playerDialgoueAfterPickup, 7f);
                 Destroy(gameObject);
             }
         }

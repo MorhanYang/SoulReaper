@@ -19,9 +19,9 @@ public class DamageArea : MonoBehaviour
         damageProgress.text = damageCount + "/4";
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if (other.GetComponent<PlayerControl>()!= null)
+        if (other.GetComponent<PlayerControl>() != null)
         {
             GetComponent<Collider>().enabled = false;
 
@@ -30,7 +30,6 @@ public class DamageArea : MonoBehaviour
             damageCount++;
             damageProgress.text = damageCount + "/4";
             StartCoroutine(RestartDamage());
-            
         }
     }
 

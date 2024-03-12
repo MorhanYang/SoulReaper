@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class MouseControlUI : MonoBehaviour
 {
     PlayerControl playerControl;
+    PlayerHealth health;
     TroopManager troopManager;
     [HideInInspector] public Canvas canvas;
     [SerializeField] GameObject leftList;
@@ -47,6 +48,7 @@ public class MouseControlUI : MonoBehaviour
     {
         playerControl = PlayerManager.instance.player.GetComponent<PlayerControl>();
         troopManager = PlayerManager.instance.player.GetComponent<TroopManager>();
+        health = PlayerManager.instance.player.GetComponent<PlayerHealth>();
         myRectTransform = GetComponent<RectTransform>();
 
         myAction = Action.None;
@@ -68,10 +70,39 @@ public class MouseControlUI : MonoBehaviour
             RightList.SetActive(true);
         }
 
-        // aim to a Minion?
-        if (troopManager.GetMarkedReviveMinion() == null) // Nope
+        // ****** righ click panel content control
+        // hide all
+        for (int i = 0; i < RightListContent.Count; i++)
         {
-            RightListContent[0].SetActive(false);
+            RightListContent[i].SetActive(false);
+        }
+        // 1. aim to oepn space
+        if (troopManager.GetMarkedReviveMinion() == null && health.markedAbsorbSubject == null)
+        {
+            // show Revive all 
+            RightListContent[1].SetActive(true);
+            // show absorb one 
+            RightListContent[2].SetActive(true);
+            // show Absorb all
+            RightListContent[3].SetActive(true);
+        }
+        // 2. aim to a dead Minion
+        else if(troopManager.GetMarkedReviveMinion() != null && health.markedAbsorbSubject == null)
+        {
+            // show Revive one 
+            RightListContent[0].SetActive(true);
+            // show Revive all
+            RightListContent[1].SetActive(true);
+        }
+        // 3. aim to a live Minion
+        if (health.markedAbsorbSubject != null && troopManager.GetMarkedReviveMinion() == null)
+        {
+            // show revive all
+            RightListContent[1].SetActive(true);
+            // show absorb one 
+            RightListContent[2].SetActive(true);
+            // show absorb all
+            RightListContent[3].SetActive(true);
         }
     }
 
@@ -83,6 +114,7 @@ public class MouseControlUI : MonoBehaviour
         RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, Input.mousePosition, canvas.worldCamera, out pos);
         myRectTransform.localPosition = pos;
     }
+
 
     public void SwitchActionPreview( int ActionId ) // -1 - None, 0 LeftNormal, 10 RightNormal
     {
@@ -207,4 +239,6 @@ public class MouseControlUI : MonoBehaviour
     {
         return myAction;
     }
+
+
 }

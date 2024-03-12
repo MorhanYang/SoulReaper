@@ -231,8 +231,6 @@ MonoBehaviour:
   itemType: 1
   messageUI: {fileID: -598735853046766114, guid: a7a28390fb04eaf4abadf18d3cecbab8, type: 3}
   UICanvas: {fileID: 0}
-  title: DIARY
-  content: 'The way out has been blocked by that damn thing, and I can only hope
-    for this statue''s legend: "Give your life, and I will guide the way forward."
-    But... it asks for too much.'
+  title: 
+  content: 
   playerDialgoueAfterPickup: 

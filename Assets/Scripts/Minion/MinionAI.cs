@@ -22,7 +22,7 @@ public class MinionAI : MonoBehaviour
     [SerializeField] float maxPlayerDistance;
 
     //Assign
-    [SerializeField] protected GameObject assignIcon;
+    [SerializeField] protected SpriteRenderer headIcon;
     float sprintTimer;
 
     //Melee Attack
@@ -170,9 +170,9 @@ public class MinionAI : MonoBehaviour
         if(agent != null)agent.SetDestination(transform.position);
 
         faintEffect.SetActive(false);
-        assignIcon.SetActive(false);
+        headIcon.sprite = HeadIconManager.GetSprite("Revive");
 
-        if(canDash) dashScript.CancelDashing();
+        if (canDash) dashScript.CancelDashing();
 
     }
     public bool IsDead(){
@@ -185,7 +185,7 @@ public class MinionAI : MonoBehaviour
         minionState = MinionSate.Wait;
         agent.SetDestination(transform.position);
 
-        assignIcon.SetActive(false);
+        headIcon.sprite = null;
     }
     public void SetToFaint(){
         if (minionState != MinionSate.Dead)
@@ -196,14 +196,14 @@ public class MinionAI : MonoBehaviour
             // display 
             Debug.Log("Faint");
             faintEffect.SetActive(true);
-            assignIcon.SetActive(false);
-            if(canDash) dashScript.CancelDashing();
+            headIcon.sprite = null;
+            if (canDash) dashScript.CancelDashing();
         }
     }
     public void SetToBait()
     {
         minionState = MinionSate.Bait;
-        assignIcon.SetActive(false);
+        headIcon.sprite = null;
         if (canDash) dashScript.CancelDashing();
     }
 
@@ -247,7 +247,7 @@ public class MinionAI : MonoBehaviour
             roamingPos= aimPos;
 
             //show AssignIcon
-            assignIcon.SetActive(true);
+            headIcon.sprite = HeadIconManager.GetSprite("Alert"); 
 
             sprintTimer = 0;
         }
@@ -267,7 +267,7 @@ public class MinionAI : MonoBehaviour
             roamingPos = aim.position;
 
             //show AssignIcon
-            assignIcon.SetActive(true);
+            headIcon.sprite = HeadIconManager.GetSprite("Alert");
 
             sprintTimer = 0;
         }
@@ -304,7 +304,7 @@ public class MinionAI : MonoBehaviour
             minionState = MinionSate.Follow;
 
             //hide AssignIcon
-            assignIcon.SetActive(false);
+            headIcon.sprite = null;
         }
     }
 
@@ -320,7 +320,7 @@ public class MinionAI : MonoBehaviour
             GetRoamingStartPos();
 
             //hide AssignIcon
-            assignIcon.SetActive(false);
+            headIcon.sprite = null;
         }
     }
 
@@ -414,8 +414,6 @@ public class MinionAI : MonoBehaviour
     }
     void RoamMove()
     {
-        assignIcon.SetActive(false);
-
         // move
         agent.SetDestination(roamingPos);
 
@@ -461,11 +459,15 @@ public class MinionAI : MonoBehaviour
             // find minion not is at recovering state
             for (int i = 0; i < EnemyFound.Length; i++)
             {
-                if (EnemyFound[i].GetComponent<EnemyScript>() != null || EnemyFound[i].GetComponent<EnemyScript>().action != EnemyScript.EnemyAction.Recovering)
+                if (EnemyFound[i].GetComponent<EnemyScript>() != null)
                 {
-                    target = EnemyFound[i].transform;
-                    minionState = MinionSate.Follow;
-                    break;
+                    if (EnemyFound[i].GetComponent<EnemyScript>() || EnemyFound[i].GetComponent<EnemyScript>().action != EnemyScript.EnemyAction.Recovering)
+                    {
+                        target = EnemyFound[i].transform;
+                        minionState = MinionSate.Follow;
+                        break;
+                    }
+                    else { } // Ignore breakable Objects;
                 }
             }
             

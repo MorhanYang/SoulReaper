@@ -104,15 +104,8 @@ public class Minion : MonoBehaviour
             }
         }
     }
-    
-    IEnumerator WaitforMouseReleasetoDeactivateMarker()
+    void DeactivateMarker()
     {
-        while (Input.GetMouseButton(0) || Input.GetMouseButton(1))
-        {
-            yield return new WaitForSeconds(0.5f);
-
-        }
-
         if (isActive)// mark as ate Target
         {
             DeactivateEatSeleted();
@@ -121,6 +114,16 @@ public class Minion : MonoBehaviour
         {
             DeactivateReviveMarker();
         }
+    }
+
+    IEnumerator WaitforMouseReleasetoDeactivateMarker()
+    {
+        while (Input.GetMouseButton(0) || Input.GetMouseButton(1))
+        {
+            yield return new WaitForEndOfFrame();
+
+        }
+        DeactivateMarker();
     }
     //************************** Revive Marker
     public void ActivateReviveMarker()
@@ -149,9 +152,6 @@ public class Minion : MonoBehaviour
         presentHp = Percentage * MaxHp;
     }
     //******************************************************combate*********************************************************
-    public void SetDealDamageRate(float rate){
-        if (!isTrigger) myAI.attackDamage = initaldamage * rate;
-    }
     
     public void SprintToPos(Vector3 pos){
         myAI.SprinteToPos(pos);
@@ -224,7 +224,7 @@ public class Minion : MonoBehaviour
     {
         if (isActive){
             // normal minion
-            if (!isTrigger)
+            if (minionStyle != MinionStyle.Vine)
             {
                 gameObject.layer = LayerMask.NameToLayer("MovingMinion");
                 myAI.ActivateMinion();
@@ -236,11 +236,13 @@ public class Minion : MonoBehaviour
             }
 
             // trigger
-            if (isTrigger)
+            if (minionStyle == MinionStyle.Vine)
             {
                 if (myBridge != null) myBridge.AddObject(1);
                 if (myVines != null) myVines.AddObject(1);
                 gameObject.layer = LayerMask.NameToLayer("Default");
+                headIcon.sprite = null;
+                absorbableMark.enabled = true;
             }
         }
         else{
@@ -261,29 +263,29 @@ public class Minion : MonoBehaviour
     public void SetInactive()
     {
         // normal minion
-        if (!isTrigger)
+        if (minionStyle != MinionStyle.Vine)
         {
             myAI.InactiveMinion();
             // remove minion from can't destroy set
             transform.parent = null;
         }
         // trigger
-        if (isTrigger)
+        if (minionStyle == MinionStyle.Vine)
         {
             if (myBridge != null) myBridge.DetractObject(1);
             if (myVines) myVines.DetractObject(1);
         }
         // set data
         gameObject.layer = LayerMask.NameToLayer("Minion");
-
-        headIcon.sprite = HeadIconManager.GetSprite("Revive");
+        
         if (myAnimator != null)
         {
             myAnimator.SetBool("Dying", true);
             myAnimator.SetBool("Rebirth", false);
         }
 
-        DeactivateEatSeleted();
+        // change Head Icon
+        headIcon.sprite = HeadIconManager.GetSprite("Revive");
 
         isActive = false;
     }
@@ -303,7 +305,13 @@ public class Minion : MonoBehaviour
 
     public void DeactivateEatSeleted(){
         cursorManager.ActivateDefaultCursor();
-        headIcon.sprite = null;
+
+        // prevent hide minion revive icon after previewing target minions
+        if (!isActive)
+        {
+            headIcon.sprite = HeadIconManager.GetSprite("Revive");
+        }else headIcon.sprite = null;
+
         // unmark recall troop
         playerHealth.MarkRegainTarget(null);
     }

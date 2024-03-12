@@ -401,7 +401,7 @@ MonoBehaviour:
   searchingRange: 2
   minionSprite: {fileID: 2329640088932374848}
   maxPlayerDistance: 4.5
-  assignIcon: {fileID: 961283761}
+  headIcon: {fileID: 1824307694889863270}
   attackDamage: 3
   attackCD: 1
   attackPoint: {fileID: 2099285196}
@@ -427,7 +427,7 @@ MonoBehaviour:
   minionStyle: 2
   myAnimator: {fileID: 314891880}
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
-  headIcon: {fileID: 961283763}
+  headIcon: {fileID: 1824307694889863270}
   isActive: 0
   MaxHp: 30
   presentHp: 30

@@ -16,6 +16,7 @@ public class TroopManager : MonoBehaviour
 
     [SerializeField] BranchTreeUI branchTreeUI;
     TroopNode SelectedTroop;
+    public TroopNode tempAbsorbedTroop;
     Minion SelectedMinion;
 
     public List<TroopNode> troopDataList;
@@ -38,25 +39,18 @@ public class TroopManager : MonoBehaviour
         branchTreeUI.RefreshNodeUI(troopDataList);
     }
 
-    private void Update()
-    {
-        // test
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            for (int i = 0; i < troopDataList[0].minionList.Count; i++)
-            {
-                troopDataList[0].minionList[i].TakeDamage(5, this.transform, Vector3.one);
-            }
-        }
-
-    }
-
     //**************************************************************** SetUp *************************************************************
 
     public void SetPresentTroop( TroopNode troopNode ){
 
         SelectedTroop = troopNode; 
     }
+
+    public void setTempAbsorbedTroop( TroopNode troopNode)
+    {
+        tempAbsorbedTroop = troopNode;
+    }
+
     public TroopNode GetPresentTroop()
     {
         return SelectedTroop;
@@ -151,6 +145,8 @@ public class TroopManager : MonoBehaviour
             // revive
             ReviveMinionsFunction(myMinionList);
         }
+
+        MarkedReviveMinion(null);
     }
 
     public void ReviveTroopNormal(Vector3 pointedPos, float radius)
@@ -165,6 +161,8 @@ public class TroopManager : MonoBehaviour
         
         // revive minion
         ReviveMinionsFunction(minionSet);
+
+        MarkedReviveMinion(null); // player may use mous menu to revive so reset this would be better
     }
 
     void ReviveMinionsFunction(List<Minion> minionSet)
@@ -245,22 +243,38 @@ public class TroopManager : MonoBehaviour
     }
 
     // **************************************************************** kill Minions *******************************************************
-    public void EatTroopToRecover()
+    public void AbsorbTroopToRecover()
     {
-        TroopNode targetTroop = SelectedTroop;
-        // Player select a troop
-        if (targetTroop != null && targetTroop.type == TroopNode.NodeType.Troop)
+        // ****** hovering branch tree to absorb
+        if (tempAbsorbedTroop != null) 
         {
-            KillTroopOfMinions(targetTroop);
-        }
-        // player select player icon or unuseful troop
-        else
-        {
-            for (int i = 0; i < troopDataList.Count; i++)
+            if (tempAbsorbedTroop.type == TroopNode.NodeType.Troop)
             {
-                KillTroopOfMinions(troopDataList[i]);
+                KillTroopOfMinions(tempAbsorbedTroop);
+                tempAbsorbedTroop = null;
             }
         }
+        // ****** in world right click
+        else
+        {
+            TroopNode targetTroop = SelectedTroop;
+            // Player select a troop
+            if (targetTroop != null && targetTroop.type == TroopNode.NodeType.Troop)
+            {
+                KillTroopOfMinions(targetTroop);
+            }
+            // player select player icon or unuseful troop
+            else
+            {
+                for (int i = 0; i < troopDataList.Count; i++)
+                {
+                    KillTroopOfMinions(troopDataList[i]);
+                }
+            }
+        }
+        
+        // reset all markedAbsorbTarget
+        playerHealth.MarkRegainTarget(null);
 
         // refresh 
         branchTreeUI.RefreshNodeUI(troopDataList);

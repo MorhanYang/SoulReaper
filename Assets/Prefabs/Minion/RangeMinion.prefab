@@ -271,11 +271,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SprintSpeed: 3.2
   NormalSpeed: 1.8
-  searchingRange: 3.5
+  searchingRange: 4.5
   minionSprite: {fileID: 1464773398059948832}
-  maxPlayerDistance: 4.5
-  assignIcon: {fileID: 3749071817135932625}
-  attackDamage: 3
+  maxPlayerDistance: 6
+  headIcon: {fileID: 3266902872825055750}
+  attackDamage: 5
   attackCD: 2.5
   attackPoint: {fileID: 3749071816127958700}
   attackCircle: 0.4
@@ -285,7 +285,7 @@ MonoBehaviour:
   IntervalDashing: 10
   faintEffect: {fileID: 3209525200628725987}
   minionState: 0
-  attackRange: 3
+  attackRange: 4
   fireBall: {fileID: 1998495498624438549, guid: 21a387de0ded16448b8a5998e78b8d8f, type: 3}
 --- !u!114 &3749071817132498644
 MonoBehaviour:
@@ -304,8 +304,8 @@ MonoBehaviour:
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
   headIcon: {fileID: 3266902872825055750}
   isActive: 0
-  MaxHp: 30
-  presentHp: 30
+  MaxHp: 15
+  presentHp: 15
   minionSize: 1
   isTrigger: 0
   myBridge: {fileID: 0}

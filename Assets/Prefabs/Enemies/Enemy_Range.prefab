@@ -690,7 +690,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myEnemyType: 1
-  fightingRounds: 2
+  fightingRounds: 1
   canRoam: 0
   roamInterval: 5
   isFacingRight: 1
@@ -727,8 +727,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpUI: {fileID: 7381286479423771268}
   hpBar: {fileID: 5499974885907637371}
-  Maxhealth: 20
-  presentHealth: 20
+  Maxhealth: 50
+  presentHealth: 50
 --- !u!114 &327865156424033047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -791,9 +791,9 @@ MonoBehaviour:
   enemySprite: {fileID: 7549311594345124503}
   enemySoul: {fileID: 1464773399545569864, guid: 8ca82c1a88f15e149b1e634b339a3664, type: 3}
   action: 0
-  followDistance: 4.5
+  followDistance: 5
   moveSpeed: 0.6
-  attackRange: 3
+  attackRange: 4
   attackInterval: 2.5
   myDamage: 5
   UnsafeDistance: 1

@@ -214,7 +214,6 @@ public class BranchTreeUI : MonoBehaviour
 
     public void RefreshOneMinion(int[] minonPos)
     {
-        Debug.Log(minonPos);
         int x = minonPos[0];
         int y = minonPos[1];
         // get target UI
@@ -247,14 +246,16 @@ public class BranchTreeUI : MonoBehaviour
             // availible ID
             if (troopId < troopDataList.Count)
             {
+                // visually select minions
                 for (int i = 0; i < troopDataList[troopId].GetMinionList().Count; i++)
                 {
                     troopDataList[troopId].GetMinionList()[i].ActivateEatMarker();
                 }
+
+                // mark as absorted troop
+                troopManager.setTempAbsorbedTroop(troopDataList[troopId]);
             }
         }
-        
-
     }
     public void UnselectAllMember(TroopHpUI troopUI)
     {
@@ -265,13 +266,16 @@ public class BranchTreeUI : MonoBehaviour
             // availible ID
             if (troopId < troopDataList.Count)
             {
+                // visually Unselect minions
                 for (int i = 0; i < troopDataList[troopId].GetMinionList().Count; i++)
                 {
                     troopDataList[troopId].GetMinionList()[i].DeactivateEatSeleted();
                 }
+
+                // Unmark absorted troop
+                troopManager.setTempAbsorbedTroop(null);
             }
         }
-        
     }
 
     public void SelectOneMember( MinionHpUI minionUI )

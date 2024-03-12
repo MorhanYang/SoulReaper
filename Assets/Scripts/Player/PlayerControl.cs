@@ -46,6 +46,7 @@ public class PlayerControl : MonoBehaviour
     float radius = 2f;
     // rebirth
     [SerializeField] GameObject rebirthRangeEffect;
+    bool isHoveringOnBranchTree;
 
     //rolling
     enum CombateState{
@@ -166,6 +167,11 @@ public class PlayerControl : MonoBehaviour
     }
 
     // ******************************************************* Mouse Button Control Function ******************************************************************
+    public void SetIsHoveringBranchTree( bool state )
+    {
+        isHoveringOnBranchTree = state;
+    }
+    
     public void CheckLeftMouseControl()
     {
         if (Input.GetMouseButtonDown(0))
@@ -245,7 +251,7 @@ public class PlayerControl : MonoBehaviour
             clickTimer = 0;
         }
         // only count timer as it didn't hit a UI
-        if (!EventSystem.current.IsPointerOverGameObject())
+        if (!EventSystem.current.IsPointerOverGameObject())// not hovering On UI Except branch tree
         {
             if (Input.GetMouseButton(1))
             {
@@ -267,11 +273,31 @@ public class PlayerControl : MonoBehaviour
         }
 
         // realse -> check if this is hold
-        if (Input.GetMouseButtonUp(1) && clickTimer < holdTime && !EventSystem.current.IsPointerOverGameObject())// it is a click
+        if (!EventSystem.current.IsPointerOverGameObject() || isHoveringOnBranchTree)// not hovering On UI Except branch tree
         {
-            // eat a minion
-            playerHealth.AbsorbOthers();
+            if (Input.GetMouseButtonUp(1) && clickTimer < holdTime)// it is a click
+            {
+                // on branch tree
+                if (isHoveringOnBranchTree)
+                {
+                    Debug.Log( "start brach absorb" );
+                    // hovering a troop
+                    if (troopManager.tempAbsorbedTroop != null){
+                        troopManager.AbsorbTroopToRecover();
+                    }
+                    else {
+                        playerHealth.AbsorbOthers();
+                    }
+                }
+                // On real Minion
+                else
+                {
+                    // eat a minion
+                    playerHealth.AbsorbOthers();
+                }
+            }
         }
+        
 
         if (GeneratedMenu != null)
         {
@@ -302,7 +328,7 @@ public class PlayerControl : MonoBehaviour
                         break;
 
                     case MouseControlUI.Action.RightClickSpecial4:
-                        troopManager.EatTroopToRecover();
+                        troopManager.AbsorbTroopToRecover();
                         break;
 
                     default:
