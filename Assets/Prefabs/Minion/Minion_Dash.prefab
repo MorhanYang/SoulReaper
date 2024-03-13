@@ -927,6 +927,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minionStyle: 4
+  IsSpeicalMinion: 0
   myAnimator: {fileID: 6499674022657197127}
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
   headIcon: {fileID: 0}
@@ -964,9 +965,9 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.4
-  m_Height: 0.8
+  m_Height: 1.6
   m_Direction: 1
-  m_Center: {x: 0, y: 0.4, z: 0}
+  m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!114 &6499674022826276850
 MonoBehaviour:
   m_ObjectHideFlags: 0

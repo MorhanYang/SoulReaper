@@ -7,6 +7,7 @@ public class TroopHpUI : MonoBehaviour
 {
 
     public Image troopHpBar;
+    [SerializeField] Image specialMinionHead;
 
     [SerializeField] Image selectedImage;
     [SerializeField] BranchTreeUI branchTree;
@@ -14,14 +15,12 @@ public class TroopHpUI : MonoBehaviour
     [SerializeField] Image lockIcon;
 
     public List<MinionHpUI> minionHpList;
-    [SerializeField] MinionHpUI SpecialMinion; // special minionUI
     public TroopNode.NodeType myNodeType;
 
     private void Start()
     {
         myNodeType = TroopNode.NodeType.ExtraHp;
     }
-
 
     //**************************************** Troop Fucntion **************************************************
     public void ChangeTroopSelectState(bool State)
@@ -40,13 +39,19 @@ public class TroopHpUI : MonoBehaviour
         lockIcon.gameObject.SetActive(state);
     }
 
-    public void SetSpecialMinionUIActive( bool state )
+    public void ChangeSpecialMinionHead( Minion.MinionStyle myStyle)
     {
-        SpecialMinion.gameObject.SetActive(state);
-    }
-    public MinionHpUI GetSpecialMinionUI()
-    {
-        return SpecialMinion;
+        if (myStyle == Minion.MinionStyle.defualt)
+        {
+            specialMinionHead.enabled = false;
+        }
+        else
+        {
+            specialMinionHead.enabled = true;
+            Sprite mysprite = MinionProfileManager.GetSpriteByMinionStyle(myStyle);
+            specialMinionHead.sprite = mysprite;
+        }
+
     }
 
     public void ChangeNodeType(TroopNode.NodeType type)
@@ -65,7 +70,7 @@ public class TroopHpUI : MonoBehaviour
 
             case TroopNode.NodeType.TroopWithSpecialMinion:
                 // Shrink Troop Sprite
-                this.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                this.transform.localScale = new Vector3(1f, 1f, 1f);
                 break;
 
             case TroopNode.NodeType.ExtraHp:

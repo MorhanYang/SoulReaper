@@ -189,9 +189,9 @@ public class BranchTreeUI : MonoBehaviour
                     troopUI.TroopHpBarDisplay(troopDataList[i].troopHp, troopDataList[i].maxTroopHp);
                     troopUI.ChangeLockIconState(false);
 
-                    //*******************************************!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    // Show Special Minion HPBar
-                    troopUI.SetSpecialMinionUIActive(true);
+                    // Show Special Minion head
+                    Minion.MinionStyle myStyle = troopDataList[i].GetMinionList()[0].minionStyle;
+                    troopUI.ChangeSpecialMinionHead(myStyle);
 
                     break;
                 
@@ -201,7 +201,7 @@ public class BranchTreeUI : MonoBehaviour
                     troopUI.ChangeLockIconState(false);
 
                     // hide Special Minion
-                    troopUI.SetSpecialMinionUIActive(false);
+                    troopUI.ChangeSpecialMinionHead(Minion.MinionStyle.defualt);
                     // hide Normal minion
                     for (int j = 0; j < troopUI.minionHpList.Count; j++)
                     {
@@ -215,7 +215,7 @@ public class BranchTreeUI : MonoBehaviour
                     troopUI.ChangeLockIconState(false);
 
                     // hide Special Minion
-                    troopUI.SetSpecialMinionUIActive(false);
+                    troopUI.ChangeSpecialMinionHead(Minion.MinionStyle.defualt);
                     // hide Normal minion
                     for (int j = 0; j < troopUI.minionHpList.Count; j++)
                     {
@@ -233,16 +233,29 @@ public class BranchTreeUI : MonoBehaviour
     {
         int x = minonPos[0];
         int y = minonPos[1];
-        // get target UI
-        TroopHpUI targetTroopUI = troopHpUIList[x];
-        MinionHpUI targetMinionUI = targetTroopUI.minionHpList[y];
+        // check minion Type
+        // 1. special minion
+        if (troopDataList[x].type == TroopNode.NodeType.TroopWithSpecialMinion)
+        {
+            // get minion present hp
+            float per = troopDataList[x].GetMinionList()[y].GetHealthPercentage();
+            float spicialMinionHp = troopDataList[x].maxTroopHp * per;
+            troopHpUIList[x].TroopHpBarDisplay(spicialMinionHp, troopDataList[x].maxTroopHp);
+        }
+        //2. normal minion
+        if (troopDataList[x].type != TroopNode.NodeType.TroopWithSpecialMinion)
+        {
+            // get target UI
+            TroopHpUI targetTroopUI = troopHpUIList[x];
+            MinionHpUI targetMinionUI = targetTroopUI.minionHpList[y];
 
-        // get target Data
-        TroopNode targetTroop = troopDataList[x];
-        Minion targetMinion = targetTroop.minionList[y];
-        float percentage = targetMinion.GetHealthPercentage();
+            // get target Data
+            TroopNode targetTroop = troopDataList[x];
+            Minion targetMinion = targetTroop.minionList[y];
+            float percentage = targetMinion.GetHealthPercentage();
 
-        targetMinionUI.FreshMinionHpBar(percentage);
+            targetMinionUI.FreshMinionHpBar(percentage);
+        }
     }
 
     //********************************************************************** HP **********************************************************************
@@ -302,14 +315,8 @@ public class BranchTreeUI : MonoBehaviour
         int minionId = -1;
         for (int i = 0; i < troopHpUIList.Count; i++)
         {
-            // special minion
-            if (troopHpUIList[i].GetSpecialMinionUI() == minionUI)
-            {
-                troopId = i;
-                minionId = 0; // the only minion in the list
-            }
             // normal Minion
-            else if (troopHpUIList[i].minionHpList.Contains(minionUI))
+            if (troopHpUIList[i].minionHpList.Contains(minionUI))
             {
                 troopId = i;
                 minionId = troopHpUIList[i].minionHpList.IndexOf(minionUI);

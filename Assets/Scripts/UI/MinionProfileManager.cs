@@ -25,4 +25,31 @@ public static class MinionProfileManager
     {
         return minionProfileDic[spriteName];
     }
+    public static Sprite GetSpriteByMinionStyle( Minion.MinionStyle myStyle)
+    {
+        switch (myStyle)
+        {
+            case Minion.MinionStyle.defualt:
+                return null;
+
+            case Minion.MinionStyle.Rats:
+                return minionProfileDic["Rat"];
+
+            case Minion.MinionStyle.Normal:
+                return minionProfileDic["Normal"];
+
+            case Minion.MinionStyle.Range:
+                return minionProfileDic["Range"];
+
+            case Minion.MinionStyle.Dash:
+                return minionProfileDic["Dash"];
+
+            case Minion.MinionStyle.Vine:
+                return minionProfileDic["Vine"];
+
+            default:
+                return null;
+
+        }
+    }
 }

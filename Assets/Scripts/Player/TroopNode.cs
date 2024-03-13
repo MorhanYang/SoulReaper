@@ -16,6 +16,7 @@ public class TroopNode
     public int troopId;
     public List<Minion> minionList;
     public float maxTroopHp;
+    public float originalMaxTroopHp;
     public float troopHp;
     public NodeType type;
 
@@ -24,8 +25,9 @@ public class TroopNode
         troopId = myId;
         type = myType;
         minionList = myMinionList;
-        maxTroopHp = troopMaxHp;
-        troopHp = maxTroopHp;
+        originalMaxTroopHp = troopMaxHp;
+        maxTroopHp = originalMaxTroopHp;
+        troopHp = originalMaxTroopHp;
     }
 
     public void ChangeTroopHp( float myHp)
@@ -39,7 +41,6 @@ public class TroopNode
         {
             minionList.Add(myMinion);
         }
-        
     }
 
     public List<Minion> GetMinionList()
@@ -56,6 +57,7 @@ public class TroopNode
         }
     }
 
+    // set hp
     public void SetNodeHp( float hp , float maxHp )
     {
         troopHp = hp;
@@ -70,4 +72,5 @@ public class TroopNode
             ChangeTroopNodeType(NodeType.ExtraHp);
         }
     }
+
 }

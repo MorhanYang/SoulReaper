@@ -174,10 +174,14 @@ public class PlayerControl : MonoBehaviour
     
     public void CheckLeftMouseControl()
     {
-        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButtonDown(0))
         {
             clickTimer = 0;
-            troopManager.LocateAssignPos(aimPos);
+            // show assign mark first
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                troopManager.LocateAssignPos(aimPos);
+            } 
         }
         // only count timer as it didn't hit a UI
         if (!EventSystem.current.IsPointerOverGameObject())

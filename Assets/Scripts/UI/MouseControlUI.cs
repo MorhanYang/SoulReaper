@@ -81,8 +81,6 @@ public class MouseControlUI : MonoBehaviour
         {
             // show Revive all 
             RightListContent[1].SetActive(true);
-            // show absorb one 
-            RightListContent[2].SetActive(true);
             // show Absorb all
             RightListContent[3].SetActive(true);
         }

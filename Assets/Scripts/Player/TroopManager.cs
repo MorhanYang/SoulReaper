@@ -213,9 +213,10 @@ public class TroopManager : MonoBehaviour
                             item.SetActiveDelay(rebirthDelay, dataPos);
                             // set minion hp
                             item.SetHealthPercentage(troopDataList[j].troopHp / troopDataList[j].maxTroopHp);
+                            // set minion Hp as Troop Hp:
+                            troopDataList[j].SetNodeHp(item.presentHp, item.MaxHp);
                             // add minion to data list
                             troopDataList[j].AddMinion(item);
-
 
                             thisMinion = null;// success Add minion
                             break;
@@ -236,31 +237,35 @@ public class TroopManager : MonoBehaviour
 
                                 TargetTroop.ChangeTroopNodeType(TroopNode.NodeType.Troop);
                             }
-                            //Check if troop have a space
-                            float space = TargetTroop.troopHp - (TargetTroop.minionList.Count * hpUnit);
-                            // enough space -> Add a health Minion 
-                            if (space >= hpUnit)
+                            // only if it is a troop
+                            if (TargetTroop.type == TroopNode.NodeType.Troop)
                             {
-                                // get data position in datalist
-                                int[] dataPos = { j, TargetTroop.minionList.Count };
+                                //Check if troop have a space
+                                float space = TargetTroop.troopHp - (TargetTroop.minionList.Count * hpUnit);
+                                // enough space -> Add a health Minion 
+                                if (space >= hpUnit)
+                                {
+                                    // get data position in datalist
+                                    int[] dataPos = { j, TargetTroop.minionList.Count };
 
-                                item.SetActiveDelay(rebirthDelay, dataPos);
-                                item.SetHealthPercentage(1);// set minion a full hp
-                                TargetTroop.AddMinion(item);
-                                thisMinion = null; // success Add minion
-                                break;
-                            }
-                            // not enough space -> Add a injured Minion
-                            else if (space < hpUnit && space > 0)
-                            {
-                                // get data position in datalist
-                                int[] dataPos = { j, TargetTroop.minionList.Count };
+                                    item.SetActiveDelay(rebirthDelay, dataPos);
+                                    item.SetHealthPercentage(1);// set minion a full hp
+                                    TargetTroop.AddMinion(item);
+                                    thisMinion = null; // success Add minion
+                                    break;
+                                }
+                                // not enough space -> Add a injured Minion
+                                else if (space < hpUnit && space > 0)
+                                {
+                                    // get data position in datalist
+                                    int[] dataPos = { j, TargetTroop.minionList.Count };
 
-                                item.SetActiveDelay(rebirthDelay, dataPos);
-                                item.SetHealthPercentage(space / hpUnit);// set minion injured hp
-                                TargetTroop.AddMinion(item);
-                                thisMinion = null; // success Add minion
-                                break;
+                                    item.SetActiveDelay(rebirthDelay, dataPos);
+                                    item.SetHealthPercentage(space / hpUnit);// set minion injured hp
+                                    TargetTroop.AddMinion(item);
+                                    thisMinion = null; // success Add minion
+                                    break;
+                                }
                             }
                         }
                     }
@@ -369,7 +374,8 @@ public class TroopManager : MonoBehaviour
                 // count the hp
                 float realTroopHp;
                 float minionHpPercentage = troop.minionList[0].GetHealthPercentage();
-                realTroopHp = minionHpPercentage * troop.maxTroopHp;
+                // use orignal troop hp data
+                realTroopHp = minionHpPercentage * troop.originalMaxTroopHp;
                 // remove minion
                 troop.minionList[0].SetInactive();
                 // clean minion dataPos info
@@ -377,7 +383,7 @@ public class TroopManager : MonoBehaviour
 
                 // change node type
                 troop.ChangeTroopNodeType(TroopNode.NodeType.ExtraHp);
-                troop.ChangeTroopHp(realTroopHp);
+                troop.SetNodeHp(realTroopHp,troop.originalMaxTroopHp);
                 break;
         }
     }
@@ -386,31 +392,43 @@ public class TroopManager : MonoBehaviour
     public void EnemyKillOneMinion( Minion wantToKill )
     {
         wantToKill.SetInactive();
-        // find where the minion is in dataList;
-        int[] minionPos = wantToKill.GetMinionDataPos();
-        TroopNode targetTroop = troopDataList[minionPos[0]];
-        // remove minion from troop
-        targetTroop.minionList.Remove(wantToKill);
-        // tell minion the new position
-        for (int i = 0; i < targetTroop.minionList.Count; i++){
-            int[] myPos = targetTroop.minionList[i].GetMinionDataPos();
-            targetTroop.minionList[i].SetMinionDataPos( myPos[0], i );
+        // check if this minion is a speical one
+        if (wantToKill.IsSpeicalMinion)
+        {
+            int[] specialMinionPos = wantToKill.GetMinionDataPos();
+            int troopId = specialMinionPos[0];
+            KillTroopOfMinions(troopDataList[troopId]);
         }
+        // *********** nomal minion
+        else
+        {
+            // find where the minion is in dataList;
+            int[] minionPos = wantToKill.GetMinionDataPos();
+            TroopNode targetTroop = troopDataList[minionPos[0]];
+            // remove minion from troop
+            targetTroop.minionList.Remove(wantToKill);
+            // tell minion the new position
+            for (int i = 0; i < targetTroop.minionList.Count; i++)
+            {
+                int[] myPos = targetTroop.minionList[i].GetMinionDataPos();
+                targetTroop.minionList[i].SetMinionDataPos(myPos[0], i);
+            }
 
-        if (targetTroop.minionList.Count <= 0){
-            //targetTroop.minionList.Clear();
-            targetTroop.ChangeTroopNodeType(TroopNode.NodeType.ExtraHp);
+            if (targetTroop.minionList.Count <= 0)
+            {
+                //targetTroop.minionList.Clear();
+                targetTroop.ChangeTroopNodeType(TroopNode.NodeType.ExtraHp);
+            }
+
+            // destruct Troop Hp
+            float presentTroopHp = targetTroop.troopHp - hpUnit;
+            // dont have hp left
+            if (presentTroopHp <= 0) presentTroopHp = 0; // it will automatically change it to type.empty 
+
+            targetTroop.SetNodeHp(presentTroopHp, targetTroop.maxTroopHp);
+            // update Ui
+            branchTreeUI.RefreshNodeUI(troopDataList);
         }
-
-        // destruct Troop Hp
-        float presentTroopHp = targetTroop.troopHp - hpUnit;
-        // dont have hp left
-        if (presentTroopHp <= 0) presentTroopHp = 0; // it will automatically change it to type.empty 
-
-        targetTroop.SetNodeHp(presentTroopHp, targetTroop.maxTroopHp);
-
-        // update Ui
-        branchTreeUI.RefreshNodeUI(troopDataList);
     }
     //**************************************************************** Assign Troop *****************************************************
     public void LocateAssignPos( Vector3 pos)
