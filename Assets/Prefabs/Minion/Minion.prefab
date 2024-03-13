@@ -429,8 +429,8 @@ MonoBehaviour:
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
   headIcon: {fileID: 1824307694889863270}
   isActive: 0
-  MaxHp: 30
-  presentHp: 30
+  MaxHp: 15
+  presentHp: 15
   minionSize: 1
   isTrigger: 0
   myBridge: {fileID: 0}

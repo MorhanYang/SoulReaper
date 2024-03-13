@@ -10,13 +10,13 @@ public class DamageArea : MonoBehaviour
     [SerializeField] Puzzle_Bridge myBridge;
     [SerializeField] TMP_Text damageProgress;
 
-    int damageCount = 1;
+    int damageCount = 6;
     
 
     private void Start()
     {
         myDamageManager = DamageManager.instance;
-        damageProgress.text = damageCount + "/4";
+        damageProgress.text = damageCount + "/8";
     }
 
     private void OnTriggerStay(Collider other)
@@ -28,7 +28,7 @@ public class DamageArea : MonoBehaviour
             myDamageManager.DealSingleDamage(transform, transform.position, other.transform, damage);
             myBridge.AddObject(1);
             damageCount++;
-            damageProgress.text = damageCount + "/4";
+            damageProgress.text = damageCount + "/8";
             StartCoroutine(RestartDamage());
         }
     }

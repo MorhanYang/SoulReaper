@@ -7,6 +7,7 @@ public class TroopNode
     public enum NodeType
     {
         Troop,
+        TroopWithSpecialMinion,
         ExtraHp,
         Empty,
         Locked,
@@ -34,7 +35,7 @@ public class TroopNode
 
     public void AddMinion(Minion myMinion)
     {
-        if (type == NodeType.Troop)
+        if (type == NodeType.Troop || type == NodeType.TroopWithSpecialMinion)
         {
             minionList.Add(myMinion);
         }

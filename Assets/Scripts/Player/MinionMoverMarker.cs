@@ -11,7 +11,7 @@ public class MinionMoverMarker : MonoBehaviour
 
     private void Update()
     {
-        if (markertimer >= 0) markertimer -= Time.deltaTime;
+        if (markertimer >= 0 && !Input.GetMouseButton(0)) markertimer -= Time.deltaTime;
 
         if (markertimer <= 0) {
             transform.parent = null;
@@ -40,5 +40,10 @@ public class MinionMoverMarker : MonoBehaviour
         }
 
         markertimer = lastTime;
+    }
+
+    public void HideMarker()
+    {
+        mysprite.enabled = false;
     }
 }

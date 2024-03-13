@@ -62,6 +62,7 @@ MonoBehaviour:
   speed: 2
   myDamage: 5
   fireballMarkerTmp: {fileID: 5861969903249468387, guid: e752a7407cb2fb54fac630cb718e4a2e, type: 3}
+  myDamageType: 1
 --- !u!1 &4736238960502801092
 GameObject:
   m_ObjectHideFlags: 0

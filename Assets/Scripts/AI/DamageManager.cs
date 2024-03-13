@@ -39,7 +39,7 @@ public class DamageManager : MonoBehaviour
                         if (hitedEnemy[i].GetComponent<EnemyScript>() != null || hitedEnemy[i].GetComponent<Breakable>() != null || hitedEnemy[i].GetComponent<RangeEnemy>() != null)
                         {
                             reciever = hitedEnemy[i].transform;
-                            continue;
+                            break;
                         }
                     }
                 }
@@ -51,7 +51,7 @@ public class DamageManager : MonoBehaviour
                         if (hitedEnemy[i].GetComponent<PlayerHealth>() != null || hitedEnemy[i].GetComponent<Minion>() != null)
                         {
                             reciever = hitedEnemy[i].transform;
-                            continue;
+                            break;
                         }
                     }
                 }
@@ -100,33 +100,39 @@ public class DamageManager : MonoBehaviour
     {
         Collider[] hitedEnemy = Physics.OverlapSphere(damagePos, range, attackMask);
 
+
+        List<Transform> avalibleList = new List<Transform>();
+        // reorganize the HitedEnemyList
         if (hitedEnemy.Length > 0)
         {
-            // 1. indiscriminate attack
-            if (attacker == null)// Placeholder
+            // identify attacker:
+            // Player or Minion attack
+            if (attacker.tag == "Player" || attacker.tag == "Minion" || attacker.tag == "MinionAmmo")
             {
                 for (int i = 0; i < hitedEnemy.Length; i++)
                 {
-                    DealSingleDamage(null, damagePos, hitedEnemy[i].transform, damage);
+                    if (hitedEnemy[i].GetComponent<EnemyScript>() != null || hitedEnemy[i].GetComponent<Breakable>() != null || hitedEnemy[i].GetComponent<RangeEnemy>() != null)
+                    {
+                        avalibleList.Add(hitedEnemy[i].transform);
+                    }
+                }
+            }
+            // Enemy Attack
+            else if (attacker.tag == "Enemy" || attacker.tag == "EnemyAmmo")
+            {
+                for (int i = 0; i < hitedEnemy.Length; i++)
+                {
+                    if (hitedEnemy[i].GetComponent<PlayerHealth>() != null || hitedEnemy[i].GetComponent<Minion>() != null)
+                    {
+                        avalibleList.Add(hitedEnemy[i].transform);
+                    }
                 }
             }
 
-            // 2. enemy attack
-            if (attacker.GetComponent<EnemyScript>() != null)
+            // deal damage to each target:
+            for (int i = 0; i < avalibleList.Count; i++)
             {
-                for (int i = 0; i < hitedEnemy.Length; i++)
-                {
-                    DealSingleDamage(attacker, attacker.transform.position, hitedEnemy[i].transform, damage);
-                }
-            }
-
-            //3. Player or minion 
-            if (attacker.GetComponent<Minion>() != null || attacker.GetComponent<PlayerHealth>() != null)
-            {
-                for (int i = 0; i < hitedEnemy.Length; i++)
-                {
-                    DealSingleDamage(attacker, attacker.transform.position, hitedEnemy[i].transform, damage);
-                }
+                DealSingleDamage(attacker, damagePos, avalibleList[i].transform, damage);
             }
         }
     }

@@ -24,7 +24,8 @@ public class Minion : MonoBehaviour
         Dash,
         Vine,
     }
-    public MinionStyle minionStyle; 
+    public MinionStyle minionStyle;
+    public bool IsSpeicalMinion;
     [SerializeField] Animator myAnimator;
     [SerializeField] GameObject recallingMinion;
     [SerializeField] SpriteRenderer headIcon;

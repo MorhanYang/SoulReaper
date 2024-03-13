@@ -886,7 +886,7 @@ MonoBehaviour:
   searchingRange: 2
   minionSprite: {fileID: 8820282584266638191}
   maxPlayerDistance: 0
-  assignIcon: {fileID: 816675358}
+  headIcon: {fileID: 0}
   attackDamage: 4.5
   attackCD: 1
   attackPoint: {fileID: 6499674023049647843}

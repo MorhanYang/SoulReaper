@@ -248,8 +248,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myEnemyType: 1
   fightingRounds: 0
-  canRoam: 0
-  roamInterval: 5
   isFacingRight: 1
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
   headIcon: {fileID: 1200614915}
@@ -309,8 +307,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpUI: {fileID: 320532271531569810}
   hpBar: {fileID: 3336758933373748333}
-  Maxhealth: 15
-  presentHealth: 15
+  Maxhealth: 25
+  presentHealth: 25
 --- !u!114 &7390852331763614465
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -174,9 +174,10 @@ public class PlayerControl : MonoBehaviour
     
     public void CheckLeftMouseControl()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             clickTimer = 0;
+            troopManager.LocateAssignPos(aimPos);
         }
         // only count timer as it didn't hit a UI
         if (!EventSystem.current.IsPointerOverGameObject())
@@ -206,7 +207,7 @@ public class PlayerControl : MonoBehaviour
         {
             if (Input.GetMouseButtonUp(0) && clickTimer < holdTime & !EventSystem.current.IsPointerOverGameObject())// it is a click
             {   // assign one minion
-                troopManager.AssignOneMinion(aimPos);
+                troopManager.AssignOneMinion();
             }
         }
 
@@ -220,13 +221,13 @@ public class PlayerControl : MonoBehaviour
                 {
                     case MouseControlUI.Action.LeftClickSpecial1:
                         // assign one minion
-                        troopManager.AssignOneMinion(aimPos);
+                        troopManager.AssignOneMinion();
                         break;
 
                     case MouseControlUI.Action.LeftClickSpecial2:
                         //assign all minion
                         Debug.Log("assign all minion");
-                        troopManager.AssignAllMinions(aimPos);
+                        troopManager.AssignAllMinions();
                         break;
 
                     default:

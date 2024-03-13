@@ -14,6 +14,7 @@ public class TroopHpUI : MonoBehaviour
     [SerializeField] Image lockIcon;
 
     public List<MinionHpUI> minionHpList;
+    [SerializeField] MinionHpUI SpecialMinion; // special minionUI
     public TroopNode.NodeType myNodeType;
 
     private void Start()
@@ -39,6 +40,15 @@ public class TroopHpUI : MonoBehaviour
         lockIcon.gameObject.SetActive(state);
     }
 
+    public void SetSpecialMinionUIActive( bool state )
+    {
+        SpecialMinion.gameObject.SetActive(state);
+    }
+    public MinionHpUI GetSpecialMinionUI()
+    {
+        return SpecialMinion;
+    }
+
     public void ChangeNodeType(TroopNode.NodeType type)
     {
         myNodeType = type;
@@ -49,6 +59,11 @@ public class TroopHpUI : MonoBehaviour
                 break;
 
             case TroopNode.NodeType.Troop:
+                // Shrink Troop Sprite
+                this.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                break;
+
+            case TroopNode.NodeType.TroopWithSpecialMinion:
                 // Shrink Troop Sprite
                 this.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                 break;

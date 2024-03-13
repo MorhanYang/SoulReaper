@@ -21,12 +21,19 @@ public class TroopManager : MonoBehaviour
 
     public List<TroopNode> troopDataList;
 
+    // assign
+    Vector3 AssignPos;
+    Transform assignTarget;
+    float assignMinionTimer;
+    [SerializeField] MinionMoverMarker assignMarker;
+    MinionMoverMarker myAssingMarker;
+
     // revieve
     Transform MarkedRevievSubject;
     float rebirthDelay = 0.6f;
 
-    float assignMinionTimer;
-    [SerializeField] MinionMoverMarker assignMarker;
+    // effect
+    SoundManager mySoundManagers;
 
     private void Awake()
     {
@@ -37,6 +44,10 @@ public class TroopManager : MonoBehaviour
     private void Start()
     {
         branchTreeUI.RefreshNodeUI(troopDataList);
+
+        mySoundManagers = SoundManager.Instance;
+        myAssingMarker = Instantiate(assignMarker);
+        myAssingMarker.HideMarker();
     }
 
     //**************************************************************** SetUp *************************************************************
@@ -167,56 +178,94 @@ public class TroopManager : MonoBehaviour
 
     void ReviveMinionsFunction(List<Minion> minionSet)
     {
+        List<Minion> myMinionSet = new List<Minion>();
         // reorder minions from highest to lowest
-        //minionSet.Sort(SortByMinionSize);
-        //minionSet.Reverse();
+        for (int i = 0; i < minionSet.Count; i++)
+        {
+            if (minionSet[i].IsSpeicalMinion )
+            {
+                myMinionSet.Insert(0, minionSet[i]);
+            }
+            else
+            {
+                myMinionSet.Add(minionSet[i]);
+            }
+        }
 
-        if (minionSet.Count > 0)
+        if (myMinionSet.Count > 0)
         {
             // find a space for new minions
-            foreach (Minion item in minionSet)
+            foreach (Minion item in myMinionSet)
             {
-                Minion thisMinion = item;
-                for (int j = 0; j < troopDataList.Count; j++)
+                Minion thisMinion = item; // use to check if it is a successful add
+                // check if minion is a special Minion
+                // 1. special minion
+                if (item.IsSpeicalMinion)
                 {
-                    if (troopDataList[j].type != TroopNode.NodeType.Locked)
+                    for (int j = 0; j < troopDataList.Count; j++)
                     {
-                        TroopNode TargetTroop = troopDataList[j];
-                        // change it to Troop
-                        if (TargetTroop.type == TroopNode.NodeType.ExtraHp)
+                        if (troopDataList[j].type == TroopNode.NodeType.ExtraHp)
                         {
-
-                            TargetTroop.ChangeTroopNodeType(TroopNode.NodeType.Troop);
-                        }
-
-                        //Check if troop have a space
-                        float space = TargetTroop.troopHp - (TargetTroop.minionList.Count * hpUnit);
-                        // enough space -> Add a health Minion 
-                        if (space >= hpUnit)
-                        {
-                            // get data position in datalist
-                            int[] dataPos = { j, TargetTroop.minionList.Count };
-
+                            troopDataList[j].ChangeTroopNodeType(TroopNode.NodeType.TroopWithSpecialMinion);
+                            // set minion data position
+                            int[] dataPos = { j, 0 };// the only
+                            // active minion
                             item.SetActiveDelay(rebirthDelay, dataPos);
-                            item.SetHealthPercentage(1);// set minion a full hp
-                            TargetTroop.AddMinion(item);
-                            thisMinion = null; // success Add minion
-                            break;
-                        }
-                        // not enough space -> Add a injured Minion
-                        else if (space < hpUnit && space > 0)
-                        {
-                            // get data position in datalist
-                            int[] dataPos = { j, TargetTroop.minionList.Count };
+                            // set minion hp
+                            item.SetHealthPercentage(troopDataList[j].troopHp / troopDataList[j].maxTroopHp);
+                            // add minion to data list
+                            troopDataList[j].AddMinion(item);
 
-                            item.SetActiveDelay(rebirthDelay, dataPos);
-                            item.SetHealthPercentage(space / hpUnit);// set minion injured hp
-                            TargetTroop.AddMinion(item);
-                            thisMinion = null; // success Add minion
+
+                            thisMinion = null;// success Add minion
                             break;
                         }
                     }
                 }
+                // 2. normal minions
+                else if (!item.IsSpeicalMinion)
+                {
+                    for (int j = 0; j < troopDataList.Count; j++)
+                    {
+                        if (troopDataList[j].type != TroopNode.NodeType.Locked)
+                        {
+                            TroopNode TargetTroop = troopDataList[j];
+                            // change it to Troop
+                            if (TargetTroop.type == TroopNode.NodeType.ExtraHp)
+                            {
+
+                                TargetTroop.ChangeTroopNodeType(TroopNode.NodeType.Troop);
+                            }
+                            //Check if troop have a space
+                            float space = TargetTroop.troopHp - (TargetTroop.minionList.Count * hpUnit);
+                            // enough space -> Add a health Minion 
+                            if (space >= hpUnit)
+                            {
+                                // get data position in datalist
+                                int[] dataPos = { j, TargetTroop.minionList.Count };
+
+                                item.SetActiveDelay(rebirthDelay, dataPos);
+                                item.SetHealthPercentage(1);// set minion a full hp
+                                TargetTroop.AddMinion(item);
+                                thisMinion = null; // success Add minion
+                                break;
+                            }
+                            // not enough space -> Add a injured Minion
+                            else if (space < hpUnit && space > 0)
+                            {
+                                // get data position in datalist
+                                int[] dataPos = { j, TargetTroop.minionList.Count };
+
+                                item.SetActiveDelay(rebirthDelay, dataPos);
+                                item.SetHealthPercentage(space / hpUnit);// set minion injured hp
+                                TargetTroop.AddMinion(item);
+                                thisMinion = null; // success Add minion
+                                break;
+                            }
+                        }
+                    }
+                }
+                
                 if (thisMinion != null) // didn't success add minion
                 {
                     GetComponent<PlayerDialogue>().ShowPlayerCall("I need more health to revive", 2f);
@@ -248,7 +297,7 @@ public class TroopManager : MonoBehaviour
         // ****** hovering branch tree to absorb
         if (tempAbsorbedTroop != null) 
         {
-            if (tempAbsorbedTroop.type == TroopNode.NodeType.Troop)
+            if (tempAbsorbedTroop.type == TroopNode.NodeType.Troop || tempAbsorbedTroop.type == TroopNode.NodeType.TroopWithSpecialMinion )
             {
                 KillTroopOfMinions(tempAbsorbedTroop);
                 tempAbsorbedTroop = null;
@@ -259,9 +308,12 @@ public class TroopManager : MonoBehaviour
         {
             TroopNode targetTroop = SelectedTroop;
             // Player select a troop
-            if (targetTroop != null && targetTroop.type == TroopNode.NodeType.Troop)
+            if (targetTroop != null )
             {
-                KillTroopOfMinions(targetTroop);
+                if (targetTroop.type == TroopNode.NodeType.Troop || targetTroop.type == TroopNode.NodeType.TroopWithSpecialMinion)
+                {
+                    KillTroopOfMinions(targetTroop);
+                } 
             }
             // player select player icon or unuseful troop
             else
@@ -282,34 +334,51 @@ public class TroopManager : MonoBehaviour
     
     public void KillTroopOfMinions( TroopNode troop )
     {
-        if (troop.type != TroopNode.NodeType.Locked)
+        switch (troop.type)
         {
-            // get hp left in the troop node
-            float presentTroopHp;
-            if (troop.troopHp > troop.minionList.Count * hpUnit) // Left hp in troop
-            {
-                presentTroopHp = troop.troopHp - troop.minionList.Count * hpUnit;
-            }
-            else // no hp left (troop.troopHp <= troop.minionList.Count * hpUnit) 
-            {
-                presentTroopHp = 0;
-            }
+            case TroopNode.NodeType.Troop:
+                // get hp left in the troop node
+                float presentTroopHp;
+                if (troop.troopHp > troop.minionList.Count * hpUnit) // Left hp in troop
+                {
+                    presentTroopHp = troop.troopHp - troop.minionList.Count * hpUnit;
+                }
+                else // no hp left (troop.troopHp <= troop.minionList.Count * hpUnit) 
+                {
+                    presentTroopHp = 0;
+                }
 
-            // remove minion
-            for (int i = 0; i < troop.minionList.Count; i++)
-            {
-                troop.minionList[i].SetInactive();
+                // remove minion
+                for (int i = 0; i < troop.minionList.Count; i++)
+                {
+                    troop.minionList[i].SetInactive();
+                    // clean minion dataPos info
+                    troop.minionList[i].SetMinionDataPos(-1, -1);
+                    // count hp
+                    float hpFromMinion = hpUnit * troop.minionList[i].GetHealthPercentage();
+                    presentTroopHp += hpFromMinion;
+                }
+                troop.minionList.Clear();
+
+                // change node type
+                troop.ChangeTroopNodeType(TroopNode.NodeType.ExtraHp);
+                troop.ChangeTroopHp(presentTroopHp);
+                break;
+
+            case TroopNode.NodeType.TroopWithSpecialMinion:
+                // count the hp
+                float realTroopHp;
+                float minionHpPercentage = troop.minionList[0].GetHealthPercentage();
+                realTroopHp = minionHpPercentage * troop.maxTroopHp;
+                // remove minion
+                troop.minionList[0].SetInactive();
                 // clean minion dataPos info
-                troop.minionList[i].SetMinionDataPos(-1, -1);
-                // count hp
-                float hpFromMinion = hpUnit * troop.minionList[i].GetHealthPercentage();
-                presentTroopHp += hpFromMinion;
-            }
-            troop.minionList.Clear();
+                troop.minionList[0].SetMinionDataPos(-1, -1);
 
-            // change node type
-            troop.ChangeTroopNodeType(TroopNode.NodeType.ExtraHp);
-            troop.ChangeTroopHp(presentTroopHp);
+                // change node type
+                troop.ChangeTroopNodeType(TroopNode.NodeType.ExtraHp);
+                troop.ChangeTroopHp(realTroopHp);
+                break;
         }
     }
     
@@ -344,75 +413,79 @@ public class TroopManager : MonoBehaviour
         branchTreeUI.RefreshNodeUI(troopDataList);
     }
     //**************************************************************** Assign Troop *****************************************************
-    public void AssignOneMinion(Vector3 aimPos)
+    public void LocateAssignPos( Vector3 pos)
     {
+        AssignPos = pos;
         // use collider to detect enemies
-        Transform target = null;
-        Collider[] hitedEnemy = Physics.OverlapSphere(aimPos, 0.3f, LayerMask.GetMask("Enemy", "PuzzleTrigger"));
+        assignTarget = null;
+        Collider[] hitedEnemy = Physics.OverlapSphere(AssignPos, 0.3f, LayerMask.GetMask("Enemy", "PuzzleTrigger"));
 
         // hit enemies. find closed one
-        if (hitedEnemy.Length > 0) target = GetClosestEnemyTransform(hitedEnemy, aimPos);
+        if (hitedEnemy.Length > 0) assignTarget = GetClosestEnemyTransform(hitedEnemy, AssignPos);
         // if didn't hit a enemy
-        else target = null;
+        else assignTarget = null;
 
         // show destination marker
-        assignMarker.relocateMarker(aimPos, target);
+        myAssingMarker.relocateMarker(AssignPos, assignTarget);
+    }
 
-
+    public void AssignOneMinion() // locateAssignPos() First
+    {
         // ********************** excecute assignment
         // find pos at the navmesh
         NavMeshHit hit;
         Vector3 sprintPos = Vector3.zero;
-        if (NavMesh.SamplePosition(aimPos, out hit, 2.5f, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(AssignPos, out hit, 2.5f, NavMesh.AllAreas))
         {
             sprintPos = hit.position;
         }
 
         // excute different action depending on type
         BranchTreeUI.SelectType myType = branchTreeUI.GetSelectType();
-        Minion myMinion = GetClosedMinion(aimPos);
+        Minion myMinion = GetClosedMinion(AssignPos);
 
         switch (myType)
         {
             case BranchTreeUI.SelectType.SelectMinion:
                 // assign single minion
                 myMinion = SelectedMinion;
-                if (target == null)// didn't hit anything
+                if (assignTarget == null)// didn't hit anything
                 {
                     myMinion.SprintToPos(sprintPos);
                 }
                 else // Hit something
                 {
-                    myMinion.SprintToEnemy(target);
+                    myMinion.SprintToEnemy(assignTarget);
                 }
-
                 break;
+
             case BranchTreeUI.SelectType.SelectTroop:
                 //assign whole troop
                 TroopNode mytroop = SelectedTroop;
                 for (int i = 0; i < mytroop.GetMinionList().Count; i++)
                 {
-                    if (target == null) // don't have enemy target
+                    if (assignTarget == null) // don't have enemy target
                     {
                         mytroop.GetMinionList()[i].SprintToPos(sprintPos);
                     }
                     else // have enemy target
                     {
-                        mytroop.GetMinionList()[i].SprintToEnemy(target);
+                        mytroop.GetMinionList()[i].SprintToEnemy(assignTarget);
                     }
                 }
                 break;
+
             case BranchTreeUI.SelectType.SelectPlayer:
                 // assign random minion
                 if (myMinion != null)
                 {
-                    if (target == null)// didn't hit anything
+                    if (assignTarget == null)// didn't hit anything
                     {
                         myMinion.SprintToPos(sprintPos);
                     }
                     else // Hit something
                     {
-                        myMinion.SprintToEnemy(target);
+                        myMinion.SprintToEnemy(assignTarget);
                     }
                 }
                 break;
@@ -423,28 +496,16 @@ public class TroopManager : MonoBehaviour
         }
 
         // play sound
-        // mySoundManagers.PlaySoundAt(transform.position, "AssignMinion", false, false, 1.5f, 1f, 100, 100);
+        mySoundManagers.PlaySoundAt(transform.position, "AssignMinion", false, false, 1.5f, 1f, 100, 100);
     }
 
-    public void AssignAllMinions(Vector3 aimPos)
+    public void AssignAllMinions() // locateAssignPos() First
     {
-        // use collider to detect enemies
-        Transform target = null;
-        Collider[] hitedEnemy = Physics.OverlapSphere(aimPos, 0.3f, LayerMask.GetMask("Enemy", "PuzzleTrigger"));
-
-        // hit enemies. find closed one
-        if (hitedEnemy.Length > 0) target = GetClosestEnemyTransform(hitedEnemy, aimPos);
-        // if didn't hit a enemy
-        else target = null;
-
-        // show destination marker
-        assignMarker.relocateMarker(aimPos, target);
-
         // ************************* Execute sprint action
         // find pos at the navmesh
         NavMeshHit hit;
         Vector3 sprintPos = Vector3.zero;
-        if (NavMesh.SamplePosition(aimPos, out hit, 2.5f, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(AssignPos, out hit, 2.5f, NavMesh.AllAreas))
         {
             sprintPos = hit.position;
         }
@@ -458,13 +519,13 @@ public class TroopManager : MonoBehaviour
                 TroopNode mytroop = SelectedTroop;
                 for (int i = 0; i < mytroop.GetMinionList().Count; i++)
                 {
-                    if (target == null) // don't have enemy target
+                    if (assignTarget == null) // don't have enemy target
                     {
                         mytroop.GetMinionList()[i].SprintToPos(sprintPos);
                     }
                     else // have enemy target
                     {
-                        mytroop.GetMinionList()[i].SprintToEnemy(target);
+                        mytroop.GetMinionList()[i].SprintToEnemy(assignTarget);
                     }    
                 }
                 break;
@@ -476,13 +537,13 @@ public class TroopManager : MonoBehaviour
                 {
                     for (int j = 0; j < troopDataList[i].GetMinionList().Count; j++)
                     {
-                        if (target == null)// don't have enemy target
+                        if (assignTarget == null)// don't have enemy target
                         {
                             troopDataList[i].GetMinionList()[j].SprintToPos(sprintPos);
                         }
                         else // have enemy target
                         {
-                            troopDataList[i].GetMinionList()[j].SprintToEnemy(target);
+                            troopDataList[i].GetMinionList()[j].SprintToEnemy(assignTarget);
                         }
                     }
                 }
@@ -495,13 +556,13 @@ public class TroopManager : MonoBehaviour
                 {
                     for (int j = 0; j < troopDataList[i].GetMinionList().Count; j++)
                     {
-                        if (target == null) // don't have enemy target
+                        if (assignTarget == null) // don't have enemy target
                         {
                             troopDataList[i].GetMinionList()[j].SprintToPos(sprintPos);
                         }
                         else // have enemy target
                         {
-                            troopDataList[i].GetMinionList()[j].SprintToEnemy(target);
+                            troopDataList[i].GetMinionList()[j].SprintToEnemy(assignTarget);
                         }
                     }
                 }

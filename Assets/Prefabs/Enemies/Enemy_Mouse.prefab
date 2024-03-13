@@ -608,8 +608,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myEnemyType: 1
   fightingRounds: 0
-  canRoam: 0
-  roamInterval: 5
   isFacingRight: 1
   recallingMinion: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
   headIcon: {fileID: 9221933337631467728}
@@ -653,7 +651,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myAbsorbType: 1
-  recoverAmount: 0
+  recoverAmount: 10
   recallingPartical: {fileID: 2311264550011194820, guid: 65e00aa8090d5644d96317b10970b7cc, type: 3}
 --- !u!114 &8440647240236616992
 MonoBehaviour:
@@ -669,8 +667,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpUI: {fileID: 8901401934886663233}
   hpBar: {fileID: 5887452730889224894}
-  Maxhealth: 5
-  presentHealth: 5
+  Maxhealth: 10
+  presentHealth: 10
 --- !u!114 &1831688014749205970
 MonoBehaviour:
   m_ObjectHideFlags: 0
