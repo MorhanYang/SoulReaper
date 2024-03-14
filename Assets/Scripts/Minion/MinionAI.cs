@@ -9,6 +9,7 @@ public class MinionAI : MonoBehaviour
     protected Transform target;
     Vector3 sprintPos;
     GameObject player;
+    Minion myMinion;
 
     float minionStopDistance = 0.5f;
     [SerializeField] float SprintSpeed = 2f;
@@ -27,7 +28,7 @@ public class MinionAI : MonoBehaviour
 
     //Melee Attack
     DamageManager myDamageManager;
-    public float attackDamage = 0.4f;
+    public float attackDamage = 5f;
     [SerializeField] float attackCD;
     [SerializeField] Transform attackPoint;
     [SerializeField] float attackCircle;
@@ -72,6 +73,7 @@ public class MinionAI : MonoBehaviour
         agent= GetComponent<NavMeshAgent>();
         player = PlayerManager.instance.player;
         if (canDash) dashScript = GetComponent<AI_Dash>();
+        myMinion = GetComponent<Minion>();
         mySoundManagers = SoundManager.Instance;
         myDamageManager = DamageManager.instance;
 
@@ -382,6 +384,8 @@ public class MinionAI : MonoBehaviour
     {
         if (targetDistance <= minionStopDistance + 0.2f)
         {
+            // change damage depending on wear rate
+            float realDamage = attackDamage * myMinion.wearOutRate;
             myDamageManager.DealSingleDamage(transform, transform.position, target, attackDamage);
         }
         // sound

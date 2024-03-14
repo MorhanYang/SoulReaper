@@ -57,34 +57,34 @@ public class TroopHpUI : MonoBehaviour
     public void ChangeNodeType(TroopNode.NodeType type)
     {
         myNodeType = type;
-        switch (myNodeType)
-        {
-            case TroopNode.NodeType.Locked:
-                this.transform.localScale = new Vector3(1f, 1f, 1f);
-                break;
+        //switch (myNodeType)
+        //{
+        //    case TroopNode.NodeType.Locked:
+        //        this.transform.localScale = new Vector3(1f, 1f, 1f);
+        //        break;
 
-            case TroopNode.NodeType.Troop:
-                // Shrink Troop Sprite
-                this.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-                break;
+        //    case TroopNode.NodeType.Troop:
+        //        // Shrink Troop Sprite
+        //        this.transform.localScale = new Vector3(1f, 1f, 1f);
+        //        break;
 
-            case TroopNode.NodeType.TroopWithSpecialMinion:
-                // Shrink Troop Sprite
-                this.transform.localScale = new Vector3(1f, 1f, 1f);
-                break;
+        //    case TroopNode.NodeType.TroopWithSpecialMinion:
+        //        // Shrink Troop Sprite
+        //        this.transform.localScale = new Vector3(1f, 1f, 1f);
+        //        break;
 
-            case TroopNode.NodeType.ExtraHp:
-                // Recover Troop Sprite
-                this.transform.localScale = new Vector3(1f, 1f, 1f);
-                break;
+        //    case TroopNode.NodeType.ExtraHp:
+        //        // Recover Troop Sprite
+        //        this.transform.localScale = new Vector3(1f, 1f, 1f);
+        //        break;
 
-            case TroopNode.NodeType.Empty:
-                this.transform.localScale = new Vector3(1f, 1f, 1f);
-                break;
+        //    case TroopNode.NodeType.Empty:
+        //        this.transform.localScale = new Vector3(1f, 1f, 1f);
+        //        break;
 
-            default:
-                break;
-        }
+        //    default:
+        //        break;
+        //}
     }
 
     //**************************************** HP Fucntion **************************************************

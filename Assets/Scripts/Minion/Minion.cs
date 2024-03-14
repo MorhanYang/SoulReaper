@@ -29,13 +29,17 @@ public class Minion : MonoBehaviour
     [SerializeField] Animator myAnimator;
     [SerializeField] GameObject recallingMinion;
     [SerializeField] SpriteRenderer headIcon;
-
     public bool isActive = false;
 
     // Combat
     float initaldamage;
     public float MaxHp = 30;
     public float presentHp = 30f;
+    [SerializeField] float wearOutlimit;
+    float wearOutNum;
+    [SerializeField] List<GameObject> wearOutMarkList;
+    [HideInInspector] public float wearOutRate; // AI use it at damage counting
+
 
     // Position on Troop and Minion list
     int[] minionDataPos;
@@ -71,6 +75,14 @@ public class Minion : MonoBehaviour
         mySoundManager = SoundManager.Instance.GetComponent<SoundManager>();
 
         headIcon.sprite = HeadIconManager.GetSprite("Revive");
+        wearOutNum = wearOutlimit;
+        initaldamage = myAI.attackDamage;
+
+        // hide wearOut markers
+        for (int i = 0; i < wearOutMarkList.Count; i++)
+        {
+            wearOutMarkList[i].SetActive(false);
+        }
     }
 
     private void Update(){
@@ -166,6 +178,7 @@ public class Minion : MonoBehaviour
     public void TakeDamage(float damage, Transform damageDealer, Vector3 attackPos){
 
         presentHp -= damage;
+        wearOutNum--;
 
         // dead
         if (presentHp < 0){
@@ -178,6 +191,31 @@ public class Minion : MonoBehaviour
         else
         {
             troopManager.RefreshOneMinionInfo(this);
+        }
+
+        // change wear out
+        float rate = wearOutNum / wearOutlimit;
+        if (rate > 0.8)
+        {
+            wearOutRate = 1.2f;
+        }
+        if (rate < 0.8 && rate > 0.3)
+        {
+            // frist pahse wear out
+            wearOutRate = 1f;
+            wearOutMarkList[0].SetActive(true);
+        }
+        else if (rate <= 0.3 && rate > 0)
+        {
+            // second pahse wear out
+            wearOutRate = 0.67f;
+            wearOutMarkList[1].SetActive(true);
+        }
+        else if (rate <= 0)
+        {
+            // third pahse wear out
+            wearOutRate = 0.33f;
+            wearOutMarkList[2].SetActive(true);
         }
 
         //knock back
