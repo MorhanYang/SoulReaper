@@ -57,41 +57,35 @@ public class TroopHpUI : MonoBehaviour
     public void ChangeNodeType(TroopNode.NodeType type)
     {
         myNodeType = type;
-        //switch (myNodeType)
-        //{
-        //    case TroopNode.NodeType.Locked:
-        //        this.transform.localScale = new Vector3(1f, 1f, 1f);
-        //        break;
-
-        //    case TroopNode.NodeType.Troop:
-        //        // Shrink Troop Sprite
-        //        this.transform.localScale = new Vector3(1f, 1f, 1f);
-        //        break;
-
-        //    case TroopNode.NodeType.TroopWithSpecialMinion:
-        //        // Shrink Troop Sprite
-        //        this.transform.localScale = new Vector3(1f, 1f, 1f);
-        //        break;
-
-        //    case TroopNode.NodeType.ExtraHp:
-        //        // Recover Troop Sprite
-        //        this.transform.localScale = new Vector3(1f, 1f, 1f);
-        //        break;
-
-        //    case TroopNode.NodeType.Empty:
-        //        this.transform.localScale = new Vector3(1f, 1f, 1f);
-        //        break;
-
-        //    default:
-        //        break;
-        //}
+        switch (type)
+        {
+            case TroopNode.NodeType.Troop:
+                healthBar.color = Color.white;
+                break;
+            case TroopNode.NodeType.TroopWithSpecialMinion:
+                healthBar.color = Color.white;
+                break;
+            case TroopNode.NodeType.ExtraHp:
+                healthBar.color = new Color32(111,248,132,255);
+                break;
+            case TroopNode.NodeType.Empty:
+                break;
+            case TroopNode.NodeType.Locked:
+                break;
+            default:
+                break;
+        }
     }
 
     //**************************************** HP Fucntion **************************************************
 
     public void TroopHpBarDisplay( float presentHp, float MaxHp )
     {
-        if (MaxHp != 0) healthBar.fillAmount = presentHp / MaxHp;
+        if (MaxHp != 0)
+        {
+            // from 0.08 - 0.92
+            healthBar.fillAmount = (presentHp / MaxHp) * 0.84f + 0.08f;
+        }
         else Debug.Log("Troop's MaxHp shouldn't be 0");
         
     }

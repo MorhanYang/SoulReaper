@@ -29,6 +29,10 @@ public class Minion : MonoBehaviour
     [SerializeField] Animator myAnimator;
     [SerializeField] GameObject recallingMinion;
     [SerializeField] SpriteRenderer headIcon;
+    public SpriteRenderer GetHeadIcon(){
+        return headIcon;
+    }
+
     public bool isActive = false;
 
     // Combat

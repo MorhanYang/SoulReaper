@@ -274,6 +274,8 @@ public class TroopManager : MonoBehaviour
                 if (thisMinion != null) // didn't success add minion
                 {
                     GetComponent<PlayerDialogue>().ShowPlayerCall("I need more health to revive", 2f);
+                    // change the head icon back to 
+                    thisMinion.GetHeadIcon().sprite = HeadIconManager.GetSprite("Revive");
                 }
             }
 

@@ -6,14 +6,10 @@ using UnityEngine.UI;
 public class MinionHpUI : MonoBehaviour
 {
     [SerializeField] GameObject selectedImage;
-    [SerializeField] GameObject offset;
+    [SerializeField] GameObject minionSet;
     [SerializeField] Image minionIcon;
     [SerializeField] Image healthBar;
-    Image Bg;
-
-    private void Awake(){
-        Bg = GetComponent<Image>();
-    }
+    [SerializeField] GameObject minionBg;
 
     public void SelectThisMinion( bool state )
     {
@@ -22,12 +18,12 @@ public class MinionHpUI : MonoBehaviour
 
     public void ShowMinionUIBg(bool state)
     {
-        Bg.enabled = state;
+        minionBg.SetActive(state);
     }
 
     public void SwitchThisMinionSlot( bool state , Minion.MinionStyle style )
     {
-        offset.SetActive(state);
+        minionSet.SetActive(state);
         // Set Pic
         switch (style)
         {
