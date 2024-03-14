@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class BranchTreeUI : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class BranchTreeUI : MonoBehaviour
 
     [SerializeField] List<TroopHpUI> troopHpUIList;
     [SerializeField] PlayerHealthUI playerHealthUI;
+    [SerializeField] RectTransform panelMain;
     TroopHpUI SelectedTroopUI;
     MinionHpUI SelectedMinionUI;
 
@@ -21,6 +23,9 @@ public class BranchTreeUI : MonoBehaviour
         SelectPlayer,
     }
     public SelectType mySelectType = SelectType.SelectPlayer;
+
+    // panel control
+    bool isHiding;
 
     private void Start()
     {
@@ -226,6 +231,104 @@ public class BranchTreeUI : MonoBehaviour
                 default:
                     break;
             }
+
+            // tween animation
+            switch (i)
+            {
+                case 0: // slot 0
+                    float OriginalY = -176f;
+                    float TargetPoY = -184f;
+                    if (troopUI.myNodeType == TroopNode.NodeType.Troop || troopUI.myNodeType == TroopNode.NodeType.TroopWithSpecialMinion)
+                    {
+                        if (troopUI.GetComponent<RectTransform>().position.y != TargetPoY)
+                        {
+                            troopUI.GetComponent<RectTransform>().DOAnchorPosY(TargetPoY,0.4f, false).SetEase(Ease.OutFlash);
+                        }
+                    }
+                    else
+                    {
+                        if (troopUI.GetComponent<RectTransform>().position.y != OriginalY)
+                        {
+                            troopUI.GetComponent<RectTransform>().DOAnchorPosY(OriginalY, 0.4f, false).SetEase(Ease.OutFlash);
+                        }
+                    }
+                    break;
+
+                case 1:
+                    float OriginalX_1 = 52f;
+                    float TargetX_1 = 140f;
+                    if (troopUI.myNodeType == TroopNode.NodeType.Troop || troopUI.myNodeType == TroopNode.NodeType.TroopWithSpecialMinion)
+                    {
+                        if (troopUI.GetComponent<RectTransform>().position.x != TargetX_1)
+                        {
+                            troopUI.GetComponent<RectTransform>().DOAnchorPosX(TargetX_1, 1f, false).SetEase(Ease.OutFlash);
+                        }
+                    }
+                    else
+                    {
+                        if (troopUI.GetComponent<RectTransform>().position.x != OriginalX_1)
+                        {
+                            troopUI.GetComponent<RectTransform>().DOAnchorPosX(OriginalX_1, 1f, false).SetEase(Ease.OutFlash);
+                        }
+                    }
+                    break;
+                case 2:
+                    float OriginalX_2 = -52f;
+                    float TargetX_2 = -140f;
+                    if (troopUI.myNodeType == TroopNode.NodeType.Troop || troopUI.myNodeType == TroopNode.NodeType.TroopWithSpecialMinion)
+                    {
+                        if (troopUI.GetComponent<RectTransform>().position.x != TargetX_2)
+                        {
+                            troopUI.GetComponent<RectTransform>().DOAnchorPosX(TargetX_2, 1f, false).SetEase(Ease.OutFlash);
+                        }
+                    }
+                    else
+                    {
+                        if (troopUI.GetComponent<RectTransform>().position.x != OriginalX_2)
+                        {
+                            troopUI.GetComponent<RectTransform>().DOAnchorPosX(OriginalX_2, 1f, false).SetEase(Ease.OutFlash);
+                        }
+                    }
+                    break;
+                case 3:
+                    float OriginalX_3 = 78f;
+                    float TargetX_3 = 234f;
+                    if (troopUI.myNodeType == TroopNode.NodeType.Troop || troopUI.myNodeType == TroopNode.NodeType.TroopWithSpecialMinion)
+                    {
+                        if (troopUI.GetComponent<RectTransform>().position.x != TargetX_3)
+                        {
+                            troopUI.GetComponent<RectTransform>().DOAnchorPosX(TargetX_3, 1.6f, false).SetEase(Ease.OutFlash);
+                        }
+                    }
+                    else
+                    {
+                        if (troopUI.GetComponent<RectTransform>().position.x != OriginalX_3)
+                        {
+                            troopUI.GetComponent<RectTransform>().DOAnchorPosX(OriginalX_3, 1.6f, false).SetEase(Ease.OutFlash);
+                        }
+                    }
+                    break;
+                case 4:
+                    float OriginalX_4 = -78f;
+                    float TargetX_4 = -234f;
+                    if (troopUI.myNodeType == TroopNode.NodeType.Troop || troopUI.myNodeType == TroopNode.NodeType.TroopWithSpecialMinion)
+                    {
+                        if (troopUI.GetComponent<RectTransform>().position.x != TargetX_4)
+                        {
+                            troopUI.GetComponent<RectTransform>().DOAnchorPosX(TargetX_4, 1.6f, false).SetEase(Ease.OutFlash);
+                        }
+                    }
+                    else
+                    {
+                        if (troopUI.GetComponent<RectTransform>().position.x != OriginalX_4)
+                        {
+                            troopUI.GetComponent<RectTransform>().DOAnchorPosX(OriginalX_4, 1.6f, false).SetEase(Ease.OutFlash);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -357,4 +460,20 @@ public class BranchTreeUI : MonoBehaviour
         
     }
 
+    // ********************************************* Panel Control**********************************************
+    public void SwitchPanelShowing()
+    {
+        if (isHiding) // show panel
+        {
+            panelMain.DOAnchorPos(new Vector2(0, -134f), 1f, false).SetEase(Ease.OutFlash);
+            playerHealthUI.GetComponent<RectTransform>().DOScale(new Vector3(2, 2, 2), 1f).SetEase(Ease.OutFlash);
+            isHiding = false;
+        }
+        else // hide panel
+        {
+            panelMain.DOAnchorPos(new Vector2(0, 0), 1f, false).SetEase(Ease.OutFlash);
+            playerHealthUI.GetComponent<RectTransform>().DOScale(new Vector3(1, 1, 1), 1f).SetEase(Ease.OutFlash);
+            isHiding = true;
+        }
+    }
 }
